@@ -1,0 +1,151 @@
+{
+  "main": {
+    "id": "2e4b02a82297d77f",
+    "type": "split",
+    "children": [
+      {
+        "id": "052b4d524c61c8c4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "58f5058b61bdf367",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TIL/천현태/README.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a356db282da521ed",
+    "type": "split",
+    "children": [
+      {
+        "id": "2acf64dd04577a6a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b1d24573181c4b98",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d9787a58311f8010",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a26e09e4c820d87f",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "224b605ca4d0c438",
+    "type": "split",
+    "children": [
+      {
+        "id": "cc89482d3043d39c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4cfa8cd83cd4e213",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "TIL/천현태/README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b4f1ceaf82694570",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "TIL/천현태/README.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5fba23ba2ff4a88d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "e5169df3358c9d6b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "TIL/천현태/README.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "58f5058b61bdf367",
+  "lastOpenFiles": []
+}
