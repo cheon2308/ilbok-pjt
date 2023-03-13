@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import ilbokLogo from "../assets/ilbokLogo.png";
+import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+import ilbokLogo from '../../assets/image/ilbokLogo.png'
 
 const NavbarContainer = styled.nav`
   display: flex;
@@ -9,7 +9,7 @@ const NavbarContainer = styled.nav`
   padding: 16px;
   background-color: #fff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-`;
+`
 
 const Logo = styled(NavLink)`
   display: flex;
@@ -18,23 +18,23 @@ const Logo = styled(NavLink)`
   font-weight: bold;
   text-decoration: none;
   color: #333;
-`;
+`
 
 const LogoImg = styled.img`
   width: 110px;
   margin-right: 8px;
-`;
+`
 
 const MenuList = styled.ul`
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-`;
+`
 
 const MenuItem = styled.li`
   margin: 0 8px;
-`;
+`
 
 const NavLinkItem = styled(NavLink)`
   text-decoration: none;
@@ -43,14 +43,14 @@ const NavLinkItem = styled(NavLink)`
   &:hover {
     color: #666;
   }
-`;
+`
 
 const NavBar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const links = [
-    { title: "Job", url: "/job" },
-    { title: "Welfare", url: "/welfare" },
-  ];
+    { title: 'Job', url: '/job' },
+    { title: 'Welfare', url: '/welfare' },
+  ]
   return (
     <NavbarContainer>
       <Logo to="/">
@@ -64,7 +64,7 @@ const NavBar = () => {
         ))}
       </MenuList>
     </NavbarContainer>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar
