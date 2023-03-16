@@ -1,7 +1,86 @@
-import React from "react";
+import React from 'react'
 
 function Main() {
-  return <div>메인 페이지</div>;
+  return (
+    <div>
+      <div>메인페이지11</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+      <div>메인페이지</div>
+    </div>
+  )
 }
 
-export default Main;
+export default Main
