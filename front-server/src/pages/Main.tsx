@@ -1,86 +1,12 @@
 import React from 'react'
+import SearchBar from '../components/Common/SearchBar'
 
-function Main() {
+const MainPage = () => {
   return (
-    <div>
-      <div>메인페이지11</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
-      <div>메인페이지</div>
+    <div style={{ textAlign: 'center', marginTop: '30px' }}>
+      <SearchBar width="80%" height="30px" border_radius="5px" placeholder="Search" />
     </div>
   )
 }
 
-export default Main
+export default MainPage
