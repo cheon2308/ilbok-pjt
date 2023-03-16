@@ -6,10 +6,8 @@ function KakaoLogin() {
   const navigate = useNavigate()
   const KAKAO_CODE = location.search.split('=')[1]
   const getKAkaoToken = () => {
-    fetch(`https://kauth.kakao.com/oauth/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`,
+    fetch(`http://localhost:8080/oauth?code=${KAKAO_CODE}`, {
+      method: 'GET',
     })
       .then((res) => res.json())
       .then((data) => {
@@ -20,10 +18,10 @@ function KakaoLogin() {
         }
       })
   }
-  //   useEffect(() => {
-  //     if (!location.search) return
-  //     getKAkaoToken()
-  //   }, [])
+  useEffect(() => {
+    if (!location.search) return
+    getKAkaoToken()
+  }, [])
   return <div>카카오로그인</div>
 }
 
