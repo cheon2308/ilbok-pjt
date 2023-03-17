@@ -5,13 +5,15 @@ const Wrapper = styled.div`
   display: flex;
   overflow: hidden;
   position: relative;
+  width: 70%;
+  margin: 0 auto;
 `
 
 const Button = styled.button`
   background-color: transparent;
-  border: none;
+
   cursor: pointer;
-  height: 40px;
+  height: 100px;
   padding: 0 10px;
   position: absolute;
   top: 50%;
@@ -25,6 +27,7 @@ const Button = styled.button`
 `
 
 const LeftButton = styled(Button)`
+  z-index: 2;
   left: 0;
 `
 
@@ -38,19 +41,45 @@ const Carousel = styled.div`
   transition: transform 0.3s ease;
 `
 
+const Item = styled.div<{ active: boolean }>`
+  margin: 0 10px;
+  width: calc(100% / 5);
+  opacity: ${(props) => (props.active ? 1 : 0.5)};
+  transform: ${(props) => (props.active ? 'scale(1)' : 'scale(0.8')};
+  z-index: ${(props) => (props.active ? 2 : 1)};
+  transition: transform 0.3s ease, z-index 0.3s ease;
+`
+
 interface CarouselProps {
   items: React.ReactNode[]
+  activeIndex: number
+  onChange?: (index: number) => void
 }
 
-const CarouselComponent = ({ items }: CarouselProps) => {
-  const [position, setPosition] = useState(0)
+const CarouselComponent = ({ items, activeIndex, onChange }: CarouselProps) => {
+  const [position, setPosition] = useState(40)
 
-  const handleLeftClick = () => setPosition(position - 100)
-  const handleRightClick = () => setPosition(position + 100)
+  const handleLeftClick = () => {
+    setPosition(position + 20)
+    if (activeIndex > 0) {
+      onChange && onChange(activeIndex - 1)
+    }
+  }
 
-  const isLeftDisabled = position === 0
-  const isRightDisabled = position === -(items.length - 1) * 100
+  const handleRightClick = () => {
+    setPosition(position - 20)
+    if (activeIndex < items.length - 1) {
+      onChange && onChange(activeIndex + 1)
+    }
+  }
+  const isLeftDisabled = activeIndex === 0
+  const isRightDisabled = position <= -40 || activeIndex === items.length - 1
+  const handleItemClick = (index: number) => {
+    setPosition(-(index - 2) * 20)
+    onChange && onChange(index)
+  }
 
+  console.log(position)
   return (
     <Wrapper>
       <LeftButton onClick={handleLeftClick} disabled={isLeftDisabled}>
@@ -58,7 +87,9 @@ const CarouselComponent = ({ items }: CarouselProps) => {
       </LeftButton>
       <Carousel style={{ transform: `translateX(${position}%)` }}>
         {items.map((item, index) => (
-          <div key={index}>{item}</div>
+          <Item key={index} active={index === activeIndex} onClick={() => handleItemClick(index)}>
+            {item}
+          </Item>
         ))}
       </Carousel>
       <RightButton onClick={handleRightClick} disabled={isRightDisabled}>
