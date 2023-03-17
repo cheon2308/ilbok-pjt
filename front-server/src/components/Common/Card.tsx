@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-interface CardProps {
+export interface CardProps {
   image?: string
   title: string
   description: string
@@ -40,7 +40,7 @@ const CardDescription = styled.p`
 const Card = ({ image, title, description }: CardProps) => {
   return (
     <CardContainer>
-      <CardImage src={image} alt={title} />
+      <CardImage src={image} />
       <CardTitle>{title}</CardTitle>
       <CardDescription>{description}</CardDescription>
     </CardContainer>
