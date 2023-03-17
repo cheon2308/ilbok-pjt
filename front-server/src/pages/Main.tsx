@@ -42,7 +42,7 @@ const MainPage = () => {
   return (
     <>
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
-        <SearchBar width="80%" height="30px" border_radius="5px" placeholder="Search" />
+        <SearchBar width="60%" height="30px" border_radius="5px" placeholder="Search" />
       </div>
 
       <div style={{ marginTop: '30px' }}>
