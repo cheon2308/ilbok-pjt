@@ -42,8 +42,7 @@ const Carousel = styled.div`
 `
 
 const Item = styled.div<{ active: boolean }>`
-  margin: 0 10px;
-  width: calc(100% / 5);
+  width: calc(60vw / 5);
   opacity: ${(props) => (props.active ? 1 : 0.5)};
   transform: ${(props) => (props.active ? 'scale(1)' : 'scale(0.8')};
   z-index: ${(props) => (props.active ? 2 : 1)};
@@ -79,7 +78,6 @@ const CarouselComponent = ({ items, activeIndex, onChange }: CarouselProps) => {
     onChange && onChange(index)
   }
 
-  console.log(position)
   return (
     <Wrapper>
       <LeftButton onClick={handleLeftClick} disabled={isLeftDisabled}>
