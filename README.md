@@ -136,6 +136,8 @@ https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BK
 ![image-1.png](./image-1.png)
 
 
-## api 연동 규격서 ing...
+## api 연동 규격서 
+https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BKJro/edit#gid=2112477939
+
 
 
