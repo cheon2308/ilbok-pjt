@@ -1,0 +1,51 @@
+body {
+  font-family: 'NanumGothic';
+}
+
+.Info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Inner-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Inner-item {
+  width: 50%;
+}
+
+.Line-container {
+  display: flex;
+}
+
+.title {
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 50px;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+.Big-category {
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 35px;
+  margin-top: 20px;
+  color: #76dcb0;
+}
+
+.Mid-category {
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 29px;
+  color: #666666;
+  margin: 10px 0 10px;
+}

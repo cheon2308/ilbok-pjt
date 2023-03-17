@@ -5,6 +5,7 @@ import NavBar from './components/Layout/NavBar'
 import WelfareMain from './pages/Welfare/WelfareMain'
 import Main from './pages/Main'
 import KakaoLogin from './components/KakaoLogin'
+import JobDetail from './pages/Job/JobDetail'
 
 const AppRouter = () => {
   return (
@@ -16,6 +17,7 @@ const AppRouter = () => {
           <Route path="/oauth2/login/kakao" element={<KakaoLogin />} />
           <Route path="/job/*" element={<JobMain />} />
           <Route path="/welfare/*" element={<WelfareMain />} />
+          <Route path="/detail/*" element={<JobDetail />} />
         </Routes>
       </BrowserRouter>
     </>
