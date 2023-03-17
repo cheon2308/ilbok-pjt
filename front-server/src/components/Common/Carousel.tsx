@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   overflow: hidden;
   position: relative;
-  width: 70%;
+  width: 60%;
   margin: 0 auto;
 `
 
