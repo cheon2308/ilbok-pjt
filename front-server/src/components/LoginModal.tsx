@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import kakaologin from '../assets/image/kakao_login_medium_narrow.png'
 import { REST_API_KEY, REDIRECT_URI } from '../api/KakaoLoginData'
+import BokBtn1 from './Common/BokBtn1'
 const style = {
   width: '30%',
   height: '50%',
@@ -34,7 +35,16 @@ function LoginModal({ open, onClose }: LoginModalProps) {
     <>
       <Modal open={open} onClose={onClose}>
         <Box sx={style}>
-          <button onClick={onClose}>닫기</button>
+          <BokBtn1
+            sigwidth="173px"
+            sigheight="90px"
+            sigfontsize="44px"
+            sigborderradius={25}
+            sigmargin="30px auto"
+            onClick={onClose}
+          >
+            닫기
+          </BokBtn1>
           <img src={kakaologin} onClick={handleLogin} style={{ cursor: 'pointer' }} />
         </Box>
       </Modal>

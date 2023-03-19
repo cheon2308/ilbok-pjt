@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import ilbokLogo from '../../assets/image/ilbokLogo.png'
 import '../Layout/Navbar.css'
 import LoginModal from '../LoginModal'
+import BokBtn2 from '../Common/BokBtn2'
 
 const NavbarContainer = styled.nav`
   diplay: flex;
@@ -76,9 +77,16 @@ const NavBar = () => {
           </MenuList>
         </div>
         <div className="header-right-wrap">
-          <div style={{ cursor: 'pointer' }} onClick={handleOpen}>
+          <BokBtn2
+            sigwidth="110px"
+            sigheight="50px"
+            sigfontsize="16px"
+            sigborderradius={25}
+            sigmargin="10px"
+            onClick={handleOpen}
+          >
             로그인
-          </div>
+          </BokBtn2>
           <LoginModal open={open} onClose={handleClose}></LoginModal>
         </div>
       </div>
