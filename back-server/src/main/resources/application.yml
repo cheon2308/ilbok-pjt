@@ -6,13 +6,14 @@ spring:
     password: ssafy
   jpa:
     hibernate:
-      ddl-auto: create  # option type: create, create-drop, update, validate, none
+      ddl-auto: update  # option type: create, create-drop, update, validate, none
     properties:
       hibernate:
         direct: org.hibernate.dialect.H2Dialect  # ??? ??? ?? ?????? ??? ?????.
         show_sql: true  # sql ??? ?????.
         format_sql: true  # sql query formatting
         use_sql_comments: true  # sql ??? ????? ?????.
+
   logging:
     level:
       org:
