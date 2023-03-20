@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import JobMain from './pages/Job/JobMain'
 import NavBar from './components/Layout/NavBar'
 import WelfareMain from './pages/Welfare/WelfareMain'
