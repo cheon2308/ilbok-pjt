@@ -32,9 +32,9 @@ public class User {
     @Column(name = "user_role")
     private String userRole;
 
-    @Column(name = "create_time")
-    @CreationTimestamp //(4)
-    private Timestamp createTime;
+//    @Column(name = "create_time")
+//    @CreationTimestamp //(4)
+//    private Timestamp createTime;
 
     @Builder
     public User(Long kakaoId, String kakaoProfileImg, String kakaoNickname,
