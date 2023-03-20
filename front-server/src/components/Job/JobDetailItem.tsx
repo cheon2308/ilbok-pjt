@@ -5,11 +5,28 @@ import square from '../../assets/image/Square.png'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import ApplyModal from './ApplyModal'
 import BokBtn1 from '../Common/BokBtn1'
+import Marker from '../../assets/image/Marker.png'
 export default function JobDetailItem() {
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState<boolean>(false)
+  const [x, setX] = useState<number>(0)
+  const [y, setY] = useState<number>(0)
+  // 우편번호 확인하기
+  const address = '(14316) 경기도 광명시 오리로 518, CL타워 7~10층 (서울대효요양병원 10층 영양실) (소하동)'
+
   const closeModal = () => {
     setModal(false)
   }
+
+  const geocoder = new kakao.maps.services.Geocoder()
+  const callback = function (result: any, status: any) {
+    if (status === kakao.maps.services.Status.OK) {
+      console.log(result)
+      setX(result[0].x)
+      setY(result[0].y)
+    }
+  }
+  geocoder.addressSearch(address, callback)
+
   return (
     <div>
       <div className="Title-container">
@@ -26,7 +43,7 @@ export default function JobDetailItem() {
             sigmargin="30px auto"
             onClick={() => setModal(true)}
           >
-            지원하기
+            지원방법
           </BokBtn1>
         </div>
       </div>
@@ -265,8 +282,23 @@ export default function JobDetailItem() {
           <hr />
         </div>
         <div className="Map-container">
-          <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{ width: '100%', height: '500px' }}>
-            <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}></MapMarker>
+          <Map center={{ lat: y, lng: x }} style={{ width: '100%', height: '500px' }}>
+            <MapMarker
+              position={{ lat: y, lng: x }}
+              image={{
+                src: `${Marker}`, // 마커이미지의 주소입니다
+                size: {
+                  width: 65,
+                  height: 70,
+                }, // 마커이미지의 크기입니다
+                options: {
+                  offset: {
+                    x: 27,
+                    y: 69,
+                  }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                },
+              }}
+            ></MapMarker>
           </Map>
         </div>
       </div>
