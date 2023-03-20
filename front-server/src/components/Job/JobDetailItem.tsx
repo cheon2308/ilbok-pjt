@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import './JobDetailItem.css'
+import '../../assets/styles/Job/JobDetailItem.css'
 import square from '../../assets/image/Square.png'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import ApplyModal from './ApplyModal'
+import BokBtn1 from '../Common/BokBtn1'
 export default function JobDetailItem() {
   const [modal, setModal] = useState(false)
   const closeModal = () => {
@@ -17,7 +18,16 @@ export default function JobDetailItem() {
           <span>등록일 : 2023.03.03 /</span> <span>마감일 : 2023.03.19</span>
         </div>
         <div>
-          <button onClick={() => setModal(true)}>버튼</button>
+          <BokBtn1
+            sigwidth="150px"
+            sigheight="50px"
+            sigfontsize="20px"
+            sigborderradius={25}
+            sigmargin="30px auto"
+            onClick={() => setModal(true)}
+          >
+            지원하기
+          </BokBtn1>
         </div>
       </div>
       <hr />
