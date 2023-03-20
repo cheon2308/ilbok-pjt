@@ -10,29 +10,30 @@ function KakaoLogin() {
   const getKAkaoToken = () => {
     // const KAKAO_AUTH_URL = `http://localhost:8080/oauth2/authorization/kakao`
     console.log('시작')
-    ;async () => {
-      try {
-        const res = await axios.get(`http://localhost:8080/oauth`)
-        const token = res.headers.authorization
-        window.localStorage.setItem('token', token)
-        navigate('/')
-      } catch (e) {
-        console.error(e)
-        navigate('/')
-      }
-    }
-    // fetch(
-    //   `http://localhost:8080/oauth2/authorization/kakao?code=${KAKAO_CODE}&registrationId=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
-    //   {
-    //     // fetch(`http://localhost:8080/oauth`, {
-    //     method: 'GET',
-    //   }
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     localStorage.setItem('token', data.token)
+    // async () => {
+    //   try {
+    //     console.log(KAKAO_CODE);
+    //     const res = await axios.get(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`)
+    //     const token = res.headers.authorization
+    //     window.localStorage.setItem('token', token)
     //     navigate('/')
-    //   })
+    //   } catch (e) {
+    //     console.error(e)
+    //     navigate('/')
+    //   }
+    // }
+    fetch(
+      `http://localhost:8080/api/oauth?code=${KAKAO_CODE}`,
+      {
+        // fetch(`http://localhost:8080/oauth`, {
+        method: 'GET',
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.setItem('token', data.token)
+        navigate('/')
+      })
   }
 
   useEffect(() => {
