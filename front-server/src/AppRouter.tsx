@@ -13,7 +13,7 @@ const AppRouter = () => {
         <NavBar />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/oauth2/login/kakao" element={<KakaoLogin />} />
+          <Route path="/oauth" element={<KakaoLogin />} />
           <Route path="/job/*" element={<JobMain />} />
           <Route path="/welfare/*" element={<WelfareMain />} />
         </Routes>
