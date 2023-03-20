@@ -1,4 +1,3 @@
-
 .modal {
   display: none;
   position: fixed;
@@ -20,13 +19,11 @@
   overflow: hidden;
 }
 
-
 .modal > section > main {
   padding: 16px;
-border: 1px solid lightgray;
-  max-height: 450px;
+  border: 1px solid lightgray;
+  max-height: 500px;
   overflow: auto;
-
 }
 .close {
   margin-top: -5px;
@@ -34,7 +31,6 @@ border: 1px solid lightgray;
 .modal.openModal {
   display: flex;
   align-items: center;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
 @keyframes modal-show {
@@ -56,21 +52,25 @@ border: 1px solid lightgray;
   }
 }
 
-
 .Modal-title {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .Modal-container {
-    margin: 40px;
+  margin: 50px;
 }
 
 .Modal-line-container {
-    display: flex;
-  margin: 20px 0 0;
+  display: flex;
+  margin: 25px 0 0;
   align-items: center;
 }
 
-.Modal-line-container > div {
-    flex-grow: 1;}
+.Modal-flexgrow1 {
+  flex-grow: 0.5;
+}
+
+.Modal-flexgrow2 {
+  flex-grow: 9.5;
+}
