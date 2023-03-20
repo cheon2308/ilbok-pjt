@@ -19,6 +19,7 @@ function KakaoLogin() {
       })
   }
   useEffect(() => {
+    // console.log(KAKAO_CODE)
     if (!location.search) return
     getKAkaoToken()
   }, [])
