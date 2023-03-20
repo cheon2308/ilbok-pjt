@@ -16,9 +16,11 @@ public class UserController {
     private UserService userService; //(2)
 
     // 프론트에서 인가코드 받아오는 url
-    @GetMapping("/oauth/token") // (3)
+    @GetMapping("/oauth") // (3)
     public OauthToken getLogin(@RequestParam("code") String code) { //(4)
 
+        System.out.println("시발");
+        System.out.println(code);
         // 넘어온 인가 코드를 통해 access_token 발급 //(5)
         OauthToken oauthToken = userService.getAccessToken(code);
 
