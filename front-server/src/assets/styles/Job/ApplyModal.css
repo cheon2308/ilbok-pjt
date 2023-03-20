@@ -22,7 +22,11 @@
 .modal > section > main {
   padding: 16px;
   border: 1px solid lightgray;
+<<<<<<< HEAD:front-server/src/components/Job/ApplyModal.css
   max-height: 500px;
+=======
+  max-height: 450px;
+>>>>>>> a97a76d13f0c757d53c6de18c4561360a5b884ca:front-server/src/assets/styles/Job/ApplyModal.css
   overflow: auto;
 }
 .close {
@@ -55,14 +59,23 @@
 .Modal-title {
   display: flex;
   justify-content: space-between;
+<<<<<<< HEAD:front-server/src/components/Job/ApplyModal.css
 }
 
 .Modal-container {
   margin: 50px;
+=======
+  align-items: center;
+}
+
+.Modal-container {
+  margin: 40px;
+>>>>>>> a97a76d13f0c757d53c6de18c4561360a5b884ca:front-server/src/assets/styles/Job/ApplyModal.css
 }
 
 .Modal-line-container {
   display: flex;
+<<<<<<< HEAD:front-server/src/components/Job/ApplyModal.css
   margin: 25px 0 0;
   align-items: center;
 }
@@ -73,4 +86,16 @@
 
 .Modal-flexgrow2 {
   flex-grow: 9.5;
+=======
+  margin: 20px 0 0;
+  align-items: center;
+}
+
+.Modal-line-container > div {
+  flex-grow: 1;
+}
+
+.Close-button {
+  cursor: pointer;
+>>>>>>> a97a76d13f0c757d53c6de18c4561360a5b884ca:front-server/src/assets/styles/Job/ApplyModal.css
 }

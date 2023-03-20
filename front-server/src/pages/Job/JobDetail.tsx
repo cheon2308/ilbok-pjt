@@ -1,7 +1,7 @@
 import React from 'react'
 import Footer from '../../components/Common/Footer'
 import JobDetailItem from '../../components/Job/JobDetailItem'
-import './JobDetail.css'
+import '../../assets/styles/Job/JobDetail.css'
 export default function JobDetail() {
   return (
     <>
