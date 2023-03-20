@@ -1,6 +1,6 @@
 import React from 'react'
 import JobDetailItem from '../../components/Job/JobDetailItem'
-import './JobDetail.css'
+import '../../assets/styles/Job/JobDetail.css'
 export default function JobDetail() {
   return (
     <>
