@@ -9,6 +9,83 @@ import Footer from '../components/Common/Footer'
 import Select from 'react-select'
 import FilterSelect from '../components/Common/FilterSelect'
 
+interface NameList {
+  name: string
+}
+const MainPage = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0)
+
+  const items = [
+    { title: 'Item 1', description: 'This is the first item', image: 'https://picsum.photos/400/200?random=1' },
+    { title: 'Item 2', description: 'This is the second item', image: 'https://picsum.photos/400/200?random=2' },
+    { title: 'Item 3', description: 'This is the third item', image: 'https://picsum.photos/400/200?random=3' },
+    { title: 'Item 4', description: 'This is the fourth item', image: 'https://picsum.photos/400/200?random=4' },
+    { title: 'Item 5', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=5' },
+  ]
+
+  const handleItemChange = (index: number) => {
+    setActiveIndex(index)
+  }
+  const props = [{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }]
+
+  return (
+    <>
+      <Ilbok>
+        <IlbokMain>
+          <IlbokMainContainer>
+            <IlbokImgContainer>
+              <IlbokMainImg src={mainImage} alt="mainImg" />
+            </IlbokImgContainer>
+            <IlbokTitleContainer>
+              <IlbokMainTitle>일복(日福)</IlbokMainTitle>
+              <br />
+
+              <IlbokMainSubtitle>나만의 일자리/복지</IlbokMainSubtitle>
+              <IlbokMainSubtitle> 알맞은 일자리와 복지를 제공합니다.</IlbokMainSubtitle>
+            </IlbokTitleContainer>
+          </IlbokMainContainer>
+        </IlbokMain>
+      </Ilbok>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '200px',
+          textAlign: 'center',
+          backgroundColor: '#e7f4ef',
+        }}
+      >
+        <SearchForms>
+          <FilterSelect props={props} />
+          <SearchBar
+            width="60%"
+            height="30px"
+            placeholder="검색어를 입력하세요."
+            borderwidth="2px"
+            bordercolor="#76DCB0"
+          />
+        </SearchForms>
+      </div>
+      <Ilbok>
+        <div style={{ marginTop: '30px' }}>
+          <CarouselComponent
+            items={items.map((item) => (
+              <Card key={item.title} title={item.title} description={item.description} image={item.image} />
+            ))}
+            activeIndex={activeIndex}
+            onChange={handleItemChange}
+          />
+        </div>
+      </Ilbok>
+
+      <Footer />
+    </>
+  )
+}
+
+export default MainPage
+
 const Ilbok = styled.div`
   margin: 0 12vw 0 12vw;
 `
@@ -66,81 +143,7 @@ const IlbokMainSubtitle = styled.span`
   width: 100%;
   text-align: left;
 `
-interface NameList {
-  name: string
-}
-const MainPage = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0)
 
-  const items = [
-    { title: 'Item 1', description: 'This is the first item', image: 'https://picsum.photos/400/200?random=1' },
-    { title: 'Item 2', description: 'This is the second item', image: 'https://picsum.photos/400/200?random=2' },
-    { title: 'Item 3', description: 'This is the third item', image: 'https://picsum.photos/400/200?random=3' },
-    { title: 'Item 4', description: 'This is the fourth item', image: 'https://picsum.photos/400/200?random=4' },
-    { title: 'Item 5', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=5' },
-  ]
-
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
-  }
-
-  return (
-    <>
-      <Ilbok>
-        <IlbokMain>
-          <IlbokMainContainer>
-            <IlbokImgContainer>
-              <IlbokMainImg src={mainImage} alt="mainImg" />
-            </IlbokImgContainer>
-            <IlbokTitleContainer>
-              <IlbokMainTitle>일복(日福)</IlbokMainTitle>
-              <br />
-
-              <IlbokMainSubtitle>나만의 일자리/복지</IlbokMainSubtitle>
-
-              <IlbokMainSubtitle> 알맞은 일자리와 복지를 제공합니다.</IlbokMainSubtitle>
-            </IlbokTitleContainer>
-          </IlbokMainContainer>
-        </IlbokMain>
-      </Ilbok>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '200px',
-          textAlign: 'center',
-          backgroundColor: '#e7f4ef',
-        }}
-      >
-        <SearchForms>
-          <SearchBar
-            width="60%"
-            height="30px"
-            placeholder="검색어를 입력하세요."
-            borderwidth="2px"
-            bordercolor="#76DCB0"
-          />
-        </SearchForms>
-      </div>
-      <Ilbok>
-        <div style={{ marginTop: '30px' }}>
-          <CarouselComponent
-            items={items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} image={item.image} />
-            ))}
-            activeIndex={activeIndex}
-            onChange={handleItemChange}
-          />
-        </div>
-      </Ilbok>
-
-      <Footer />
-    </>
-  )
-}
-
-export default MainPage
 const SearchForms = styled.div`
   display: flex;
   flex-flow: row;
