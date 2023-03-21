@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="a125865f-70ca-4816-a6ab-d33619d1cdfd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front-server/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front-server/src/index.tsx" afterDir="false" />
     </list>
+=======
+    <list default="true" id="a125865f-70ca-4816-a6ab-d33619d1cdfd" name="Changes" comment="" />
+>>>>>>> d073be2d8646279f8a462bac7f9d617dbe97b010
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,19 +43,38 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+<<<<<<< HEAD
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/S08P22E202/back-end",
+=======
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/S08P22E202/back-server",
+>>>>>>> d073be2d8646279f8a462bac7f9d617dbe97b010
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+<<<<<<< HEAD
     "spring.configuration.checksum": "0d8be0d8812edcd777d4587107d04d74",
+=======
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "spring.configuration.checksum": "8a1cf0a53e91dc9cb5c99912adfe457f",
+>>>>>>> d073be2d8646279f8a462bac7f9d617dbe97b010
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager">
+<<<<<<< HEAD
     <configuration default="true" type="JetRunConfigurationType">
       <module name="team2" />
       <method v="2">
@@ -65,6 +88,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+=======
+>>>>>>> d073be2d8646279f8a462bac7f9d617dbe97b010
     <configuration name="IlbokApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="back-server.Ilbok.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ssafy.e202.ilbok.IlbokApplication" />
@@ -83,9 +108,14 @@
       <updated>1679277643435</updated>
       <workItem from="1679277645105" duration="12000" />
       <workItem from="1679277703869" duration="2845000" />
+<<<<<<< HEAD
       <workItem from="1679379883710" duration="50000" />
       <workItem from="1679380323488" duration="24000" />
       <workItem from="1679380358043" duration="44000" />
+=======
+      <workItem from="1679292603549" duration="2620000" />
+      <workItem from="1679295323317" duration="1968000" />
+>>>>>>> d073be2d8646279f8a462bac7f9d617dbe97b010
     </task>
     <servers />
   </component>

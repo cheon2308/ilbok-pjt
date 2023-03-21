@@ -1,0 +1,151 @@
+/* Title */
+
+.Title-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  margin-top: 70px;
+  align-items: center;
+}
+
+.title {
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 50px;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+/* Info */
+
+.Info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.Info-item {
+  width: 50%;
+}
+
+.Line-container {
+  display: flex;
+  margin: 5px 0 5px 0;
+}
+
+.Line-container > div {
+  margin: 12px;
+  width: 82px;
+  text-align: right;
+  position: relative;
+}
+.Line-container > span {
+  margin: 12px;
+  width: 200px;
+  text-align: left;
+}
+
+/* Detail */
+
+.Detail-container {
+  margin: 100px 0 0 0;
+}
+
+.Map-container {
+  margin: 45px 0 70px;
+}
+
+.Job-content {
+  margin: 45px 0 45px;
+}
+
+.Category-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.Category-container > div > .Category-title {
+  margin: 40px 0 40px 0;
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22.5px;
+  line-height: 29px;
+  color: #666666;
+}
+
+.Category-container > div > div {
+  margin-bottom: 50px;
+}
+
+.Category-flexgrow {
+  flex-grow: 1.6;
+  width: 100%;
+  border-left: 1px solid #ababab;
+}
+
+.Category-flexgrow-2 {
+  flex-grow: 2;
+  border-top: 1px solid #ababab;
+}
+.Category-flexgrow-6 {
+  flex-grow: 6;
+  border-left: 1px solid #ababab;
+  border-right: 1px solid #ababab;
+  border-top: 1px solid #ababab;
+}
+
+#Category-border {
+  border-left: 0px;
+}
+
+#condition {
+  margin: 50px 0 50px 0;
+}
+
+/*  */
+
+.Big-category {
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 35px;
+  color: #76dcb0;
+}
+
+.Mid-category {
+  font-family: 'NanumGothic';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22.5px;
+  line-height: 29px;
+  color: #666666;
+  margin: 15px 0 15px;
+}
+
+hr {
+  border-color: white;
+}
+
+.square {
+  width: 95px;
+  position: absolute;
+}
+
+/*  */
+
+@media screen and (min-width: 1024px) {
+}
+/* tablet 규격 */
+@media screen and (max-width: 1023px) {
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 540px) {
+}
