@@ -1,8 +1,11 @@
 package com.ssafy.ilbok.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.ilbok.Repository.UserRepository;
+import com.ssafy.ilbok.jwt.JwtProperties;
 import com.ssafy.ilbok.model.dto.KakaoProfile;
 import com.ssafy.ilbok.model.dto.OauthToken;
 import com.ssafy.ilbok.model.entity.User;
@@ -16,11 +19,27 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
 @Service
 public class UserService {
 
     @Autowired
-    UserRepository userRepository; //(1)
+    UserRepository userRepository;
+    public User getUser(HttpServletRequest request) { //(1)
+        //(2)
+        Long userCode = (Long) request.getAttribute("userCode");
+
+        //(3)
+        User user = userRepository.findByUserCode(userCode);
+
+        //(4)
+        return user;
+    }
+
+
+
 
     public OauthToken getAccessToken(String code) {
 
@@ -67,30 +86,24 @@ public class UserService {
 
 
 
-    public User saveUser(String token) {
-
-        //(1)
+    public String saveUserAndGetToken(String token) { //(1)
         KakaoProfile profile = findProfile(token);
 
-        //(2)
         User user = userRepository.findByKakaoEmail(profile.getKakao_account().getEmail());
-
-        //(3)
         if(user == null) {
             user = User.builder()
                     .kakaoId(profile.getId())
-                    //(4)
                     .kakaoProfileImg(profile.getKakao_account().getProfile().getProfile_image_url())
                     .kakaoNickname(profile.getKakao_account().getProfile().getNickname())
                     .kakaoEmail(profile.getKakao_account().getEmail())
-                    //(5)
                     .userRole("ROLE_USER").build();
 
             userRepository.save(user);
         }
 
-        return user;
+        return createToken(user); //(2)
     }
+
 
     //(1-1)
     public KakaoProfile findProfile(String token) {
@@ -126,6 +139,25 @@ public class UserService {
         }
 
         return kakaoProfile;
+    }
+
+    public String createToken(User user) { //(2-1)
+
+        //(2-2)
+        String jwtToken = JWT.create()
+
+                //(2-3)
+                .withSubject(user.getKakaoEmail())
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
+
+                //(2-4)
+                .withClaim("id", user.getUserCode())
+                .withClaim("nickname", user.getKakaoNickname())
+
+                //(2-5)
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+
+        return jwtToken; //(2-6)
     }
 
 }
