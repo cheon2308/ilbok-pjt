@@ -28,11 +28,6 @@ public class UserController {
         System.out.println(user);
         return user;
     }
-<<<<<<< HEAD:back-server/src/main/java/com/ssafy/e202/ilbok/controller/UserController.java
+
 //
 }
-=======
-
-}
-
->>>>>>> develop:back-end/src/main/java/com/ssafy/ilbok/controller/UserController.java
