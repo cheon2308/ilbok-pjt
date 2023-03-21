@@ -1,0 +1,26 @@
+.Footer-main-container {
+  height: 300px;
+  background-color: #e7f4ef;
+
+  font-size: 15px;
+  font-family: 'NanumGothic';
+  color: #666666;
+}
+
+.Footer-main-container > div {
+  position: absolute;
+  margin: 50px 12vw 50px 12vw;
+}
+
+.Footer-main-container > div > div > div {
+  margin: 0 0 15px 0;
+}
+
+.Footer-main-container > div > div > img {
+  width: 150px;
+  opacity: 0.9;
+}
+
+.Footer-content-container {
+  margin: 10px 0 0 55px;
+}

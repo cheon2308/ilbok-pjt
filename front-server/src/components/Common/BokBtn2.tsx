@@ -16,6 +16,7 @@ const BokBtn2 = styled(Btn)<BokBtnProps>(
   width: ${sigwidth};
   height: ${sigheight};
   font-size: ${sigfontsize};
+  font-family: 'NanumGothic';
   border: 1px solid #76DCB0;
   border-radius: ${sigborderradius};
   box-shadow: 0px 4px 7px rgba(0,0,0,0.25);
