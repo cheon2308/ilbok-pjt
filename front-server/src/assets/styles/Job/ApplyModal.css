@@ -1,0 +1,101 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+
+.modal > section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fff;
+  animation: modal-show 0.3s;
+  overflow: hidden;
+}
+
+.modal > section > main {
+  padding: 16px;
+  border: 1px solid lightgray;
+<<<<<<< HEAD:front-server/src/components/Job/ApplyModal.css
+  max-height: 500px;
+=======
+  max-height: 450px;
+>>>>>>> a97a76d13f0c757d53c6de18c4561360a5b884ca:front-server/src/assets/styles/Job/ApplyModal.css
+  overflow: auto;
+}
+.close {
+  margin-top: -5px;
+}
+.modal.openModal {
+  display: flex;
+  align-items: center;
+  animation: modal-bg-show 0.3s;
+}
+@keyframes modal-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.Modal-title {
+  display: flex;
+  justify-content: space-between;
+<<<<<<< HEAD:front-server/src/components/Job/ApplyModal.css
+}
+
+.Modal-container {
+  margin: 50px;
+=======
+  align-items: center;
+}
+
+.Modal-container {
+  margin: 40px;
+>>>>>>> a97a76d13f0c757d53c6de18c4561360a5b884ca:front-server/src/assets/styles/Job/ApplyModal.css
+}
+
+.Modal-line-container {
+  display: flex;
+<<<<<<< HEAD:front-server/src/components/Job/ApplyModal.css
+  margin: 25px 0 0;
+  align-items: center;
+}
+
+.Modal-flexgrow1 {
+  flex-grow: 0.5;
+}
+
+.Modal-flexgrow2 {
+  flex-grow: 9.5;
+=======
+  margin: 20px 0 0;
+  align-items: center;
+}
+
+.Modal-line-container > div {
+  flex-grow: 1;
+}
+
+.Close-button {
+  cursor: pointer;
+>>>>>>> a97a76d13f0c757d53c6de18c4561360a5b884ca:front-server/src/assets/styles/Job/ApplyModal.css
+}
