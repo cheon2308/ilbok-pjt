@@ -15,7 +15,10 @@
     "isolatedModules": true,
     "noEmitOnError": false,
     "jsx": "react-jsx",
-    "watch": true
+    "watch": true,
+    "types": [
+      "kakao.maps.d.ts"
+    ],
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

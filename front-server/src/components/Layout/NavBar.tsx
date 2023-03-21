@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import ilbokLogo from '../../assets/image/ilbokLogo.png'
+import MainLogo from '../../assets/image/MainLogo.png'
 import '../Layout/Navbar.css'
 import LoginModal from '../LoginModal'
 import BokBtn2 from '../Common/BokBtn2'
@@ -27,35 +27,41 @@ const Logo = styled(NavLink)`
 `
 
 const LogoImg = styled.img`
-  width: 110px;
-  margin-right: 8px;
+  width: 150px;
+  margin: 0 0 0 10px;
 `
 
 const MenuList = styled.ul`
   display: flex;
   list-style: none;
-  margin: 0;
+  margin: 0 0 0 80px;
   padding: 0;
 `
 
 const MenuItem = styled.li`
-  margin: 0 8px;
+  margin: 0 30px 0 0;
+  width: 100px;
 `
 
 const NavLinkItem = styled(NavLink)`
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
+  color: #666666;
+  font-size: 20px;
+  font-weight: 500;
+
   &:hover {
-    color: #666;
+    color: #76dcb0;
+  }
+  &.active {
+    color: #76dcb0;
   }
 `
 
 const NavBar = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const links = [
-    { title: 'Job', url: '/job' },
-    { title: 'Welfare', url: '/welfare' },
+    { title: '일자리', url: '/job' },
+    { title: '복지', url: '/welfare' },
   ]
   const [open, setOpen] = useState(false) // 로그인
   const handleOpen = () => setOpen(true)
@@ -66,21 +72,23 @@ const NavBar = () => {
       <div className="header-wrap">
         <div className="header-left-wrap">
           <Logo to="/">
-            <LogoImg className="nav-logo" src={ilbokLogo} alt="ilbokLogo" />
+            <LogoImg className="nav-logo" src={MainLogo} alt="MainLogo" />
           </Logo>
           <MenuList>
             {links.map((link) => (
               <MenuItem key={link.title}>
-                <NavLinkItem to={link.url}>{link.title}</NavLinkItem>
+                <NavLinkItem to={link.url} className={({ isActive }) => (isActive ? 'active' : 'not')}>
+                  {link.title}
+                </NavLinkItem>
               </MenuItem>
             ))}
           </MenuList>
         </div>
         <div className="header-right-wrap">
           <BokBtn2
-            sigwidth="110px"
+            sigwidth="125px"
             sigheight="50px"
-            sigfontsize="16px"
+            sigfontsize="19px"
             sigborderradius={25}
             sigmargin="10px"
             onClick={handleOpen}
