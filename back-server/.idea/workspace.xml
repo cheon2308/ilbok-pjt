@@ -36,6 +36,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -44,6 +48,9 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "spring.configuration.checksum": "8a1cf0a53e91dc9cb5c99912adfe457f",
     "vue.rearranger.settings.migration": "true"
   }
@@ -67,6 +74,8 @@
       <updated>1679277643435</updated>
       <workItem from="1679277645105" duration="12000" />
       <workItem from="1679277703869" duration="2845000" />
+      <workItem from="1679292603549" duration="2620000" />
+      <workItem from="1679295323317" duration="1968000" />
     </task>
     <servers />
   </component>
