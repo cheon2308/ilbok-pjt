@@ -69,6 +69,7 @@ function LoginModal({ open, onClose }: LoginModalProps) {
           >
             닫기
           </BokBtn1>
+
           <img src={kakaologin} onClick={handleLogin} style={{ cursor: 'pointer' }} />
         </Box>
       </Modal>

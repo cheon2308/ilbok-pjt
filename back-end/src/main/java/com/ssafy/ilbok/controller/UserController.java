@@ -28,7 +28,6 @@ public class UserController {
         OauthToken oauthToken = userService.getAccessToken(code);
 
         String jwtToken = userService.saveUserAndGetToken(oauthToken.getAccess_token());
-
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
         System.out.println(ResponseEntity.ok().headers(headers).body("success"));
