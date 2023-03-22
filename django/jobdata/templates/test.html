@@ -7,8 +7,11 @@
     <title>Document</title>
   </head>
   <body>
-    {% for fam in families %}
-    <p>{{ fam.company }}</p>
+    {% for data in dataset %}
+    <p>{{data.code}}</p>
+    <p>{{ data.job_family_code }}</p>
+    <p>{{ data.job_sub_code }}</p>
+    <p>{{ data.job_code }}</p>
     {%endfor%}
   </body>
 </html>
