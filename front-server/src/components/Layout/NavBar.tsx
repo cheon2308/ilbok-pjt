@@ -69,10 +69,13 @@ const NavBar = () => {
   const logOut = () => {
     console.log('gkgk')
     const token = window.localStorage.getItem('token')
-
-    try {
+    let encodedToken = ''
+    if (token) {
+      encodedToken = encodeURIComponent(token.replace('Bearer ', ''))
+    }
+    if (token) {
       axios
-        .get('http://localhost:8080/api/logout', {
+        .get(`http://localhost:8080/api/logout?token=${encodedToken}`, {
           headers: {
             Authorization: token,
           },
@@ -80,8 +83,6 @@ const NavBar = () => {
         .then((res) => {
           console.log(res)
         })
-    } catch (e) {
-      console.error(e)
     }
   }
 
