@@ -1,7 +1,7 @@
-import React from "react";
-import "./App.css";
-import { GlobalStyle } from "./global-style";
-import AppRouter from "./AppRouter";
+import React from 'react'
+import './App.css'
+import { GlobalStyle } from './global-style'
+import AppRouter from './AppRouter'
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <GlobalStyle />
       <AppRouter />
     </>
-  );
+  )
 }
 
-export default App;
+export default App
