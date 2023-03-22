@@ -280,3 +280,15 @@ class Wanted(models.Model):
     class Meta:
         managed = False
         db_table = 'wanted'
+
+
+class All_in_one(models.Model):
+    code = models.AutoField(primary_key=True)
+    job_family_code = models.IntegerField(blank=True, null=True)
+    job_sub_code = models.IntegerField(blank=True, null=True)
+    job_code = models.IntegerField(blank=True, null=True)
+    degree_code = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'all_in_one'

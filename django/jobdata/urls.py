@@ -3,5 +3,6 @@ from django.urls import path
 from jobdata import views
 
 urlpatterns = [
-    path('family/', views.job_family),
+    path('', views.jobList),
+    path('test', views.job_to_job),
 ]
