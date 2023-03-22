@@ -5,7 +5,7 @@ import MainLogo from '../../assets/image/MainLogo.png'
 import '../Layout/Navbar.css'
 import LoginModal from '../LoginModal'
 import BokBtn2 from '../Common/BokBtn2'
-
+import axios from 'axios'
 const NavbarContainer = styled.nav`
   diplay: flex;
   align-items: center;
@@ -66,6 +66,24 @@ const NavBar = () => {
   const [open, setOpen] = useState(false) // 로그인
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const logOut = () => {
+    console.log('gkgk')
+    const token = window.localStorage.getItem('token')
+
+    try {
+      axios
+        .get('http://localhost:8080/api/logout', {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+        })
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   return (
     <NavbarContainer>
@@ -85,6 +103,16 @@ const NavBar = () => {
           </MenuList>
         </div>
         <div className="header-right-wrap">
+          <BokBtn2
+            sigwidth="125px"
+            sigheight="50px"
+            sigfontsize="19px"
+            sigborderradius={25}
+            sigmargin="10px"
+            onClick={logOut}
+          >
+            로그아웃
+          </BokBtn2>
           <BokBtn2
             sigwidth="125px"
             sigheight="50px"
