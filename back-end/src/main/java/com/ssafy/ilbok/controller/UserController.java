@@ -46,5 +46,12 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+    @GetMapping("/logout")
+    public String logOut(String token) { //(1)
+        userService.logOut(token);
+        return "Redirect://";
+    }
+
+
 //
 }
