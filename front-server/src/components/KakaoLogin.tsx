@@ -26,9 +26,9 @@ function KakaoLogin() {
       method: 'GET',
     })
       .then((res) => {
+        // console.log(res)
         const token = res.headers.authorization
         window.localStorage.setItem('token', token)
-        navigate('/')
       })
       .then(() => {
         const token = window.localStorage.getItem('token')
@@ -42,6 +42,18 @@ function KakaoLogin() {
             })
             .then((res) => {
               console.log(res)
+              const kakaoEmail = res.data.kakaoEmail
+              const kakaoId = res.data.kakaoId
+              const kakaoNickname = res.data.kakaoNickname
+              const kakaoProfileImg = res.data.kakaoProfileImg
+
+              window.localStorage.setItem('kakaoEmail', kakaoEmail)
+              window.localStorage.setItem('kakaoId', kakaoId)
+              window.localStorage.setItem('kakaoNickname', kakaoNickname)
+              window.localStorage.setItem('kakaoProfileImg', kakaoProfileImg)
+            })
+            .then(() => {
+              navigate('/')
             })
         } catch (e) {
           console.error(e)
