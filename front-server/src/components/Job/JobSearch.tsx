@@ -17,6 +17,7 @@ const JobSearchTitle = styled.div`
 
 const JobSearchTitleContainer = styled.div`
   margin-bottom: 10px;
+
 `
 
 const JobSearchSubTitle = styled.div`
@@ -36,6 +37,7 @@ const JobSearchContentContainer = styled.div`
 
 const JobSearchCategoryContainer = styled.div`
   margin: 30px 0 30px 0;
+  height: 50px;
   display: flex;
   flex-wrap: wrap;
 `
@@ -51,9 +53,16 @@ const JobSearchCategoryTitleContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 20px;
+  font-weight: 700;
 `
 
-const RadioBtnContainer = styled.div``
+const RadioBtnContainer = styled.div`
+display:flex;
+justify-content: center;
+align-items: center; 
+
+`
 
 export default function JobSearch() {
   return (
@@ -70,9 +79,10 @@ export default function JobSearch() {
               width="250px"
               height="20px"
               placeholder=""
-              borderwidth="2px"
+              borderwidth="1px"
               bordercolor="#666666"
               fontsize="15px"
+              hovercolor="#666666"
             />
           </JobSearchCategoryContainer>
           <JobSearchCategoryContainer>
@@ -81,9 +91,10 @@ export default function JobSearch() {
               width="250px"
               height="20px"
               placeholder=""
-              borderwidth="2px"
+              borderwidth="1px"
               bordercolor="#666666"
               fontsize="15px"
+              hovercolor="#666666"
             />
           </JobSearchCategoryContainer>
           <JobSearchCategoryContainer>
@@ -123,12 +134,13 @@ export default function JobSearch() {
           <JobSearchCategoryContainer>
             <JobSearchCategoryTitleContainer> 키워드</JobSearchCategoryTitleContainer>
             <SearchBar
-              width="250px"
+              width="700px"
               height="20px"
               placeholder=""
-              borderwidth="2px"
+              borderwidth="1px"
               bordercolor="#666666"
               fontsize="15px"
+              hovercolor="#666666"
             />
           </JobSearchCategoryContainer>
         </JobSearchContentContainer>
