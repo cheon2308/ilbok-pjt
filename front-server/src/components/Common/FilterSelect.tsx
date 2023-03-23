@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 interface Props {
   name: string
@@ -7,37 +8,46 @@ interface Props {
 
 interface ComponentProps {
   props: Array<Props>
+  width: string
+  height: string
+  borderwidth: string
+  bordercolor: string
+}
+
+interface StyledSelectProps {
+  width: string
+  height: string
+  borderwidth: string
+  bordercolor: string
 }
 
 const FilterSelectWrapper = styled.div`
   width: 100%;
-  max-width: 378px;
-  margin-right: 2em;
 `
 
-const StyledSelect = styled.select`
-  width: 100%;
-  height: 42px;
-  padding: 0 14px;
-  border: 1px solid #d7e2eb;
-  border-radius: 4px;
-  box-sizing: border-box;
-  background-size: 0.625rem 0.3125rem;
+const StyledSelect = styled.select<StyledSelectProps>`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border: ${(props) => props.borderwidth} solid ${(props) => props.bordercolor};
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 20px;
+  color: #666666;
   background-color: #fbfbfd;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.6;
-  color: #263747;
+
   &:hover {
-    border: 1px solid #848484;
-    box-shadow: inset 0 0 0 1px #bcb7d9;
+    border: 2px solid #c6f0de;
+    box-shadow: inset 0 0 0 1px #c6f0de;
+  }
+  &:focus {
+    outline: none !important;
   }
 `
 
-const FilterSelect = ({ props }: ComponentProps) => {
+const FilterSelect = ({ props, width, height, borderwidth, bordercolor }: ComponentProps) => {
   return (
     <FilterSelectWrapper>
-      <StyledSelect>
+      <StyledSelect width={width} height={height} borderwidth={borderwidth} bordercolor={bordercolor}>
         {props.map((ele: Props, i: number) => (
           <option key={i} value={ele.name}>
             {ele.name}
@@ -46,6 +56,19 @@ const FilterSelect = ({ props }: ComponentProps) => {
       </StyledSelect>
     </FilterSelectWrapper>
   )
+}
+
+FilterSelect.propTypes = {
+  map: PropTypes.any.isRequired,
+  props: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  borderwidth: PropTypes.string.isRequired,
+  bordercolor: PropTypes.string.isRequired,
 }
 
 export default FilterSelect
