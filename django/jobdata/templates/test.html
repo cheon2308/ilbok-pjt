@@ -8,10 +8,13 @@
   </head>
   <body>
     {% for data in dataset %}
-    <p>{{data.code}}</p>
+    <p>{{data.wanted_code}}</p>
+    {% comment %}
     <p>{{ data.job_family_code }}</p>
+    {% endcomment %} {% comment %}
     <p>{{ data.job_sub_code }}</p>
+    {% endcomment %} {% comment %}
     <p>{{ data.job_code }}</p>
-    {%endfor%}
+    {% endcomment %} {%endfor%}
   </body>
 </html>

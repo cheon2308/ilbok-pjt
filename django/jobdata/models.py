@@ -283,7 +283,7 @@ class Wanted(models.Model):
 
 
 class All_in_one(models.Model):
-    code = models.AutoField(primary_key=True)
+    wanted_code = models.ForeignKey('Wanted', models.DO_NOTHING, db_column='wanted_code')
     job_family_code = models.IntegerField(blank=True, null=True)
     job_sub_code = models.IntegerField(blank=True, null=True)
     job_code = models.IntegerField(blank=True, null=True)

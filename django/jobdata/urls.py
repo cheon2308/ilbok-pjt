@@ -4,5 +4,5 @@ from jobdata import views
 
 urlpatterns = [
     path('', views.jobList),
-    path('test', views.job_to_job),
+    path('test', views.job_info),
 ]
