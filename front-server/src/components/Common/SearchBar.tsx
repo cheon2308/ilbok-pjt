@@ -8,6 +8,7 @@ interface SearchBarProps {
   borderwidth: string
   bordercolor: string
   fontsize: string
+  hovercolor: string
 }
 
 const Input = styled.input<SearchBarProps>`
@@ -20,13 +21,13 @@ const Input = styled.input<SearchBarProps>`
   font-size: ${(props) => props.fontsize};
 
   &:hover {
-    border: 2px solid #c6f0de;
-    box-shadow: inset 0 0 0 1px #c6f0de;
+    border: ${(props) => props.borderwidth} solid ${(props) => props.hovercolor};
+    box-shadow: inset 0 0 0 1px ${(props) => props.hovercolor};
   }
   &:focus {
     outline: none !important;
-    border-color: #c6f0de;
-    box-shadow: inset 0 0 0 1px #c6f0de;
+    border-color: ${(props) => props.hovercolor};
+    box-shadow: inset 0 0 0 1px ${(props) => props.hovercolor};
   }
 `
 

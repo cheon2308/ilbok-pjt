@@ -5,9 +5,9 @@ import JobMainItem from '../../components/Job/JobMainItem'
 function JobMain() {
   return (
     <>
-      <div className="Main-container">
+    
         <JobMainItem />
-      </div>
+      
     </>
   )
 }

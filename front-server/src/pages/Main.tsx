@@ -208,6 +208,7 @@ const MainPage = () => {
               borderwidth="2px"
               bordercolor="#76DCB0"
               fontsize="20px"
+              hovercolor="#c6f0de"
             />
           </SearchBarContainer>
           <SearchButtonContainer>

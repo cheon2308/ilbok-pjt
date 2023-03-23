@@ -9,13 +9,15 @@ interface RadioProps {
 }
 
 const RadioBtnContainer = styled.label`
-  margin: 0 10px 0 10px;
+  margin: 0 10px 0 0;
+`
+const RadioBtnInput = styled.input`
 `
 
 const RadioBtn = (props: RadioProps) => {
   return (
     <RadioBtnContainer>
-      <input
+      <RadioBtnInput
         type="radio"
         value={props.value}
         name={props.name}
