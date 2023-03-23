@@ -7,7 +7,8 @@ import BokBtn1 from './Common/BokBtn1'
 import Lottie from 'lottie-react'
 import animationData from '../assets/lottie/luckybag.json'
 import { CgClose } from 'react-icons/cg'
-import { Typography } from '@mui/material'
+import { Typography, TypographyProps } from '@mui/material'
+import styled from 'styled-components'
 const style = {
   width: '30%',
   height: '50%',
@@ -24,6 +25,20 @@ const style = {
   alignItems: 'center',
   flexDirection: 'column',
 }
+interface StyledTypographyProps extends TypographyProps {
+  isHovered?: boolean
+}
+
+const StyledTypography = styled(({ ...typographyProps }: StyledTypographyProps) => (
+  <Typography {...typographyProps} />
+))<StyledTypographyProps>`
+  cursor: pointer;
+  color: ${(props) => (props.isHovered ? 'blue' : 'textSecondary')};
+
+  &:hover {
+    color: blue;
+  }
+`
 
 interface LoginModalProps {
   open: boolean
@@ -32,8 +47,21 @@ interface LoginModalProps {
 
 function LoginModal({ open, onClose }: LoginModalProps) {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  const KAKAO_AUTH_URL_OTHER = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`
   const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL
+  }
+  const handleLoginOther = () => {
+    window.location.href = KAKAO_AUTH_URL_OTHER
+  }
+  const [isHovered, setIsHovered] = useState(false)
+
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovered(false)
   }
   //lottie
 
@@ -71,6 +99,17 @@ function LoginModal({ open, onClose }: LoginModalProps) {
           </BokBtn1>
 
           <img src={kakaologin} onClick={handleLogin} style={{ cursor: 'pointer' }} />
+          <br />
+          <StyledTypography
+            onClick={handleLoginOther}
+            fontSize={14}
+            isHovered={isHovered}
+            style={{ cursor: 'pointer' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            다른 계정으로 로그인 하기
+          </StyledTypography>
         </Box>
       </Modal>
     </>
