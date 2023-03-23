@@ -68,26 +68,18 @@ const NavBar = () => {
   const handleClose = () => setOpen(false)
   const logOut = () => {
     console.log('gkgk')
-    const token = window.localStorage.getItem('token')
-    try {
-      axios
-        .get('http://localhost:8080/api/logout', {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((res) => {
-          console.log(res)
-          sessionStorage.removeItem('accessToken')
-          sessionStorage.removeItem('refreshToken')
-          sessionStorage.removeItem('userEmail')
-          sessionStorage.removeItem('username')
-          sessionStorage.removeItem('nickname')
-          sessionStorage.removeItem('isAdmin')
-          sessionStorage.removeItem('userSeq')
-        })
-    } catch (e) {
-      console.error(e)
+    const kakaoId = window.localStorage.getItem('kakaoId')
+
+    if (kakaoId) {
+      fetch(`https://kapi.kakao.com/v1/user/logout?target_id_type=user_id&target_id=${kakaoId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: 'KakaoAK 8e9ad1637261abebf42881f8bb473ba3',
+        },
+      }).then((res) => {
+        console.log(res)
+      })
     }
   }
 
