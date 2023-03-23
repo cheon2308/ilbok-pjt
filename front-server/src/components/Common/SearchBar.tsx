@@ -7,6 +7,7 @@ interface SearchBarProps {
   placeholder: string // make placeholder optional
   borderwidth: string
   bordercolor: string
+  fontsize: string
 }
 
 const Input = styled.input<SearchBarProps>`
@@ -15,8 +16,8 @@ const Input = styled.input<SearchBarProps>`
   border: ${(props) => props.borderwidth} solid ${(props) => props.bordercolor};
   cursor: pointer;
   border-radius: 5px; // use default value if border_radius is not provided
-  padding: 8px;
-  font-size: 18px;
+  padding: 10px 10px 10px 15px;
+  font-size: ${(props) => props.fontsize};
 
   &:hover {
     border: 2px solid #c6f0de;
