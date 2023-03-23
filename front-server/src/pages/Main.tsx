@@ -5,124 +5,10 @@ import CarouselComponent from '../components/Common/Carousel'
 import styled from 'styled-components'
 import mainImage from '../assets/image/mainImage.png'
 import { useState } from 'react'
-import Footer from '../components/Common/Footer'
 import FilterSelect from '../components/Common/FilterSelect'
 import { SlMagnifier } from 'react-icons/sl'
 import AddInfoNoti from '../components/Common/AddInfoNoti'
 import AddInfoNoti2 from '../components/Common/AddInfoNoti2'
-
-interface NameList {
-  name: string
-}
-const MainPage = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-
-  const items = [
-    { title: 'Item 1', description: 'This is the first item' },
-    { title: 'Item 2', description: 'This is the second item' },
-    { title: 'Item 3', description: 'This is the third item' },
-    { title: 'Item 4', description: 'This is the fourth item' },
-    { title: 'Item 5', description: 'This is the fifth item' },
-    { title: 'Item 6', description: 'This is the fifth item' },
-    { title: 'Item 7', description: 'This is the fifth item' },
-    { title: 'Item 8', description: 'This is the fifth item' },
-    // { title: 'Item 9', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=9' },
-    // { title: 'Item 10', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=10' },
-  ]
-
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
-  }
-  const props = [{ name: '일자리' }, { name: '복지' }]
-
-  return (
-    <>
-      {/* Main */}
-      <Ilbok>
-        <IlbokMain>
-          <IlbokMainContainer>
-            <IlbokImgContainer>
-              <IlbokMainImg src={mainImage} alt="mainImg" />
-            </IlbokImgContainer>
-            <IlbokTitleContainer>
-              <IlbokMainTitle>일복(日福)</IlbokMainTitle>
-              <br />
-
-              <IlbokMainSubtitle>나만의 일자리/복지</IlbokMainSubtitle>
-              <IlbokMainSubtitle> 알맞은 일자리와 복지를 제공</IlbokMainSubtitle>
-            </IlbokTitleContainer>
-          </IlbokMainContainer>
-        </IlbokMain>
-      </Ilbok>
-
-      {/* Search */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '330px',
-          textAlign: 'center',
-          backgroundColor: '#e7f4ef',
-        }}
-      >
-        <SearchForms>
-          <FilterSelectContainer>
-            <FilterSelect props={props} width="100%" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
-          </FilterSelectContainer>
-          <SearchBarContainer>
-            <SearchBar
-              width="95%"
-              height="40px"
-              placeholder="검색어를 입력하세요."
-              borderwidth="2px"
-              bordercolor="#76DCB0"
-              fontsize="20px"
-            />
-          </SearchBarContainer>
-          <SearchButtonContainer>
-            <SearchButton>
-              <SlMagnifierContainer>
-                <SlMagnifier size="20px" color="white" />
-              </SlMagnifierContainer>
-            </SearchButton>
-          </SearchButtonContainer>
-        </SearchForms>
-      </div>
-      <Ilbok>
-        <AddInfoNoti />
-      </Ilbok>
-      {/* Card */}
-      <Ilbok>
-        <RecentlyJobContainer>
-          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
-          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
-          <CardContainer>
-            {items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} />
-            ))}
-          </CardContainer>
-          {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
-            <CarouselComponent
-              items={items.map((item) => (
-                <Card key={item.title} title={item.title} description={item.description} image={item.image} />
-              ))}
-              activeIndex={activeIndex}
-              onChange={handleItemChange}
-            />
-          </div> */}
-        </RecentlyJobContainer>
-      </Ilbok>
-      {/* <Ilbok> */}
-      {/* <AddInfoNoti2 /> */}
-      {/* </Ilbok> */}
-      <Footer />
-    </>
-  )
-}
-
-export default MainPage
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
@@ -242,7 +128,7 @@ const RecentlyJobSubtitle = styled.div`
 `
 
 const RecentlyJobContainer = styled.div`
-  margin: 0 0 100px 0;
+  margin: 100px 0 100px 0;
 `
 
 const RecentlyJobButton = styled.div`
@@ -254,3 +140,113 @@ const RecentlyJobButton = styled.div`
     cursor: pointer;
   }
 `
+
+interface NameList {
+  name: string
+}
+const MainPage = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0)
+
+  const items = [
+    { title: 'Item 1', description: 'This is the first item' },
+    { title: 'Item 2', description: 'This is the second item' },
+    { title: 'Item 3', description: 'This is the third item' },
+    { title: 'Item 4', description: 'This is the fourth item' },
+    { title: 'Item 5', description: 'This is the fifth item' },
+    { title: 'Item 6', description: 'This is the fifth item' },
+    { title: 'Item 7', description: 'This is the fifth item' },
+    { title: 'Item 8', description: 'This is the fifth item' },
+    // { title: 'Item 9', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=9' },
+    // { title: 'Item 10', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=10' },
+  ]
+
+  const handleItemChange = (index: number) => {
+    setActiveIndex(index)
+  }
+  const props = [{ name: '일자리' }, { name: '복지' }]
+
+  return (
+    <>
+      {/* Main */}
+      <Ilbok>
+        <IlbokMain>
+          <IlbokMainContainer>
+            <IlbokImgContainer>
+              <IlbokMainImg src={mainImage} alt="mainImg" />
+            </IlbokImgContainer>
+            <IlbokTitleContainer>
+              <IlbokMainTitle>일복(日福)</IlbokMainTitle>
+              <br />
+
+              <IlbokMainSubtitle>나만의 일자리/복지</IlbokMainSubtitle>
+              <IlbokMainSubtitle> 알맞은 일자리와 복지를 제공</IlbokMainSubtitle>
+            </IlbokTitleContainer>
+          </IlbokMainContainer>
+        </IlbokMain>
+      </Ilbok>
+
+      {/* Search */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '330px',
+          textAlign: 'center',
+          backgroundColor: '#e7f4ef',
+        }}
+      >
+        <SearchForms>
+          <FilterSelectContainer>
+            <FilterSelect props={props} width="100%" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
+          </FilterSelectContainer>
+          <SearchBarContainer>
+            <SearchBar
+              width="95%"
+              height="40px"
+              placeholder="검색어를 입력하세요."
+              borderwidth="2px"
+              bordercolor="#76DCB0"
+              fontsize="20px"
+            />
+          </SearchBarContainer>
+          <SearchButtonContainer>
+            <SearchButton>
+              <SlMagnifierContainer>
+                <SlMagnifier size="20px" color="white" />
+              </SlMagnifierContainer>
+            </SearchButton>
+          </SearchButtonContainer>
+        </SearchForms>
+      </div>
+
+      {/* Card */}
+      <Ilbok>
+        <RecentlyJobContainer>
+          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
+          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
+          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <CardContainer>
+            {items.map((item) => (
+              <Card key={item.title} title={item.title} description={item.description} />
+            ))}
+          </CardContainer>
+          {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
+            <CarouselComponent
+              items={items.map((item) => (
+                <Card key={item.title} title={item.title} description={item.description} image={item.image} />
+              ))}
+              activeIndex={activeIndex}
+              onChange={handleItemChange}
+            />
+          </div> */}
+        </RecentlyJobContainer>
+      </Ilbok>
+      {/* <Ilbok> */}
+      {/* <AddInfoNoti2 /> */}
+      {/* </Ilbok> */}
+    </>
+  )
+}
+
+export default MainPage
