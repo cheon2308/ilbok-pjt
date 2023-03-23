@@ -1,5 +1,6 @@
 import React from 'react'
 import '../../assets/styles/Common/RadioBtn.css'
+import styled from 'styled-components'
 interface RadioProps {
   value: string
   name: string
@@ -7,9 +8,13 @@ interface RadioProps {
   disabled?: boolean
 }
 
+const RadioBtnContainer = styled.label`
+  margin: 0 10px 0 10px;
+`
+
 const RadioBtn = (props: RadioProps) => {
   return (
-    <label>
+    <RadioBtnContainer>
       <input
         type="radio"
         value={props.value}
@@ -18,7 +23,7 @@ const RadioBtn = (props: RadioProps) => {
         disabled={props.disabled}
       />
       {props.value}
-    </label>
+    </RadioBtnContainer>
   )
 }
 
