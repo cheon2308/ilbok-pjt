@@ -8,7 +8,6 @@ export default function JobDetail() {
       <div className="Main-container">
         <JobDetailItem />
       </div>
-      <Footer />
     </>
   )
 }
