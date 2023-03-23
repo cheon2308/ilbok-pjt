@@ -69,7 +69,6 @@ const NavBar = () => {
   const logOut = () => {
     console.log('gkgk')
     const token = window.localStorage.getItem('token')
-
     try {
       axios
         .get('http://localhost:8080/api/logout', {
@@ -79,6 +78,13 @@ const NavBar = () => {
         })
         .then((res) => {
           console.log(res)
+          sessionStorage.removeItem('accessToken')
+          sessionStorage.removeItem('refreshToken')
+          sessionStorage.removeItem('userEmail')
+          sessionStorage.removeItem('username')
+          sessionStorage.removeItem('nickname')
+          sessionStorage.removeItem('isAdmin')
+          sessionStorage.removeItem('userSeq')
         })
     } catch (e) {
       console.error(e)
@@ -103,26 +109,29 @@ const NavBar = () => {
           </MenuList>
         </div>
         <div className="header-right-wrap">
-          <BokBtn2
-            sigwidth="125px"
-            sigheight="50px"
-            sigfontsize="19px"
-            sigborderradius={25}
-            sigmargin="10px"
-            onClick={logOut}
-          >
-            로그아웃
-          </BokBtn2>
-          <BokBtn2
-            sigwidth="125px"
-            sigheight="50px"
-            sigfontsize="19px"
-            sigborderradius={25}
-            sigmargin="10px"
-            onClick={handleOpen}
-          >
-            로그인
-          </BokBtn2>
+          {window.localStorage.getItem('token') ? (
+            <BokBtn2
+              sigwidth="125px"
+              sigheight="50px"
+              sigfontsize="19px"
+              sigborderradius={25}
+              sigmargin="10px"
+              onClick={logOut}
+            >
+              로그아웃
+            </BokBtn2>
+          ) : (
+            <BokBtn2
+              sigwidth="125px"
+              sigheight="50px"
+              sigfontsize="19px"
+              sigborderradius={25}
+              sigmargin="10px"
+              onClick={handleOpen}
+            >
+              로그인
+            </BokBtn2>
+          )}
           <LoginModal open={open} onClose={handleClose}></LoginModal>
         </div>
       </div>
