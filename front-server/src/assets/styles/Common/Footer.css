@@ -3,13 +3,13 @@
   background-color: #e7f4ef;
 
   font-size: 15px;
-  font-family: 'NanumGothic';
+
   color: #666666;
 }
 
 .Footer-main-container > div {
   position: absolute;
-  margin: 50px 12vw 50px 12vw;
+  margin: 50px 20vw 50px 20vw;
 }
 
 .Footer-main-container > div > div > div {

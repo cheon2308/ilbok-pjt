@@ -37,7 +37,7 @@ display: block;
 body {
 line-height: 1;
 color: black;
-font-family: 'NanumGothic';
+// font-family: 'NanumGothic';
 }'
 ol, ul {
 list-style: none;
