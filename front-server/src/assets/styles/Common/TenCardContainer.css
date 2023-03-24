@@ -1,0 +1,15 @@
+.Scroll-color::-webkit-scrollbar {
+  width: 10%; /* 스크롤바의 너비 */
+  height: 10px;
+}
+
+.Scroll-color::-webkit-scrollbar-thumb {
+  height: 1px; /* 스크롤바의 길이 */
+  background: #76dcb0; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.Scroll-color::-webkit-scrollbar-track {
+  background: #e7f4ef; /*스크롤바 뒷 배경 색상*/
+}
