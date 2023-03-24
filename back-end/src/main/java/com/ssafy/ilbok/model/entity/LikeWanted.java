@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-public class ClickWanted {
+@Table(name = "apply_status")
+public class LikeWanted {
 
     @Id
     private Long code;

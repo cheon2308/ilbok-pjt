@@ -15,11 +15,11 @@ public class ApplyStatus {
     @Column(name = "code")
     private Long code;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="wanted_code")
     private Wanted wanted;
 
