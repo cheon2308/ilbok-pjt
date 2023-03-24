@@ -45,20 +45,6 @@ const TenCardName = styled.span`
 `
 
 const TenCardContainer = ({ items, name, title, description }: TenCardProps) => {
-  // useEffect(() => {
-  //   const container = cardContainerRef.current
-  //   let scrollPos = 1
-
-  //   const interval = setInterval(() => {
-  //     if (container) {
-  //       scrollPos += 1
-  //       container.scrollLeft = scrollPos % container.scrollWidth
-  //     }
-  //   }, 10)
-
-  //   return () => clearInterval(interval)
-  // }, [])
-
   return (
     <>
       <TenCardMainContainer>
@@ -71,9 +57,11 @@ const TenCardContainer = ({ items, name, title, description }: TenCardProps) => 
         </TenCardTitleContainer>
 
         <TenCardCardContainer className="Scroll-color">
-          {items.map((item) => (
-            <Card key={item.title} title={item.title} description={item.description} />
-          ))}
+          <div style={{ marginBottom: '10px' }}>
+            {items.map((item) => (
+              <Card key={item.title} title={item.title} description={item.description} />
+            ))}
+          </div>
         </TenCardCardContainer>
       </TenCardMainContainer>
     </>
