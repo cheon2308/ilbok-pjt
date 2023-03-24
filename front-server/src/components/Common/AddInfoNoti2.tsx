@@ -4,7 +4,7 @@ import BokBtn1 from './BokBtn1'
 import AddInfo from '../../assets/image/AddInfo.png'
 
 const AddInfoNotiContainer = styled.div`
-  height: 600px;
+  height: 400px;
   // background-color: red;
   display: flex;
   justify-content: center;

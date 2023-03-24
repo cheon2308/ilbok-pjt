@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.5",
     "react-icons": "^4.8.0",
+    "react-js-pagination": "^3.0.3",
     "react-kakao-maps-sdk": "^1.1.6",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
+    "@types/react-js-pagination": "^3.0.4",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",

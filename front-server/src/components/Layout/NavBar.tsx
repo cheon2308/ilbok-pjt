@@ -79,6 +79,10 @@ const NavBar = () => {
   const profileImg = window.localStorage.getItem('token')
     ? window.localStorage.getItem('kakaoProfileImg') || DefaultProfile
     : undefined
+  const userName = window.localStorage.getItem('token')
+    ? window.localStorage.getItem('kakaoNickname') || 'unknown'
+    : undefined
+
   const handleProfileClick = () => {
     navigate('/myprofile')
   }
@@ -130,6 +134,10 @@ const NavBar = () => {
           {window.localStorage.getItem('token') ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <ProfileImglogo src={profileImg} alt="" onClick={handleProfileClick} style={{ cursor: 'pointer' }} />
+              <div style={{ marginLeft: '10px' }}>
+                <span style={{ color: '#76DCB0' }}>{userName}</span>
+                <span>님 반갑습니다.</span>
+              </div>
               <BokBtn2
                 sigwidth="125px"
                 sigheight="50px"
