@@ -10,9 +10,9 @@ function KakaoLogin() {
   const getKAkaoToken = () => {
     // const KAKAO_AUTH_URL = `http://localhost:8080/oauth2/authorization/kakao`
     console.log('시작')
-    // async () => {
+    // ;async () => {
     //   try {
-    //     console.log(KAKAO_CODE);
+    //     console.log(KAKAO_CODE)
     //     const res = await axios.get(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`)
     //     const token = res.headers.authorization
     //     window.localStorage.setItem('token', token)
@@ -22,17 +22,42 @@ function KakaoLogin() {
     //     navigate('/')
     //   }
     // }
-    fetch(
-      `http://localhost:8080/api/oauth?code=${KAKAO_CODE}`,
-      {
-        // fetch(`http://localhost:8080/oauth`, {
-        method: 'GET',
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem('token', data.token)
-        navigate('/')
+    axios(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`, {
+      method: 'GET',
+    })
+      .then((res) => {
+        // console.log(res)
+        const token = res.headers.authorization
+        window.localStorage.setItem('token', token)
+      })
+      .then(() => {
+        const token = window.localStorage.getItem('token')
+
+        try {
+          axios
+            .get('http://localhost:8080/api/me', {
+              headers: {
+                Authorization: token,
+              },
+            })
+            .then((res) => {
+              console.log(res)
+              const kakaoEmail = res.data.kakaoEmail
+              const kakaoId = res.data.kakaoId
+              const kakaoNickname = res.data.kakaoNickname
+              const kakaoProfileImg = res.data.kakaoProfileImg
+
+              window.localStorage.setItem('kakaoEmail', kakaoEmail)
+              window.localStorage.setItem('kakaoId', kakaoId)
+              window.localStorage.setItem('kakaoNickname', kakaoNickname)
+              window.localStorage.setItem('kakaoProfileImg', kakaoProfileImg)
+            })
+            .then(() => {
+              navigate('/')
+            })
+        } catch (e) {
+          console.error(e)
+        }
       })
   }
 

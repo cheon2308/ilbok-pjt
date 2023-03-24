@@ -6,6 +6,7 @@ import WelfareMain from './pages/Welfare/WelfareMain'
 import Main from './pages/Main'
 import KakaoLogin from './components/KakaoLogin'
 import JobDetail from './pages/Job/JobDetail'
+import MyProfile from './pages/MyProfile/MyProfile'
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
           <Route path="/job/*" element={<JobMain />} />
           <Route path="/welfare/*" element={<WelfareMain />} />
           <Route path="/detail/*" element={<JobDetail />} />
+          <Route path="/myprofile" element={<MyProfile />} />
         </Routes>
       </BrowserRouter>
     </>
