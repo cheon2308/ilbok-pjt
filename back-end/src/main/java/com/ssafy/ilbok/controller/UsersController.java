@@ -24,7 +24,7 @@ public class UsersController {
     }
 
     @PostMapping(value = "getOne")
-    public ResponseEntity<Users> getOne(long user_id){
+    public ResponseEntity<Users> getOne(Long user_id){
         return new ResponseEntity<>(usersService.findByUserId(user_id), HttpStatus.ACCEPTED);
     }
 
