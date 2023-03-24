@@ -10,7 +10,7 @@ import AddInfoNoti2 from '../Common/AddInfoNoti2'
 
 export default function JobMainItem() {
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
-  const [testcode, setTestCode] = useState(2)
+  const [testcode, setTestCode] = useState(0)
 
   // 비슷한 유저들이 관심있는 items
   const items = [

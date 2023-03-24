@@ -17,7 +17,6 @@ const JobSearchTitle = styled.div`
 
 const JobSearchTitleContainer = styled.div`
   margin-bottom: 10px;
-
 `
 
 const JobSearchSubTitle = styled.div`
@@ -36,7 +35,7 @@ const JobSearchContentContainer = styled.div`
 `
 
 const JobSearchCategoryContainer = styled.div`
-  margin: 30px 0 30px 0;
+  margin: 15px 0 15px 0;
   height: 50px;
   display: flex;
   flex-wrap: wrap;
@@ -58,10 +57,9 @@ const JobSearchCategoryTitleContainer = styled.div`
 `
 
 const RadioBtnContainer = styled.div`
-display:flex;
-justify-content: center;
-align-items: center; 
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export default function JobSearch() {
