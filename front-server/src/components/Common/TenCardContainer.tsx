@@ -57,11 +57,9 @@ const TenCardContainer = ({ items, name, title, description }: TenCardProps) => 
         </TenCardTitleContainer>
 
         <TenCardCardContainer className="Scroll-color">
-          <div style={{ marginBottom: '10px' }}>
-            {items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} />
-            ))}
-          </div>
+          {items.map((item) => (
+            <Card key={item.title} title={item.title} description={item.description} />
+          ))}
         </TenCardCardContainer>
       </TenCardMainContainer>
     </>
