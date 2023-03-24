@@ -6,6 +6,7 @@ import axios from 'axios'
 import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
+import TenCardContainer from '../../components/Common/TenCardContainer'
 
 const items = [
   { title: 'Item 1', description: 'This is the first item' },
@@ -16,6 +17,18 @@ const items = [
   { title: 'Item 6', description: 'This is the fifth item' },
   { title: 'Item 7', description: 'This is the fifth item' },
   { title: 'Item 8', description: 'This is the fifth item' },
+]
+const items2 = [
+  { title: 'Item 1', description: 'This is the first item' },
+  { title: 'Item 2', description: 'This is the second item' },
+  { title: 'Item 3', description: 'This is the third item' },
+  { title: 'Item 4', description: 'This is the fourth item' },
+  { title: 'Item 5', description: 'This is the fifth item' },
+  { title: 'Item 6', description: 'This is the fifth item' },
+  { title: 'Item 7', description: 'This is the fifth item' },
+  { title: 'Item 8', description: 'This is the fifth item' },
+  { title: 'Item 9', description: 'This is the fifth item' },
+  { title: 'Item 10', description: 'This is the fifth item' },
 ]
 function MyProfile() {
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
@@ -66,11 +79,19 @@ function MyProfile() {
         </div>
       </div>
       <div className="Profile-Main-container">
-        <AddInfoNoti2 />
-
-        <div>김현진님과 어울리는 일자리</div>
-        <div>일복에서 추천하는 어울리는 일자리</div>
-        <div>캐러셀</div>
+        <div className="Profile-Extra">
+          <AddInfoNoti2 />
+        </div>
+        <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
+          <div>
+            <TenCardContainer
+              items={items2}
+              name="김유민"
+              title="님과 어울리는 일자리"
+              description="일복(日福)에서 추천하는 어울리는 일자리"
+            />
+          </div>
+        </div>
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>

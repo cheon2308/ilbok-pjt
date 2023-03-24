@@ -1,6 +1,4 @@
 .Profile-Main-container {
-  margin-left: 12vw;
-  margin-right: 12vw;
   margin-top: 50px;
 }
 
@@ -11,6 +9,8 @@
   background-color: red;
 }
 .Profile-Info-container {
+  margin-left: 12vw;
+  margin-right: 12vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,6 +22,12 @@
   justify-content: space-between;
   align-items: center;
 }
+.Profile-Extra {
+  margin-left: 12vw;
+  margin-right: 12vw;
+}
 
 .Profile-Like-container {
+  margin-left: 12vw;
+  margin-right: 12vw;
 }
