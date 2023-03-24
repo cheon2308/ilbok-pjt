@@ -3,11 +3,11 @@ import { styled } from '@mui/material/styles'
 import { ButtonProps } from '@mui/material'
 
 interface BokBtnProps extends ButtonProps {
-  sigwidth: string
-  sigheight: string
-  sigfontsize: string
-  sigborderradius: number
-  sigmargin: string
+  sigwidth?: string
+  sigheight?: string
+  sigfontsize?: string
+  sigborderradius?: number
+  sigmargin?: string
 }
 
 const BokBtn1 = styled(Btn)<BokBtnProps>(
