@@ -17,6 +17,7 @@ const CardContainer = styled.div`
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 0 0 auto;
 `
 
 const CardTitle = styled.h3`
