@@ -11,12 +11,14 @@ const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: white;
   width: 230px;
   height: 230px;
   margin: 15px;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 0 0 auto;
 `
 
 const CardTitle = styled.h3`
