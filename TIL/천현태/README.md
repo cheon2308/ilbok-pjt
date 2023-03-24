@@ -239,3 +239,79 @@
 
 
 --- 
+
+## 03. 23, 03.24
+
+#### 주 내용
+
+- 채용공고 벡터화 시키기
+	- 직종 대분류 - 중분류 - 소분류 - 지역 대분류 - 소분류 - 학력 - 고용 조건 - 최소 학력
+	- npy 파일로 내보내기
+		- csv 파일로 내보낼시 문자열로 저장되어 이후 cos similarity 사용시 int 변환 필요
+
+- 특성 나열한 행렬을 그대로 저장 후, 공고 클릭시 해당 공고와의 유사도 계산 로직
+	- 현재 4천개 정도여서 금방 계산
+
+```python
+
+def similar_job(wanted_job):
+    all_job_List = load_job_matrix()
+    job_job_similar = []
+    for i in range(1, len(all_job_List)):
+        if i != wanted_job:
+            job_job_similar.append((cos_sim(all_job_List[wanted_job], all_job_List[i]), i))
+    job_job_similar.sort(key=lambda x:x[0], reverse=True)
+    similar_job_code = [i[1] for i in job_job_similar[:5]]
+    print(similar_job_code)
+    return job_job_similar[:5]
+```
+
+
+- 이후 데이터가 많아질 것을 대비하여, sklearn cos_similarity 이용하여 해당 공고에 대한 유사도 matrix 자체를 저장해두기
+
+```python
+
+# 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
+
+def job_sort():
+
+    jobMatrix = np.load('jobMatrix.npy')
+
+    # 유사도 비교하여 저장
+
+    calc_sim_job = cosine_similarity(jobMatrix, jobMatrix)
+
+    # 유사도가 큰 순으로 정렬한 인덱스를 추출하되 자기 자신 제외하기
+
+    sorted_index = np.argsort(calc_sim_job)[:, ::-1]
+
+    sorted_index = sorted_index[:, 1:]
+
+    sim_job = []
+
+    # 현재 인덱스 번호이므로 실제 공고 번호로 변경해준 후 저장
+
+    for i in sorted_index:
+
+        sim_job.append(i[:5])
+
+  
+
+    np.save('sim_job_num', sim_job)
+
+    return sim_job
+```
+
+
+- 공고 - 공고간 유사도 끝!
+- 구직자에 대한 행렬의 열 데이터 뽑아내고 유사도 돌리기.
+	- 이 때, '내가 본 공고를 본 다른 구직자'를 한정으로 하기 때문에, 실시간성으로 해야된다.
+
+
+#### 배운 점
+
+- 로직을 어떻게 짜야될지 모를 땐 완전 탐색으로라도 우선 짜기!
+- 이후 개선 방향 생각해보자.
+- 행렬을 만들 때, 유효한 데이터를 잘 뽑아내서, 유사도를 해야 정확한 결과가 나온다.
+- argsort()를 이용하여 인덱스를 뽑아내고, 이를 통해 유사한 공고 번호를 뽑아냈는데, numpy의 경우 1차원 배열밖에 사용할 수 없어서 
+	- 인덱스를 참조할 리스트를 꼭 들고 있어야된다!!

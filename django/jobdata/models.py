@@ -1,6 +1,12 @@
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-# Create your models here.
+
 class ApplyStatus(models.Model):
     code = models.BigAutoField(primary_key=True)
     user = models.ForeignKey('Users', models.DO_NOTHING)
@@ -82,8 +88,9 @@ class AuthUserUserPermissions(models.Model):
 
 class Careers(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)        
+    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
     sub_code = models.ForeignKey('JobSubFamily', models.DO_NOTHING, db_column='sub_code', blank=True, null=True)
+    period = models.IntegerField()
 
     class Meta:
         managed = False
@@ -226,10 +233,12 @@ class Users(models.Model):
     degree_code = models.ForeignKey(Degrees, models.DO_NOTHING, db_column='degree_code', blank=True, null=True)
     city_code = models.ForeignKey(Cities, models.DO_NOTHING, db_column='city_code', blank=True, null=True)
     favorite = models.ForeignKey(JobSubFamily, models.DO_NOTHING, db_column='favorite', blank=True, null=True)
+    kakao_id = models.BigIntegerField()
     email = models.CharField(max_length=45)
-    password = models.CharField(max_length=80)
+    nickname = models.CharField(max_length=80)
     age = models.IntegerField(blank=True, null=True)
     gender = models.IntegerField(blank=True, null=True)
+    profile_image = models.CharField(max_length=550, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -253,7 +262,7 @@ class Wanted(models.Model):
     wanted_info_url = models.CharField(max_length=200, blank=True, null=True)
     reper_name = models.CharField(max_length=100, blank=True, null=True)
     corp_business = models.CharField(max_length=100, blank=True, null=True)
-    corp_business_cont = models.CharField(max_length=100, blank=True, null=True)       
+    corp_business_cont = models.CharField(max_length=100, blank=True, null=True)
     corp_homepage = models.CharField(max_length=150, blank=True, null=True)
     corp_size = models.CharField(max_length=70, blank=True, null=True)
     total_emp = models.IntegerField(blank=True, null=True)
@@ -283,7 +292,7 @@ class Wanted(models.Model):
 
 
 class All_in_one(models.Model):
-    wanted_code = models.ForeignKey('Wanted', models.DO_NOTHING, db_column='wanted_code')
+    wanted_code = models.IntegerField(blank=True, null=True)
     job_family_code = models.IntegerField(blank=True, null=True)
     job_sub_code = models.IntegerField(blank=True, null=True)
     job_code = models.IntegerField(blank=True, null=True)
