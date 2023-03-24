@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../assets/styles/Myprofile/MyProfile.css'
-
+import AddInfoNoti from '../../components/Common/AddInfoNoti'
+import styled from 'styled-components'
 function MyProfile() {
   return (
     <>
@@ -20,7 +21,10 @@ function MyProfile() {
           <div>차트2</div>
         </div>
       </div>
-      <div className="Profile-Main-container Profile-Reco-container">
+      <div className="Profile-Main-container">
+        <Ilbok>
+          <AddInfoNoti />
+        </Ilbok>
         <div>김현진님과 어울리는 일자리</div>
         <div>일복에서 추천하는 어울리는 일자리</div>
         <div>캐러셀</div>
@@ -35,3 +39,6 @@ function MyProfile() {
 }
 
 export default MyProfile
+const Ilbok = styled.div`
+  margin: 0 20vw 0 20vw;
+`
