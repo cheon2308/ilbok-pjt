@@ -11,6 +11,7 @@ const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: white;
   width: 230px;
   height: 230px;
   margin: 15px;

@@ -112,13 +112,23 @@ const CardContainer = styled.div`
   justify-content: center;
 `
 
-const RecentlyJobTitle = styled.div`
+const RecentlyJobTitleContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+`
+
+const RecentlyJobTitleColor = styled.div`
   font-size: 30px;
   font-weight: 700;
   color: #76dcb0;
   margin-bottom: 20px;
 `
-
+const RecentlyJobTitle = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 20px;
+`
 const RecentlyJobSubtitle = styled.div`
   font-size: 20px;
   margin-bottom: 20px;
@@ -145,7 +155,8 @@ interface NameList {
 }
 const MainPage = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
-
+  // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
+  const [testcode, setTestCode] = useState(0)
   const items = [
     { title: 'Item 1', description: 'This is the first item' },
     { title: 'Item 2', description: 'This is the second item' },
@@ -219,11 +230,41 @@ const MainPage = () => {
           </SearchButtonContainer>
         </SearchForms>
       </div>
+      {testcode === 0 ? null : testcode === 1 ? (
+        <Ilbok>
+          <AddInfoNoti2></AddInfoNoti2>
+        </Ilbok>
+      ) : testcode === 2 ? (
+        <Ilbok>
+          <RecentlyJobContainer>
+            <RecentlyJobTitleContainer>
+              <RecentlyJobTitleColor>김유민</RecentlyJobTitleColor>
+              <RecentlyJobTitle>님과 어울리는 일자리</RecentlyJobTitle>
+            </RecentlyJobTitleContainer>
+            <RecentlyJobSubtitle>일복(日福)에서 추천하는 어울리는 일자리</RecentlyJobSubtitle>
+            <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+            <CardContainer>
+              {items.map((item) => (
+                <Card key={item.title} title={item.title} description={item.description} />
+              ))}
+            </CardContainer>
+            {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
+          <CarouselComponent
+            items={items.map((item) => (
+              <Card key={item.title} title={item.title} description={item.description} image={item.image} />
+            ))}
+            activeIndex={activeIndex}
+            onChange={handleItemChange}
+          />
+        </div> */}
+          </RecentlyJobContainer>
+        </Ilbok>
+      ) : null}
 
-      {/* Card */}
+      {/* 최신일자리 */}
       <Ilbok>
         <RecentlyJobContainer>
-          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
+          <RecentlyJobTitleColor>최신 일자리</RecentlyJobTitleColor>
           <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
