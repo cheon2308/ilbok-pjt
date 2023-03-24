@@ -29,8 +29,6 @@ function KakaoLogin() {
         // console.log(res)
         const token = res.headers.authorization
         window.localStorage.setItem('token', token)
-
-        navigate('/')
       })
       .then(() => {
         const token = window.localStorage.getItem('token')
@@ -53,6 +51,9 @@ function KakaoLogin() {
               window.localStorage.setItem('kakaoId', kakaoId)
               window.localStorage.setItem('kakaoNickname', kakaoNickname)
               window.localStorage.setItem('kakaoProfileImg', kakaoProfileImg)
+            })
+            .then(() => {
+              navigate('/')
             })
         } catch (e) {
           console.error(e)
