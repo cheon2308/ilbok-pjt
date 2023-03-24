@@ -261,3 +261,4 @@ const RecentlyJobButton = styled.div`
     cursor: pointer;
   }
 `
+export { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer }
