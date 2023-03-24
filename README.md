@@ -28,7 +28,7 @@
 [저는 정년퇴직을 앞두고 있는 60세 직장인입니다.  퇴직 이후에도 재취업을 해서 경제활동을 하고 싶은데,  나이를 이유로 거절당하지 않을까 걱정됩니다. < 고령자 일자리 < 카드형 생활법령 : 모바일 찾기 쉬운 생활법령](https://m.easylaw.go.kr/MOB/EasyCsmDetailRetrieve.laf?csmSeq=1696&easySeq=2273)
 
 - **잡코리아 기사**
-    
+  
     지난 8월 취업포털 잡코리아가 남녀직장인 532명을 대상으로 ‘노후 일자리 계획’에 대한 설문조사를 실시한 결과, 67.3%가 ‘정년퇴직 이후에도 직장생활을 계속 하고 싶다’고 답했습니다. 또한, 77.3%가 ‘정년 전에 노후까지 계속 일할 수 있는 직장으로 이직할 생각이 있다’고 답했습니다. **고령사회에 진입하면서 많은 직장인들이 퇴직 이전부터 은퇴 후 일자리에 대해 고민하고 있다는 것을 알 수 있는 결과입니다.**
     
 
@@ -89,7 +89,7 @@
             - 북마크
             - 지원하기
             - 페이지 머무른 시간
-            
+    
 - **유저와 어울리는 일자리**
     - Content Based Filtering
         - 유저가 입력한 정보만으로 추천
@@ -139,5 +139,18 @@ https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BK
 ## api 연동 규격서 
 https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BKJro/edit#gid=2112477939
 
+# 1. 메인페이지 
+
+![Main](./README_asset/Main.PNG)
+
+- 검색 페이지에서 다양한 일자리, 복지 검색가능
 
 
+
+![](./README_asset/Main2.PNG)
+
+- 메인페이지 밑 최신 일자리 페이지에서 최근에 게시된 일자리 확인가능
+
+![Login](./README_asset/Login.PNG)
+
+- 소셜 로그인 구현
