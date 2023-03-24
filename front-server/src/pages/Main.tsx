@@ -1,7 +1,6 @@
 import React from 'react'
 import SearchBar from '../components/Common/SearchBar'
 import Card from '../components/Common/Card'
-import CarouselComponent from '../components/Common/Carousel'
 import styled from 'styled-components'
 import mainImage from '../assets/image/mainImage.png'
 import { useState } from 'react'
