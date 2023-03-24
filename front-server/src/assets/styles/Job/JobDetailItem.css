@@ -9,7 +9,6 @@
 }
 
 .title {
-  font-family: 'NanumGothic';
   font-style: normal;
   font-weight: 700;
   font-size: 40px;
@@ -71,7 +70,7 @@
 
 .Category-container > div > .Category-title {
   margin: 40px 0 40px 0;
-  font-family: 'NanumGothic';
+
   font-style: normal;
   font-weight: 600;
   font-size: 22.5px;
