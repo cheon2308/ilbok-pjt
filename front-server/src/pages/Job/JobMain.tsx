@@ -1,10 +1,12 @@
-import React from "react";
+import React from 'react'
+import Footer from '../../components/Common/Footer'
+import JobMainItem from '../../components/Job/JobMainItem'
 
 function JobMain() {
   return (
     <>
-      <div>일자리 페이지</div>
+      <JobMainItem />
     </>
-  );
+  )
 }
-export default JobMain;
+export default JobMain
