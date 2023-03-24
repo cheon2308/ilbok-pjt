@@ -5,11 +5,12 @@ import AddInfo from '../../assets/image/AddInfo.png'
 import { useState } from 'react'
 import LoginModal from '../LoginModal'
 const AddInfoNotiContainer = styled.div`
-  height: 600px;
+  height: 400px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+ 
 `
 
 const AddInfoNotiTitleContainer = styled.div`
