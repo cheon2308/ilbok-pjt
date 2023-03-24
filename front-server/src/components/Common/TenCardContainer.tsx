@@ -35,7 +35,7 @@ const TenCardCardContainer = styled.div`
 `
 
 const TenCardMainContainer = styled.div`
-  margin: 50px 20vw 50px 20vw;
+  margin: 0 20vw 0 20vw;
 `
 
 const TenCardName = styled.span`
