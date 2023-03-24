@@ -10,7 +10,7 @@ import FilterSelect from '../components/Common/FilterSelect'
 import { SlMagnifier } from 'react-icons/sl'
 import AddInfoNoti from '../components/Common/AddInfoNoti'
 import AddInfoNoti2 from '../components/Common/AddInfoNoti2'
-
+import Paging from '../components/Common/Paging'
 interface NameList {
   name: string
 }
@@ -32,6 +32,12 @@ const MainPage = () => {
 
   const handleItemChange = (index: number) => {
     setActiveIndex(index)
+  }
+  const [page, setPage] = useState(1)
+  const [size] = useState(16)
+  const [count, setCount] = useState(100)
+  const handleToPage = (page: number) => {
+    setPage(page)
   }
   const props = [{ name: '일자리' }, { name: '복지' }]
 
@@ -114,6 +120,7 @@ const MainPage = () => {
           </div> */}
         </RecentlyJobContainer>
       </Ilbok>
+      <Paging page={page} count={count} setPage={handleToPage} size={size}></Paging>
       {/* <Ilbok> */}
       {/* <AddInfoNoti2 /> */}
       {/* </Ilbok> */}
