@@ -5,6 +5,7 @@ import JobSearch from './JobSearch'
 import { useState } from 'react'
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../Common/TenCardContainer'
+import Paging from '../Common/Paging'
 
 export default function JobMainItem() {
   const items = [
@@ -41,6 +42,7 @@ export default function JobMainItem() {
       <div className="Main-container">
         <JobSearch />
       </div>
+      {/* <Paging page={1} count={1} setPage={} size={2}></Paging> */}
     </>
   )
 }
