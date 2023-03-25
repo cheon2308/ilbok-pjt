@@ -145,10 +145,14 @@ const RecentlyJobButton = styled.div`
   justify-content: flex-end;
   margin-right: 15px;
 
+  font-weight: 700;
+  color: #76dcb0;
+   
   &:hover {
     cursor: pointer;
   }
 `
+
 
 interface NameList {
   name: string
@@ -156,19 +160,22 @@ interface NameList {
 const MainPage = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
+
+  // 최신일자리 데이터
   const newJobItems = [
     { title: 'Item 1', description: 'This is the first item' },
     { title: 'Item 2', description: 'This is the second item' },
     { title: 'Item 3', description: 'This is the third item' },
     { title: 'Item 4', description: 'This is the fourth item' },
   ]
-
+  // 인기일자리 데이터
   const popularJobItems = [
     { title: 'Item 1', description: 'This is the first item' },
     { title: 'Item 2', description: 'This is the second item' },
     { title: 'Item 3', description: 'This is the third item' },
     { title: 'Item 4', description: 'This is the fourth item' },
   ]
+
   const handleItemChange = (index: number) => {
     setActiveIndex(index)
   }
@@ -228,7 +235,8 @@ const MainPage = () => {
           </SearchButtonContainer>
         </SearchForms>
       </div>
-      {/* 최신일자리 */}
+
+      {/* 일자리 */}
       <Ilbok>
         <RecentlyJobContainer>
           <RecentlyJobTitleColor>인기 일자리</RecentlyJobTitleColor>
