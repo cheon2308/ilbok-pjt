@@ -145,29 +145,35 @@ const RecentlyJobButton = styled.div`
   justify-content: flex-end;
   margin-right: 15px;
 
+  font-weight: 700;
+  color: #76dcb0;
+   
   &:hover {
     cursor: pointer;
   }
 `
+
 
 interface NameList {
   name: string
 }
 const MainPage = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
-  // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
-  const [testcode, setTestCode] = useState(0)
-  const items = [
+
+
+  // 최신일자리 데이터
+  const newJobItems = [
     { title: 'Item 1', description: 'This is the first item' },
     { title: 'Item 2', description: 'This is the second item' },
     { title: 'Item 3', description: 'This is the third item' },
     { title: 'Item 4', description: 'This is the fourth item' },
-    { title: 'Item 5', description: 'This is the fifth item' },
-    { title: 'Item 6', description: 'This is the fifth item' },
-    { title: 'Item 7', description: 'This is the fifth item' },
-    { title: 'Item 8', description: 'This is the fifth item' },
-    // { title: 'Item 9', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=9' },
-    // { title: 'Item 10', description: 'This is the fifth item', image: 'https://picsum.photos/400/200?random=10' },
+  ]
+  // 인기일자리 데이터
+  const popularJobItems = [
+    { title: 'Item 1', description: 'This is the first item' },
+    { title: 'Item 2', description: 'This is the second item' },
+    { title: 'Item 3', description: 'This is the third item' },
+    { title: 'Item 4', description: 'This is the fourth item' },
   ]
 
   const handleItemChange = (index: number) => {
@@ -194,14 +200,13 @@ const MainPage = () => {
           </IlbokMainContainer>
         </IlbokMain>
       </Ilbok>
-
       {/* Search */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '330px',
+          height: '350px',
           textAlign: 'center',
           backgroundColor: '#e7f4ef',
         }}
@@ -230,49 +235,42 @@ const MainPage = () => {
           </SearchButtonContainer>
         </SearchForms>
       </div>
-      {testcode === 0 ? null : testcode === 1 ? (
-        <Ilbok>
-          <AddInfoNoti2></AddInfoNoti2>
-        </Ilbok>
-      ) : testcode === 2 ? (
-        <Ilbok>
-          <RecentlyJobContainer>
-            <RecentlyJobTitleContainer>
-              <RecentlyJobTitleColor>김유민</RecentlyJobTitleColor>
-              <RecentlyJobTitle>님과 어울리는 일자리</RecentlyJobTitle>
-            </RecentlyJobTitleContainer>
-            <RecentlyJobSubtitle>일복(日福)에서 추천하는 어울리는 일자리</RecentlyJobSubtitle>
-            <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
-            <CardContainer>
-              {items.map((item) => (
-                <Card key={item.title} title={item.title} description={item.description} />
-              ))}
-            </CardContainer>
-            {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
-          <CarouselComponent
-            items={items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} image={item.image} />
-            ))}
-            activeIndex={activeIndex}
-            onChange={handleItemChange}
-          />
-        </div> */}
-          </RecentlyJobContainer>
-        </Ilbok>
-      ) : null}
 
-      {/* 최신일자리 */}
+      {/* 일자리 */}
+      <Ilbok>
+        <RecentlyJobContainer>
+          <RecentlyJobTitleColor>인기 일자리</RecentlyJobTitleColor>
+          <RecentlyJobSubtitle>일복(日福)에서 인기있는 일자리 </RecentlyJobSubtitle>
+          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <CardContainer>
+            {popularJobItems.map((item) => (
+              <Card key={item.title} title={item.title} description={item.description} />
+            ))}
+          </CardContainer>
+        </RecentlyJobContainer>
+      </Ilbok>
       <Ilbok>
         <RecentlyJobContainer>
           <RecentlyJobTitleColor>최신 일자리</RecentlyJobTitleColor>
           <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
-            {items.map((item) => (
+            {newJobItems.map((item) => (
               <Card key={item.title} title={item.title} description={item.description} />
             ))}
           </CardContainer>
-          {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
+        </RecentlyJobContainer>
+      </Ilbok>
+    </>
+  )
+}
+
+export default MainPage
+
+export { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer }
+
+{
+  /* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
             <CarouselComponent
               items={items.map((item) => (
                 <Card key={item.title} title={item.title} description={item.description} image={item.image} />
@@ -280,14 +278,5 @@ const MainPage = () => {
               activeIndex={activeIndex}
               onChange={handleItemChange}
             />
-          </div> */}
-        </RecentlyJobContainer>
-      </Ilbok>
-      {/* <Ilbok> */}
-      {/* <AddInfoNoti2 /> */}
-      {/* </Ilbok> */}
-    </>
-  )
+          </div> */
 }
-
-export default MainPage

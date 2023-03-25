@@ -4,6 +4,19 @@ import AddInfoNoti2 from '../../components/Common/AddInfoNoti2'
 import styled from 'styled-components'
 import axios from 'axios'
 import BokBtn1 from '../../components/Common/BokBtn1'
+import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
+import Card from '../../components/Common/Card'
+
+const items = [
+  { title: 'Item 1', description: 'This is the first item' },
+  { title: 'Item 2', description: 'This is the second item' },
+  { title: 'Item 3', description: 'This is the third item' },
+  { title: 'Item 4', description: 'This is the fourth item' },
+  { title: 'Item 5', description: 'This is the fifth item' },
+  { title: 'Item 6', description: 'This is the fifth item' },
+  { title: 'Item 7', description: 'This is the fifth item' },
+  { title: 'Item 8', description: 'This is the fifth item' },
+]
 function MyProfile() {
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
@@ -53,26 +66,30 @@ function MyProfile() {
         </div>
       </div>
       <div className="Profile-Main-container">
-        <Ilbok>
-          <AddInfoNoti2 />
-        </Ilbok>
+        <AddInfoNoti2 />
+
         <div>김현진님과 어울리는 일자리</div>
         <div>일복에서 추천하는 어울리는 일자리</div>
         <div>캐러셀</div>
       </div>
       <div className="Profile-Main-container Profile-Like-container">
-        <div>김현진님이 관심있는 일자리</div>
-        <div>일복이 추천하는 일자리</div>
-        <div>게시판</div>
+        <RecentlyJobContainer>
+          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
+          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
+          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <CardContainer>
+            {items.map((item) => (
+              <Card key={item.title} title={item.title} description={item.description} />
+            ))}
+          </CardContainer>
+        </RecentlyJobContainer>
       </div>
     </>
   )
 }
 
 export default MyProfile
-const Ilbok = styled.div`
-  margin: 0 20vw 0 20vw;
-`
+
 const MyProfileImglogo = styled.img`
   width: 180px;
   height: 180px;
