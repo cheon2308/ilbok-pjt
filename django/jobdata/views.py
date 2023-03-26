@@ -6,8 +6,6 @@ from numpy import dot
 from numpy.linalg import norm
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-import os
-import csv
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Create your views here.
@@ -127,7 +125,7 @@ def load_sim_job(request, wanted_job_num):
 
 # job matrix 들고오기
 def load_job_matrix():
-    reader = np.load('test1.npy')
+    reader = np.load('jobMatrix.npy')
     return reader
 
 
