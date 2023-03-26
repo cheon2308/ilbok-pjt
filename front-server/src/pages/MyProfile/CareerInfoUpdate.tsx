@@ -43,8 +43,8 @@ function CareerInfo() {
   return (
     <div className="Main-container">
       <CareerInfoContainer>
-        <CareerInfoTitle>추가 정보 입력</CareerInfoTitle>
-        <CareerInfoContent>일복(日福)을 통해 맞춤 복지를 추천 받으세요.</CareerInfoContent>
+        <CareerInfoTitle>개인 이력 수정</CareerInfoTitle>
+        <CareerInfoContent></CareerInfoContent>
 
         <CareerInfoLineContainer>
           <CareerInfoCategory>나이</CareerInfoCategory>
