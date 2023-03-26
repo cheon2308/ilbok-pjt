@@ -248,15 +248,7 @@ const MainPage = () => {
                 <Card key={item.title} title={item.title} description={item.description} />
               ))}
             </CardContainer>
-            {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
-          <CarouselComponent
-            items={items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} image={item.image} />
-            ))}
-            activeIndex={activeIndex}
-            onChange={handleItemChange}
-          />
-        </div> */}
+       
           </RecentlyJobContainer>
         </Ilbok>
       ) : null}
@@ -272,20 +264,10 @@ const MainPage = () => {
               <Card key={item.title} title={item.title} description={item.description} />
             ))}
           </CardContainer>
-          {/* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
-            <CarouselComponent
-              items={items.map((item) => (
-                <Card key={item.title} title={item.title} description={item.description} image={item.image} />
-              ))}
-              activeIndex={activeIndex}
-              onChange={handleItemChange}
-            />
-          </div> */}
+          
         </RecentlyJobContainer>
       </Ilbok>
-      {/* <Ilbok> */}
-      {/* <AddInfoNoti2 /> */}
-      {/* </Ilbok> */}
+  
     </>
   )
 }
