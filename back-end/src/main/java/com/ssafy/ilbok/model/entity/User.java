@@ -13,7 +13,7 @@ import java.security.Timestamp;
 @Table(name = "user_master") //(1)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //(2)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_code") //(3)
     private Long userCode;
 

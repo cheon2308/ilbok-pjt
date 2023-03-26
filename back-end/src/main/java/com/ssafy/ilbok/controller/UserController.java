@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController //(1)
+@RestController
 @RequestMapping("/api")
 public class UserController {
 
