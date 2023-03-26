@@ -10,12 +10,17 @@ interface RadioProps {
 
 const RadioBtnContainer = styled.label`
   margin: 0 10px 0 0;
+
+
 `
 const RadioBtnInput = styled.input`
+
 `
 
 const RadioBtn = (props: RadioProps) => {
   return (
+    <>
+
     <RadioBtnContainer>
       <RadioBtnInput
         type="radio"
@@ -23,9 +28,10 @@ const RadioBtn = (props: RadioProps) => {
         name={props.name}
         defaultChecked={props.defaultChecked}
         disabled={props.disabled}
+        
       />
-      {props.value}
-    </RadioBtnContainer>
+      <label>{props.value}</label>
+    </RadioBtnContainer></>
   )
 }
 
