@@ -4,6 +4,9 @@ import BokBtn1 from '../Common/BokBtn1'
 import BokBtn2 from '../Common/BokBtn2'
 import RadioBtn from '../Common/RadioBtn'
 import SearchBar from '../Common/SearchBar'
+import {useState} from 'react'
+import './JobSearch.css'
+import {BiChevronDown, BiChevronUp} from 'react-icons/bi'
 
 const JobSearchMainContainer = styled.div`
   margin: 100px 0 100px 0;
@@ -17,6 +20,9 @@ const JobSearchTitle = styled.div`
 
 const JobSearchTitleContainer = styled.div`
   margin-bottom: 10px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 
 `
 
@@ -36,10 +42,10 @@ const JobSearchContentContainer = styled.div`
 `
 
 const JobSearchCategoryContainer = styled.div`
-  margin: 30px 0 30px 0;
+  margin: 20px 0 20px 0;
   height: 50px;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
 `
 
 const JobSearchBtnContainer = styled.div`
@@ -58,35 +64,55 @@ const JobSearchCategoryTitleContainer = styled.div`
 `
 
 const RadioBtnContainer = styled.div`
-display:flex;
-justify-content: center;
-align-items: center; 
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export default function JobSearch() {
+  const [searchIsOpen, setSearchIsOpen] = useState(true); 
+  const [searchJobIsOpen, setSearchJobIsOpen] = useState(false); 
+  const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false); 
+
+  const searchToggle = () => {
+    setSearchIsOpen(searchIsOpen => !searchIsOpen); 
+}
+const searchJobToggle = () => {
+  setSearchJobIsOpen(searchJobIsOpen => !searchJobIsOpen); 
+}
+
+const searchRegionToggle = () => {
+  setSearchRegionIsOpen(searchRegionIsOpen => !searchRegionIsOpen); 
+}
   return (
     <>
       <JobSearchMainContainer>
         <JobSearchTitleContainer>
+          <div>
           <JobSearchTitle>일자리 검색</JobSearchTitle>
-          <JobSearchSubTitle>일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
+          <JobSearchSubTitle >일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
+          </div>
+          {searchIsOpen === true ?<BiChevronUp  size='40px' color="#76dcb0" onClick={()=>searchToggle()}></BiChevronUp>  :
+          <BiChevronDown size='40px' color="#76dcb0" onClick={()=>searchToggle()}></BiChevronDown>}
         </JobSearchTitleContainer>
-        <JobSearchContentContainer>
+     
+          {searchIsOpen === true ? <div className='JobSearchToggle'>
+        <JobSearchContentContainer >
           <JobSearchCategoryContainer>
             <JobSearchCategoryTitleContainer>직종선택</JobSearchCategoryTitleContainer>
-            <SearchBar
-              width="250px"
-              height="20px"
-              placeholder=""
-              borderwidth="1px"
-              bordercolor="#666666"
-              fontsize="15px"
-              hovercolor="#666666"
-            />
+            <div onClick={()=>searchJobToggle()} ><input style= {{ width:"250px", height:"20px", fontSize:"15px",  padding: "10px 10px 10px 15px" }} disabled></input></div>
+            
           </JobSearchCategoryContainer>
+          {searchJobIsOpen === true ? 
+          <div>직종선택</div>
+          
+          
+          
+          
+          : null}
           <JobSearchCategoryContainer>
             <JobSearchCategoryTitleContainer>지역선택</JobSearchCategoryTitleContainer>
+            <div  onClick={()=>searchRegionToggle()} >
             <SearchBar
               width="250px"
               height="20px"
@@ -95,8 +121,16 @@ export default function JobSearch() {
               bordercolor="#666666"
               fontsize="15px"
               hovercolor="#666666"
-            />
+              
+            /></div>
           </JobSearchCategoryContainer>
+          {searchRegionIsOpen === true ? 
+          <div>지역선택</div>
+          
+          
+          
+          
+          : null}
           <JobSearchCategoryContainer>
             <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
             <RadioBtnContainer>
@@ -152,6 +186,10 @@ export default function JobSearch() {
             초기화
           </BokBtn2>
         </JobSearchBtnContainer>
+        </div> : null}
+
+        
+
       </JobSearchMainContainer>
     </>
   )

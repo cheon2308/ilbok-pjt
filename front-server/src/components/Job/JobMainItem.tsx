@@ -7,10 +7,12 @@ import Card from '../../components/Common/Card'
 import TenCardContainer from '../Common/TenCardContainer'
 import Paging from '../Common/Paging'
 import AddInfoNoti2 from '../Common/AddInfoNoti2'
+import styled from 'styled-components'
+import JobListContainer from '../Common/JobListContainer'
 
 export default function JobMainItem() {
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
-  const [testcode, setTestCode] = useState(2)
+  const [testcode, setTestCode] = useState(0)
 
   // 비슷한 유저들이 관심있는 items
   const items = [
@@ -80,7 +82,36 @@ export default function JobMainItem() {
       <div className="Main-container">
         <JobSearch />
       </div>
-      {/* <Paging page={1} count={1} setPage={} size={2}></Paging> */}
+      <div style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px'}}>
+      <div className="Main-container">
+          <JobMainCategoryContainer>
+            <div style={{flex: '2 1 0', textAlign:'center'}}>기업명</div>
+            <div style={{flex: '4 1 0', textAlign:'center'}}>채용공고명/지원자격</div>
+            <div style={{flex: '2 1 0', textAlign:'center'}} >급여/근무일수</div>
+            <div style={{flex: '2 1 0', textAlign:'center'}} >등록일/마감일</div>
+          
+          </JobMainCategoryContainer>
+          </div>
+
+      </div>
+
+      <div style={{marginTop:'25px', marginBottom:'25px'}}  
+    
+      >
+        <JobListContainer/>
+        
+      </div>
     </>
   )
 }
+
+const JobMainCategoryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  color: #666666;
+
+`
