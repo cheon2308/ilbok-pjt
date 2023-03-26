@@ -64,10 +64,9 @@ const JobSearchCategoryTitleContainer = styled.div`
 `
 
 const RadioBtnContainer = styled.div`
-display:flex;
-justify-content: center;
-align-items: center; 
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export default function JobSearch() {
