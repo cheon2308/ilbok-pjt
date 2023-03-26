@@ -29,7 +29,7 @@ const JobSearchBtnContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 40px;
 `
 const CareerInfoCategory = styled.div`
   margin-top: 30px;
@@ -42,11 +42,13 @@ const CareerInfoCategory = styled.div`
 function CareerInfo() {
   return (
     <div className="Main-container">
+      <div style={{margin:'25px 0 25px 0'}}>
       <CareerInfoContainer>
+        
         <CareerInfoTitle>추가 정보 입력</CareerInfoTitle>
         <CareerInfoContent>일복(日福)을 통해 맞춤 복지를 추천 받으세요.</CareerInfoContent>
-
-        <CareerInfoLineContainer>
+        <div style={{margin:'20px 0 15px 0'}}>
+        <CareerInfoLineContainer> 
           <CareerInfoCategory>나이</CareerInfoCategory>
           <SearchBar
             width="250px"
@@ -109,7 +111,7 @@ function CareerInfo() {
             hovercolor="#666666"
           />
         </CareerInfoLineContainer>
-
+        </div>
         <JobSearchBtnContainer>
           <BokBtn1 sigwidth="150px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="10px">
             완료
@@ -118,7 +120,8 @@ function CareerInfo() {
             취소
           </BokBtn2>
         </JobSearchBtnContainer>
-      </CareerInfoContainer>
+      </CareerInfoContainer> 
+      </div>
     </div>
   )
 }
