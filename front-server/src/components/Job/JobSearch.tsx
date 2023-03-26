@@ -7,7 +7,7 @@ import SearchBar from '../Common/SearchBar'
 import {useState} from 'react'
 import './JobSearch.css'
 import {BiChevronDown, BiChevronUp} from 'react-icons/bi'
-
+import { SlMagnifier } from 'react-icons/sl'
 const JobSearchMainContainer = styled.div`
   margin: 100px 0 100px 0;
 `
@@ -70,6 +70,27 @@ align-items: center;
 
 `
 
+
+const SearchButtonContainer = styled.div`
+  margin: 15px 0 15px 15px;
+`
+
+const SearchButton = styled.button`
+  width: 43px;
+  height: 43px;
+  background-color: #76dcb0;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    background-color:#c6f0de;
+    box-shadow: 0 0 0 1px #c6f0de;
+
+`
+
+const SlMagnifierContainer = styled.div`
+  width: 100%;
+`
+
 export default function JobSearch() {
   const [searchIsOpen, setSearchIsOpen] = useState(true); 
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false); 
@@ -102,7 +123,13 @@ const searchRegionToggle = () => {
           <JobSearchCategoryContainer>
             <JobSearchCategoryTitleContainer>직종선택</JobSearchCategoryTitleContainer>
             <div onClick={()=>searchJobToggle()} ><input style= {{ width:"250px", height:"20px", fontSize:"15px",  padding: "10px 10px 10px 15px" }} disabled></input></div>
-            
+            <SearchButtonContainer>
+            <SearchButton onClick={()=>searchJobToggle()}>
+              <SlMagnifierContainer>
+                <SlMagnifier size="20px" color="white" />
+              </SlMagnifierContainer>
+            </SearchButton>
+          </SearchButtonContainer>
           </JobSearchCategoryContainer>
           {searchJobIsOpen === true ? 
           <div>직종선택</div>
@@ -113,18 +140,18 @@ const searchRegionToggle = () => {
           : null}
           <JobSearchCategoryContainer>
             <JobSearchCategoryTitleContainer>지역선택</JobSearchCategoryTitleContainer>
-            <div  onClick={()=>searchRegionToggle()} >
-            <SearchBar
-              width="250px"
-              height="20px"
-              placeholder=""
-              borderwidth="1px"
-              bordercolor="#666666"
-              fontsize="15px"
-              hovercolor="#666666"
-              
-            /></div>
+   
+            <div onClick={()=>searchRegionToggle()} ><input style= {{ width:"250px", height:"20px", fontSize:"15px",  padding: "10px 10px 10px 15px" }} disabled></input></div>
+            <SearchButtonContainer>
+            <SearchButton onClick={()=>searchRegionToggle()}>
+              <SlMagnifierContainer>
+                <SlMagnifier size="20px" color="white" />
+              </SlMagnifierContainer>
+            </SearchButton>
+          </SearchButtonContainer>
           </JobSearchCategoryContainer>
+
+
           {searchRegionIsOpen === true ? 
           <div>지역선택</div>
           
