@@ -18,20 +18,24 @@ const Ilbok = styled.div`
 `
 
 const IlbokMain = styled.div`
-  height: 500px;
+  height: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 700px) {
+    height: 450px 
+  }
 `
 const IlbokMainContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  height: 400px;
+
   width: 100%;
   @media (max-width: 700px) {
     flex-direction: column;
+ 
   }
 `
 
@@ -48,7 +52,7 @@ const IlbokImgContainer = styled.div`
   }
 `
 const IlbokMainImg = styled.img`
-  width: 250px;
+  width: 200px;
   @media (max-width: 700px) {
     width: 150px;
   }
@@ -68,7 +72,7 @@ const IlbokTitleContainer = styled.div`
   }
 `
 const IlbokMainTitle = styled.div`
-  font-size: 40px;
+  font-size: 35px;
   font-weight: 800;
   color: #76dcb0;
   margin-top: 20px;
@@ -76,13 +80,13 @@ const IlbokMainTitle = styled.div`
   text-align: left;
 
   @media (max-width: 700px) {
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 0px;
     text-align: center;
   }
 `
 const IlbokMainSubtitle = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #666666;
   margin-top: 10px;
@@ -101,8 +105,25 @@ const SearchForms = styled.div`
   flex-flow: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 90%;
   margin: 0 20vw 0 20vw;
+
+  @media (max-width: 700px) {
+    display: none
+  }
+`
+const MobileSearchForms = styled.div`
+
+display: none;
+
+@media (max-width: 700px) {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin: 0 20vw 0 20vw;
+}
 `
 
 const SearchBarContainer = styled.div`
@@ -125,7 +146,12 @@ const SearchButton = styled.button`
   border-radius: 5px;
   &:hover {
     background-color:#c6f0de;
-    box-shadow: 0 0 0 1px #c6f0de;
+    box-shadow: 0 0 0 1px #c6f0de;}
+
+  @media (max-width: 700px) {
+  width: 43px;
+  height: 43px;
+    }
 
 `
 
@@ -154,6 +180,11 @@ const RecentlyJobTitleColor = styled.div`
   font-weight: 700;
   color: #76dcb0;
   margin-bottom: 20px;
+  
+  @media (max-width: 700px) {
+    font-size: 25px;
+  }
+
 `
 const RecentlyJobTitle = styled.div`
   font-size: 20px;
@@ -166,6 +197,10 @@ const RecentlyJobSubtitle = styled.div`
   margin-bottom: 20px;
   font-weight: 400;
   color: #666666;
+
+    @media (max-width: 700px) {
+    font-size: 18px;
+  }
 `
 
 const RecentlyJobContainer = styled.div`
@@ -183,12 +218,23 @@ const RecentlyJobButton = styled.div`
   &:hover {
     cursor: pointer;
   }
+
+  @media (max-width: 700px) {
+    
+    margin-right: 0;
+  }
 `
 const SearchTitle = styled.div`
   text-align: center;
   font-size: 20px;
   font-weight: 700;
   color: #666666;
+  margin-bottom: 20px;
+
+    @media (max-width: 700px) {
+    font-size: 15px;
+    text-align: center;
+  }
 `
 
 const MainPage = () => {
@@ -417,22 +463,25 @@ const MainPage = () => {
           </IlbokMainContainer>
         </IlbokMain>
       </Ilbok>
+
       {/* Search */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '350px',
+          height: '250px',
           textAlign: 'center',
           backgroundColor: '#e7f4ef',
           flexDirection: 'column',
         }}
-      >
+      ><SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
         <SearchForms>
+   
           <FilterSelectContainer>
-            <FilterSelect props={props} width="100%" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
+            <FilterSelect props={props} width="100px" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
           </FilterSelectContainer>
+       
           <SearchBarContainer>
             <SearchBar
               width="95%"
@@ -452,6 +501,33 @@ const MainPage = () => {
             </SearchButton>
           </SearchButtonContainer>
         </SearchForms>
+        
+        {/* Mobile Search */}
+        <MobileSearchForms>
+   
+          {/* <FilterSelectContainer>
+            <FilterSelect props={props} width="100px" height="30px" borderwidth="2px" bordercolor="#76DCB0" />
+          </FilterSelectContainer>
+        */}
+          <SearchBarContainer>
+            <SearchBar
+              width="90%"
+              height="20px"
+              placeholder="검색어를 입력하세요."
+              borderwidth="2px"
+              bordercolor="#76DCB0"
+              fontsize="15px"
+              hovercolor="#c6f0de"
+            />
+          </SearchBarContainer>
+          <SearchButtonContainer>
+            <SearchButton>
+              <SlMagnifierContainer>
+                <SlMagnifier size="20px" color="white" />
+              </SlMagnifierContainer>
+            </SearchButton>
+          </SearchButtonContainer>
+        </MobileSearchForms>
       </div>
 
       {/* 일자리 */}
@@ -474,6 +550,7 @@ const MainPage = () => {
                 regDt={item.regDt}
                 closeDt={item.closeDt}
                 wantedAuthNo={item.wantedAuthNo}
+
               />
             ))}
           </CardContainer>

@@ -5,6 +5,8 @@
   font-size: 15px;
 
   color: #666666;
+
+
 }
 
 .Footer-main-container > div {
@@ -23,4 +25,22 @@
 
 .Footer-content-container {
   margin: 10px 0 0 55px;
+}
+
+@media screen and (max-width: 700px) {
+  .Footer-main-container {
+    font-size: 12px;
+    height: 280px;
+  }
+  .Footer-main-container > div {
+    position: absolute;
+    margin: 50px 5vw 50px 5vw;
+  }
+  .Footer-main-container > div > div > img {
+    width: 120px;
+    opacity: 0.9;
+  }
+  .Footer-content-container {
+    margin: 10px 0 0 50px;
+  }
 }
