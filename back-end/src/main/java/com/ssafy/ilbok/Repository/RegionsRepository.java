@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RegionsRepository extends JpaRepository<Regions, Long> {
+public interface RegionsRepository extends JpaRepository<Regions, Integer> {
     List<Regions> findAll();
 }
