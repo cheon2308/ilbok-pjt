@@ -18,7 +18,14 @@ const CardContainer = styled.div`
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  flex: 0 0 auto;
+  min-height: 230px;
+  flex-basis: 230px;
+  flex-grow: 1;
+
+  @media (max-width: 700px) {
+    min-height: 150px;
+    height: 150px
+  }
 `
 
 const CardTitle = styled.div`
@@ -43,6 +50,7 @@ const CardDescription = styled.div`
 `
 
 export interface JobListItemProps {
+
   wantedAuthNo: string
   company: string
   title: string
