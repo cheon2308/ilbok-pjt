@@ -11,11 +11,12 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "apply_status")
+@Table(name = "regions")
 public class Regions {
     @Id
     @Column(name = "region_code")
     private int regionCode;
 
+    @Column(name="region")
     private String  region;
 }
