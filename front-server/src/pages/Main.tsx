@@ -11,6 +11,10 @@ import AddInfoNoti2 from '../components/Common/AddInfoNoti2'
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
+
+  @media (max-width: 1024px) {
+    margin: 0 5vw 0 5vw;
+  }
 `
 
 const IlbokMain = styled.div`
@@ -26,6 +30,9 @@ const IlbokMainContainer = styled.div`
   flex-direction: row;
   height: 400px;
   width: 100%;
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
 `
 
 const IlbokImgContainer = styled.div`
@@ -35,9 +42,16 @@ const IlbokImgContainer = styled.div`
   width: 50%;
 
   margin-right: 50px;
+  @media (max-width: 700px) {
+    justify-content: center;
+    margin: 50px 0 50px 0;
+  }
 `
 const IlbokMainImg = styled.img`
   width: 250px;
+  @media (max-width: 700px) {
+    width: 150px;
+  }
 `
 
 const IlbokTitleContainer = styled.div`
@@ -48,6 +62,10 @@ const IlbokTitleContainer = styled.div`
   width: 50%;
 
   margin-left: 50px;
+  @media (max-width: 700px) {
+    margin-left: 0px;
+    width: 100%;
+  }
 `
 const IlbokMainTitle = styled.div`
   font-size: 40px;
@@ -56,6 +74,12 @@ const IlbokMainTitle = styled.div`
   margin-top: 20px;
   width: 100%;
   text-align: left;
+
+  @media (max-width: 700px) {
+    font-size: 20px;
+    margin-top: 0px;
+    text-align: center;
+  }
 `
 const IlbokMainSubtitle = styled.span`
   font-size: 20px;
@@ -65,6 +89,11 @@ const IlbokMainSubtitle = styled.span`
   margin-bottom: 5px;
   width: 100%;
   text-align: left;
+
+  @media (max-width: 700px) {
+    font-size: 15px;
+    text-align: center;
+  }
 `
 
 const SearchForms = styled.div`
@@ -110,6 +139,9 @@ const CardContainer = styled.div`
   flex-wrap: wrap;
 
   justify-content: center;
+
+  @media (max-width: 1870px) {
+  }
 `
 
 const RecentlyJobTitleContainer = styled.div`
@@ -147,33 +179,218 @@ const RecentlyJobButton = styled.div`
 
   font-weight: 700;
   color: #76dcb0;
-   
+
   &:hover {
     cursor: pointer;
   }
 `
+const SearchTitle = styled.div`
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #666666;
+`
 
-
-interface NameList {
-  name: string
-}
 const MainPage = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
-
   // 최신일자리 데이터
   const newJobItems = [
-    { title: 'Item 1', description: 'This is the first item' },
-    { title: 'Item 2', description: 'This is the second item' },
-    { title: 'Item 3', description: 'This is the third item' },
-    { title: 'Item 4', description: 'This is the fourth item' },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '(주)코리아환경산업',
+      title: '관저더샵 1차 아파트 외곽구인',
+      salTpNm: '월급 152만원 이상',
+      region: '대전광역시 서구 ',
+      holidayTpNm: '주 5일 근무',
+      minEdubg: '학력무관',
+      career: '관계없음',
+      regDt: '23/03/24',
+      closeDt: '23/03/26',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
   ]
   // 인기일자리 데이터
   const popularJobItems = [
-    { title: 'Item 1', description: 'This is the first item' },
-    { title: 'Item 2', description: 'This is the second item' },
-    { title: 'Item 3', description: 'This is the third item' },
-    { title: 'Item 4', description: 'This is the fourth item' },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '(주)코리아환경산업',
+      title: '관저더샵 1차 아파트 외곽구인 합니다요',
+      salTpNm: '월급 152만원 이상',
+      region: '대전광역시 서구 ',
+      holidayTpNm: '주 5일 근무',
+      minEdubg: '학력무관',
+      career: '관계없음',
+      regDt: '23/03/24',
+      closeDt: '23/03/26',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
+    {
+      wantedAuthNo: '공고 번호',
+      company: '회사 이름',
+      title: '공고 이름',
+      salTpNm: '시급,월급 연봉',
+      region: '지역',
+      holidayTpNm: '근무날짜',
+      minEdubg: '학력',
+      career: '경력',
+      regDt: '등록일',
+      closeDt: '마감일',
+    },
   ]
 
   const handleItemChange = (index: number) => {
@@ -209,6 +426,7 @@ const MainPage = () => {
           height: '350px',
           textAlign: 'center',
           backgroundColor: '#e7f4ef',
+          flexDirection: 'column',
         }}
       >
         <SearchForms>
@@ -244,7 +462,19 @@ const MainPage = () => {
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
             {popularJobItems.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} />
+              <Card
+                key={item.wantedAuthNo}
+                company={item.company}
+                title={item.title}
+                salTpNm={item.salTpNm}
+                region={item.region}
+                holidayTpNm={item.holidayTpNm}
+                minEdubg={item.minEdubg}
+                career={item.career}
+                regDt={item.regDt}
+                closeDt={item.closeDt}
+                wantedAuthNo={item.wantedAuthNo}
+              />
             ))}
           </CardContainer>
         </RecentlyJobContainer>
@@ -256,7 +486,19 @@ const MainPage = () => {
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
             {newJobItems.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} />
+              <Card
+                key={item.wantedAuthNo}
+                company={item.company}
+                title={item.title}
+                salTpNm={item.salTpNm}
+                region={item.region}
+                holidayTpNm={item.holidayTpNm}
+                minEdubg={item.minEdubg}
+                career={item.career}
+                regDt={item.regDt}
+                closeDt={item.closeDt}
+                wantedAuthNo={item.wantedAuthNo}
+              />
             ))}
           </CardContainer>
         </RecentlyJobContainer>
@@ -268,15 +510,3 @@ const MainPage = () => {
 export default MainPage
 
 export { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer }
-
-{
-  /* <div style={{ marginTop: '100px', marginBottom: '100px' }}>
-            <CarouselComponent
-              items={items.map((item) => (
-                <Card key={item.title} title={item.title} description={item.description} image={item.image} />
-              ))}
-              activeIndex={activeIndex}
-              onChange={handleItemChange}
-            />
-          </div> */
-}
