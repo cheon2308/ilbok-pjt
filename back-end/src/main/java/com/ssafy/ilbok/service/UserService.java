@@ -90,6 +90,7 @@ public class UserService {
         KakaoProfile profile = findProfile(token);
 
         User user = userRepository.findByKakaoEmail(profile.getKakao_account().getEmail());
+
         if(user == null) {
             user = User.builder()
                     .kakaoId(profile.getId())
