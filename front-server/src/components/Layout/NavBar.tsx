@@ -34,6 +34,7 @@ const LogoImg = styled.img`
   margin: 0 0 0 10px;
   @media (max-width: 700px) {
     width: 100px;
+    margin: 0 0 0 0;
   }
 `
 const ProfileImglogo = styled.img`
