@@ -10,13 +10,10 @@ import axios from 'axios'
 import { useNavigate } from 'react-router'
 
 const NavbarContainer = styled.nav`
-  diplay: flex;
   align-items: center;
   padding: 5px;
   background-color: #fff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  position: sticky;
   top: 0;
 `
 
