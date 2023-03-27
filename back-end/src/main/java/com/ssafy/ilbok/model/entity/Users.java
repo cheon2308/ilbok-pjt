@@ -17,6 +17,12 @@ public class Users {
     @Column( name = "user_id")
     private Long userId;
 
+    @Column(name = "kakao_id")
+    private Long kakaoId;
+
+    @Column(name = "user_role")
+    private String userRole;
+
     @Column( name = "degree_code")
     private int degreeCode;
 
@@ -25,9 +31,6 @@ public class Users {
 
     @Column(name="favorite")
     private int favorite;
-
-    @Column(name = "kakao_id")
-    private Long kakaoId;
 
     @Column(name = "email")
     private String email;
@@ -49,18 +52,19 @@ public class Users {
     private List<ApplyStatus> applyStatuses;
 
     @Builder
-    public Users(Long user_id, int degree_code, int city_code, int favorite, Long kakao_id,
-                 String email, String nickname, int age, int gender, String profile_image){
-        this.userId = user_id;
-        this.degreeCode = degree_code;
-        this.cityCode = city_code;
+    public Users(Long userId, Long kakaoId, String userRole, int degreeCode,
+                 int cityCode, int favorite, String email, String nickname,
+                 int age, int gender, String profileImage) {
+        this.userId = userId;
+        this.kakaoId = kakaoId;
+        this.userRole = userRole;
+        this.degreeCode = degreeCode;
+        this.cityCode = cityCode;
         this.favorite = favorite;
-        this.kakaoId = kakao_id;
         this.email = email;
         this.nickname = nickname;
         this.age = age;
         this.gender = gender;
-        this.profileImage = profile_image;
+        this.profileImage = profileImage;
     }
-
 }

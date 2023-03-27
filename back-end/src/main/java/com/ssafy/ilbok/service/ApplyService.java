@@ -1,7 +1,6 @@
 package com.ssafy.ilbok.service;
 
 import com.ssafy.ilbok.Repository.ApplyRepository;
-import com.ssafy.ilbok.Repository.UserRepository;
 import com.ssafy.ilbok.Repository.UsersRepository;
 import com.ssafy.ilbok.Repository.WantedRepository;
 import com.ssafy.ilbok.model.dto.UserRelateDto;
