@@ -3,9 +3,12 @@ package com.ssafy.ilbok.service;
 import com.ssafy.ilbok.Repository.ApplyRepository;
 import com.ssafy.ilbok.Repository.UserRepository;
 import com.ssafy.ilbok.Repository.UsersRepository;
+import com.ssafy.ilbok.Repository.WantedRepository;
 import com.ssafy.ilbok.model.dto.UserRelateDto;
 import com.ssafy.ilbok.model.entity.ApplyStatus;
+import com.ssafy.ilbok.model.entity.LikeWanted;
 import com.ssafy.ilbok.model.entity.Users;
+import com.ssafy.ilbok.model.entity.Wanted;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,9 +20,12 @@ public class ApplyService {
     private ApplyRepository applyRepository;
     private UsersRepository usersRepository;
 
-    public ApplyService(ApplyRepository applyRepository, UsersRepository usersRepository){
+    private WantedRepository wantedRepository;
+
+    public ApplyService(ApplyRepository applyRepository, UsersRepository usersRepository, WantedRepository wantedRepository){
         this.applyRepository = applyRepository;
         this.usersRepository = usersRepository;
+        this.wantedRepository = wantedRepository;
     }
 
     public List<UserRelateDto> findApplyStatusByUsers(Long user_id){
@@ -38,6 +44,15 @@ public class ApplyService {
         }
 
         return list;
+    }
+
+    public void clickApply(UserRelateDto dto){
+        ApplyStatus applyStatus = new ApplyStatus();
+        Users users = usersRepository.findByUserId(dto.getUserId());
+        Wanted wanted = wantedRepository.findByWantedCode(dto.getWantedCode());
+        applyStatus.setWanted(wanted);
+        applyStatus.setUsers(users);
+        applyRepository.save(applyStatus);
     }
 
 

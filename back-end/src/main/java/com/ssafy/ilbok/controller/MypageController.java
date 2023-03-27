@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,13 +15,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("myPage/")
-public class ApplyController {
+public class MypageController {
 
     private ApplyService applyService;
     private LikeService likeService;
 
     @Autowired
-    public ApplyController(ApplyService applyService, LikeService likeService){
+    public MypageController(ApplyService applyService, LikeService likeService){
         this.applyService = applyService;
         this.likeService = likeService;
     }
@@ -36,4 +35,7 @@ public class ApplyController {
     public ResponseEntity<List<UserRelateDto>> getUserLikes(@RequestParam Long user_id){
         return new ResponseEntity<>(likeService.findLikeWantedByUsers(user_id), HttpStatus.ACCEPTED);
     }
+
+
+
 }
