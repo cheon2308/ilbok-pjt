@@ -21,24 +21,59 @@ const CardContainer = styled.div`
   flex: 0 0 auto;
 `
 
-const CardTitle = styled.h3`
+const CardTitle = styled.div`
   margin-top: 10px;
+  margin-bottom: 10px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  width: 100%;
 `
 
-const CardDescription = styled.p`
-  margin-top: 10px;
+const CardDescription = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 14px;
   text-align: center;
 `
 
-const Card = ({ title, description }: CardProps) => {
+export interface JobListItemProps {
+  wantedAuthNo: string
+  company: string
+  title: string
+  salTpNm: string
+  region: string
+  holidayTpNm: string
+  minEdubg: string // 최소학력
+  career: string // 경력
+  regDt: string
+  closeDt: string
+}
+
+const Card = ({
+  wantedAuthNo,
+  company,
+  title,
+  salTpNm,
+  region,
+  holidayTpNm,
+  minEdubg,
+  career,
+  regDt,
+  closeDt,
+}: JobListItemProps) => {
   return (
     <CardContainer>
+      <CardDescription>{company}</CardDescription>
       <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
+      <CardDescription>
+        {region} | {closeDt}
+      </CardDescription>
     </CardContainer>
   )
 }
