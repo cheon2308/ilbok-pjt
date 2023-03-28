@@ -4,11 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.ilbok.Repository.UserRepository;
+import com.ssafy.ilbok.Repository.UsersRepository;
 import com.ssafy.ilbok.jwt.JwtProperties;
 import com.ssafy.ilbok.model.dto.KakaoProfile;
 import com.ssafy.ilbok.model.dto.OauthToken;
-import com.ssafy.ilbok.model.entity.User;
+import com.ssafy.ilbok.model.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,19 +23,27 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Service
-public class UserService {
+public class UsersService {
 
     @Autowired
-    UserRepository userRepository;
-    public User getUser(HttpServletRequest request) { //(1)
-        //(2)
-        Long userCode = (Long) request.getAttribute("userCode");
+    private UsersRepository usersRepository;
 
-        //(3)
-        User user = userRepository.findByUserCode(userCode);
+    public UsersService(UsersRepository usersRepository){
+        this.usersRepository = usersRepository;
+    }
+
+    public Users findByUserId(Long user_id){
+        return usersRepository.findByUserId(user_id);
+    }
+
+    public Users getUser(HttpServletRequest request) {
+
+        Long userId = (Long) request.getAttribute("userCode");
+
+        Users users = usersRepository.findByUserId(userId);
 
         //(4)
-        return user;
+        return users;
     }
 
 
@@ -89,38 +97,33 @@ public class UserService {
     public String saveUserAndGetToken(String token) { //(1)
         KakaoProfile profile = findProfile(token);
 
-        User user = userRepository.findByKakaoEmail(profile.getKakao_account().getEmail());
+        Users user = usersRepository.findByEmail(profile.getKakao_account().getEmail());
         if(user == null) {
-            user = User.builder()
+            user = Users.builder()
                     .kakaoId(profile.getId())
-                    .kakaoProfileImg(profile.getKakao_account().getProfile().getProfile_image_url())
-                    .kakaoNickname(profile.getKakao_account().getProfile().getNickname())
-                    .kakaoEmail(profile.getKakao_account().getEmail())
+                    .profileImage(profile.getKakao_account().getProfile().getProfile_image_url())
+                    .nickname(profile.getKakao_account().getProfile().getNickname())
+                    .email(profile.getKakao_account().getEmail())
                     .userRole("ROLE_USER").build();
 
-            userRepository.save(user);
+            usersRepository.save(user);
         }
 
         return createToken(user); //(2)
     }
 
 
-    //(1-1)
     public KakaoProfile findProfile(String token) {
 
-        //(1-2)
         RestTemplate rt = new RestTemplate();
 
-        //(1-3)
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token); //(1-4)
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        //(1-5)
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest =
                 new HttpEntity<>(headers);
 
-        //(1-6)
         // Http 요청 (POST 방식) 후, response 변수에 응답을 받음
         ResponseEntity<String> kakaoProfileResponse = rt.exchange(
                 "https://kapi.kakao.com/v2/user/me",
@@ -141,18 +144,18 @@ public class UserService {
         return kakaoProfile;
     }
 
-    public String createToken(User user) { //(2-1)
+    public String createToken(Users user) { //(2-1)
 
         //(2-2)
         String jwtToken = JWT.create()
 
                 //(2-3)
-                .withSubject(user.getKakaoEmail())
+                .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
 
                 //(2-4)
-                .withClaim("id", user.getUserCode())
-                .withClaim("nickname", user.getKakaoNickname())
+                .withClaim("id", user.getUserId())
+                .withClaim("nickname", user.getNickname())
 
                 //(2-5)
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
