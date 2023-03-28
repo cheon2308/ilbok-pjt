@@ -22,7 +22,7 @@ function KakaoLogin() {
     //     navigate('/')
     //   }
     // }
-    axios(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`, {
+    axios(`http://localhost:8080/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
       .then((res) => {
@@ -33,11 +33,11 @@ function KakaoLogin() {
       .then(() => {
         const token = window.localStorage.getItem('token')
 
+        console.log("찌발");
         try {
-          axios
-            .get('http://localhost:8080/api/me', {
+          axios.get('http://localhost:8080/users/me', {
               headers: {
-                Authorization: token,
+                "Authorization" : token,
               },
             })
             .then((res) => {
