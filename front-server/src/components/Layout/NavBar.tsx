@@ -10,13 +10,10 @@ import axios from 'axios'
 import { useNavigate } from 'react-router'
 
 const NavbarContainer = styled.nav`
-  diplay: flex;
   align-items: center;
   padding: 5px;
   background-color: #fff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  position: sticky;
   top: 0;
 `
 
@@ -32,6 +29,10 @@ const Logo = styled(NavLink)`
 const LogoImg = styled.img`
   width: 150px;
   margin: 0 0 0 10px;
+  @media (max-width: 700px) {
+    width: 100px;
+    margin: 0 0 0 0;
+  }
 `
 const ProfileImglogo = styled.img`
   width: 60px;
@@ -44,11 +45,25 @@ const MenuList = styled.ul`
   list-style: none;
   margin: 0 0 0 80px;
   padding: 0;
+
+  @media (max-width: 700px) {
+  
+    flex-direction: column;
+    margin: 0 0 0 0 ;
+  }
+}
+
 `
 
 const MenuItem = styled.li`
   margin: 0 30px 0 0;
   width: 100px;
+
+  @media (max-width: 700px) {
+    margin: 30px 0 30px 0;
+    text-align: center;
+    width: 100%;
+  }
 `
 
 const NavLinkItem = styled(NavLink)`
@@ -112,25 +127,93 @@ const NavBar = () => {
         })
     }
   }
-
+  const [test, setTest] = useState(false)
   return (
     <NavbarContainer>
       <div className="header-wrap">
         <div className="header-left-wrap">
-          <Logo to="/">
-            <LogoImg className="nav-logo" src={MainLogo} alt="MainLogo" />
-          </Logo>
-          <MenuList>
-            {links.map((link) => (
-              <MenuItem key={link.title}>
-                <NavLinkItem to={link.url} className={({ isActive }) => (isActive ? 'active' : 'not')}>
-                  {link.title}
-                </NavLinkItem>
-              </MenuItem>
-            ))}
-          </MenuList>
+          <div className="WebContainer">
+            <Logo to="/">
+              <LogoImg className="nav-logo" src={MainLogo} alt="MainLogo" />
+            </Logo>
+          </div>
+          <div className="MobileContainer">
+            <Logo to="/">
+              <LogoImg className="nav-logo" src={MainLogo} alt="MainLogo" />
+            </Logo>
+            <div
+              onClick={() => {
+                setTest(!test)
+              }}
+            >
+              button
+            </div>
+          </div>
+          {test === true ? (
+            <div className="Mobile">
+              <div>
+                {window.localStorage.getItem('token') ? (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <ProfileImglogo
+                      src={profileImg}
+                      alt=""
+                      onClick={handleProfileClick}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    <div style={{ marginLeft: '10px' }}>
+                      <span style={{ color: '#76DCB0' }}>{userName}</span>
+                      <span>님 반갑습니다.</span>
+                    </div>
+                    <BokBtn2
+                      sigwidth="125px"
+                      sigheight="50px"
+                      sigfontsize="19px"
+                      sigborderradius={25}
+                      sigmargin="10px"
+                      onClick={logOut}
+                    >
+                      로그아웃
+                    </BokBtn2>
+                  </div>
+                ) : (
+                  <BokBtn2
+                    sigwidth="125px"
+                    sigheight="50px"
+                    sigfontsize="19px"
+                    sigborderradius={25}
+                    sigmargin="10px"
+                    onClick={handleOpen}
+                  >
+                    로그인
+                  </BokBtn2>
+                )}
+              </div>
+
+              <MenuList>
+                {links.map((link) => (
+                  <MenuItem key={link.title}>
+                    <NavLinkItem to={link.url} className={({ isActive }) => (isActive ? 'active' : 'not')}>
+                      {link.title}
+                    </NavLinkItem>
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </div>
+          ) : null}
+
+          <div className="Web">
+            <MenuList>
+              {links.map((link) => (
+                <MenuItem key={link.title}>
+                  <NavLinkItem to={link.url} className={({ isActive }) => (isActive ? 'active' : 'not')}>
+                    {link.title}
+                  </NavLinkItem>
+                </MenuItem>
+              ))}
+            </MenuList>
+          </div>
         </div>
-        <div className="header-right-wrap">
+        <div className="header-right-wrap Web">
           {window.localStorage.getItem('token') ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <ProfileImglogo src={profileImg} alt="" onClick={handleProfileClick} style={{ cursor: 'pointer' }} />
