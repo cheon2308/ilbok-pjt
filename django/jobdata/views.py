@@ -50,11 +50,13 @@ def job_info():
         city_to_region[c[j].code] = c[j].region_code.code
         city_to_index[c[j].code] = j + 1298
 
+
+    ################################################
     # 행렬 만들기
     # 전체 열 개수 1536개 
 
     # len(all_job) 대신 -> wanted_code 최고값 뽑아 주기
-    job_length = Wanted.objects.aggregate(Max('code'))
+    job_length = all_job.aggregate(Max('code'))
 
     jobMatrix = [[0]*1536 for _ in range(job_length['code__max']+1)]
     
@@ -63,23 +65,18 @@ def job_info():
         q = da['wanted_code']
         w = da['job_family_code']
         e = da['job_sub_code']
+        y = da['job_code']
         jobMatrix[q][w] += 1
         jobMatrix[q][sub_to_index[e]] += 1
+        jobMatrix[q][cate_to_index[y]] += 1
     
     
     # 전체 특성에 대해 값 더해주기
+    for job in all_job:       
+        # degree - 행렬 인덱스 매칭  1527 28 29 30
+        # working_day - 행렬 인덱스 매칭  1531 1532 1533
+        # career 요구 - 행렬 인덱스 매칭   1534 35 
 
-    # degree - 행렬 인덱스 매칭
-    #         1527 28 29 30
-
-    # working_day - 행렬 인덱스 매칭
-    #          1531 1532 1533
-    
-    # career 요구 - 행렬 인덱스 매칭
-    #           1534 35
-
-
-    for job in all_job:        
         # 학력
         a = job.degree_code.degree_id
         if a == 0:
@@ -114,6 +111,8 @@ def job_info():
 
         # 지역 소분류
         jobMatrix[job.code][city_to_index[job.city_code.code]] += 1
+        # 지역 대분류
+        jobMatrix[job.code][region_to_index[city_to_region[job.city_code.code]]] += 1
         # 직업 소분류
         jobMatrix[job.code][cate_to_index[job.job_code.code]] += 1
         
@@ -124,21 +123,20 @@ def job_info():
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
 # 이후 sim_job_num 에 상위 5개씩 저장
 def job_sort():
-    jobMatrix = np.load('jobMatrix.npy')
+    jobMatrix = np.load('./data/jobMatrix.npy')
     # 유사도 비교하여 저장
-    print(jobMatrix)
     calc_sim_job = cosine_similarity(jobMatrix, jobMatrix)
     # 유사도가 큰 순으로 정렬한 인덱스를 추출하되 자기 자신 제외하기
-    b = np.sort(calc_sim_job)
+    # b = np.sort(calc_sim_job)
     sorted_index = np.argsort(calc_sim_job)[:, ::-1]
     sorted_index = sorted_index[:, 1:]
     sim_job = []
     # 현재 인덱스 번호이므로 실제 공고 번호로 변경해준 후 저장
     for i in sorted_index:
         sim_job.append(i[:5])
-    np.save('sim_job_num', sim_job)
+    np.save('./data/sim_job_num', sim_job)
     return sim_job
-
+job_sort()
 # api 호출
 # 유사한 공고 파일 호출
 @api_view(['GET'])
@@ -152,7 +150,7 @@ def load_sim_job(request, wanted_job_num):
 
 
 # job matrix 들고오기
-def load_job_matrix():
+def load_job_matrix(request):
     job_info()
     reader = np.load('jobMatrix.npy')
     return reader
