@@ -8,6 +8,7 @@ import com.ssafy.ilbok.service.ClickWantedService;
 import com.ssafy.ilbok.service.LikeService;
 import com.ssafy.ilbok.service.WantedService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,11 @@ public class WantedController {
     @PostMapping(value="clickApply")
     public void clickApply(@RequestBody UserRelateDto userRelateDto){
         applyService.clickApply(userRelateDto);
+    }
+
+    @GetMapping(value = "getAll")
+    public ResponseEntity<Page<Wanted>> getAllWanted(@RequestParam int offset){
+        return new ResponseEntity<>(wantedService.findAll(offset), HttpStatus.ACCEPTED);
     }
 
 }
