@@ -269,6 +269,8 @@ def similar_job(wanted_job):
 
 - 이후 데이터가 많아질 것을 대비하여, sklearn cos_similarity 이용하여 해당 공고에 대한 유사도 matrix 자체를 저장해두기
 
+
+
 ```python
 
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
@@ -315,3 +317,79 @@ def job_sort():
 - 행렬을 만들 때, 유효한 데이터를 잘 뽑아내서, 유사도를 해야 정확한 결과가 나온다.
 - argsort()를 이용하여 인덱스를 뽑아내고, 이를 통해 유사한 공고 번호를 뽑아냈는데, numpy의 경우 1차원 배열밖에 사용할 수 없어서 
 	- 인덱스를 참조할 리스트를 꼭 들고 있어야된다!!
+- cos_similarity를 사용한 이유
+	- jakard의 경우 특성의 종류가 적은 경우 별로 좋지 않았고, 직업 유형에 binary가 아닌 것이 있었기 때문에 사용했습니다.
+- numpy -> dot이 아닌 sklearn cos_similarity 사용한 이유
+	- 공고 데이터는 자주 바뀌지 않으므로 미리 계산해 놓고 dump를 만들어 놓는 것이 효율적이라고 생각했습니다.
+
+
+---
+
+## 03.27, 03.28
+
+#### 주 내용
+
+- jobMatrix의 기존 행렬을 변경해줌으로써 유사도에 정확성을 더 부여해줌
+- 학력, 경력을 각자의 열이 아닌 포함 관계를 통해 가중치를 더해줬습니다.
+	- 학력무관 2~3대졸 4대졸 석사 박사 가 해당 열에 대해서만 1을 주는 것이 아닌
+	- 지원 가능한 하위 항목에도 1을 더해주는 것으로 변경
+	- 즉 5개 -> 4개의 열로 변경 후,
+	- 학력 무관인 경우 1 1 1 1 로 모든 학력에 대해 가중치를 줌
+
+> 학력
+
+```python
+# 학력
+        a = job.degree_code.degree_id
+        if a == 0:
+            jobMatrix[job.code][1527:1531] = [1, 1, 1, 1]       # 학력무관 - 1 1 1 1
+        elif a == 4:
+            jobMatrix[job.code][1527:1531] = [0, 1, 1, 1]       # 대졸 2~3 - 0 1 1 1
+        elif a == 5:
+            jobMatrix[job.code][1527:1531] = [0, 0, 1, 1]       # 대졸 4   - 0 0 1 1
+        elif a == 6:
+            jobMatrix[job.code][1527:1531] = [0, 0, 0, 1]       # 석사     - 0 0 0 1
+        else:
+            jobMatrix[job.code][1527:1531] = [0, 0, 0, 0]       # 박사     - 0 0 0 0
+```
+
+
+> 근무일수
+
+```python
+ # 주 근무 일수
+        working = job.working_day
+        if working == "주6일근무":
+            jobMatrix[job.code][1531] = 1
+        elif working == "주5일근무":
+            jobMatrix[job.code][1532] = 1
+        elif "주 5일 미만":
+            jobMatrix[job.code][1533] = 1
+```
+
+
+
+> 경력
+
+```python
+# 경력
+        car = job.career
+        if car == "관계없음":                                   # 관계없음    1   1
+            jobMatrix[job.code][1535:1537] = [1, 1]
+        elif car == "신입":                                     #  신입       1   0
+            jobMatrix[job.code][1535:1537] = [1, 0]        
+        elif car == "경력":                                     #  경력       0   1
+            jobMatrix[job.code][1535:1537] = [0, 1]
+```
+
+
+- 기존 최대 유사도
+
+	![[assets/Pasted image 20230328162650.png]]
+
+- 변경 후 유사도
+ 
+![[assets/Pasted image 20230328162805.png]]
+
+
+
