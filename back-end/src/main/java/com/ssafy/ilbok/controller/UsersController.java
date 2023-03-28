@@ -30,7 +30,7 @@ public class UsersController {
         return new ResponseEntity<>(usersService.findByUserId(user_id), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/oauth") // (3)
+    @GetMapping("oauth") // (3)
     public ResponseEntity getLogin(@RequestParam("code") String code) { //(4)
         // 넘어온 인가 코드를 통해 access_token 발급 //(5)
         OauthToken oauthToken = usersService.getAccessToken(code);
@@ -44,7 +44,7 @@ public class UsersController {
 
     }
 
-    @GetMapping("/me")
+    @GetMapping("me")
     public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) { //(1)
 
         //(2)
@@ -54,7 +54,7 @@ public class UsersController {
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("/logout")
+    @GetMapping("logout")
     public String logOut(String token) { //(1)
         usersService.logOut(token);
         return "Redirect://";
