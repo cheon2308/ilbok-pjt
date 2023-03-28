@@ -127,5 +127,4 @@ public class Wanted {
     @Column(name = "disable_con")
     private String disableCon;
 
-
 }

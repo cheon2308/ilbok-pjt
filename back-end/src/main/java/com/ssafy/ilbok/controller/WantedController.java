@@ -25,4 +25,6 @@ public class WantedController {
     public ResponseEntity<Wanted> getOneWanted(@RequestParam int wanted_code){
         return new ResponseEntity<>(wantedService.findByCode(wanted_code), HttpStatus.ACCEPTED);
     }
+
+
 }
