@@ -144,23 +144,19 @@ public class UsersService {
         return kakaoProfile;
     }
 
-    public String createToken(Users user) { //(2-1)
+    public String createToken(Users user) {
 
-        //(2-2)
         String jwtToken = JWT.create()
 
-                //(2-3)
                 .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
 
-                //(2-4)
                 .withClaim("id", user.getUserId())
                 .withClaim("nickname", user.getNickname())
 
-                //(2-5)
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
-        return jwtToken; //(2-6)
+        return jwtToken;
     }
 
     public void logOut(String token) {
