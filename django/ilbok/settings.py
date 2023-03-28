@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'jobdata',
+    'userdata',
     'corsheaders',
     'rest_framework',
     'django_db_views',
