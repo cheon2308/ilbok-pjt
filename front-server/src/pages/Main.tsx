@@ -11,8 +11,7 @@ import AddInfoNoti2 from '../components/Common/AddInfoNoti2'
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
-
-  @media (max-width: 1024px) {
+  @media (max-width: 700px) {
     margin: 0 5vw 0 5vw;
   }
 `
@@ -23,7 +22,7 @@ const IlbokMain = styled.div`
   justify-content: center;
   align-items: center;
   @media (max-width: 700px) {
-    height: 450px 
+    height: 450px;
   }
 `
 const IlbokMainContainer = styled.div`
@@ -35,7 +34,6 @@ const IlbokMainContainer = styled.div`
   width: 100%;
   @media (max-width: 700px) {
     flex-direction: column;
- 
   }
 `
 
@@ -109,21 +107,20 @@ const SearchForms = styled.div`
   margin: 0 20vw 0 20vw;
 
   @media (max-width: 700px) {
-    display: none
+    display: none;
   }
 `
 const MobileSearchForms = styled.div`
+  display: none;
 
-display: none;
-
-@media (max-width: 700px) {
-  display: flex;
-  flex-flow: row;
-  align-items: center;
-  justify-content: center;
-  width: 90%;
-  margin: 0 20vw 0 20vw;
-}
+  @media (max-width: 700px) {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 0 20vw 0 20vw;
+  }
 `
 
 const SearchBarContainer = styled.div`
@@ -145,14 +142,14 @@ const SearchButton = styled.button`
   border: none;
   border-radius: 5px;
   &:hover {
-    background-color:#c6f0de;
-    box-shadow: 0 0 0 1px #c6f0de;}
+    background-color: #c6f0de;
+    box-shadow: 0 0 0 1px #c6f0de;
+  }
 
   @media (max-width: 700px) {
-  width: 43px;
-  height: 43px;
-    }
-
+    width: 43px;
+    height: 43px;
+  }
 `
 
 const SlMagnifierContainer = styled.div`
@@ -164,10 +161,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 
-  justify-content: center;
-
-  @media (max-width: 1870px) {
-  }
+  justify-content: flex-start;
 `
 
 const RecentlyJobTitleContainer = styled.div`
@@ -180,11 +174,10 @@ const RecentlyJobTitleColor = styled.div`
   font-weight: 700;
   color: #76dcb0;
   margin-bottom: 20px;
-  
+
   @media (max-width: 700px) {
     font-size: 25px;
   }
-
 `
 const RecentlyJobTitle = styled.div`
   font-size: 20px;
@@ -198,7 +191,7 @@ const RecentlyJobSubtitle = styled.div`
   font-weight: 400;
   color: #666666;
 
-    @media (max-width: 700px) {
+  @media (max-width: 700px) {
     font-size: 18px;
   }
 `
@@ -220,7 +213,6 @@ const RecentlyJobButton = styled.div`
   }
 
   @media (max-width: 700px) {
-    
     margin-right: 0;
   }
 `
@@ -231,7 +223,7 @@ const SearchTitle = styled.div`
   color: #666666;
   margin-bottom: 20px;
 
-    @media (max-width: 700px) {
+  @media (max-width: 700px) {
     font-size: 15px;
     text-align: center;
   }
@@ -475,13 +467,13 @@ const MainPage = () => {
           backgroundColor: '#e7f4ef',
           flexDirection: 'column',
         }}
-      ><SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
+      >
+        <SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
         <SearchForms>
-   
           <FilterSelectContainer>
             <FilterSelect props={props} width="100px" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
           </FilterSelectContainer>
-       
+
           <SearchBarContainer>
             <SearchBar
               width="95%"
@@ -501,10 +493,9 @@ const MainPage = () => {
             </SearchButton>
           </SearchButtonContainer>
         </SearchForms>
-        
+
         {/* Mobile Search */}
         <MobileSearchForms>
-   
           {/* <FilterSelectContainer>
             <FilterSelect props={props} width="100px" height="30px" borderwidth="2px" bordercolor="#76DCB0" />
           </FilterSelectContainer>
@@ -550,7 +541,6 @@ const MainPage = () => {
                 regDt={item.regDt}
                 closeDt={item.closeDt}
                 wantedAuthNo={item.wantedAuthNo}
-
               />
             ))}
           </CardContainer>

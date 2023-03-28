@@ -18,13 +18,27 @@ const CardContainer = styled.div`
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
   min-height: 230px;
   flex-basis: 230px;
   flex-grow: 1;
 
-  @media (max-width: 700px) {
-    min-height: 150px;
-    height: 150px
+  // @media (max-width: 700px) {
+  //   min-height: 150px;
+  //   height: 150px;
+  //   max-width: 150px;
+  //   flex-basis: 150px;
+  //   flex-grow: 1;
+  // }
+  @media (min-width: 1399px) {
+    min-width: 360px;
+  }
+
+  @media (min-width: 1864px) {
+    min-width: 360px;
+  }
+  @media (min-width: 1868px) {
+    min-width: 230px;
   }
 `
 
@@ -50,7 +64,6 @@ const CardDescription = styled.div`
 `
 
 export interface JobListItemProps {
-
   wantedAuthNo: string
   company: string
   title: string
