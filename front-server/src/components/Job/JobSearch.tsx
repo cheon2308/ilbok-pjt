@@ -9,6 +9,7 @@ import './JobSearch.css'
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import { SlMagnifier } from 'react-icons/sl'
 import JobSelect from '../Common/JobSelect'
+import JobSubSelect from '../Common/JobSubSelect'
 const JobSearchMainContainer = styled.div`
   margin: 100px 0 100px 0;
 `
@@ -104,6 +105,23 @@ export default function JobSearch() {
   const searchRegionToggle = () => {
     setSearchRegionIsOpen((searchRegionIsOpen) => !searchRegionIsOpen)
   }
+  const [jobSelectCode, setJobSelectCode] = React.useState('')
+  const [jobSelectName, setJobSelectName] = useState('')
+
+  const jobSelectCodeFunc = React.useCallback(
+    (e: any) => {
+      setJobSelectCode(e)
+    },
+    [jobSelectCode]
+  )
+
+  const jobSelectNameFunc = React.useCallback(
+    (e: any) => {
+      setJobSelectName(e)
+    },
+    [jobSelectName]
+  )
+
   return (
     <>
       <JobSearchMainContainer>
@@ -128,6 +146,7 @@ export default function JobSearch() {
                   <input
                     style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
+                    value={jobSelectName}
                   ></input>
                 </div>
                 <SearchButtonContainer>
@@ -140,9 +159,18 @@ export default function JobSearch() {
               </JobSearchCategoryContainer>
               {searchJobIsOpen === true ? (
                 <>
-                  <div>직종선택</div>
-                  <div>
-                    <JobSelect />
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      textAlign: 'center',
+                      margin: '50px 0 50px 0',
+                      border: '1px solid #D9D9D9',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    <JobSelect jobSelectCodeFunc={jobSelectCodeFunc} jobSelectNameFunc={jobSelectNameFunc} />
+                    <JobSubSelect jobSelectCode={jobSelectCode} />
                   </div>
                 </>
               ) : null}

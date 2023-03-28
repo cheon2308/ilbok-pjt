@@ -1,29 +1,35 @@
 import { useState } from 'react'
 import React from 'react'
-function JobSelect() {
-  const [code, setCode] = useState(0)
+import styled from 'styled-components'
+
+const JobFamilyItem = styled.div`
+  padding: 15px 10px 15px 10px;
+`
+function JobSelect({ jobSelectCodeFunc, jobSelectNameFunc }: any) {
+  const JobFamily = [
+    { jobFamilyCode: '123', name: '서비스업' },
+    { jobFamilyCode: '456', name: '제조업' },
+  ]
+  const [activeTab, setActiveTab] = React.useState('')
   return (
     <>
-      <div>
-        <div>
-          <div
+      <div style={{ width: '50%' }}>
+        {JobFamily.map((item, index) => (
+          <JobFamilyItem
+            key={index}
             onClick={() => {
-              setCode(1)
+              jobSelectCodeFunc(item.jobFamilyCode)
+              jobSelectNameFunc(item.name)
+              setActiveTab(item.jobFamilyCode)
+            }}
+            style={{
+              backgroundColor: activeTab === item.jobFamilyCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
+              color: activeTab === item.jobFamilyCode ? '#ffffff' : '',
             }}
           >
-            IT
-          </div>
-          <div
-            onClick={() => {
-              setCode(2)
-            }}
-          >
-            제조
-          </div>
-        </div>
-        <div>{code === 1 ? <div>개발자</div> : null}</div>
-        <div>{code === 2 ? <div>제조업</div> : null}</div>
-        <div></div>
+            {item.name}
+          </JobFamilyItem>
+        ))}
       </div>
     </>
   )
