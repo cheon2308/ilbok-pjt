@@ -46,7 +46,7 @@ const JobListItem = ({
         <div style={{ flex: '4 1 0' }}>
           <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
           <div>
-            {career} | {minEdubg} | {region}{' '}
+            {career} | {minEdubg} | {region}
           </div>
         </div>
 

@@ -6,11 +6,13 @@ const JobFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
 `
 function JobSelect({ jobSelectCodeFunc, jobSelectNameFunc }: any) {
+  const [activeTab, setActiveTab] = React.useState('')
+
   const JobFamily = [
     { jobFamilyCode: '123', name: '서비스업' },
     { jobFamilyCode: '456', name: '제조업' },
   ]
-  const [activeTab, setActiveTab] = React.useState('')
+
   return (
     <>
       <div style={{ width: '50%' }}>
