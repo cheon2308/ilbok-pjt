@@ -37,14 +37,16 @@
 
 .Line-container > div {
   margin: 12px;
-  width: 82px;
+  width: 100px;
   text-align: right;
   position: relative;
+  font-size: 18px;
 }
 .Line-container > span {
   margin: 12px;
-  width: 200px;
+  width: 100%;
   text-align: left;
+  font-size: 18px;
 }
 
 /* Detail */
@@ -59,6 +61,7 @@
 
 .Job-content {
   margin: 45px 0 45px;
+  font-size: 18px;
 }
 
 .Category-container {
@@ -66,6 +69,7 @@
   flex-direction: row;
   justify-content: space-between;
   text-align: center;
+  font-size: 18px;
 }
 
 .Category-container > div > .Category-title {
