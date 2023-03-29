@@ -22,7 +22,7 @@ function KakaoLogin() {
     //     navigate('/')
     //   }
     // }
-    axios(`jaehojjang.duckdns.org/users/oauth?code=${KAKAO_CODE}`, {
+    axios(`https://jaehojjang.duckdns.org/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
       .then((res) => {
