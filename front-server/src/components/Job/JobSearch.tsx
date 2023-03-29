@@ -8,8 +8,12 @@ import { useState } from 'react'
 import './JobSearch.css'
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import { SlMagnifier } from 'react-icons/sl'
-import JobSelect from '../Common/JobSelect'
-import JobSubSelect from '../Common/JobSubSelect'
+import JobSelect from '../Common/JobSelect/JobSelect'
+import JobSubSelect from '../Common/JobSelect/JobSubSelect'
+import JobSubSelect2 from '../Common/JobSelect/JobSubSelect2'
+import RegionSelect from '../Common/RegionSelect/RegionSelect'
+import CitySelect from '../Common/RegionSelect/CitySelect'
+
 const JobSearchMainContainer = styled.div`
   margin: 100px 0 100px 0;
 `
@@ -18,6 +22,9 @@ const JobSearchTitle = styled.div`
   font-weight: 700;
   color: #76dcb0;
   margin-bottom: 20px;
+  @media (max-width: 700px) {
+    font-size: 25px;
+  }
 `
 
 const JobSearchTitleContainer = styled.div`
@@ -32,6 +39,9 @@ const JobSearchSubTitle = styled.div`
   margin-bottom: 20px;
   font-weight: 400;
   color: #666666;
+  @media (max-width: 700px) {
+    font-size: 18px;
+  }
 `
 
 const JobSearchContentContainer = styled.div`
@@ -94,20 +104,27 @@ export default function JobSearch() {
   const [searchIsOpen, setSearchIsOpen] = useState(true)
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
   const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false)
+  const [jobSelectCode, setJobSelectCode] = useState('')
+  const [jobSelectName, setJobSelectName] = useState('')
+  const [jobSubSelectCode, setJobSubSelectCode] = useState('')
+  const [jobSubSelectName, setJobSubSelectName] = useState('')
+  const [jobSubSelect2Name, setJobSubSelect2Name] = useState('')
+  const [regionSelectCode, setRegionSelectCode] = useState('')
+  const [regionSelectName, setRegionSelectName] = useState('')
+  const [citySelectName, setCitySelectName] = useState('')
 
+  // Toggle
   const searchToggle = () => {
     setSearchIsOpen((searchIsOpen) => !searchIsOpen)
   }
   const searchJobToggle = () => {
     setSearchJobIsOpen((searchJobIsOpen) => !searchJobIsOpen)
   }
-
   const searchRegionToggle = () => {
     setSearchRegionIsOpen((searchRegionIsOpen) => !searchRegionIsOpen)
   }
-  const [jobSelectCode, setJobSelectCode] = React.useState('')
-  const [jobSelectName, setJobSelectName] = useState('')
 
+  // JobSelect
   const jobSelectCodeFunc = React.useCallback(
     (e: any) => {
       setJobSelectCode(e)
@@ -122,19 +139,63 @@ export default function JobSearch() {
     [jobSelectName]
   )
 
+  const jobSubSelectNameFunc = React.useCallback(
+    (e: any) => {
+      setJobSubSelectName(e)
+    },
+    [jobSubSelectName]
+  )
+
+  const jobSubSelectCodeFunc = React.useCallback(
+    (e: any) => {
+      setJobSubSelectCode(e)
+    },
+    [jobSubSelectCode]
+  )
+
+  const jobSubSelect2NameFunc = React.useCallback(
+    (e: any) => {
+      setJobSubSelect2Name(e)
+    },
+    [jobSubSelectName]
+  )
+
+  const regionSelectCodeFunc = React.useCallback(
+    (e: any) => {
+      setRegionSelectCode(e)
+    },
+    [regionSelectCode]
+  )
+
+  const regionSelectNameFunc = React.useCallback(
+    (e: any) => {
+      setRegionSelectName(e)
+    },
+    [regionSelectName]
+  )
+
+  const cityselectNameFunc = React.useCallback(
+    (e: any) => {
+      setCitySelectName(e)
+    },
+    [citySelectName]
+  )
+
   return (
     <>
       <JobSearchMainContainer>
         <JobSearchTitleContainer>
-          <div>
+          <div style={{ flexGrow: '9' }}>
             <JobSearchTitle>일자리 검색</JobSearchTitle>
             <JobSearchSubTitle>일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
           </div>
-          {searchIsOpen === true ? (
-            <BiChevronUp size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronUp>
-          ) : (
-            <BiChevronDown size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronDown>
-          )}
+          <div style={{ flexGrow: '1' }}>
+            {searchIsOpen === true ? (
+              <BiChevronUp size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronUp>
+            ) : (
+              <BiChevronDown size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronDown>
+            )}
+          </div>
         </JobSearchTitleContainer>
 
         {searchIsOpen === true ? (
@@ -144,9 +205,19 @@ export default function JobSearch() {
                 <JobSearchCategoryTitleContainer>직종선택</JobSearchCategoryTitleContainer>
                 <div onClick={() => searchJobToggle()}>
                   <input
-                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
                     value={jobSelectName}
+                  ></input>
+                  <input
+                    style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    disabled
+                    value={jobSubSelectName}
+                  ></input>
+                  <input
+                    style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    disabled
+                    value={jobSubSelect2Name}
                   ></input>
                 </div>
                 <SearchButtonContainer>
@@ -170,7 +241,12 @@ export default function JobSearch() {
                     }}
                   >
                     <JobSelect jobSelectCodeFunc={jobSelectCodeFunc} jobSelectNameFunc={jobSelectNameFunc} />
-                    <JobSubSelect jobSelectCode={jobSelectCode} />
+                    <JobSubSelect
+                      jobSelectCode={jobSelectCode}
+                      jobSubSelectNameFunc={jobSubSelectNameFunc}
+                      jobSubSelectCodeFunc={jobSubSelectCodeFunc}
+                    />
+                    <JobSubSelect2 jobSubSelectCode={jobSubSelectCode} jobSubSelect2NameFunc={jobSubSelect2NameFunc} />
                   </div>
                 </>
               ) : null}
@@ -181,6 +257,12 @@ export default function JobSearch() {
                   <input
                     style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
+                    value={regionSelectName}
+                  ></input>
+                  <input
+                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    disabled
+                    value={citySelectName}
                   ></input>
                 </div>
                 <SearchButtonContainer>
@@ -192,7 +274,24 @@ export default function JobSearch() {
                 </SearchButtonContainer>
               </JobSearchCategoryContainer>
 
-              {searchRegionIsOpen === true ? <div>지역선택</div> : null}
+              {searchRegionIsOpen === true ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    textAlign: 'center',
+                    margin: '50px 0 50px 0',
+                    border: '1px solid #D9D9D9',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <RegionSelect
+                    regionSelectCodeFunc={regionSelectCodeFunc}
+                    regionSelectNameFunc={regionSelectNameFunc}
+                  />
+                  <CitySelect regionSelectCode={regionSelectCode} cityselectNameFunc={cityselectNameFunc} />
+                </div>
+              ) : null}
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
                 <RadioBtnContainer>

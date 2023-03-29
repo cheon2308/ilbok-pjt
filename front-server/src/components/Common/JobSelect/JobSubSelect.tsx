@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const JobSubFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
 `
-function JobSubSelect({ jobSelectCode }: any) {
+function JobSubSelect({ jobSelectCode, jobSubSelectNameFunc, jobSubSelectCodeFunc }: any) {
   const JobSubFamily = [
     { jobSubCode: '3331', jobFamilyCode: '123', name: '레스토랑' },
     { jobSubCode: '3332', jobFamilyCode: '123', name: '카페' },
@@ -27,6 +27,8 @@ function JobSubSelect({ jobSelectCode }: any) {
             key={index}
             onClick={() => {
               setActiveTab(item.jobSubCode)
+              jobSubSelectNameFunc(item.name)
+              jobSubSelectCodeFunc(item.jobSubCode)
             }}
             style={{
               backgroundColor: activeTab === item.jobSubCode ? '#76dcb0' : index % 2 === 0 ? '#ffffff' : '#f2f2f2',
