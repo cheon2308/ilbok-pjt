@@ -14,6 +14,12 @@ const Ilbok = styled.div`
   @media (max-width: 700px) {
     margin: 0 5vw 0 5vw;
   }
+  @media (min-width: 701px) {
+    margin: 0 10vw 0 10vw;
+  }
+  @media (min-width: 950px) {
+    margin: 0 20vw 0 20vw;
+  }
 `
 
 const IlbokMain = styled.div`
