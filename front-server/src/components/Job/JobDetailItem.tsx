@@ -55,7 +55,7 @@ export default function JobDetailItem() {
           <div className="title">{data.title}</div>
           <span> 등록일 : {data.regDate} /</span> <span>마감일 : {data.closeDate}</span>
         </div>
-        <div>
+        <div className="Detail-Button-container">
           <BokBtn1
             sigwidth="150px"
             sigheight="50px"
@@ -111,7 +111,7 @@ export default function JobDetailItem() {
             <div className="Mid-category">복리후생</div>
             <div className="Line-container">
               <div>복리후생</div>
-              <span>데이터</span>
+              <span>{data.etc_welfare}</span>
             </div>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function JobDetailItem() {
           <div className="Mid-category">직무내용</div>
           <span>{data.jobCont}</span>
         </div>
-
+        <hr />
         <div>
           <div className="Category-container">
             <div className="Category-flexgrow-1" id="Category-border">
@@ -178,7 +178,7 @@ export default function JobDetailItem() {
             <div className="Category-flexgrow-1">
               <div className="Category-title">학력</div>
               {/* <div>{data.degreeCode}</div> */}
-              <span>대졸(2~3년)</span>
+              <div>대졸(2~3년)</div>
             </div>
 
             <div className="Category-flexgrow-1">
@@ -233,7 +233,7 @@ export default function JobDetailItem() {
           <hr />
         </div>
 
-        <div className="Category-container" id="condition">
+        <div className="Category-container-1" id="condition">
           <div className="Category-flexgrow-1" id="Category-border">
             <div className="Category-title">근무시간 / 근무형태</div>
             <div>{data.workTime}</div>
@@ -241,7 +241,7 @@ export default function JobDetailItem() {
           </div>
         </div>
 
-        <div className="Category-container" id="condition">
+        <div className="Category-container-1" id="condition">
           <div className="Category-flexgrow-1" id="Category-border">
             <div className="Category-title">임금조건</div>
             <div>{data.salaryType}</div>
@@ -263,7 +263,7 @@ export default function JobDetailItem() {
           <img className="square" src={square} alt="" />
           <hr />
         </div>
-        <div className="Category-container" id="condition">
+        <div className="Category-container-1" id="condition">
           <div className="Category-flexgrow" id="Category-border">
             <div className="Category-title">전공</div>
             <div>{data.major}</div>
