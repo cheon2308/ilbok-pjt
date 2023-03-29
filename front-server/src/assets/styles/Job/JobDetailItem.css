@@ -86,9 +86,8 @@
   margin-bottom: 50px;
 }
 
-.Category-flexgrow {
-  flex-grow: 1.6;
-  width: 100%;
+.Category-flexgrow-1 {
+  flex-grow: 1;
   border-left: 1px solid #ababab;
 }
 

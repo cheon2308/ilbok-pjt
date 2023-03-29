@@ -37,6 +37,17 @@ export default function JobDetailItem() {
     }
   }
   geocoder.addressSearch(address, callback)
+
+  const empTypeData = `${data.empType}`
+  const empTypeArray = empTypeData.split('/ ')
+
+  const workRegionData = `${data.work_region}`
+  const workRegionArray = workRegionData.split(' ')
+
+  const workTimeData = `${data.workTime}`
+  const workTimeDataArray = workTimeData.split(',')
+  console.log(workTimeDataArray)
+
   return (
     <div>
       <div className="Title-container">
@@ -64,7 +75,7 @@ export default function JobDetailItem() {
             <div className="Mid-category">지원자격</div>
             <div className="Line-container">
               <div>경력</div>
-              <span>{data.carrer}</span>
+              <span>{data.career}</span>
             </div>
             <div className="Line-container">
               <div>학력</div>
@@ -76,7 +87,7 @@ export default function JobDetailItem() {
             <div className="Mid-category">근무조건</div>
             <div className="Line-container">
               <div>지역</div>
-              <span>데이터</span>
+              <span>{workRegionArray[2] + ' ' + workRegionArray[3]}</span>
             </div>
             <div className="Line-container">
               <div>임금</div>
@@ -88,11 +99,11 @@ export default function JobDetailItem() {
             <div className="Mid-category">고용형태</div>
             <div className="Line-container">
               <div>고용형태</div>
-              <span>데이터</span>
+              <span>{empTypeArray[0]}</span>
             </div>
             <div className="Line-container">
               <div>근무형태</div>
-              <span>데이터</span>
+              <span>{workTimeDataArray[1]}</span>
             </div>
           </div>
 
@@ -159,22 +170,29 @@ export default function JobDetailItem() {
 
         <div>
           <div className="Category-container">
-            <div className="Category-flexgrow" id="Category-border">
+            <div className="Category-flexgrow-1" id="Category-border">
               <div className="Category-title">경력조건</div>
-              <div>{data.carrer}</div>
+              <div>{data.career}</div>
             </div>
 
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1">
               <div className="Category-title">학력</div>
-              <div>{data.degreeCode}</div>
+              {/* <div>{data.degreeCode}</div> */}
+              <span>대졸(2~3년)</span>
             </div>
 
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1">
               <div className="Category-title">고용형태</div>
-              <div>{data.empType}</div>
+              <div>
+                {empTypeArray.map((item, index) => (
+                  <div style={{ marginBottom: '20px' }} key={index}>
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1">
               <div className="Category-title">모집인원</div>
               <div>{data.applyNum}</div>
             </div>
@@ -182,9 +200,12 @@ export default function JobDetailItem() {
               <div className="Category-title">장애인채용</div>
               <div>{data.corpBusiness}</div>
             </div> */}
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1" style={{ flexGrow: 1 }}>
               <div className="Category-title">근무예정지</div>
-              <div>{data.work_region}</div>
+              <div>
+                <div style={{ marginBottom: '20px' }}>{workRegionArray[2] + ' ' + workRegionArray[3]}</div>
+                <div style={{ color: '#76DCB0', fontWeight: '700' }}>지도보기 ▶</div>
+              </div>
             </div>
           </div>
           {/* <div className='Category-container'>
@@ -206,28 +227,30 @@ export default function JobDetailItem() {
       {/*  */}
       <div className="Detail-container">
         <div className="Big-category">근무조건</div>
+
         <div>
           <img className="square" src={square} alt="" />
           <hr />
         </div>
+
         <div className="Category-container" id="condition">
-          <div className="Category-flexgrow" id="Category-border">
+          <div className="Category-flexgrow-1" id="Category-border">
+            <div className="Category-title">근무시간 / 근무형태</div>
+            <div>{data.workTime}</div>
+            <hr />
+          </div>
+        </div>
+
+        <div className="Category-container" id="condition">
+          <div className="Category-flexgrow-1" id="Category-border">
             <div className="Category-title">임금조건</div>
             <div>{data.salaryType}</div>
           </div>
-          <div className="Category-flexgrow">
-            <div className="Category-title">근무시간</div>
-            <div>{data.workTime}</div>
-          </div>
-          <div className="Category-flexgrow">
-            <div className="Category-title">근무형태</div>
-            <div>{data.corpBusiness}</div>
-          </div>
-          <div className="Category-flexgrow">
+          <div className="Category-flexgrow-1">
             <div className="Category-title">사회보험</div>
             <div>{data.insurance}</div>
           </div>
-          <div className="Category-flexgrow">
+          <div className="Category-flexgrow-1">
             <div className="Category-title">퇴직급여</div>
             <div>{data.retirepay}</div>
           </div>
