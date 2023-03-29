@@ -277,33 +277,21 @@ def similar_job(wanted_job):
 ```python
 
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
-
+# 이후 sim_job_num 에 상위 5개씩 저장
 def job_sort():
-
-    jobMatrix = np.load('jobMatrix.npy')
-
+    jobMatrix = np.load('./data/jobMatrix.npy')
     # 유사도 비교하여 저장
-
     calc_sim_job = cosine_similarity(jobMatrix, jobMatrix)
-
     # 유사도가 큰 순으로 정렬한 인덱스를 추출하되 자기 자신 제외하기
-
+    b = np.sort(calc_sim_job)
     sorted_index = np.argsort(calc_sim_job)[:, ::-1]
-
     sorted_index = sorted_index[:, 1:]
-
     sim_job = []
 
     # 현재 인덱스 번호이므로 실제 공고 번호로 변경해준 후 저장
-
     for i in sorted_index:
-
-        sim_job.append(i[:5])
-
-  
-
-    np.save('sim_job_num', sim_job)
-
+        sim_job.append(i[:30])
+    np.save('./data/sim_job_num', sim_job)
     return sim_job
 ```
 
@@ -343,31 +331,41 @@ def job_sort():
 
 ```python
 # 학력
-        a = job.degree_code.degree_id
-        if a == 0:
-            jobMatrix[job.code][1527:1531] = [1, 1, 1, 1]       # 학력무관 - 1 1 1 1
-        elif a == 4:
-            jobMatrix[job.code][1527:1531] = [0, 1, 1, 1]       # 대졸 2~3 - 0 1 1 1
-        elif a == 5:
-            jobMatrix[job.code][1527:1531] = [0, 0, 1, 1]       # 대졸 4   - 0 0 1 1
-        elif a == 6:
-            jobMatrix[job.code][1527:1531] = [0, 0, 0, 1]       # 석사     - 0 0 0 1
-        else:
-            jobMatrix[job.code][1527:1531] = [0, 0, 0, 0]       # 박사     - 0 0 0 0
+        a = job.degree_code.degree_id
+        if a == 0:
+            jobMatrix[job.wanted_code][1527:1531] = [1, 1, 1, 1]     # 학력무관 - 1 1 1 1
+        elif a == 4:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 1, 1, 1]     # 대졸 2~3 - 0 1 1 1 
+        elif a == 5:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 1, 1]     # 대졸 4   - 0 0 1 1
+        elif a == 6:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 0, 1]     # 석사     - 0 0 0 1
+        else:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 0, 0]     # 박사     - 0 0 0 0
+
 ```
 
 
 > 근무일수
 
 ```python
- # 주 근무 일수
+  
+
+        # 주 근무 일수
+
         working = job.working_day
+
         if working == "주6일근무":
-            jobMatrix[job.code][1531] = 1
+
+            jobMatrix[job.wanted_code][1531] = 1
+
         elif working == "주5일근무":
-            jobMatrix[job.code][1532] = 1
+
+            jobMatrix[job.wanted_code][1532] = 1
+
         elif "주 5일 미만":
-            jobMatrix[job.code][1533] = 1
+
+            jobMatrix[job.wanted_code][1533] = 1
 ```
 
 
@@ -375,17 +373,21 @@ def job_sort():
 > 경력
 
 ```python
-# 경력
+ # 경력
+
         car = job.career
-        if car == "관계없음":                                   
-        # 관계없음    1   1
-            jobMatrix[job.code][1535:1537] = [1, 1]
-        elif car == "신입":                                     
-        #  신입       1   0
-            jobMatrix[job.code][1535:1537] = [1, 0]        
-        elif car == "경력":                                     
-        #  경력       0   1
-            jobMatrix[job.code][1535:1537] = [0, 1]
+
+        if car == "관계없음":                                   # 관계없음    1   1
+
+            jobMatrix[job.wanted_code][1534:1536] = [1, 1]
+
+        elif car == "신입":                                     #  신입       1   0
+
+            jobMatrix[job.wanted_code][1534:1536] = [1, 0]        
+
+        elif car == "경력":                                     #  경력       0   1
+
+            jobMatrix[job.wanted_code][1534:1536] = [0, 1]
 ```
 
 
@@ -417,6 +419,7 @@ def job_sort():
 
 ## 03.28
 
+>django
 - 유저 매트릭스 생성
 	- 직업 대분류 - 중분류 - 지역 - 학력
 	- 경력과 선호하는 공고의 경우 가중치를 달리하여 직업에  + 해주었습니다.
@@ -425,60 +428,77 @@ def job_sort():
 		- 경력의 경우 -> 1년 미만 1점, 3년 이하 2점, 4~ 부터는 3점을 주었습니다.
 - 이후 user-user cos_similarity를 계산하는데
 	- 우선, 모든 이웃에 대해서 구해주었습니다.
-	- 유사도가 비슷하게 나오는 문제가 발생하였고, 나이를 기록하는데 있어 문제가 있다는 것을 알게 되었습니다.
-	- 
+	- 유사도가 비슷하게 나오는 문제가 발생하였고, 나이를 기록하는데 있어 문제가 있어 기록 방식 변경 -> 55 미만, 60미만, 65미만, 65이상
 
 
 - 특성과 데이터 들고와서
 	- 특성당 인덱스 매겨주기
 
 ```python
-all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
 
     # job 코드 변수
+
     js = JobSubFamily.objects.all()
+
     jc = JobCategory.objects.all()
 
     # 지역변수
+
     city = Cities.objects.all()
+
     region = Regions.objects.all()
 
     # 유저경력 변수
+
     career = Careers.objects.all()
+
   
 
     # 직업 중분류 - 행렬 인덱스 매칭
+
     sub_to_index = {}
+
     for i in range(len(js)):
-        sub_to_index[js[i].code] = i+14
+
+        sub_to_index[js[i].job_sub_code] = i+14
+
   
 
     # 지역 - 행렬 인덱스 매칭
+
     city_to_region = {}
+
     city_to_index = {}
+
     region_to_index = {}
 
+  
+
     i = 126
+
     for k in region:
 
-        region_to_index[k.code] = i
+        region_to_index[k.region_code] = i
 
         i += 1
+
     # city - region 매칭
+
     # city - 행렬 인덱스 매칭
+
     for j in range(len(city)):
 
-        city_to_region[city[j].code] = city[j].region_code.code
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
 
-        city_to_index[city[j].code] = j + 144
-```
+        city_to_index[city[j].city_code] = j + 144```
 
 ```python
 # 우선 전체 유저의 수 구하기
 
     user_length = all_user.aggregate(Max('user_id'))
 
-    userMatrix = [[0]*379 for _ in range(user_length['user_id__max']+1)]
+    userMatrix = [[0]*384 for _ in range(user_length['user_id__max']+1)]
 ```
 	
  
@@ -487,19 +507,24 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
 
  # 유저 정보에 대해 matrix에 기록
     for us in all_user:
-        us_num = us['user_id']
-        fav = us['favorite']
-        us_city = us['city_code']
-        deg = us['degree_code']
-        us_age = us['age']
-        us_gen = us['gender']
-  
+        # 이력서 작성한 사람에 한해
+        if us['degree_code']:
+            us_num = us['user_id']
+            fav = us['favorite']
+            us_city = us['city_code']
+            deg = us['degree_code']
+            us_age = us['age']
+            us_gen = us['gender']
+        else:
+            continue
+
         # 유저 관심 직종 +3 해주기
         userMatrix[us_num][sub_to_index[fav]] += 3
   
         # 지역 +1 해주기
         userMatrix[us_num][city_to_index[us_city]] += 1
         userMatrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+
 
         # 학력 기록해주기
         if deg == 0:
@@ -512,18 +537,42 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
             userMatrix[us_num][373:377] = [0,1,1,1]
         elif deg == 7:
             userMatrix[us_num][373:377] = [1,1,1,1]
-            
+
         # 나이 기록해주기
-        userMatrix[us_num][377] = us_age
+        if us_age < 55:        
+            userMatrix[us_num][378] = 1
+        elif 55 <= us_age < 60:
+            userMatrix[us_num][379] = 1
+        elif 60 <= us_age < 65:
+            userMatrix[us_num][380] = 1
+        elif 65 <= us_age:
+            userMatrix[us_num][381] = 1
 
         # 성별 - 남 1 여 2
         if us_gen == 0:
-            userMatrix[us_num][378] = 1
+            userMatrix[us_num][382] = 1
         else:
-            userMatrix[us_num][378] = 2
+            userMatrix[us_num][383] = 1
+
+    # 유저 매트릭스로 저장
+    # np.save('./data/userMatrix', userMatrix)
+    # 유사도로 저장해주기
+    calc_sim_user = cosine_similarity(userMatrix, userMatrix)
+    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+    sorted_index = sorted_index[:, 1:]
+    return
 ```
 
 
+>Front
+
+- useQuery를 사용하기로 결정했습니다. 이유는 아래 몇 가지!
+	- React 어플리케이션 내에서 데이터 패칭, 캐싱, 동기적, 서버의 상태의 업데이트를 좀 더 용이하게 만들어주기 떄문!
+	- 기존에 직접 만들어 사용했던 기능들을 별도 옵션없이 사용가능하며, 수많은 코드 대신 React-Query 로직을 통해 짧은 코드로 대체 가능
+	- 캐싱이 효율적
+	- 백그라운드에서 알아서 오래된 데이터 업데이트
+	- 페이징처리, 지연 로딩 데이터와 같은 성능 최적화
+	- 서버 쪽 데이터를 가비지 컬렉션을 이용하여 자동으로 메모리 관리
 
 #### 배운 점
 
@@ -545,6 +594,40 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
 - 몇몇 table의 column명이 변경되어 있던 db가 있었는데 이전의 데이터를 들고 작업을 해왔습니다.
 	- 따라서, 최신 db로 변경 후 오류 수정해주었습니다.
 	- 대부분, code -> table명_code로 이름을 변경해주었고, 따라서 해당 부분의 코드만 수정해주었습니다.
+- ALS 알고리즘 구현하기 위하여 희소행렬을 CSR_MATRIX 형식으로 변경해주었습니다.
+```PYTHON
+# csr 행렬로 변환해주기
+
+def csr_matrix():
+
+    mat = np.load('./data/user_to_job.npy')
+
+    csr = sparse.csr_matrix(mat)
+
+    # 행렬 사이즈
+
+    matrix_size = csr.shape[0]* csr.shape[1]
+
+    num_active = len(csr.nonzero()[0])
+
+    sparsity = 100 * (1-(num_active/matrix_size))
+
+    return
+
+csr_matrix()
+```
+
+- 다만, 이 때, 희소성은 약 99.5%는 되어야 협업 필터링을 구축할 수 있기 때문에 현재 99.7%를 낮추기 위해서 데이터를 더 만들어주어야 할 것 같습니다.
+- cf 에서는 적절한 행렬 분해를 하기 위해서는 모든 유저/아이템 상호작용 데이터를 사용해야하기 때문에
+	- 모형을 훈련시키는 경우 일정한 확률로 랜덤하게 뽑힌 유저/아이템 상호작용을 숨겨야 한다.
+	- 이후 테스트 단계에서 얼마나 유저가 실제로 추천된 아이템을 구매했는지 파악할 수 있음.
+
+> 훈련데이터
+
+- 랜덤 일정 확률로 유저/아이템 상호작용 몇 개를 가려 고객이 지원하거나, 본 적이 없는 것 처럼 만든다. -> 0으로 만들기
+- 그리고 테스트 데이터는 원본 데이터에서 접근한 이력이 있으면 1, 없으면 0으로 채운 행렬
+- 이런 방식으로 데이터를 세팅하면, 테스트 데이터에서 얼마나 유저가 실제 구매한 아이템이 추천됐는지 파악할 수 있습니다.
+- 만약 유저가 추천된 아이템을 실제 구매한 경우가 많을 경우 추천 시스템이 제대로 작동한다 말할 수 있습니다.
 
 
 > front
@@ -558,6 +641,9 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
 
 - 유저- 유저간 cf를 돌리며 구해놓았던 cos 유사도가 척도가 조금 잘못된 방향이라고 생각하였습니다.
 - 경력, 관심도로 유사도 기준을 줄 수 있지만, CF에서는 아이템에 대한 평가로 결졍되는 것이 좋아보였습니다.
-	- 따라서, 기존의 COS 유사도를 나와 비슷한 유저의 척도로 사용하는 반면, 시간이 남는다면 KNN 알고리즘으로 변경해줄 생각입니다.
-- 아이템 기반의 CF도 고려해볼 수 있을 것 같습니다.
-	- 아이템기반 필터링이 더 빠르고 안정적이기 때문입니다.
+	- 따라서, 기존의 COS 유사도를 나와 비슷한 유저의 척도로 사용하는 반면, 시간이 남는다면 KNN 알고리즘을 고려해볼 수 있을 것 같습니다.ㅣ
+- 또한, ALS 라는 암시적 피드백 데이터를 가지고 할 수 있는 알고리즘을 알게되어 적용해볼 생각입니다.
+- 행렬 분해 - 차원 축소- 를 이용하여 구하며 아래와 같은 핵심을 가진다.
+	- 매우 큰 유저-아이템 행렬로부터
+	- 숨겨진 피처들을 뽑아내서
+	- 이들을 훨씬 작은 유저들의 특징을 담은 행렬과 아이템 특징을 담은 행렬로 분해하는 것
