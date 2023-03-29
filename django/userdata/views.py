@@ -32,7 +32,7 @@ def user_info():
     # 직업 중분류 - 행렬 인덱스 매칭
     sub_to_index = {}
     for i in range(len(js)):
-        sub_to_index[js[i].code] = i+14
+        sub_to_index[js[i].job_sub_code] = i+14
 
     # 지역 - 행렬 인덱스 매칭
     city_to_region = {}
@@ -41,14 +41,15 @@ def user_info():
 
     i = 126
     for k in region:
-        region_to_index[k.code] = i
+        region_to_index[k.region_code] = i
         i += 1
     
     # city - region 매칭
     # city - 행렬 인덱스 매칭
     for j in range(len(city)):
-        city_to_region[city[j].code] = city[j].region_code.code
-        city_to_index[city[j].code] = j + 144
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
+        city_to_index[city[j].city_code] = j + 144
+
 
     #######################################################
     # 행렬만들기
@@ -62,10 +63,9 @@ def user_info():
     # 학력 - 373 4 5 6
     # 나이 - 378 9 380 381
     # 성별 - 382 383
-
     for car in career:
         user_num = car.user_id
-        job_num = car.sub_code.code
+        job_num = car.sub_code.job_sub_code
         # 1년은 +1
         if car.period == 1:
             userMatrix[user_num][sub_to_index[job_num]] += 1
@@ -130,13 +130,39 @@ def user_info():
 
     # 유사도로 저장해주기
     calc_sim_user = cosine_similarity(userMatrix, userMatrix)
-    print(np.sort(calc_sim_user))
     sorted_index = np.argsort(calc_sim_user)[:, ::-1]
     sorted_index = sorted_index[:, 1:]
-
     return
-
-user_info()
 
 def load_user_matrix(user_num):
     return 
+
+
+
+# 유저 -> 채용공고에 평점매기기
+def user_to_job():
+    ap_job = ApplyStatus.objects.all()
+    cl_job = ClickWanted.objects.all()
+    li_job = LikeWanted.objects.all()
+
+    # 우선 전체 유저의 수, 전체 공고의 수 구하기
+    # 행번호 -> 유저 번호, 열 번호 -> 공고 번호
+    user_length = Users.objects.aggregate(Max('user_id'))
+    job_length = Wanted.objects.aggregate(Max('wanted_code'))
+    userMatrix = [[0]*(job_length['wanted_code__max']+1) for _ in range(user_length['user_id__max']+1)]
+
+    # 벡터에 가중치 주기 -> 지원 3점, 클릭 1점, 북마크 2점
+    for a in ap_job:
+        userMatrix[a.user_id][a.wanted_code.wanted_code] += 3
+    
+    for c in cl_job:
+        userMatrix[c.user_id][c.wanted_code.wanted_code] += 1
+    
+    for l in li_job:
+        userMatrix[l.user_id][l.wanted_code.wanted_code] += 2
+    
+    np.save('./data/user_to_job', userMatrix)
+    return
+
+user_to_job()
+
