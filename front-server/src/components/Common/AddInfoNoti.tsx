@@ -10,7 +10,9 @@ const AddInfoNotiContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
- 
+
+  @media (max-width: 700px) {
+  }
 `
 
 const AddInfoNotiTitleContainer = styled.div`
@@ -24,10 +26,13 @@ const AddInfoNotiTitle = styled.div`
   font-size: 20px;
   font-weight: 700;
   color: #666666;
+  @media (max-width: 700px) {
+    font-size: 18px;
+  }
 `
 const AddInfoNotiImgContainer = styled.div`
   width: 50%;
-  display: felx;
+  display: flex;
   justify-content: flex-end;
 `
 
@@ -40,9 +45,38 @@ const AddInfoNotiTitleColor = styled.span`
   font-size: 30px;
   font-weight: 700;
   color: #76dcb0;
+  @media (max-width: 1200px) {
+    font-size: 25px;
+  }
+  @media (max-width: 700px) {
+    font-size: 20px;
+  }
 `
 const AddInfoImg = styled.img`
   width: 350px;
+
+  @media (max-width: 1200px) {
+    width: 300px;
+  }
+  @media (max-width: 1100px) {
+    width: 250px;
+  }
+  @media (max-width: 700px) {
+    width: 200px;
+  }
+  @media (max-width: 520px) {
+    display: none;
+  }
+`
+const ButtonContainer = styled.div`
+  width: 350px;
+  @media (max-width: 1200px) {
+    width: 300px;
+  }
+
+  @media (max-width: 700px) {
+    width: 250px;
+  }
 `
 
 const AddInfoNoti = () => {
@@ -61,16 +95,18 @@ const AddInfoNoti = () => {
             <AddInfoNotiTitleColor>추천 서비스</AddInfoNotiTitleColor>를 이용할 수 있습니다.
           </AddInfoNotiTitle>
         </AddInfoNotiTitleContentContainer>
-        <BokBtn2
-          sigwidth="350px"
-          sigheight="50px"
-          sigfontsize="20px"
-          sigborderradius={25}
-          sigmargin="0px"
-          onClick={handleOpen}
-        >
-          로그인
-        </BokBtn2>
+        <ButtonContainer>
+          <BokBtn2
+            sigwidth="100%"
+            sigheight="50px"
+            sigfontsize="20px"
+            sigborderradius={25}
+            sigmargin="0px"
+            onClick={handleOpen}
+          >
+            로그인
+          </BokBtn2>
+        </ButtonContainer>
       </AddInfoNotiTitleContainer>
       <AddInfoNotiImgContainer>
         <AddInfoImg src={AddInfo} alt="mainImg" />
