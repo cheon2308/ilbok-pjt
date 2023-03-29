@@ -269,6 +269,8 @@ def similar_job(wanted_job):
 
 - 이후 데이터가 많아질 것을 대비하여, sklearn cos_similarity 이용하여 해당 공고에 대한 유사도 matrix 자체를 저장해두기
 
+
+
 ```python
 
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
@@ -315,3 +317,226 @@ def job_sort():
 - 행렬을 만들 때, 유효한 데이터를 잘 뽑아내서, 유사도를 해야 정확한 결과가 나온다.
 - argsort()를 이용하여 인덱스를 뽑아내고, 이를 통해 유사한 공고 번호를 뽑아냈는데, numpy의 경우 1차원 배열밖에 사용할 수 없어서 
 	- 인덱스를 참조할 리스트를 꼭 들고 있어야된다!!
+- cos_similarity를 사용한 이유
+	- jakard의 경우 특성의 종류가 적은 경우 별로 좋지 않았고, 직업 유형에 binary가 아닌 것이 있었기 때문에 사용했습니다.
+- numpy -> dot이 아닌 sklearn cos_similarity 사용한 이유
+	- 공고 데이터는 자주 바뀌지 않으므로 미리 계산해 놓고 dump를 만들어 놓는 것이 효율적이라고 생각했습니다.
+
+
+---
+
+## 03.27, 03.28
+
+#### 주 내용
+
+- jobMatrix의 기존 행렬을 변경해줌으로써 유사도에 정확성을 더 부여해줌
+- 학력, 경력을 각자의 열이 아닌 포함 관계를 통해 가중치를 더해줬습니다.
+	- 학력무관 2~3대졸 4대졸 석사 박사 가 해당 열에 대해서만 1을 주는 것이 아닌
+	- 지원 가능한 하위 항목에도 1을 더해주는 것으로 변경
+	- 즉 5개 -> 4개의 열로 변경 후,
+	- 학력 무관인 경우 1 1 1 1 로 모든 학력에 대해 가중치를 줌
+
+> 학력
+
+```python
+# 학력
+        a = job.degree_code.degree_id
+        if a == 0:
+            jobMatrix[job.code][1527:1531] = [1, 1, 1, 1]       # 학력무관 - 1 1 1 1
+        elif a == 4:
+            jobMatrix[job.code][1527:1531] = [0, 1, 1, 1]       # 대졸 2~3 - 0 1 1 1
+        elif a == 5:
+            jobMatrix[job.code][1527:1531] = [0, 0, 1, 1]       # 대졸 4   - 0 0 1 1
+        elif a == 6:
+            jobMatrix[job.code][1527:1531] = [0, 0, 0, 1]       # 석사     - 0 0 0 1
+        else:
+            jobMatrix[job.code][1527:1531] = [0, 0, 0, 0]       # 박사     - 0 0 0 0
+```
+
+
+> 근무일수
+
+```python
+ # 주 근무 일수
+        working = job.working_day
+        if working == "주6일근무":
+            jobMatrix[job.code][1531] = 1
+        elif working == "주5일근무":
+            jobMatrix[job.code][1532] = 1
+        elif "주 5일 미만":
+            jobMatrix[job.code][1533] = 1
+```
+
+
+
+> 경력
+
+```python
+# 경력
+        car = job.career
+        if car == "관계없음":                                   
+        # 관계없음    1   1
+            jobMatrix[job.code][1535:1537] = [1, 1]
+        elif car == "신입":                                     
+        #  신입       1   0
+            jobMatrix[job.code][1535:1537] = [1, 0]        
+        elif car == "경력":                                     
+        #  경력       0   1
+            jobMatrix[job.code][1535:1537] = [0, 1]
+```
+
+
+- 기존 최대 유사도
+
+	![[assets/Pasted image 20230328162650.png]]
+
+- 변경 후 유사도
+	- 변경 후, 최대 유사도와 최소 유사도가 변경된 것을 볼 수 있습니다.
+ 
+![[assets/Pasted image 20230328162805.png]]
+
+
+
+- 또한 지역 대분류에 대한 가중치가 빠져있어서 추가해주었습니다.
+
+![[천현태/assets/Pasted image 20230328233503.png]]
+
+
+#### 배운 점
+
+- matrix를 만들며 모든 열을 생성하지 않았다면, 개선의 여지가 없었을 수도 있다고 생각합니다.
+- 최대한 비슷한 항목을 생각했고, 경력 및 지역의 경우 범주형 카테고리이기 때문에 자카드 유사도를 사용하려고 하였지만
+	- 학력과 경력유무의 경우 상위 - 하위 관계를 확실히 할 수 있었기 때문에 가중치를 주고 비교하였습니다.
+	- 확실히 가중치과 포함관계가 들어가니 더욱 정확한 유사도가 나오는 것을 볼 수 있었습니다.
+- 처음 설계의 중요성에 대해 배울 수 있었습니다.
+	- 모든 특성에 대해 상세히 고려하지 않으니 중간중간 코드바꾸는 것이 힘들었습니다 ㅠ...
+
+---
+
+## 03.29
+
+- 유저 매트릭스 생성
+	- 직업 대분류 - 중분류 - 지역 - 학력
+	- 경력과 선호하는 공고의 경우 가중치를 달리하여 직업에  + 해주었습니다.
+	- 유저-유저 간 유사도는 관심있는 공고에 가중치를 많이 두기로 하여
+		- 선호 공고 -> +3
+		- 경력의 경우 -> 1년 미만 1점, 3년 이하 2점, 4~ 부터는 3점을 주었습니다.
+- 이후 user-user cos_similarity를 계산하는데
+	- 우선, 모든 이웃에 대해서 구해주었습니다.
+	- 유사도가 비슷하게 나오는 문제가 발생하였고, 나이를 기록하는데 있어 문제가 있다는 것을 알게 되었습니다.
+	- 
+
+
+- 특성과 데이터 들고와서
+	- 특성당 인덱스 매겨주기
+
+```python
+all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+
+    # job 코드 변수
+    js = JobSubFamily.objects.all()
+    jc = JobCategory.objects.all()
+
+    # 지역변수
+    city = Cities.objects.all()
+    region = Regions.objects.all()
+
+    # 유저경력 변수
+    career = Careers.objects.all()
+  
+
+    # 직업 중분류 - 행렬 인덱스 매칭
+    sub_to_index = {}
+    for i in range(len(js)):
+        sub_to_index[js[i].code] = i+14
+  
+
+    # 지역 - 행렬 인덱스 매칭
+    city_to_region = {}
+    city_to_index = {}
+    region_to_index = {}
+
+    i = 126
+    for k in region:
+
+        region_to_index[k.code] = i
+
+        i += 1
+    # city - region 매칭
+    # city - 행렬 인덱스 매칭
+    for j in range(len(city)):
+
+        city_to_region[city[j].code] = city[j].region_code.code
+
+        city_to_index[city[j].code] = j + 144
+```
+
+```python
+# 우선 전체 유저의 수 구하기
+
+    user_length = all_user.aggregate(Max('user_id'))
+
+    userMatrix = [[0]*379 for _ in range(user_length['user_id__max']+1)]
+```
+	
+ 
+- 정해진 가중치에 따라 matrix에 기록
+```python
+
+ # 유저 정보에 대해 matrix에 기록
+    for us in all_user:
+        us_num = us['user_id']
+        fav = us['favorite']
+        us_city = us['city_code']
+        deg = us['degree_code']
+        us_age = us['age']
+        us_gen = us['gender']
+  
+        # 유저 관심 직종 +3 해주기
+        userMatrix[us_num][sub_to_index[fav]] += 3
+  
+        # 지역 +1 해주기
+        userMatrix[us_num][city_to_index[us_city]] += 1
+        userMatrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+
+        # 학력 기록해주기
+        if deg == 0:
+            userMatrix[us_num][373:377] = [0,0,0,0]
+        elif deg == 4:
+            userMatrix[us_num][373:377] = [0,0,0,1]
+        elif deg == 5:
+            userMatrix[us_num][373:377] = [0,0,1,1]
+        elif deg == 6:
+            userMatrix[us_num][373:377] = [0,1,1,1]
+        elif deg == 7:
+            userMatrix[us_num][373:377] = [1,1,1,1]
+            
+        # 나이 기록해주기
+        userMatrix[us_num][377] = us_age
+
+        # 성별 - 남 1 여 2
+        if us_gen == 0:
+            userMatrix[us_num][378] = 1
+        else:
+            userMatrix[us_num][378] = 2
+```
+
+
+
+#### 배운 점
+
+- 유사도가 전부 0.98이상으로 나와 별 차이가 없었습니다.
+	- 이유를 찾으니 age가 50~ 이상으로 숫자로 기록해주었고 각도기반의 cosine 유사도에서는 좋지않게 작용한다는 것을 알게 되었습니다.
+	- 따라서, 각 age에 대해 열을 만들어 주거나, 범위를 정하여 0 과 1 로 표현해주는 것이 좋을 것 같습니다
+- 성별도 비슷하여, 남 여로 열 구분해주었습니다.
+
+
+#### 질문
+
+- return 리스트 
+- 차원이 많아지는 것이 좋나, 아니면 가중치를 높이는 것이 좋을까?
+- 차원이 많아지는 것이 좋다면, 직종당 2개씩?
+											- 경력 + 선호
+- 유사도가 너무 높다; 
+			- 이유 찾음
+			- 나이가 많이 때문에 1, 2, 3, 4 정도로 구분해주는 것이 좋을 것 같다.
