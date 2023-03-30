@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class LikeWanted {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long code;
 
     @ManyToOne(fetch = FetchType.LAZY)

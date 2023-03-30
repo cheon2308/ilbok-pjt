@@ -48,7 +48,9 @@ export default function ApplyModal({ open, close, data }: Props) {
               </div>
               <div className="Modal-line-container">
                 <div className="Mid-category Modal-flexgrow1">제출서류</div>
-                <div className="Modal-flexgrow2">{data.document}</div>
+                <div className="Modal-flexgrow2" style={{ lineHeight: '1.8' }}>
+                  {data.document}
+                </div>
               </div>
               <div className="Modal-line-container Button-container">
                 <div>
