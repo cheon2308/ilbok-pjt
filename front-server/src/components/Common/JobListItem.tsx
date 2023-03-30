@@ -12,6 +12,10 @@ export interface JobListItemProps {
   career: string // 경력
   regDt: string
   closeDt: string
+  degreeCode: any
+  workingDay: string
+  salary: string
+  salaryType: string
 }
 
 const JobListItemContainer = styled.div`
@@ -37,7 +41,13 @@ const JobListItem = ({
   career,
   regDt,
   closeDt,
+  degreeCode,
+  workingDay,
+  salary,
+  salaryType,
 }: JobListItemProps) => {
+  const workRegionData = `${region}`
+  const workRegionArray = workRegionData.split(' ')
   return (
     <>
       <JobListItemContainer>
@@ -46,13 +56,15 @@ const JobListItem = ({
         <div style={{ flex: '4 1 0' }}>
           <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
           <div>
-            {career} | {minEdubg} | {region}
+            {career} | {degreeCode.degree} | {workRegionArray[2] + ' ' + workRegionArray[3]}
           </div>
         </div>
 
         <div style={{ flex: '2 1 0' }}>
-          <div style={{ marginBottom: '10px' }}>{salTpNm}</div>
-          <div>{holidayTpNm}</div>
+          <div style={{ marginBottom: '10px' }}>
+            {salaryType} | {salary}
+          </div>
+          <div>{workingDay}</div>
         </div>
 
         <div style={{ flex: '2 1 0', textAlign: 'center' }}>
