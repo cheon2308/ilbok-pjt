@@ -9,7 +9,7 @@ function KakaoLogin() {
   const navigate = useNavigate()
   const KAKAO_CODE = location.search.split('=')[1]
   const getKakaoToken = async () => {
-    const res = await axios(`http://localhost:8080/users/oauth?code=${KAKAO_CODE}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
     const token = res.headers.authorization
