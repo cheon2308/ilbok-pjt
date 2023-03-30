@@ -16,10 +16,8 @@
     "noEmitOnError": false,
     "jsx": "react-jsx",
     "watch": true,
-    "types": [
-      "kakao.maps.d.ts"
-    ],
+    "types": ["kakao.maps.d.ts"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "setupProxy.ts"],
   "exclude": ["node_modules"]
 }
