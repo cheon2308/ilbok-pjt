@@ -33,6 +33,7 @@
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.1",
+    "react-spinners": "^0.13.8",
     "recoil": "^0.7.7",
     "require": "^2.4.20",
     "styled-components": "^5.3.8",

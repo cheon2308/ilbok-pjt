@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CitiesRepository extends JpaRepository<Cities, Long> {
+public interface CitiesRepository extends JpaRepository<Cities, Integer> {
     List<Cities> findByRegionCode(int regionCode);
 }

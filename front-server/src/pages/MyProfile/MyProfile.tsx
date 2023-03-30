@@ -7,129 +7,9 @@ import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
+import { useNavigate } from 'react-router'
+import JobListContainer from '../../components/Common/JobListContainer'
 
-const items = [
-  {
-    wantedAuthNo: '공고 번호',
-    company: '(주)코리아환경산업',
-    title: '관저더샵 1차 아파트 외곽구인',
-    salTpNm: '월급 152만원 이상',
-    region: '대전광역시 서구 ',
-    holidayTpNm: '주 5일 근무',
-    minEdubg: '학력무관',
-    career: '관계없음',
-    regDt: '23/03/24',
-    closeDt: '23/03/26',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-]
 const items2 = [
   { title: 'Item 1', description: 'This is the first item' },
   { title: 'Item 2', description: 'This is the second item' },
@@ -143,10 +23,19 @@ const items2 = [
   { title: 'Item 10', description: 'This is the fifth item' },
 ]
 function MyProfile() {
+  const navigate = useNavigate()
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
   const [kakaoProfileImg, setkakaoProfileImg] = useState<string>('')
+  const abc = () => {
+    axios.get(process.env.REACT_APP_SERVER_URL + `/wanted/getOne?wanted_code=1`).then((res) => {
+      console.log(res)
+    })
+  }
+  const handleCareerClick = () => {
+    navigate('/careerinfo')
+  }
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
@@ -174,16 +63,21 @@ function MyProfile() {
       <div className="Profile-Main-container">
         <div className="Profile-Info-container">
           <div className="Profile-Profile-container">
+            <button onClick={abc}></button>
             <MyProfileImglogo src={kakaoProfileImg} alt="" />
             <div style={{ fontSize: '40px', marginLeft: '40px ' }}>
               안녕하세요, <span style={{ color: '#76DCB0' }}>{kakaoNickname}</span>님
             </div>
           </div>
           <div>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
-              개인정보수정
-            </BokBtn1>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
+            <BokBtn1
+              sigwidth="300px"
+              sigheight="50px"
+              sigfontsize="20px"
+              sigborderradius={25}
+              sigmargin="20px"
+              onClick={handleCareerClick}
+            >
               개인이력수정
             </BokBtn1>
           </div>
@@ -201,7 +95,7 @@ function MyProfile() {
           <div>
             <TenCardContainer
               items={items2}
-              name="김유민"
+              name={kakaoNickname}
               title="님과 어울리는 일자리"
               description="일복(日福)에서 추천하는 어울리는 일자리"
             />
@@ -209,29 +103,12 @@ function MyProfile() {
         </div>
       </div>
       <div className="Profile-Main-container Profile-Like-container">
-        <RecentlyJobContainer>
-          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
-          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
-          <CardContainer>
-            {items.map((item) => (
-              <Card
-                key={item.wantedAuthNo}
-                company={item.company}
-                title={item.title}
-                salTpNm={item.salTpNm}
-                region={item.region}
-                holidayTpNm={item.holidayTpNm}
-                minEdubg={item.minEdubg}
-                career={item.career}
-                regDt={item.regDt}
-                closeDt={item.closeDt}
-                wantedAuthNo={item.wantedAuthNo}
-              />
-            ))}
-          </CardContainer>
-        </RecentlyJobContainer>
+        <RecentlyJobTitle>
+          <span style={{ color: '#76DCB0' }}>{kakaoNickname}</span>님이 관심있는 일자리
+        </RecentlyJobTitle>
+        <RecentlyJobSubtitle style={{ marginBottom: '40px' }}>일복이 추천하는 일자리 </RecentlyJobSubtitle>
       </div>
+      <JobListContainer />
     </>
   )
 }
