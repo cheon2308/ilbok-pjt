@@ -12,7 +12,6 @@ function KakaoLogin() {
     const res = await axios(`http://localhost:8080/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
-    console.log(res.headers.authorization)
     const token = res.headers.authorization
     window.localStorage.setItem('token', token)
 
