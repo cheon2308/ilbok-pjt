@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { BASE_URL } from './KakaoLoginData'
 
-const BASE_URL = process.env.REACT_APP_API_URL
+
 
 // url 호출 시 기본 값 셋팅
 const axiosApi = (baseURL: any) => {
@@ -10,7 +11,7 @@ const axiosApi = (baseURL: any) => {
   })
   return instance
 }
-export const defaultInstance = axiosApi(BASE_URL)
+export const defaultInstance = axiosApi(BASE_URL) 
 
 const api = axios.create({
   headers: { 'Content-type': 'application/json' }, // data type
