@@ -1,70 +1,46 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router'
-import { REST_API_KEY, REDIRECT_URI } from '../api/KakaoLoginData'
+import { useQuery } from '@tanstack/react-query'
+import { KakaoUsertype } from '../types/KakaoUsertype'
+
 function KakaoLogin() {
   const location = useLocation()
   const navigate = useNavigate()
   const KAKAO_CODE = location.search.split('=')[1]
-
-  const getKAkaoToken = () => {
-    // const KAKAO_AUTH_URL = `http://localhost:8080/oauth2/authorization/kakao`
-    console.log('시작')
-    // ;async () => {
-    //   try {
-    //     console.log(KAKAO_CODE)
-    //     const res = await axios.get(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`)
-    //     const token = res.headers.authorization
-    //     window.localStorage.setItem('token', token)
-    //     navigate('/')
-    //   } catch (e) {
-    //     console.error(e)
-    //     navigate('/')
-    //   }
-    // }
-    axios(`http://localhost:8080/users/oauth?code=${KAKAO_CODE}`, {
+  const getKakaoToken = async () => {
+    const res = await axios(`http://localhost:8080/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
-      .then((res) => {
-        // console.log(res)
-        const token = res.headers.authorization
-        window.localStorage.setItem('token', token)
-      })
-      .then(() => {
-        const token = window.localStorage.getItem('token')
+    console.log(res.headers.authorization)
+    const token = res.headers.authorization
+    window.localStorage.setItem('token', token)
 
-        try {
-          axios
-            .get('http://localhost:8080/users/me', {
-              headers: {
-                Authorization: token,
-              },
-            })
-            .then((res) => {
-              console.log(res)
-              const email = res.data.email
-              const kakaoId = res.data.kakaoId
-              const nickname = res.data.nickname
-              const profileImage = res.data.profileImage
-
-              window.localStorage.setItem('email', email)
-              window.localStorage.setItem('kakaoId', kakaoId)
-              window.localStorage.setItem('nickname', nickname)
-              window.localStorage.setItem('profileImage', profileImage)
-            })
-            .then(() => {
-              navigate('/')
-            })
-        } catch (e) {
-          console.error(e)
-        }
-      })
+    const userData = await axios.get(process.env.REACT_APP_SERVER_URL + '/users/me', {
+      headers: {
+        Authorization: token,
+      },
+    })
+    console.log(userData, '여기')
+    return userData.data
   }
 
-  useEffect(() => {
-    getKAkaoToken()
-  }, [])
-  return <div>여기는 로ㅓ그인 헤ㅔㄷㄹ ㅐㅔㄷ걸 ㅐㅔ더ㅑㅐㅔ </div>
+  const { data, error, isError, isLoading } = useQuery<KakaoUsertype, Error>(['kakaoLogin'], getKakaoToken, {
+    retry: false,
+    onSuccess: (data) => {
+      const { email, kakaoId, nickname, profileImage } = data
+      window.localStorage.setItem('email', email)
+      window.localStorage.setItem('kakaoId', kakaoId)
+      window.localStorage.setItem('nickname', nickname)
+      window.localStorage.setItem('profileImage', profileImage)
+      navigate('/')
+    },
+  })
+
+  if (isLoading) return <div>Loading...</div>
+  if (isError) return <div>Error: {(error as Error).message}</div>
+
+  return <div>여기는 로그인</div>
 }
 
 export default KakaoLogin

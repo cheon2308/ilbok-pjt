@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import kakaologin from '../assets/image/kakao_login_medium_narrow.png'
-import { REST_API_KEY, REDIRECT_URI } from '../api/KakaoLoginData'
 import BokBtn1 from './Common/BokBtn1'
 import Lottie from 'lottie-react'
 import animationData from '../assets/lottie/luckybag.json'
@@ -46,8 +45,8 @@ interface LoginModalProps {
 }
 
 function LoginModal({ open, onClose }: LoginModalProps) {
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
-  const KAKAO_AUTH_URL_OTHER = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`
+  const KAKAO_AUTH_URL_OTHER = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&prompt=login`
   const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL
   }
