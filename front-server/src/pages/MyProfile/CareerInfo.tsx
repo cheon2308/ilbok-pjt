@@ -51,29 +51,24 @@ function CareerInfo() {
   }
 
   const handlesignalRegist = () => {
-    const formData = new FormData()
 
-    formData.append('age', String(inputAge))
     // console.log(formData)
     // console.log(JSON.stringify(formData))
-    for (const key of formData.keys()) {
-      console.log(key, ':', formData.get(key))
-    }
-    // api
-    //   .post(process.env.REACT_APP_API_URL + '/signalweek', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res, '성공')
-    //     setAlertOpen(true)
-    //   })
-    //   .catch((res) => {
-    //     console.log(res, '실패 ')
-    //     console.log(formData)
-    //   })
-    // console.log(FormData)
+    axios
+      .post(process.env.REACT_APP_API_URL + '/signalweek', , {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        console.log(res, '성공')
+        setAlertOpen(true)
+      })
+      .catch((res) => {
+        console.log(res, '실패 ')
+        console.log(formData)
+      })
+    console.log(FormData)
   }
 
   return (

@@ -23,16 +23,17 @@ public class Users {
     @Column(name = "user_role")
     private String userRole;
 
-    @Column( name = "degree_code")
-    private int degreeCode;
+    @ManyToOne
+    @JoinColumn ( name = "degree_code")
+    private Degrees degreeCode;
 
     @ManyToOne
     @JoinColumn( name = "city_code" )
     private Cities city;
 
     @ManyToOne
-    @JoinColumn(name="job_sub_code")
-    private JobSubFamily jobSubFamily;
+    @JoinColumn(name="favorite")
+    private JobSubFamily favorite;
 
     @Column(name = "email")
     private String email;
@@ -54,7 +55,7 @@ public class Users {
     private List<ApplyStatus> applyStatuses;
 
     @Builder
-    public Users(Long userId, Long kakaoId, String userRole, int degreeCode,
+    public Users(Long userId, Long kakaoId, String userRole, Degrees degreeCode,
                  Cities city, JobSubFamily jobSubFamily, String email, String nickname,
                  int age, int gender, String profileImage) {
         this.userId = userId;
@@ -62,7 +63,7 @@ public class Users {
         this.userRole = userRole;
         this.degreeCode = degreeCode;
         this.city = city;
-        this.jobSubFamily = jobSubFamily;
+        this.favorite = jobSubFamily;
         this.email = email;
         this.nickname = nickname;
         this.age = age;

@@ -11,7 +11,6 @@ import java.util.List;
 public interface ApplyRepository extends JpaRepository<ApplyStatus, Long> {
 
     List<ApplyStatus> findAll();
-
     List<ApplyStatus> findApplyStatusByUsers(Users users);
 
 }
