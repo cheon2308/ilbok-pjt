@@ -22,7 +22,7 @@ function KakaoLogin() {
     //     navigate('/')
     //   }
     // }
-    axios(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`, {
+    axios(`https://jaehojjang.duckdns.org/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
       .then((res) => {
@@ -34,10 +34,9 @@ function KakaoLogin() {
         const token = window.localStorage.getItem('token')
 
         try {
-          axios
-            .get('http://localhost:8080/api/me', {
+          axios.get('jaehojjang.duckdns.org/users/me', {
               headers: {
-                Authorization: token,
+                "Authorization" : token,
               },
             })
             .then((res) => {

@@ -248,6 +248,9 @@
 	- 직종 대분류 - 중분류 - 소분류 - 지역 대분류 - 소분류 - 학력 - 고용 조건 - 최소 학력
 	- npy 파일로 내보내기
 		- csv 파일로 내보낼시 문자열로 저장되어 이후 cos similarity 사용시 int 변환 필요
+		- pd.DataFrame은 pandas 라이브러리를 사용하여 표 형식으로 데이터를 저장하는 데 사용됩니다. DataFrame은 행과 열을 가진 표와 같은 형식으로 데이터를 저장하므로 데이터를 쉽게 조작하고 분석할 수 있습니다. 또한 DataFrame은 여러 유형의 데이터 (숫자, 문자열, 논리 등)을 저장할 수 있습니다.
+		- npy는 NumPy 라이브러리를 사용하여 배열 형식으로 데이터를 저장하는 데 사용됩니다. NumPy 배열은 동일한 유형의 데이터 (숫자, 문자열, 논리 등)만 저장할 수 있으며 배열의 모양을 변경하거나 조작하는 데 효과적입니다.
+	- 따라서, pd.DataFrame을 사용하면 테이블 형식으로 데이터를 저장하고, NumPy 배열을 사용하면 수치 데이터를 저장하는 것이 효과적입니다. 또한 pd.DataFrame은 csv, Excel 등 다양한 파일 형식으로 저장할 수 있지만, npy는 NumPy 배열 형식으로만 저장할 수 있습니다
 
 - 특성 나열한 행렬을 그대로 저장 후, 공고 클릭시 해당 공고와의 유사도 계산 로직
 	- 현재 4천개 정도여서 금방 계산
@@ -269,36 +272,26 @@ def similar_job(wanted_job):
 
 - 이후 데이터가 많아질 것을 대비하여, sklearn cos_similarity 이용하여 해당 공고에 대한 유사도 matrix 자체를 저장해두기
 
+
+
 ```python
 
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
-
+# 이후 sim_job_num 에 상위 5개씩 저장
 def job_sort():
-
-    jobMatrix = np.load('jobMatrix.npy')
-
+    jobMatrix = np.load('./data/jobMatrix.npy')
     # 유사도 비교하여 저장
-
     calc_sim_job = cosine_similarity(jobMatrix, jobMatrix)
-
     # 유사도가 큰 순으로 정렬한 인덱스를 추출하되 자기 자신 제외하기
-
+    b = np.sort(calc_sim_job)
     sorted_index = np.argsort(calc_sim_job)[:, ::-1]
-
     sorted_index = sorted_index[:, 1:]
-
     sim_job = []
 
     # 현재 인덱스 번호이므로 실제 공고 번호로 변경해준 후 저장
-
     for i in sorted_index:
-
-        sim_job.append(i[:5])
-
-  
-
-    np.save('sim_job_num', sim_job)
-
+        sim_job.append(i[:30])
+    np.save('./data/sim_job_num', sim_job)
     return sim_job
 ```
 
@@ -315,3 +308,342 @@ def job_sort():
 - 행렬을 만들 때, 유효한 데이터를 잘 뽑아내서, 유사도를 해야 정확한 결과가 나온다.
 - argsort()를 이용하여 인덱스를 뽑아내고, 이를 통해 유사한 공고 번호를 뽑아냈는데, numpy의 경우 1차원 배열밖에 사용할 수 없어서 
 	- 인덱스를 참조할 리스트를 꼭 들고 있어야된다!!
+- cos_similarity를 사용한 이유
+	- jakard의 경우 특성의 종류가 적은 경우 별로 좋지 않았고, 직업 유형에 binary가 아닌 것이 있었기 때문에 사용했습니다.
+- numpy -> dot이 아닌 sklearn cos_similarity 사용한 이유
+	- 공고 데이터는 자주 바뀌지 않으므로 미리 계산해 놓고 dump를 만들어 놓는 것이 효율적이라고 생각했습니다.
+
+
+---
+
+## 03.27
+
+#### 주 내용
+
+- jobMatrix의 기존 행렬을 변경해줌으로써 유사도에 정확성을 더 부여해줌
+- 학력, 경력을 각자의 열이 아닌 포함 관계를 통해 가중치를 더해줬습니다.
+	- 학력무관 2~3대졸 4대졸 석사 박사 가 해당 열에 대해서만 1을 주는 것이 아닌
+	- 지원 가능한 하위 항목에도 1을 더해주는 것으로 변경
+	- 즉 5개 -> 4개의 열로 변경 후,
+	- 학력 무관인 경우 1 1 1 1 로 모든 학력에 대해 가중치를 줌
+
+> 학력
+
+```python
+# 학력
+        a = job.degree_code.degree_id
+        if a == 0:
+            jobMatrix[job.wanted_code][1527:1531] = [1, 1, 1, 1]     # 학력무관 - 1 1 1 1
+        elif a == 4:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 1, 1, 1]     # 대졸 2~3 - 0 1 1 1 
+        elif a == 5:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 1, 1]     # 대졸 4   - 0 0 1 1
+        elif a == 6:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 0, 1]     # 석사     - 0 0 0 1
+        else:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 0, 0]     # 박사     - 0 0 0 0
+
+```
+
+
+> 근무일수
+
+```python
+  
+
+        # 주 근무 일수
+
+        working = job.working_day
+
+        if working == "주6일근무":
+
+            jobMatrix[job.wanted_code][1531] = 1
+
+        elif working == "주5일근무":
+
+            jobMatrix[job.wanted_code][1532] = 1
+
+        elif "주 5일 미만":
+
+            jobMatrix[job.wanted_code][1533] = 1
+```
+
+
+
+> 경력
+
+```python
+ # 경력
+
+        car = job.career
+
+        if car == "관계없음":                                   # 관계없음    1   1
+
+            jobMatrix[job.wanted_code][1534:1536] = [1, 1]
+
+        elif car == "신입":                                     #  신입       1   0
+
+            jobMatrix[job.wanted_code][1534:1536] = [1, 0]        
+
+        elif car == "경력":                                     #  경력       0   1
+
+            jobMatrix[job.wanted_code][1534:1536] = [0, 1]
+```
+
+
+- 기존 최대 유사도
+
+	![[assets/Pasted image 20230328162650.png]]
+
+- 변경 후 유사도
+	- 변경 후, 최대 유사도와 최소 유사도가 변경된 것을 볼 수 있습니다.
+ 
+![[assets/Pasted image 20230328162805.png]]
+
+
+
+- 또한 지역 대분류에 대한 가중치가 빠져있어서 추가해주었습니다.
+
+![[assets/Pasted image 20230328233503.png]]
+
+#### 배운 점
+
+- matrix를 만들며 모든 열을 생성하지 않았다면, 개선의 여지가 없었을 수도 있다고 생각합니다.
+- 최대한 비슷한 항목을 생각했고, 경력 및 지역의 경우 범주형 카테고리이기 때문에 자카드 유사도를 사용하려고 하였지만
+	- 학력과 경력유무의 경우 상위 - 하위 관계를 확실히 할 수 있었기 때문에 가중치를 주고 비교하였습니다.
+	- 확실히 가중치과 포함관계가 들어가니 더욱 정확한 유사도가 나오는 것을 볼 수 있었습니다.
+- 처음 설계의 중요성에 대해 배울 수 있었습니다.
+	- 모든 특성에 대해 상세히 고려하지 않으니 중간중간 코드바꾸는 것이 힘들었습니다 ㅠ...
+
+---
+
+## 03.28
+
+>django
+- 유저 매트릭스 생성
+	- 직업 대분류 - 중분류 - 지역 - 학력
+	- 경력과 선호하는 공고의 경우 가중치를 달리하여 직업에  + 해주었습니다.
+	- 유저-유저 간 유사도는 관심있는 공고에 가중치를 많이 두기로 하여
+		- 선호 공고 -> +3
+		- 경력의 경우 -> 1년 미만 1점, 3년 이하 2점, 4~ 부터는 3점을 주었습니다.
+- 이후 user-user cos_similarity를 계산하는데
+	- 우선, 모든 이웃에 대해서 구해주었습니다.
+	- 유사도가 비슷하게 나오는 문제가 발생하였고, 나이를 기록하는데 있어 문제가 있어 기록 방식 변경 -> 55 미만, 60미만, 65미만, 65이상
+
+
+- 특성과 데이터 들고와서
+	- 특성당 인덱스 매겨주기
+
+```python
+    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+
+    # job 코드 변수
+
+    js = JobSubFamily.objects.all()
+
+    jc = JobCategory.objects.all()
+
+    # 지역변수
+
+    city = Cities.objects.all()
+
+    region = Regions.objects.all()
+
+    # 유저경력 변수
+
+    career = Careers.objects.all()
+
+  
+
+    # 직업 중분류 - 행렬 인덱스 매칭
+
+    sub_to_index = {}
+
+    for i in range(len(js)):
+
+        sub_to_index[js[i].job_sub_code] = i+14
+
+  
+
+    # 지역 - 행렬 인덱스 매칭
+
+    city_to_region = {}
+
+    city_to_index = {}
+
+    region_to_index = {}
+
+  
+
+    i = 126
+
+    for k in region:
+
+        region_to_index[k.region_code] = i
+
+        i += 1
+
+    # city - region 매칭
+
+    # city - 행렬 인덱스 매칭
+
+    for j in range(len(city)):
+
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
+
+        city_to_index[city[j].city_code] = j + 144```
+
+```python
+# 우선 전체 유저의 수 구하기
+
+    user_length = all_user.aggregate(Max('user_id'))
+
+    userMatrix = [[0]*384 for _ in range(user_length['user_id__max']+1)]
+```
+	
+ 
+- 정해진 가중치에 따라 matrix에 기록
+```python
+
+ # 유저 정보에 대해 matrix에 기록
+    for us in all_user:
+        # 이력서 작성한 사람에 한해
+        if us['degree_code']:
+            us_num = us['user_id']
+            fav = us['favorite']
+            us_city = us['city_code']
+            deg = us['degree_code']
+            us_age = us['age']
+            us_gen = us['gender']
+        else:
+            continue
+
+        # 유저 관심 직종 +3 해주기
+        userMatrix[us_num][sub_to_index[fav]] += 3
+  
+        # 지역 +1 해주기
+        userMatrix[us_num][city_to_index[us_city]] += 1
+        userMatrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+
+
+        # 학력 기록해주기
+        if deg == 0:
+            userMatrix[us_num][373:377] = [0,0,0,0]
+        elif deg == 4:
+            userMatrix[us_num][373:377] = [0,0,0,1]
+        elif deg == 5:
+            userMatrix[us_num][373:377] = [0,0,1,1]
+        elif deg == 6:
+            userMatrix[us_num][373:377] = [0,1,1,1]
+        elif deg == 7:
+            userMatrix[us_num][373:377] = [1,1,1,1]
+
+        # 나이 기록해주기
+        if us_age < 55:        
+            userMatrix[us_num][378] = 1
+        elif 55 <= us_age < 60:
+            userMatrix[us_num][379] = 1
+        elif 60 <= us_age < 65:
+            userMatrix[us_num][380] = 1
+        elif 65 <= us_age:
+            userMatrix[us_num][381] = 1
+
+        # 성별 - 남 1 여 2
+        if us_gen == 0:
+            userMatrix[us_num][382] = 1
+        else:
+            userMatrix[us_num][383] = 1
+
+    # 유저 매트릭스로 저장
+    # np.save('./data/userMatrix', userMatrix)
+    # 유사도로 저장해주기
+    calc_sim_user = cosine_similarity(userMatrix, userMatrix)
+    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+    sorted_index = sorted_index[:, 1:]
+    return
+```
+
+
+>Front
+
+- useQuery를 사용하기로 결정했습니다. 이유는 아래 몇 가지!
+	- React 어플리케이션 내에서 데이터 패칭, 캐싱, 동기적, 서버의 상태의 업데이트를 좀 더 용이하게 만들어주기 떄문!
+	- 기존에 직접 만들어 사용했던 기능들을 별도 옵션없이 사용가능하며, 수많은 코드 대신 React-Query 로직을 통해 짧은 코드로 대체 가능
+	- 캐싱이 효율적
+	- 백그라운드에서 알아서 오래된 데이터 업데이트
+	- 페이징처리, 지연 로딩 데이터와 같은 성능 최적화
+	- 서버 쪽 데이터를 가비지 컬렉션을 이용하여 자동으로 메모리 관리
+
+#### 배운 점
+
+- 유사도가 전부 0.98이상으로 나와 별 차이가 없었습니다.
+	- 이유를 찾으니 age가 50~ 이상으로 숫자로 기록해주었고 각도기반의 cosine 유사도에서는 좋지않게 작용한다는 것을 알게 되었습니다.
+	- 따라서, 각 age에 대해 열을 만들어 주거나, 범위를 정하여 0 과 1 로 표현해주는 것이 좋을 것 같습니다
+- 성별도 비슷하여, 남 여로 열 구분해주었습니다.
+
+---
+
+
+## 03.29
+
+#### 주 내용
+
+> django
+
+
+- 몇몇 table의 column명이 변경되어 있던 db가 있었는데 이전의 데이터를 들고 작업을 해왔습니다.
+	- 따라서, 최신 db로 변경 후 오류 수정해주었습니다.
+	- 대부분, code -> table명_code로 이름을 변경해주었고, 따라서 해당 부분의 코드만 수정해주었습니다.
+- ALS 알고리즘 구현하기 위하여 희소행렬을 CSR_MATRIX 형식으로 변경해주었습니다.
+```PYTHON
+# csr 행렬로 변환해주기
+
+def csr_matrix():
+
+    mat = np.load('./data/user_to_job.npy')
+
+    csr = sparse.csr_matrix(mat)
+
+    # 행렬 사이즈
+
+    matrix_size = csr.shape[0]* csr.shape[1]
+
+    num_active = len(csr.nonzero()[0])
+
+    sparsity = 100 * (1-(num_active/matrix_size))
+
+    return
+
+csr_matrix()
+```
+
+- 다만, 이 때, 희소성은 약 99.5%는 되어야 협업 필터링을 구축할 수 있기 때문에 현재 99.7%를 낮추기 위해서 데이터를 더 만들어주어야 할 것 같습니다.
+- cf 에서는 적절한 행렬 분해를 하기 위해서는 모든 유저/아이템 상호작용 데이터를 사용해야하기 때문에
+	- 모형을 훈련시키는 경우 일정한 확률로 랜덤하게 뽑힌 유저/아이템 상호작용을 숨겨야 한다.
+	- 이후 테스트 단계에서 얼마나 유저가 실제로 추천된 아이템을 구매했는지 파악할 수 있음.
+
+> 훈련데이터
+
+- 랜덤 일정 확률로 유저/아이템 상호작용 몇 개를 가려 고객이 지원하거나, 본 적이 없는 것 처럼 만든다. -> 0으로 만들기
+- 그리고 테스트 데이터는 원본 데이터에서 접근한 이력이 있으면 1, 없으면 0으로 채운 행렬
+- 이런 방식으로 데이터를 세팅하면, 테스트 데이터에서 얼마나 유저가 실제 구매한 아이템이 추천됐는지 파악할 수 있습니다.
+- 만약 유저가 추천된 아이템을 실제 구매한 경우가 많을 경우 추천 시스템이 제대로 작동한다 말할 수 있습니다.
+
+
+> front
+
+- useQuery를 이용해서 api가 설계된 데이터를 불러오는 작업을 했습니다.
+- 기존에 로그인을 구현하였던 조원이 header -> application/json 으로 설정하였던 부분이 오류로 발생하였고
+	- 해결하기 위하여 우선, 컴포넌트 내에서 axios를 독립적으로 사용해주었습니다.
+
+
+#### 배운 점
+
+- 유저- 유저간 cf를 돌리며 구해놓았던 cos 유사도가 척도가 조금 잘못된 방향이라고 생각하였습니다.
+- 경력, 관심도로 유사도 기준을 줄 수 있지만, CF에서는 아이템에 대한 평가로 결졍되는 것이 좋아보였습니다.
+	- 따라서, 기존의 COS 유사도를 나와 비슷한 유저의 척도로 사용하는 반면, 시간이 남는다면 KNN 알고리즘을 고려해볼 수 있을 것 같습니다.ㅣ
+- 또한, ALS 라는 암시적 피드백 데이터를 가지고 할 수 있는 알고리즘을 알게되어 적용해볼 생각입니다.
+- 행렬 분해 - 차원 축소- 를 이용하여 구하며 아래와 같은 핵심을 가진다.
+	- 매우 큰 유저-아이템 행렬로부터
+	- 숨겨진 피처들을 뽑아내서
+	- 이들을 훨씬 작은 유저들의 특징을 담은 행렬과 아이템 특징을 담은 행렬로 분해하는 것

@@ -37,6 +37,9 @@ public class Wanted {
     @Column(name = "salary_type")
     private String salaryType;
 
+    @Column(name = "salary")
+    private String salary;
+
     @Column(name = "working_day")
     private String workingDay;
 
@@ -126,6 +129,5 @@ public class Wanted {
 
     @Column(name = "disable_con")
     private String disableCon;
-
 
 }
