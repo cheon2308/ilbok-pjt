@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Table(name = "users")
 public class Users {
-    @Id
+    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column( name = "user_id")
     private Long userId;
 
@@ -26,11 +26,12 @@ public class Users {
     @Column( name = "degree_code")
     private int degreeCode;
 
-    @Column( name = "city_code" )
-    private int cityCode;
+    @ManyToOne
+    @JoinColumn( name = "city_code" )
+    private Cities city;
 
     @Column(name="favorite")
-    private int favorite;
+    private Integer favorite;
 
     @Column(name = "email")
     private String email;
@@ -53,13 +54,13 @@ public class Users {
 
     @Builder
     public Users(Long userId, Long kakaoId, String userRole, int degreeCode,
-                 int cityCode, int favorite, String email, String nickname,
+                 Cities city, Integer favorite, String email, String nickname,
                  int age, int gender, String profileImage) {
         this.userId = userId;
         this.kakaoId = kakaoId;
         this.userRole = userRole;
         this.degreeCode = degreeCode;
-        this.cityCode = cityCode;
+        this.city = city;
         this.favorite = favorite;
         this.email = email;
         this.nickname = nickname;

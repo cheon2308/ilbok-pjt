@@ -150,17 +150,20 @@ function MyProfile() {
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
-      .get('http://localhost:8080/api/me', {
+      .get(process.env.REACT_APP_SERVER_URL + '/users/me', {
         headers: {
           Authorization: token,
         },
       })
       .then((res) => {
-        console.log(res)
-        setkakaoEmail(res.data.kakaoEmail)
+        console.log('됐어')
+        setkakaoEmail(res.data.email)
         setkakaoId(res.data.kakaoId)
-        setkakaoNickname(res.data.kakaoNickname)
-        setkakaoProfileImg(res.data.kakaoProfileImg)
+        setkakaoNickname(res.data.nickname)
+        setkakaoProfileImg(res.data.profileImage)
+      })
+      .catch((e) => {
+        console.error(e)
       })
   }
   useEffect(() => {

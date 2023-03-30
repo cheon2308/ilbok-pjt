@@ -22,7 +22,7 @@ function KakaoLogin() {
     //     navigate('/')
     //   }
     // }
-    axios(`http://localhost:8080/api/oauth?code=${KAKAO_CODE}`, {
+    axios(`http://localhost:8080/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
       .then((res) => {
@@ -35,22 +35,22 @@ function KakaoLogin() {
 
         try {
           axios
-            .get('http://localhost:8080/api/me', {
+            .get('http://localhost:8080/users/me', {
               headers: {
                 Authorization: token,
               },
             })
             .then((res) => {
               console.log(res)
-              const kakaoEmail = res.data.kakaoEmail
+              const email = res.data.email
               const kakaoId = res.data.kakaoId
-              const kakaoNickname = res.data.kakaoNickname
-              const kakaoProfileImg = res.data.kakaoProfileImg
+              const nickname = res.data.nickname
+              const profileImage = res.data.profileImage
 
-              window.localStorage.setItem('kakaoEmail', kakaoEmail)
+              window.localStorage.setItem('email', email)
               window.localStorage.setItem('kakaoId', kakaoId)
-              window.localStorage.setItem('kakaoNickname', kakaoNickname)
-              window.localStorage.setItem('kakaoProfileImg', kakaoProfileImg)
+              window.localStorage.setItem('nickname', nickname)
+              window.localStorage.setItem('profileImage', profileImage)
             })
             .then(() => {
               navigate('/')
