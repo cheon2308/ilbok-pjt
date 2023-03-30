@@ -223,7 +223,7 @@ function MyProfile() {
                 career={item.career}
                 regDt={item.regDt}
                 closeDt={item.closeDt}
-                wantedAuthNo={item.wantedAuthNo}
+                wantedCode={item.wantedAuthNo}
               />
             ))}
           </CardContainer>
