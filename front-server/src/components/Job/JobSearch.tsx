@@ -295,34 +295,20 @@ export default function JobSearch() {
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
                 <RadioBtnContainer>
-                  <RadioBtn value="전체" name="학력선택"></RadioBtn>
-                  <RadioBtn value="중졸이하" name="학력선택"></RadioBtn>
-                  <RadioBtn value="고졸" name="학력선택"></RadioBtn>
-                  <RadioBtn value="전문대졸" name="학력선택"></RadioBtn>
-                  <RadioBtn value="대졸" name="학력선택"></RadioBtn>
-                  <RadioBtn value="대학원이상" name="학력선택"></RadioBtn>
-                  <RadioBtn value="기타" name="학력선택"></RadioBtn>
+                  <RadioBtn value="0" name="학력선택" title="학력무관"></RadioBtn>
+                  <RadioBtn value="4" name="학력선택" title="대졸(2~3년)"></RadioBtn>
+                  <RadioBtn value="5" name="학력선택" title="대졸(4년)"></RadioBtn>
+                  <RadioBtn value="6" name="학력선택" title="석사"></RadioBtn>
+                  <RadioBtn value="7" name="학력선택" title="박사"></RadioBtn>
                 </RadioBtnContainer>
               </JobSearchCategoryContainer>
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer>고용조건</JobSearchCategoryTitleContainer>
-                <RadioBtnContainer>
-                  <RadioBtn value="무관" name="고용조건"></RadioBtn>
-                  <RadioBtn value="상용직" name="고용조건"></RadioBtn>
-                  <RadioBtn value="계약직" name="고용조건"></RadioBtn>
-                  <RadioBtn value="계약직(시간제)" name="고용조건"></RadioBtn>
-                  <RadioBtn value="파견근로" name="고용조건"></RadioBtn>
-                  <RadioBtn value="상용직(시간제)" name="고용조건"></RadioBtn>
-                  <RadioBtn value="기타" name="고용조건"></RadioBtn>
-                </RadioBtnContainer>
-              </JobSearchCategoryContainer>
+
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>경력선택</JobSearchCategoryTitleContainer>
                 <RadioBtnContainer>
-                  <RadioBtn value="무관" name="경력선택"></RadioBtn>
-                  <RadioBtn value="신입" name="경력선택"></RadioBtn>
-                  <RadioBtn value="경력" name="경력선택"></RadioBtn>
-                  <RadioBtn value="기타" name="경력선택"></RadioBtn>
+                  <RadioBtn value="관계없음" name="경력선택" title="관계없음"></RadioBtn>
+                  <RadioBtn value="신입" name="경력선택" title="신입"></RadioBtn>
+                  <RadioBtn value="경력" name="경력선택" title="경력"></RadioBtn>
                 </RadioBtnContainer>
               </JobSearchCategoryContainer>
 
