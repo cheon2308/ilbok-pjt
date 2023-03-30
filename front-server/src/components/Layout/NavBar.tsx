@@ -92,10 +92,10 @@ const NavBar = () => {
   const navigate = useNavigate()
 
   const profileImg = window.localStorage.getItem('token')
-    ? window.localStorage.getItem('kakaoProfileImg') || DefaultProfile
+    ? window.localStorage.getItem('profileImage') || DefaultProfile
     : undefined
   const userName = window.localStorage.getItem('token')
-    ? window.localStorage.getItem('kakaoNickname') || 'unknown'
+    ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
 
   const handleProfileClick = () => {
@@ -104,7 +104,7 @@ const NavBar = () => {
   const logOut = () => {
     console.log('gkgk')
     const kakaoId = window.localStorage.getItem('kakaoId')
-
+    localStorage.removeItem('token')
     if (kakaoId) {
       axios
         .post(`https://kapi.kakao.com/v1/user/logout?target_id_type=user_id&target_id=${kakaoId}`, null, {
@@ -115,10 +115,10 @@ const NavBar = () => {
         })
         .then((res) => {
           console.log(res)
-          localStorage.removeItem('kakaoEmail')
+          localStorage.removeItem('email')
           localStorage.removeItem('kakaoId')
-          localStorage.removeItem('kakaoNickname')
-          localStorage.removeItem('kakaoProfileImg')
+          localStorage.removeItem('nickname')
+          localStorage.removeItem('profileImage')
           localStorage.removeItem('token')
           navigate('/')
         })
