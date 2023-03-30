@@ -33,6 +33,7 @@ public class UsersController {
         // 넘어온 인가 코드를 통해 access_token 발급 //(5)
         OauthToken oauthToken = usersService.getAccessToken(code);
 
+
         String jwtToken = usersService.saveUserAndGetToken(oauthToken.getAccess_token());
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
