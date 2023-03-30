@@ -104,7 +104,7 @@ const NavBar = () => {
   const logOut = () => {
     console.log('gkgk')
     const kakaoId = window.localStorage.getItem('kakaoId')
-
+    localStorage.removeItem('token')
     if (kakaoId) {
       axios
         .post(`https://kapi.kakao.com/v1/user/logout?target_id_type=user_id&target_id=${kakaoId}`, null, {
