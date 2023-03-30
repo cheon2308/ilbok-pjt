@@ -24,7 +24,7 @@ public class CorsConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedHeader("*"); //(1)
         config.addExposedHeader("*"); //(2)
         config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 
