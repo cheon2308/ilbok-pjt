@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "apply_status")
 public class ApplyStatus {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "code")
     private Long code;
 
