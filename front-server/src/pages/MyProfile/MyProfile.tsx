@@ -7,6 +7,7 @@ import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
+import { useNavigate } from 'react-router'
 
 const items = [
   {
@@ -143,10 +144,19 @@ const items2 = [
   { title: 'Item 10', description: 'This is the fifth item' },
 ]
 function MyProfile() {
+  const navigate = useNavigate()
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
   const [kakaoProfileImg, setkakaoProfileImg] = useState<string>('')
+  const abc = () => {
+    axios.get(process.env.REACT_APP_SERVER_URL + `/wanted/getOne?wanted_code=1`).then((res) => {
+      console.log(res)
+    })
+  }
+  const handleCareerClick = () => {
+    navigate('/careerinfo')
+  }
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
@@ -174,13 +184,21 @@ function MyProfile() {
       <div className="Profile-Main-container">
         <div className="Profile-Info-container">
           <div className="Profile-Profile-container">
+            <button onClick={abc}></button>
             <MyProfileImglogo src={kakaoProfileImg} alt="" />
             <div style={{ fontSize: '40px', marginLeft: '40px ' }}>
               안녕하세요, <span style={{ color: '#76DCB0' }}>{kakaoNickname}</span>님
             </div>
           </div>
           <div>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
+            <BokBtn1
+              sigwidth="300px"
+              sigheight="50px"
+              sigfontsize="20px"
+              sigborderradius={25}
+              sigmargin="20px"
+              onClick={handleCareerClick}
+            >
               개인정보수정
             </BokBtn1>
             <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
