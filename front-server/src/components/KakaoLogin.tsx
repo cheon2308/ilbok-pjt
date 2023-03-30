@@ -42,15 +42,15 @@ function KakaoLogin() {
             })
             .then((res) => {
               console.log(res)
-              const kakaoEmail = res.data.kakaoEmail
+              const email = res.data.email
               const kakaoId = res.data.kakaoId
-              const kakaoNickname = res.data.kakaoNickname
-              const kakaoProfileImg = res.data.kakaoProfileImg
+              const nickname = res.data.nickname
+              const profileImage = res.data.profileImage
 
-              window.localStorage.setItem('kakaoEmail', kakaoEmail)
+              window.localStorage.setItem('email', email)
               window.localStorage.setItem('kakaoId', kakaoId)
-              window.localStorage.setItem('kakaoNickname', kakaoNickname)
-              window.localStorage.setItem('kakaoProfileImg', kakaoProfileImg)
+              window.localStorage.setItem('nickname', nickname)
+              window.localStorage.setItem('profileImage', profileImage)
             })
             .then(() => {
               navigate('/')
