@@ -13,6 +13,7 @@ function JobSubSelect2({ jobSubSelectCode, jobSubSelect2NameFunc }: any) {
   ]
 
   const [activeTab, setActiveTab] = React.useState('')
+
   console.log(jobSubSelectCode)
   return (
     <>

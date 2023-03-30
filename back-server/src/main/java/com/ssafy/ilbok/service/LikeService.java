@@ -3,10 +3,9 @@ package com.ssafy.ilbok.service;
 import com.ssafy.ilbok.Repository.ApplyRepository;
 import com.ssafy.ilbok.Repository.LikeRepository;
 import com.ssafy.ilbok.Repository.UsersRepository;
+import com.ssafy.ilbok.Repository.WantedRepository;
 import com.ssafy.ilbok.model.dto.UserRelateDto;
-import com.ssafy.ilbok.model.entity.ApplyStatus;
-import com.ssafy.ilbok.model.entity.LikeWanted;
-import com.ssafy.ilbok.model.entity.Users;
+import com.ssafy.ilbok.model.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,10 +16,12 @@ public class LikeService {
 
     private LikeRepository likeRepository;
     private UsersRepository usersRepository;
+    private WantedRepository wantedRepository;
 
-    public LikeService(LikeRepository likeRepository, UsersRepository usersRepository){
+    public LikeService(LikeRepository likeRepository, UsersRepository usersRepository, WantedRepository wantedRepository){
         this.likeRepository = likeRepository;
         this.usersRepository = usersRepository;
+        this.wantedRepository = wantedRepository;
     }
 
     public List<UserRelateDto> findLikeWantedByUsers(Long user_id){
@@ -41,6 +42,14 @@ public class LikeService {
         return list;
     }
 
+    public void clickLiked(UserRelateDto dto){
+        LikeWanted likeWanted = new LikeWanted();
+        Users users = usersRepository.findByUserId(dto.getUserId());
+        Wanted wanted = wantedRepository.findByWantedCode(dto.getWantedCode());
+        likeWanted.setWanted(wanted);
+        likeWanted.setUsers(users);
+        likeRepository.save(likeWanted);
 
+    }
 
 }
