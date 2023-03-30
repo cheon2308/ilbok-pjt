@@ -6,7 +6,7 @@
   bottom: 0;
   left: 0;
   z-index: 100;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
   font-size: 18px;
 }
 
@@ -71,13 +71,11 @@
 }
 
 .Modal-flexgrow1 {
-  flex-grow: 0.5;
-  /* width: 100%; */
+  width: 200px;
 }
 
 .Modal-flexgrow2 {
-  flex-grow: 9.5;
-  /* width: 100%; */
+  width: 100%;
   margin: 15px 0 15px 0;
 }
 
@@ -88,4 +86,36 @@
 .Button-container {
   justify-content: end;
   margin: -5px 0 -10px 0;
+}
+
+@media screen and (max-width: 700px) {
+  .Modal-container {
+    margin: 30px;
+  }
+  .Button-container {
+    justify-content: flex-start;
+    margin: 50px 0 0 0;
+  }
+  .modal > section > main {
+    padding: 16px;
+    border: 1px solid lightgray;
+    /* Modal Size */
+    max-height: 700px;
+    overflow: auto;
+  }
+  .Modal-flexgrow1 {
+    flex-grow: 0.5;
+    /* width: 100%; */
+    margin: 0px;
+  }
+}
+@media screen and (min-width: 701px) {
+  .Modal-container {
+    margin: 40px;
+  }
+}
+@media screen and (min-width: 950px) {
+  .Modal-container {
+    margin: 60px;
+  }
 }

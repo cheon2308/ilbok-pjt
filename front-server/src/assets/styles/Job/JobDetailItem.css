@@ -39,7 +39,7 @@
   margin: 12px;
   width: 100px;
   text-align: right;
-  position: relative;
+  /* position: relative; */
   font-size: 18px;
 }
 .Line-container > span {
@@ -229,7 +229,6 @@ hr {
   }
 }
 
-/* mobile 규격 */
 @media screen and (max-width: 700px) {
   .Title-container {
     display: flex;
@@ -246,5 +245,41 @@ hr {
     margin-bottom: 20px;
   }
   .Detail-Button-container {
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .Category-container {
+    height: 800px;
+  }
+  .Line-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0 5px 0;
+    align-items: flex-start;
+  }
+  .Line-container > div {
+    margin: 12px;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .Line-container > span {
+    margin: 12px 12px 12px 24px;
+
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+  }
+  .Info-item > div {
+    margin: 20px 0 20px 0;
+  }
+  .Mid-category {
+    margin-top: 50px;
+  }
+  #Detail-Job-Info {
+    border-top: 1px solid gray;
+    padding-top: 20px;
   }
 }
