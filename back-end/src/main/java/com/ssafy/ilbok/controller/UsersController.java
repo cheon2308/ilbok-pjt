@@ -30,22 +30,26 @@ public class UsersController {
         return new ResponseEntity<>(usersService.findByUserId(user_id), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/oauth") // (3)
+    @GetMapping("oauth") // (3)
     public ResponseEntity getLogin(@RequestParam("code") String code) { //(4)
         // 넘어온 인가 코드를 통해 access_token 발급 //(5)
+        System.out.println("1111111111111111111111");
         OauthToken oauthToken = usersService.getAccessToken(code);
+        System.out.println("22222222222222222222222");
 
 
         String jwtToken = usersService.saveUserAndGetToken(oauthToken.getAccess_token());
+        System.out.println("333333333333333333333333");
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
-        System.out.println(ResponseEntity.ok().headers(headers).body("success"));
+        System.out.println("444444444444444444444444444");
 
         return ResponseEntity.ok().headers(headers).body("success");
 
     }
 
-    @GetMapping("/me")
+    @GetMapping("me")
     public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) { //(1)
 
         //(2)
@@ -55,7 +59,7 @@ public class UsersController {
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("/logout")
+    @GetMapping("logout")
     public String logOut(String token) { //(1)
         usersService.logOut(token);
         return "Redirect://";
