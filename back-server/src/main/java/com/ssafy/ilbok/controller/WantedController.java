@@ -56,4 +56,9 @@ public class WantedController {
         return new ResponseEntity<>(wantedService.findAll(offset), HttpStatus.ACCEPTED);
     }
 
+    @GetMapping(value = "getOne")
+    public ResponseEntity<Wanted> getOne(@RequestParam int wanted_code){
+        return new ResponseEntity<>(wantedService.findByCode(wanted_code), HttpStatus.ACCEPTED);
+    }
+
 }

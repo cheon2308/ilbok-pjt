@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/job")
-public class JobController {
+public class  JobController {
 
     private JobService jobService;
 
