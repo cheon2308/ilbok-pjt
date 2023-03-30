@@ -13,8 +13,8 @@ export default function JobDetailItem() {
   const [modal, setModal] = useState<boolean>(false)
   const [x, setX] = useState<number>(0)
   const [y, setY] = useState<number>(0)
-  const [test, setTest] = useState(1)
-  // 우편번호 확인하기
+  const [test, setTest] = useState(14)
+
   const { isLoading, data } = useQuery({
     queryKey: [test],
     queryFn: () => getJobDetail(test),
@@ -24,7 +24,7 @@ export default function JobDetailItem() {
     setModal(false)
   }
 
-  if (isLoading || data === undefined) return <></>
+  if (isLoading || data === undefined) return <>gggggg</>
   console.log(data)
 
   const address = `${data.work_region}`
@@ -116,7 +116,7 @@ export default function JobDetailItem() {
           </div>
         </div>
 
-        <div className="Info-item">
+        <div className="Info-item" id="Detail-Job-Info">
           <div className="Mid-category">기업정보</div>
           <div className="Line-container">
             <div>기업명</div>
@@ -196,7 +196,7 @@ export default function JobDetailItem() {
               <div className="Category-title">모집인원</div>
               <div>{data.applyNum}</div>
             </div>
-            {/* <div className="Category-flexgrow">
+            {/* <div className="Category-flexgrow">d
               <div className="Category-title">장애인채용</div>
               <div>{data.corpBusiness}</div>
             </div> */}
