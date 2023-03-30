@@ -2,3 +2,19 @@
   margin-left: 20vw;
   margin-right: 20vw;
 }
+
+@media screen and (max-width: 700px) {
+  .Main-container {
+    margin: 0 5vw 0 5vw;
+  }
+}
+@media screen and (min-width: 701px) {
+  .Main-container {
+    margin: 0 10vw 0 10vw;
+  }
+}
+@media screen and (min-width: 950px) {
+  .Main-container {
+    margin: 0 20vw 0 20vw;
+  }
+}
