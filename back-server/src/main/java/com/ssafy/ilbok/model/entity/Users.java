@@ -30,9 +30,8 @@ public class Users {
     @JoinColumn( name = "city_code" )
     private Cities city;
 
-    @ManyToOne
-    @JoinColumn(name="job_sub_code")
-    private JobSubFamily jobSubFamily;
+    @Column(name="favorite")
+    private Integer favorite;
 
     @Column(name = "email")
     private String email;
@@ -55,14 +54,14 @@ public class Users {
 
     @Builder
     public Users(Long userId, Long kakaoId, String userRole, int degreeCode,
-                 Cities city, JobSubFamily jobSubFamily, String email, String nickname,
+                 Cities city, Integer favorite, String email, String nickname,
                  int age, int gender, String profileImage) {
         this.userId = userId;
         this.kakaoId = kakaoId;
         this.userRole = userRole;
         this.degreeCode = degreeCode;
         this.city = city;
-        this.jobSubFamily = jobSubFamily;
+        this.favorite = favorite;
         this.email = email;
         this.nickname = nickname;
         this.age = age;

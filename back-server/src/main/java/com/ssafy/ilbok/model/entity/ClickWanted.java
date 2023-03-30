@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class ClickWanted {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long code;
 
     @ManyToOne(fetch = FetchType.LAZY)

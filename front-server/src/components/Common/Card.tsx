@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import { Link, useLocation } from 'react-router-dom'
+import '../../assets/styles/Common/Card.css'
 
 export interface CardProps {
   title: string
@@ -45,7 +47,7 @@ const CardContainer = styled.div`
 const CardTitle = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   text-align: center;
 
@@ -62,9 +64,17 @@ const CardDescription = styled.div`
   font-size: 14px;
   text-align: center;
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  width: 100%;
+  color: #666666;
 
+  :hover {
+    color: #76dcb0;
+  }
+`
 export interface JobListItemProps {
-  wantedAuthNo: string
+  wantedCode: string
   company: string
   title: string
   salTpNm: string
@@ -77,7 +87,7 @@ export interface JobListItemProps {
 }
 
 const Card = ({
-  wantedAuthNo,
+  wantedCode,
   company,
   title,
   salTpNm,
@@ -88,14 +98,21 @@ const Card = ({
   regDt,
   closeDt,
 }: JobListItemProps) => {
+  const workRegionData = `${region}`
+  const workRegionArray = workRegionData.split(' ')
+
   return (
-    <CardContainer>
-      <CardDescription>{company}</CardDescription>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>
-        {region} | {closeDt}
-      </CardDescription>
-    </CardContainer>
+    <>
+      <CardContainer>
+        <StyledLink to={`detail/${wantedCode}`} state={{ wantedCode: `${wantedCode}` }}>
+          <CardDescription>{company}</CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>
+            {workRegionArray[2] + ' ' + workRegionArray[3]} | {closeDt}
+          </CardDescription>
+        </StyledLink>
+      </CardContainer>
+    </>
   )
 }
 
