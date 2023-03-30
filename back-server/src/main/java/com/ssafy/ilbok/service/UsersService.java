@@ -4,10 +4,15 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.ilbok.Repository.CitiesRepository;
+import com.ssafy.ilbok.Repository.JobSubFamilyRepository;
 import com.ssafy.ilbok.Repository.UsersRepository;
 import com.ssafy.ilbok.jwt.JwtProperties;
 import com.ssafy.ilbok.model.dto.KakaoProfile;
 import com.ssafy.ilbok.model.dto.OauthToken;
+import com.ssafy.ilbok.model.dto.ResumeDto;
+import com.ssafy.ilbok.model.entity.Cities;
+import com.ssafy.ilbok.model.entity.JobSubFamily;
 import com.ssafy.ilbok.model.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -27,8 +32,12 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
+    private CitiesRepository citiesRepository;
+    private JobSubFamilyRepository jobSubFamilyRepository;
 
-    public UsersService(UsersRepository usersRepository){
+    public UsersService(UsersRepository usersRepository, CitiesRepository citiesRepository, JobSubFamilyRepository jobSubFamilyRepository){
+        this.jobSubFamilyRepository = jobSubFamilyRepository;
+        this.citiesRepository =citiesRepository;
         this.usersRepository = usersRepository;
     }
 
@@ -180,5 +189,19 @@ public class UsersService {
                 kakaoProfileRequest,
                 String.class
         );
+    }
+
+    public void updateUsers(ResumeDto resumeDto){
+
+        Users users = usersRepository.findByUserId(resumeDto.getUserId());
+        JobSubFamily jobSubFamily = jobSubFamilyRepository.findById(resumeDto.getFavorite()).get();
+        Cities cities = citiesRepository.findById(resumeDto.getCityCode()).get();
+        users.setFavorite(jobSubFamily);
+        users.setCity(cities);
+        users.setAge(resumeDto.getAge());
+        resumeDto.getGender();
+        resumeDto.getDegreeCode();
+
+
     }
 }
