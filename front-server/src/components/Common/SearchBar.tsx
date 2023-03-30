@@ -9,6 +9,7 @@ interface SearchBarProps {
   bordercolor: string
   fontsize: string
   hovercolor: string
+  onChange?: (e: any) => void
 }
 
 const Input = styled.input<SearchBarProps>`

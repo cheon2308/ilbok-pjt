@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState, useEffect } from 'react'
 import '../../assets/styles/Job/JobDetailItem.css'
 import square from '../../assets/image/Square.png'
@@ -7,25 +7,34 @@ import ApplyModal from './ApplyModal'
 import BokBtn1 from '../Common/BokBtn1'
 import Marker from '../../assets/image/Marker.png'
 import { useQuery } from '@tanstack/react-query'
-import { getJobDetail } from '../../api/JobDetailApi'
+import { getOneWanted } from '../../api/JobDetailApi'
+import ClipLoader from 'react-spinners/ClipLoader'
+import BeatLoader from 'react-spinners/BeatLoader'
 
-export default function JobDetailItem() {
+export default function JobDetailItem({ wantedCode }: any) {
+  const degreeData: any = { 0: '학력무관', 4: '대졸(2~3년)', 5: '대졸(4년)', 6: '석사', 7: '박사' }
+  const myTagRef = useRef<HTMLDivElement>(null)
   const [modal, setModal] = useState<boolean>(false)
   const [x, setX] = useState<number>(0)
   const [y, setY] = useState<number>(0)
-  const [test, setTest] = useState(1)
-  // 우편번호 확인하기
+
   const { isLoading, data } = useQuery({
-    queryKey: [test],
-    queryFn: () => getJobDetail(test),
+    queryKey: [wantedCode],
+    queryFn: () => getOneWanted(wantedCode),
   })
 
   const closeModal = () => {
     setModal(false)
   }
 
-  if (isLoading || data === undefined) return <></>
-  console.log(data)
+  if (isLoading || data === undefined)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
 
   const address = `${data.work_region}`
 
@@ -45,8 +54,14 @@ export default function JobDetailItem() {
   const workRegionArray = workRegionData.split(' ')
 
   const workTimeData = `${data.workTime}`
-  const workTimeDataArray = workTimeData.split(',')
+  const workTimeDataArray = workTimeData.split(', 주')
   console.log(workTimeDataArray)
+
+  const scrollToMyTag = () => {
+    if (myTagRef.current) {
+      myTagRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
     <div>
@@ -79,7 +94,7 @@ export default function JobDetailItem() {
             </div>
             <div className="Line-container">
               <div>학력</div>
-              <span>{data.degreeCode}</span>
+              <span>{degreeData[data.degreeCode]}</span>
             </div>
           </div>
 
@@ -116,7 +131,7 @@ export default function JobDetailItem() {
           </div>
         </div>
 
-        <div className="Info-item">
+        <div className="Info-item" id="Detail-Job-Info">
           <div className="Mid-category">기업정보</div>
           <div className="Line-container">
             <div>기업명</div>
@@ -167,7 +182,7 @@ export default function JobDetailItem() {
           <div className="Mid-category">직무내용</div>
           <span>{data.jobCont}</span>
         </div>
-        <hr />
+
         <div>
           <div className="Category-container">
             <div className="Category-flexgrow-1" id="Category-border">
@@ -177,8 +192,7 @@ export default function JobDetailItem() {
 
             <div className="Category-flexgrow-1">
               <div className="Category-title">학력</div>
-              {/* <div>{data.degreeCode}</div> */}
-              <div>대졸(2~3년)</div>
+              <div>{degreeData[data.degreeCode]}</div>
             </div>
 
             <div className="Category-flexgrow-1">
@@ -196,7 +210,7 @@ export default function JobDetailItem() {
               <div className="Category-title">모집인원</div>
               <div>{data.applyNum}</div>
             </div>
-            {/* <div className="Category-flexgrow">
+            {/* <div className="Category-flexgrow">d
               <div className="Category-title">장애인채용</div>
               <div>{data.corpBusiness}</div>
             </div> */}
@@ -204,7 +218,9 @@ export default function JobDetailItem() {
               <div className="Category-title">근무예정지</div>
               <div>
                 <div style={{ marginBottom: '20px' }}>{workRegionArray[2] + ' ' + workRegionArray[3]}</div>
-                <div style={{ color: '#76DCB0', fontWeight: '700' }}>지도보기 ▶</div>
+                <div style={{ color: '#76DCB0', fontWeight: '700' }} onClick={scrollToMyTag}>
+                  지도보기 ▶
+                </div>
               </div>
             </div>
           </div>
@@ -236,7 +252,8 @@ export default function JobDetailItem() {
         <div className="Category-container-1" id="condition">
           <div className="Category-flexgrow-1" id="Category-border">
             <div className="Category-title">근무시간 / 근무형태</div>
-            <div>{data.workTime}</div>
+            <div style={{ lineHeight: '35px' }}>{workTimeDataArray[0]}</div>
+            <div>{'주 ' + workTimeDataArray[1]}</div>
             <hr />
           </div>
         </div>
@@ -264,21 +281,24 @@ export default function JobDetailItem() {
           <hr />
         </div>
         <div className="Category-container-1" id="condition">
-          <div className="Category-flexgrow" id="Category-border">
+          <div className="Category-flexgrow-1" id="Category-border">
             <div className="Category-title">전공</div>
             <div>{data.major}</div>
           </div>
-          <div className="Category-flexgrow">
+          <div className="Category-flexgrow-1">
             <div className="Category-title">자격면허</div>
             <div>{data.certificate}</div>
           </div>
-          <div className="Category-flexgrow">
+          <div className="Category-flexgrow-1">
             <div className="Category-title">외국어 자격</div>
             <div>{data.languageCert}</div>
           </div>
-          <div className="Category-flexgrow">
+        </div>
+
+        <div className="Category-container-1" id="condition">
+          <div className="Category-flexgrow-1" id="Category-border-none">
             <div className="Category-title">(기타) 우대사항</div>
-            <div>{data.prefer}</div>
+            <div style={{ lineHeight: '35px' }}>{data.prefer}</div>
           </div>
         </div>
       </div>
@@ -308,7 +328,9 @@ export default function JobDetailItem() {
       </div>
       {/*  */}
       <div className="Detail-container">
-        <div className="Big-category">위치정보</div>
+        <div className="Big-category" ref={myTagRef}>
+          위치정보
+        </div>
         <div>
           <img className="square" src={square} alt="" />
           <hr />
