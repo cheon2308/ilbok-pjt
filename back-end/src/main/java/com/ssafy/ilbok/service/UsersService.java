@@ -25,9 +25,10 @@ import java.util.Date;
 @Service
 public class UsersService {
 
-    @Autowired
+
     private UsersRepository usersRepository;
 
+    @Autowired
     public UsersService(UsersRepository usersRepository){
         this.usersRepository = usersRepository;
     }
@@ -99,6 +100,8 @@ public class UsersService {
 
         Users user = usersRepository.findByEmail(profile.getKakao_account().getEmail());
         if(user == null) {
+
+            System.out.println("시발 여기까지 된다");
             user = Users.builder()
                     .kakaoId(profile.getId())
                     .profileImage(profile.getKakao_account().getProfile().getProfile_image_url())
@@ -131,6 +134,7 @@ public class UsersService {
                 kakaoProfileRequest,
                 String.class
         );
+
         System.out.println(kakaoProfileResponse.getBody());
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -140,7 +144,6 @@ public class UsersService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return kakaoProfile;
     }
 
