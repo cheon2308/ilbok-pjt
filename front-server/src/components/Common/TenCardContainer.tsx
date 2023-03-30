@@ -69,7 +69,7 @@ const TenCardContainer = ({ items, name, title, description }: TenCardProps) => 
               career={item.career}
               regDt={item.regDt}
               closeDt={item.closeDt}
-              wantedAuthNo={item.wantedAuthNo}
+              wantedCode={item.wantedAuthNo}
             />
           ))}
         </TenCardCardContainer>

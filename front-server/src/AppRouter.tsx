@@ -19,7 +19,7 @@ const AppRouter = () => {
           <Route path="/oauth" element={<KakaoLogin />} />
           <Route path="/job/*" element={<JobMain />} />
           <Route path="/welfare/*" element={<WelfareMain />} />
-          <Route path="/detail/*" element={<JobDetail />} />
+          <Route path="/detail/:id" element={<JobDetail />} />
           <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/careerinfo" element={<CareerInfo />} />
         </Routes>
