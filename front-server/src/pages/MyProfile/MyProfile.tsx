@@ -6,8 +6,131 @@ import axios from 'axios'
 import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
+import TenCardContainer from '../../components/Common/TenCardContainer'
 
 const items = [
+  {
+    wantedAuthNo: '공고 번호',
+    company: '(주)코리아환경산업',
+    title: '관저더샵 1차 아파트 외곽구인',
+    salTpNm: '월급 152만원 이상',
+    region: '대전광역시 서구 ',
+    holidayTpNm: '주 5일 근무',
+    minEdubg: '학력무관',
+    career: '관계없음',
+    regDt: '23/03/24',
+    closeDt: '23/03/26',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+  {
+    wantedAuthNo: '공고 번호',
+    company: '회사 이름',
+    title: '공고 이름',
+    salTpNm: '시급,월급 연봉',
+    region: '지역',
+    holidayTpNm: '근무날짜',
+    minEdubg: '학력',
+    career: '경력',
+    regDt: '등록일',
+    closeDt: '마감일',
+  },
+]
+const items2 = [
   { title: 'Item 1', description: 'This is the first item' },
   { title: 'Item 2', description: 'This is the second item' },
   { title: 'Item 3', description: 'This is the third item' },
@@ -16,6 +139,8 @@ const items = [
   { title: 'Item 6', description: 'This is the fifth item' },
   { title: 'Item 7', description: 'This is the fifth item' },
   { title: 'Item 8', description: 'This is the fifth item' },
+  { title: 'Item 9', description: 'This is the fifth item' },
+  { title: 'Item 10', description: 'This is the fifth item' },
 ]
 function MyProfile() {
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
@@ -66,11 +191,19 @@ function MyProfile() {
         </div>
       </div>
       <div className="Profile-Main-container">
-        <AddInfoNoti2 />
-
-        <div>김현진님과 어울리는 일자리</div>
-        <div>일복에서 추천하는 어울리는 일자리</div>
-        <div>캐러셀</div>
+        <div className="Profile-Extra">
+          <AddInfoNoti2 />
+        </div>
+        <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
+          <div>
+            <TenCardContainer
+              items={items2}
+              name="김유민"
+              title="님과 어울리는 일자리"
+              description="일복(日福)에서 추천하는 어울리는 일자리"
+            />
+          </div>
+        </div>
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>
@@ -79,7 +212,19 @@ function MyProfile() {
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
             {items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} />
+              <Card
+                key={item.wantedAuthNo}
+                company={item.company}
+                title={item.title}
+                salTpNm={item.salTpNm}
+                region={item.region}
+                holidayTpNm={item.holidayTpNm}
+                minEdubg={item.minEdubg}
+                career={item.career}
+                regDt={item.regDt}
+                closeDt={item.closeDt}
+                wantedAuthNo={item.wantedAuthNo}
+              />
             ))}
           </CardContainer>
         </RecentlyJobContainer>

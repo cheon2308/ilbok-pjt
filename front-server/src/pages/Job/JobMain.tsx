@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Footer from '../../components/Common/Footer'
 import JobMainItem from '../../components/Job/JobMainItem'
 

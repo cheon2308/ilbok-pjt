@@ -6,35 +6,56 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import ApplyModal from './ApplyModal'
 import BokBtn1 from '../Common/BokBtn1'
 import Marker from '../../assets/image/Marker.png'
+import { useQuery } from '@tanstack/react-query'
+import { getJobDetail } from '../../api/JobDetailApi'
+
 export default function JobDetailItem() {
   const [modal, setModal] = useState<boolean>(false)
   const [x, setX] = useState<number>(0)
   const [y, setY] = useState<number>(0)
-  // 우편번호 확인하기
-  const address = '(14316) 경기도 광명시 오리로 518, CL타워 7~10층 (서울대효요양병원 10층 영양실) (소하동)'
+  const [test, setTest] = useState(14)
+
+  const { isLoading, data } = useQuery({
+    queryKey: [test],
+    queryFn: () => getJobDetail(test),
+  })
 
   const closeModal = () => {
     setModal(false)
   }
 
+  if (isLoading || data === undefined) return <>gggggg</>
+  console.log(data)
+
+  const address = `${data.work_region}`
+
   const geocoder = new kakao.maps.services.Geocoder()
   const callback = function (result: any, status: any) {
     if (status === kakao.maps.services.Status.OK) {
-      console.log(result)
       setX(result[0].x)
       setY(result[0].y)
     }
   }
   geocoder.addressSearch(address, callback)
 
+  const empTypeData = `${data.empType}`
+  const empTypeArray = empTypeData.split('/ ')
+
+  const workRegionData = `${data.work_region}`
+  const workRegionArray = workRegionData.split(' ')
+
+  const workTimeData = `${data.workTime}`
+  const workTimeDataArray = workTimeData.split(',')
+  console.log(workTimeDataArray)
+
   return (
     <div>
       <div className="Title-container">
         <div>
-          <div className="title">SSAFY 개발자 모집</div>
-          <span>등록일 : 2023.03.03 /</span> <span>마감일 : 2023.03.19</span>
+          <div className="title">{data.title}</div>
+          <span> 등록일 : {data.regDate} /</span> <span>마감일 : {data.closeDate}</span>
         </div>
-        <div>
+        <div className="Detail-Button-container">
           <BokBtn1
             sigwidth="150px"
             sigheight="50px"
@@ -54,11 +75,11 @@ export default function JobDetailItem() {
             <div className="Mid-category">지원자격</div>
             <div className="Line-container">
               <div>경력</div>
-              <span>데이터</span>
+              <span>{data.career}</span>
             </div>
             <div className="Line-container">
               <div>학력</div>
-              <span>데이터</span>
+              <span>{data.degreeCode}</span>
             </div>
           </div>
 
@@ -66,11 +87,11 @@ export default function JobDetailItem() {
             <div className="Mid-category">근무조건</div>
             <div className="Line-container">
               <div>지역</div>
-              <span>데이터</span>
+              <span>{workRegionArray[2] + ' ' + workRegionArray[3]}</span>
             </div>
             <div className="Line-container">
               <div>임금</div>
-              <span>데이터</span>
+              <span>{data.salaryType}</span>
             </div>
           </div>
 
@@ -78,11 +99,11 @@ export default function JobDetailItem() {
             <div className="Mid-category">고용형태</div>
             <div className="Line-container">
               <div>고용형태</div>
-              <span>데이터</span>
+              <span>{empTypeArray[0]}</span>
             </div>
             <div className="Line-container">
               <div>근무형태</div>
-              <span>데이터</span>
+              <span>{workTimeDataArray[1]}</span>
             </div>
           </div>
 
@@ -90,48 +111,47 @@ export default function JobDetailItem() {
             <div className="Mid-category">복리후생</div>
             <div className="Line-container">
               <div>복리후생</div>
-              <span>데이터</span>
+              <span>{data.etc_welfare}</span>
             </div>
           </div>
         </div>
 
-        <div className="Info-item">
+        <div className="Info-item" id="Detail-Job-Info">
           <div className="Mid-category">기업정보</div>
           <div className="Line-container">
             <div>기업명</div>
-            <span>데이터</span>
+            <span>{data.company}</span>
           </div>
           <div className="Line-container">
             <div>업종</div>
-            <span>데이터</span>
+            <span>{data.corpBusiness}</span>
           </div>
           <div className="Line-container">
             <div>대표자</div>
-            <span>데이터</span>
+            <span>{data.reperName}</span>
           </div>
           <div className="Line-container">
             <div>기업규모</div>
-            <span>데이터</span>
+            <span>{data.corpSize}</span>
           </div>
           <div className="Line-container">
             <div>사업내용</div>
-            <span>데이터</span>
+            <span>{data.corpBusinessCont}</span>
           </div>
           <div className="Line-container">
             <div>연매출액</div>
-            <span>데이터</span>
+            <span>{data.yearSales}</span>
           </div>
           <div className="Line-container">
             <div>홈페이지</div>
-            <span>데이터</span>
+            <span onClick={() => window.open(data.wantedInfoUrl)}>{data.company}</span>
           </div>
           <div className="Line-container">
             <div>근로자수</div>
-            <span>데이터</span>
+            <span>{data.totalEmp}</span>
           </div>
         </div>
       </div>
-
       {/*  */}
       <div className="Detail-container">
         <div className="Big-category">모집요강</div>
@@ -141,41 +161,51 @@ export default function JobDetailItem() {
         </div>
         <div className="Job-content">
           <div className="Mid-category">모집직종</div>
-          <span>데이터</span>
+          <span>{data.jobName}</span>
         </div>
         <div className="Job-content">
           <div className="Mid-category">직무내용</div>
-          <span>데이터</span>
+          <span>{data.jobCont}</span>
         </div>
-
+        <hr />
         <div>
           <div className="Category-container">
-            <div className="Category-flexgrow" id="Category-border">
+            <div className="Category-flexgrow-1" id="Category-border">
               <div className="Category-title">경력조건</div>
-              <div>데이터</div>
+              <div>{data.career}</div>
             </div>
 
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1">
               <div className="Category-title">학력</div>
-              <div>데이터</div>
+              {/* <div>{data.degreeCode}</div> */}
+              <div>대졸(2~3년)</div>
             </div>
 
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1">
               <div className="Category-title">고용형태</div>
-              <div>데이터</div>
+              <div>
+                {empTypeArray.map((item, index) => (
+                  <div style={{ marginBottom: '20px' }} key={index}>
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="Category-flexgrow">
+            <div className="Category-flexgrow-1">
               <div className="Category-title">모집인원</div>
-              <div>데이터</div>
+              <div>{data.applyNum}</div>
             </div>
-            <div className="Category-flexgrow">
+            {/* <div className="Category-flexgrow">d
               <div className="Category-title">장애인채용</div>
-              <div>데이터</div>
-            </div>
-            <div className="Category-flexgrow">
+              <div>{data.corpBusiness}</div>
+            </div> */}
+            <div className="Category-flexgrow-1" style={{ flexGrow: 1 }}>
               <div className="Category-title">근무예정지</div>
-              <div>데이터</div>
+              <div>
+                <div style={{ marginBottom: '20px' }}>{workRegionArray[2] + ' ' + workRegionArray[3]}</div>
+                <div style={{ color: '#76DCB0', fontWeight: '700' }}>지도보기 ▶</div>
+              </div>
             </div>
           </div>
           {/* <div className='Category-container'>
@@ -197,30 +227,32 @@ export default function JobDetailItem() {
       {/*  */}
       <div className="Detail-container">
         <div className="Big-category">근무조건</div>
+
         <div>
           <img className="square" src={square} alt="" />
           <hr />
         </div>
-        <div className="Category-container" id="condition">
-          <div className="Category-flexgrow" id="Category-border">
+
+        <div className="Category-container-1" id="condition">
+          <div className="Category-flexgrow-1" id="Category-border">
+            <div className="Category-title">근무시간 / 근무형태</div>
+            <div>{data.workTime}</div>
+            <hr />
+          </div>
+        </div>
+
+        <div className="Category-container-1" id="condition">
+          <div className="Category-flexgrow-1" id="Category-border">
             <div className="Category-title">임금조건</div>
-            <div>데이터</div>
+            <div>{data.salaryType}</div>
           </div>
-          <div className="Category-flexgrow">
-            <div className="Category-title">근무시간</div>
-            <div>데이터</div>
-          </div>
-          <div className="Category-flexgrow">
-            <div className="Category-title">근무형태</div>
-            <div>데이터</div>
-          </div>
-          <div className="Category-flexgrow">
+          <div className="Category-flexgrow-1">
             <div className="Category-title">사회보험</div>
-            <div>데이터</div>
+            <div>{data.insurance}</div>
           </div>
-          <div className="Category-flexgrow">
+          <div className="Category-flexgrow-1">
             <div className="Category-title">퇴직급여</div>
-            <div>데이터</div>
+            <div>{data.retirepay}</div>
           </div>
         </div>
       </div>
@@ -231,22 +263,22 @@ export default function JobDetailItem() {
           <img className="square" src={square} alt="" />
           <hr />
         </div>
-        <div className="Category-container" id="condition">
+        <div className="Category-container-1" id="condition">
           <div className="Category-flexgrow" id="Category-border">
             <div className="Category-title">전공</div>
-            <div>데이터</div>
+            <div>{data.major}</div>
           </div>
           <div className="Category-flexgrow">
             <div className="Category-title">자격면허</div>
-            <div>데이터</div>
+            <div>{data.certificate}</div>
           </div>
           <div className="Category-flexgrow">
             <div className="Category-title">외국어 자격</div>
-            <div>데이터</div>
+            <div>{data.languageCert}</div>
           </div>
           <div className="Category-flexgrow">
             <div className="Category-title">(기타) 우대사항</div>
-            <div>데이터</div>
+            <div>{data.prefer}</div>
           </div>
         </div>
       </div>
@@ -259,7 +291,7 @@ export default function JobDetailItem() {
         </div>
         <div className="Job-content">
           <div className="Mid-category">복리후생</div>
-          <div>데이터</div>
+          <div>{data.etc_welfare}</div>
         </div>
       </div>
       {/*  */}
@@ -271,7 +303,7 @@ export default function JobDetailItem() {
         </div>
         <div className="Job-content">
           <div className="Mid-category">장애인 편의 시설</div>
-          <div>데이터</div>
+          <div>{data.disableCon}</div>
         </div>
       </div>
       {/*  */}
@@ -302,10 +334,9 @@ export default function JobDetailItem() {
           </Map>
         </div>
       </div>
-
       {/* Modal */}
       <div>
-        <ApplyModal open={modal} close={closeModal} />
+        <ApplyModal open={modal} close={closeModal} data={data} />
       </div>
     </div>
   )
