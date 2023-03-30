@@ -16,8 +16,9 @@ public class Wanted {
     @Column(name = "wanted_code")
     private int wantedCode;
 
-    @Column(name = "degree_code")
-    private int degreeCode;
+    @ManyToOne
+    @JoinColumn(name = "degree_code")
+    private Degrees degreeCode;
 
     @Column(name = "city_code")
     private int cityCode;
