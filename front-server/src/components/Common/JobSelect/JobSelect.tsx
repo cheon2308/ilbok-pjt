@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+import { useRecoilState } from 'recoil'
+import { JobFamilyCode, JobFamilyName } from '../../../atom'
 
 const JobFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
@@ -11,10 +13,13 @@ interface JobFamilyItemtype {
   jobFamilyCode: string
   name: string
 }
-function JobSelect({ jobSelectCodeFunc, jobSelectNameFunc }: any) {
+function JobSelect() {
   const [activeTab, setActiveTab] = React.useState('')
   const [JobFamily, setJobFamily] = useState<JobFamilyItemtype[]>()
+  const [jobFamilyCode, setjobFamilyCode] = useRecoilState(JobFamilyCode) // 직업 대분류 코드
+  const [jobFamilyName, setjobFamilyName] = useRecoilState(JobFamilyName) // 직업 대분류 이름
 
+  // * API
   const getJobFamilySelect = async () => {
     const res = await axios(process.env.REACT_APP_SERVER_URL + `/resume/jobFamily`, {
       method: 'GET',
@@ -41,10 +46,6 @@ function JobSelect({ jobSelectCodeFunc, jobSelectNameFunc }: any) {
   if (isError) {
     return <div>Error occurred </div>
   }
-  // const JobFamily = [
-  //   { jobFamilyCode: '123', name: '서비스업' },
-  //   { jobFamilyCode: '456', name: '제조업' },
-  // ]
 
   return (
     <>
@@ -54,8 +55,8 @@ function JobSelect({ jobSelectCodeFunc, jobSelectNameFunc }: any) {
             <JobFamilyItem
               key={index}
               onClick={() => {
-                jobSelectCodeFunc(item.jobFamilyCode)
-                jobSelectNameFunc(item.name)
+                setjobFamilyCode(item.jobFamilyCode)
+                setjobFamilyName(item.name)
                 setActiveTab(item.jobFamilyCode)
               }}
               style={{

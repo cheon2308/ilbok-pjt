@@ -12,6 +12,8 @@ import { useQuery } from '@tanstack/react-query'
 import { getAllWanted } from '../api/MainApi'
 import { ClipLoader } from 'react-spinners'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { useRecoilState } from 'recoil'
+import { CareerSubSelectName } from '../atom'
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
@@ -292,7 +294,14 @@ const MainPage = () => {
         <SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
         <SearchForms>
           <FilterSelectContainer>
-            <FilterSelect props={props} width="100px" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
+            <FilterSelect
+              props={props}
+              width="100px"
+              height="64px"
+              borderwidth="2px"
+              bordercolor="#76DCB0"
+              fontsize="20px"
+            />
           </FilterSelectContainer>
 
           <SearchBarContainer>
