@@ -28,11 +28,7 @@ function MyProfile() {
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
   const [kakaoProfileImg, setkakaoProfileImg] = useState<string>('')
-  const abc = () => {
-    axios.get(process.env.REACT_APP_SERVER_URL + `/wanted/getOne?wanted_code=1`).then((res) => {
-      console.log(res)
-    })
-  }
+
   const handleCareerClick = () => {
     navigate('/careerinfo')
   }
@@ -63,7 +59,6 @@ function MyProfile() {
       <div className="Profile-Main-container">
         <div className="Profile-Info-container">
           <div className="Profile-Profile-container">
-            <button onClick={abc}></button>
             <MyProfileImglogo src={kakaoProfileImg} alt="" />
             <div style={{ fontSize: '40px', marginLeft: '40px ' }}>
               안녕하세요, <span style={{ color: '#76DCB0' }}>{kakaoNickname}</span>님

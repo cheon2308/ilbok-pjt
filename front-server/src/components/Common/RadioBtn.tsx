@@ -6,32 +6,28 @@ interface RadioProps {
   name: string
   defaultChecked?: boolean
   disabled?: boolean
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const RadioBtnContainer = styled.label`
   margin: 0 10px 0 0;
-
-
 `
-const RadioBtnInput = styled.input`
-
-`
+const RadioBtnInput = styled.input``
 
 const RadioBtn = (props: RadioProps) => {
   return (
     <>
-
-    <RadioBtnContainer>
-      <RadioBtnInput
-        type="radio"
-        value={props.value}
-        name={props.name}
-        defaultChecked={props.defaultChecked}
-        disabled={props.disabled}
-        
-      />
-      <label>{props.value}</label>
-    </RadioBtnContainer></>
+      <RadioBtnContainer>
+        <RadioBtnInput
+          type="radio"
+          value={props.value}
+          name={props.name}
+          defaultChecked={props.defaultChecked}
+          disabled={props.disabled}
+        />
+        <label>{props.value}</label>
+      </RadioBtnContainer>
+    </>
   )
 }
 
