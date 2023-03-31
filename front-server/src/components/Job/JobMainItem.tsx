@@ -9,11 +9,32 @@ import Paging from '../Common/Paging'
 import AddInfoNoti2 from '../Common/AddInfoNoti2'
 import styled from 'styled-components'
 import JobListContainer from '../Common/JobListContainer'
-
+import { useRecoilState } from 'recoil'
+import { LoginState } from '../../atom'
+import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
 export default function JobMainItem() {
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
-  const [testcode, setTestCode] = useState(0)
-
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
+  const [getfavorite, setgetfavorite] = useState()
+  // const GetFavorite = null
+  const GetFavorite = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/users/getOne?user_id=${isLoggedIn.userId}`, {
+      method: 'POST',
+    })
+    return res.data
+  }
+  const { data, error, isError, isLoading } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
+    onSuccess: (data) => {
+      setgetfavorite(data.favorite)
+      // console.log('data:', data)
+      // 데이터 로드 후 실행할 작업
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
   // 비슷한 유저들이 관심있는 items
   const items = [
     { title: 'Item 1', description: 'This is the first item' },
@@ -49,19 +70,19 @@ export default function JobMainItem() {
 
   return (
     <>
-      {testcode === 0 ? (
+      {isLoggedIn.isLoggedIn === false ? (
         <div style={{ backgroundColor: '#e7f4ef', height: '400px' }}>
           <div className="Main-container">
             <AddInfoNoti />
           </div>
         </div>
-      ) : testcode === 1 ? (
+      ) : isLoggedIn.isLoggedIn === true && getfavorite === null ? (
         <div style={{ backgroundColor: '#e7f4ef', height: '400px' }}>
           <div className="Main-container">
             <AddInfoNoti2 />
           </div>
         </div>
-      ) : testcode === 2 ? (
+      ) : getfavorite !== null ? (
         <div style={{ backgroundColor: '#e7f4ef', height: '1000px', paddingTop: '80px' }}>
           <TenCardContainer
             items={items}

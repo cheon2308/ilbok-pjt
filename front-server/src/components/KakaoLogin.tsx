@@ -3,8 +3,11 @@ import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { KakaoUsertype } from '../types/KakaoUsertype'
+import { useRecoilState } from 'recoil'
+import { LoginState } from '../atom'
 
 function KakaoLogin() {
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   const location = useLocation()
   const navigate = useNavigate()
   const KAKAO_CODE = location.search.split('=')[1]
@@ -20,14 +23,24 @@ function KakaoLogin() {
         Authorization: token,
       },
     })
+<<<<<<< HEAD
     console.log(userData, '여기')
+=======
+
+>>>>>>> frontend
     return userData.data
   }
 
   const { data, error, isError, isLoading } = useQuery<KakaoUsertype, Error>(['kakaoLogin'], getKakaoToken, {
     retry: false,
     onSuccess: (data) => {
-      const { email, kakaoId, nickname, profileImage } = data
+      const { userId, email, kakaoId, nickname, profileImage } = data
+      setIsLoggedIn((prevState) => ({
+        ...prevState,
+        isLoggedIn: true,
+        userId: userId,
+      }))
+      window.localStorage.setItem('email', email)
       window.localStorage.setItem('email', email)
       window.localStorage.setItem('kakaoId', kakaoId)
       window.localStorage.setItem('nickname', nickname)
