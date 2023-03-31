@@ -247,7 +247,7 @@ const MainPage = () => {
   }
   const props = [{ name: '일자리' }, { name: '복지' }]
   const { isLoading, data } = useQuery({
-    queryKey: ['getAllWanted'],
+    queryKey: ['mainGetAllWanted'],
     queryFn: () => getAllWanted(0),
   })
   if (isLoading || data === undefined)
