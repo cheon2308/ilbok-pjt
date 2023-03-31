@@ -14,7 +14,7 @@ export default function JobDetail() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-  console.log(wantedCode)
+
   return (
     <>
       <div className="Main-container">

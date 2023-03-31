@@ -12,7 +12,7 @@ function CitySelect({ regionSelectCode, cityselectNameFunc }: any) {
   ]
 
   const [activeTab, setActiveTab] = React.useState('')
-  console.log(regionSelectCode)
+  // console.log(regionSelectCode)
   return (
     <>
       <div

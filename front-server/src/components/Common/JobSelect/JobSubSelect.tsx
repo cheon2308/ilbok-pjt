@@ -14,7 +14,7 @@ function JobSubSelect({ jobSelectCode, jobSubSelectNameFunc, jobSubSelectCodeFun
   ]
 
   const [activeTab, setActiveTab] = React.useState('')
-  console.log(jobSelectCode)
+  // console.log(jobSelectCode)
   return (
     <>
       <div
