@@ -1,37 +1,71 @@
 import { useState } from 'react'
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
 
 const JobFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
 `
+interface JobFamilyItemtype {
+  jobFamilyCode: string
+  name: string
+}
 function JobSelect({ jobSelectCodeFunc, jobSelectNameFunc }: any) {
   const [activeTab, setActiveTab] = React.useState('')
+  const [JobFamily, setJobFamily] = useState<JobFamilyItemtype[]>()
 
-  const JobFamily = [
-    { jobFamilyCode: '123', name: '서비스업' },
-    { jobFamilyCode: '456', name: '제조업' },
-  ]
+  const getJobFamilySelect = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/resume/jobFamily`, {
+      method: 'GET',
+    })
+    return res.data
+  }
+
+  const { data, error, isError, isLoading } = useQuery(['getJobFamilySelect'], getJobFamilySelect, {
+    onSuccess: (data) => {
+      setJobFamily(data)
+      console.log('data:', data)
+      // 데이터 로드 후 실행할 작업
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error occurred </div>
+  }
+  // const JobFamily = [
+  //   { jobFamilyCode: '123', name: '서비스업' },
+  //   { jobFamilyCode: '456', name: '제조업' },
+  // ]
 
   return (
     <>
       <div style={{ width: '50%' }}>
-        {JobFamily.map((item, index) => (
-          <JobFamilyItem
-            key={index}
-            onClick={() => {
-              jobSelectCodeFunc(item.jobFamilyCode)
-              jobSelectNameFunc(item.name)
-              setActiveTab(item.jobFamilyCode)
-            }}
-            style={{
-              backgroundColor: activeTab === item.jobFamilyCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
-              color: activeTab === item.jobFamilyCode ? '#ffffff' : '',
-            }}
-          >
-            {item.name}
-          </JobFamilyItem>
-        ))}
+        {JobFamily &&
+          JobFamily.map((item, index) => (
+            <JobFamilyItem
+              key={index}
+              onClick={() => {
+                jobSelectCodeFunc(item.jobFamilyCode)
+                jobSelectNameFunc(item.name)
+                setActiveTab(item.jobFamilyCode)
+              }}
+              style={{
+                backgroundColor: activeTab === item.jobFamilyCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
+                color: activeTab === item.jobFamilyCode ? '#ffffff' : '',
+              }}
+            >
+              {item.name}
+            </JobFamilyItem>
+          ))}
       </div>
     </>
   )
