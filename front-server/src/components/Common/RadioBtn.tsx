@@ -24,6 +24,7 @@ const RadioBtn = (props: RadioProps) => {
           name={props.name}
           defaultChecked={props.defaultChecked}
           disabled={props.disabled}
+          onChange={props.onChange}
         />
         <label>{props.value}</label>
       </RadioBtnContainer>
