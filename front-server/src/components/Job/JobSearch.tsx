@@ -180,6 +180,24 @@ export default function JobSearch() {
     },
     [citySelectName]
   )
+  // 학력
+  const [selectedDegree, setSelectedDegree] = useState<number>(0)
+  type RadioValuesDegree = {
+    [key: string]: number
+  }
+
+  const radioValuesDegree: RadioValuesDegree = {
+    전체: 0,
+    '대졸(2~3년)': 4,
+    '대졸(4년)': 5,
+    석사: 6,
+    박사: 7,
+  }
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSelectedDegree(radioValuesDegree[value])
+  }
+  //
 
   return (
     <>
@@ -295,13 +313,11 @@ export default function JobSearch() {
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
                 <RadioBtnContainer>
-                  <RadioBtn value="전체" name="학력선택"></RadioBtn>
-                  <RadioBtn value="중졸이하" name="학력선택"></RadioBtn>
-                  <RadioBtn value="고졸" name="학력선택"></RadioBtn>
-                  <RadioBtn value="전문대졸" name="학력선택"></RadioBtn>
-                  <RadioBtn value="대졸" name="학력선택"></RadioBtn>
-                  <RadioBtn value="대학원이상" name="학력선택"></RadioBtn>
-                  <RadioBtn value="기타" name="학력선택"></RadioBtn>
+                  <RadioBtn value="전체" name="학력선택" onChange={handleRadioChange}></RadioBtn>
+                  <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChange}></RadioBtn>
+                  <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChange}></RadioBtn>
+                  <RadioBtn value="석사" name="학력선택" onChange={handleRadioChange}></RadioBtn>
+                  <RadioBtn value="박사" name="학력선택" onChange={handleRadioChange}></RadioBtn>
                 </RadioBtnContainer>
               </JobSearchCategoryContainer>
               <JobSearchCategoryContainer>
