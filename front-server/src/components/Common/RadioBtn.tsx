@@ -2,7 +2,7 @@ import React from 'react'
 import '../../assets/styles/Common/RadioBtn.css'
 import styled from 'styled-components'
 interface RadioProps {
-  title: string
+  title?: string
   value: string
   name: string
   defaultChecked?: boolean
