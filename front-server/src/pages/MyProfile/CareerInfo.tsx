@@ -4,6 +4,26 @@ import BokBtn1 from '../../components/Common/BokBtn1'
 import BokBtn2 from '../../components/Common/BokBtn2'
 import SearchBar from '../../components/Common/SearchBar'
 import FilterSelect from '../../components/Common/FilterSelect'
+import JobSearch from '../../components/Job/JobSearch'
+import JobSelect from '../../components/Common/JobSelect/JobSelect'
+import JobSubSelect from '../../components/Common/JobSelect/JobSubSelect'
+import JobSubSelect2 from '../../components/Common/JobSelect/JobSubSelect2'
+import { SlMagnifier } from 'react-icons/sl'
+import RegionSelect from '../../components/Common/RegionSelect/RegionSelect'
+import CitySelect from '../../components/Common/RegionSelect/CitySelect'
+import CareerSelect from '../../components/Common/CareerSelect/CareerSelect'
+import CareerSubSelect from '../../components/Common/CareerSelect/CareerSubSelect'
+import { useRecoilState } from 'recoil'
+import {
+  CareerSelectCode,
+  CareerSelectName,
+  CareerSubSelectName,
+  CityName,
+  JobFamilyName,
+  JobName,
+  JobSubName,
+  RegionName,
+} from '../../atom'
 
 const CareerInfoContainer = styled.div`
   display: flex;
@@ -40,6 +60,31 @@ const CareerInfoCategory = styled.div`
   font-weight: 700;
   color: #666666;
 `
+const SearchButtonContainer = styled.div`
+  margin: 15px 0 15px 15px;
+`
+
+const SearchButton = styled.button`
+  width: 43px;
+  height: 43px;
+  background-color: #76dcb0;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    background-color:#c6f0de;
+    box-shadow: 0 0 0 1px #c6f0de;
+
+`
+
+const SlMagnifierContainer = styled.div`
+  width: 100%;
+`
+const SearchCategoryContainer = styled.div`
+  margin: 20px 0 20px 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+`
 const props = [{ name: '일자리' }, { name: '복지' }]
 
 function CareerInfo() {
@@ -49,6 +94,17 @@ function CareerInfo() {
   const [inputFavorite, setInputFavorite] = useState<number>() // 선호하는 직종
   const [inputDegrees, setInputDegrees] = useState<number>()
 
+  const [carrerCode, setCarrerCode] = useRecoilState(CareerSelectCode)
+  const [carrerName, setCarrerName] = useRecoilState(CareerSelectName)
+  const [carrerSubName, setCarrerSubName] = useRecoilState(CareerSubSelectName)
+
+  const [jobFamilyName] = useRecoilState(JobFamilyName)
+  const [jobSubName] = useRecoilState(JobSubName)
+
+  const [regionName] = useRecoilState(RegionName)
+  const [cityName] = useRecoilState(CityName)
+
+  console.log(carrerCode)
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputAge(parseInt(e.target.value))
   }
@@ -75,6 +131,28 @@ function CareerInfo() {
     //   })
     // console.log(FormData)
   }
+  const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
+  const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false)
+  const [searchCareerIsOpen, setSearchCareerIsOpen] = useState(false)
+
+  const degreeList = [
+    { degreeCode: 0, name: '학력무관' },
+    { degreeCode: 4, name: '대졸(2~3년)' },
+    { degreeCode: 5, name: '대졸(4년)' },
+    { degreeCode: 6, name: '석사' },
+    { degreeCode: 7, name: '박사' },
+  ]
+
+  // Toggle
+  const searchJobToggle = () => {
+    setSearchJobIsOpen((searchJobIsOpen) => !searchJobIsOpen)
+  }
+  const searchRegionToggle = () => {
+    setSearchRegionIsOpen((searchRegionIsOpen) => !searchRegionIsOpen)
+  }
+  const searchCareerToggle = () => {
+    setSearchCareerIsOpen((searchCareerIsOpen) => !searchCareerIsOpen)
+  }
 
   return (
     <div className="Main-container">
@@ -99,44 +177,154 @@ function CareerInfo() {
 
             <CareerInfoLineContainer>
               <CareerInfoCategory>지역</CareerInfoCategory>
-              <FilterSelect props={props} width="100px" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
+              <SearchCategoryContainer>
+                <div onClick={() => searchRegionToggle()}>
+                  <input
+                    style={{
+                      width: '250px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 15px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <SearchButtonContainer>
+                  <SearchButton onClick={() => searchRegionToggle()}>
+                    <SlMagnifierContainer>
+                      <SlMagnifier size="20px" color="white" />
+                    </SlMagnifierContainer>
+                  </SearchButton>
+                </SearchButtonContainer>
+              </SearchCategoryContainer>
+              {searchRegionIsOpen === true ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    textAlign: 'center',
+                    margin: '50px 0 50px 0',
+                    border: '1px solid #D9D9D9',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <RegionSelect />
+                  <CitySelect />
+                </div>
+              ) : null}
             </CareerInfoLineContainer>
 
             <CareerInfoLineContainer>
               <CareerInfoCategory>경력</CareerInfoCategory>
-              <SearchBar
-                width="250px"
-                height="20px"
-                placeholder=""
-                borderwidth="1px"
-                bordercolor="#666666"
-                fontsize="15px"
-                hovercolor="#666666"
-              />
             </CareerInfoLineContainer>
+            <SearchCategoryContainer>
+              <div onClick={() => searchCareerToggle()}>
+                <input
+                  style={{
+                    width: '250px',
+                    height: '20px',
+                    fontSize: '15px',
+                    padding: '10px 10px 10px 15px',
+                    margin: '0 15px 0 0',
+                  }}
+                  disabled
+                  value={carrerName}
+                ></input>
+                <input
+                  style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                  disabled
+                  value={carrerSubName}
+                ></input>
+              </div>
+              <SearchButtonContainer>
+                <SearchButton onClick={() => searchJobToggle()}>
+                  <SlMagnifierContainer>
+                    <SlMagnifier size="20px" color="white" />
+                  </SlMagnifierContainer>
+                </SearchButton>
+              </SearchButtonContainer>
+            </SearchCategoryContainer>
+            {searchCareerIsOpen === true ? (
+              <div
+                style={{
+                  height: '230px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  textAlign: 'center',
+                  margin: '50px 0 50px 0',
+                  border: '1px solid #D9D9D9',
+                  borderRadius: '5px',
+                }}
+              >
+                <CareerSelect />
+                <CareerSubSelect />
+              </div>
+            ) : null}
 
             <CareerInfoLineContainer>
               <CareerInfoCategory>선호하는 직종</CareerInfoCategory>
-              <SearchBar
-                width="250px"
-                height="20px"
-                placeholder=""
-                borderwidth="1px"
-                bordercolor="#666666"
-                fontsize="15px"
-                hovercolor="#666666"
-              />
+              <SearchCategoryContainer>
+                <div onClick={() => searchJobToggle()}>
+                  <input
+                    style={{
+                      width: '250px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 15px 0 0',
+                    }}
+                    disabled
+                    value={jobFamilyName}
+                  ></input>
+                  <input
+                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    disabled
+                    value={jobSubName}
+                  ></input>
+                </div>
+                <SearchButtonContainer>
+                  <SearchButton onClick={() => searchJobToggle()}>
+                    <SlMagnifierContainer>
+                      <SlMagnifier size="20px" color="white" />
+                    </SlMagnifierContainer>
+                  </SearchButton>
+                </SearchButtonContainer>
+              </SearchCategoryContainer>
             </CareerInfoLineContainer>
+            {searchJobIsOpen === true ? (
+              <CareerInfoLineContainer>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    textAlign: 'center',
+                    margin: '50px 0 50px 0',
+                    border: '1px solid #D9D9D9',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <JobSelect />
+                  <JobSubSelect />
+                </div>
+              </CareerInfoLineContainer>
+            ) : null}
             <CareerInfoLineContainer>
               <CareerInfoCategory>학력</CareerInfoCategory>
-              <SearchBar
-                width="250px"
-                height="20px"
-                placeholder=""
+
+              <FilterSelect
+                props={degreeList}
+                width="280px"
+                height="45px"
                 borderwidth="1px"
                 bordercolor="#666666"
-                fontsize="15px"
-                hovercolor="#666666"
+                fontsize="16px"
               />
             </CareerInfoLineContainer>
           </div>
