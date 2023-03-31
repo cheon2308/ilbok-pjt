@@ -1,6 +1,18 @@
 import axios from 'axios'
+import { BASE_URL } from './KakaoLoginData'
+
+
 
 // url 호출 시 기본 값 셋팅
+const axiosApi = (baseURL: any) => {
+  const instance = axios.create({
+    baseURL,
+    withCredentials: true,
+  })
+  return instance
+}
+export const defaultInstance = axiosApi('http://j8e202.p.ssafy.io:5000') 
+
 const api = axios.create({
   headers: { 'Content-type': 'application/json' }, // data type
 })

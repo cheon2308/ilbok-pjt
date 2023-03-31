@@ -1,9 +1,6 @@
 package com.ssafy.ilbok.controller;
 
-import com.ssafy.ilbok.model.entity.Cities;
-import com.ssafy.ilbok.model.entity.JobFamily;
-import com.ssafy.ilbok.model.entity.JobSubFamily;
-import com.ssafy.ilbok.model.entity.Regions;
+import com.ssafy.ilbok.model.entity.*;
 import com.ssafy.ilbok.service.CityService;
 import com.ssafy.ilbok.service.JobService;
 import com.ssafy.ilbok.service.RegionService;
@@ -52,6 +49,10 @@ public class ResumeController {
         return new ResponseEntity<>(jobService.findJobSubFamilyByCode(job_family_code), HttpStatus.ACCEPTED);
     }
 
+    @GetMapping(value = "jobs")
+    public ResponseEntity<List<Jobs>> getJobs(@RequestParam int job_sub_code){
+        return new ResponseEntity<>(jobService.findJobsByJobSubCode(job_sub_code),HttpStatus.ACCEPTED);
+    }
 
 
 }
