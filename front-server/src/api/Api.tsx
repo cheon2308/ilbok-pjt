@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.REACT_APP_API_URL
+const BASE_URL = process.env.REACT_APP_SERVER_URL
 
 // url 호출 시 기본 값 셋팅
 const axiosApi = (baseURL: any) => {

@@ -104,6 +104,7 @@ export default function JobSearch() {
   const [searchIsOpen, setSearchIsOpen] = useState(true)
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
   const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false)
+
   const [jobSelectCode, setJobSelectCode] = useState('')
   const [jobSelectName, setJobSelectName] = useState('')
   const [jobSubSelectCode, setJobSubSelectCode] = useState('')
