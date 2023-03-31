@@ -240,16 +240,13 @@ const SearchTitle = styled.div`
 `
 
 const MainPage = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
-  }
   const props = [{ name: '일자리' }, { name: '복지' }]
+
   const { isLoading, data } = useQuery({
     queryKey: ['mainGetAllWanted'],
     queryFn: () => getAllWanted(0),
   })
+
   if (isLoading || data === undefined)
     return (
       <>
@@ -258,8 +255,8 @@ const MainPage = () => {
         </div>
       </>
     )
-
   const mainDatas = data.content.slice(0, 8)
+
   return (
     <>
       {/* Main */}
