@@ -8,7 +8,8 @@ import LoginModal from '../LoginModal'
 import BokBtn2 from '../Common/BokBtn2'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
-
+import { useRecoilState } from 'recoil'
+import { LoginState } from '../../atom'
 const NavbarContainer = styled.nav`
   align-items: center;
   padding: 5px;
@@ -90,7 +91,7 @@ const NavBar = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const navigate = useNavigate()
-
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   const profileImg = window.localStorage.getItem('token')
     ? window.localStorage.getItem('profileImage') || DefaultProfile
     : undefined
@@ -114,12 +115,15 @@ const NavBar = () => {
           },
         })
         .then((res) => {
-          console.log(res)
           localStorage.removeItem('email')
           localStorage.removeItem('kakaoId')
           localStorage.removeItem('nickname')
           localStorage.removeItem('profileImage')
           localStorage.removeItem('token')
+          setIsLoggedIn((prevState) => ({
+            userId: 0,
+            isLoggedIn: false,
+          }))
           navigate('/')
         })
         .catch((err) => {
