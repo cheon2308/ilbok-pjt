@@ -146,48 +146,6 @@ export default function JobSearch() {
   }
   //여기까지(학력)
 
-  const jobSubSelectNameFunc = React.useCallback(
-    (e: any) => {
-      setJobSubSelectName(e)
-    },
-    [jobSubSelectName]
-  )
-
-  const jobSubSelectCodeFunc = React.useCallback(
-    (e: any) => {
-      setJobSubSelectCode(e)
-    },
-    [jobSubSelectCode]
-  )
-
-  const jobSubSelect2NameFunc = React.useCallback(
-    (e: any) => {
-      setJobSubSelect2Name(e)
-    },
-    [jobSubSelectName]
-  )
-
-  const regionSelectCodeFunc = React.useCallback(
-    (e: any) => {
-      setRegionSelectCode(e)
-    },
-    [regionSelectCode]
-  )
-
-  const regionSelectNameFunc = React.useCallback(
-    (e: any) => {
-      setRegionSelectName(e)
-    },
-    [regionSelectName]
-  )
-
-  const cityselectNameFunc = React.useCallback(
-    (e: any) => {
-      setCitySelectName(e)
-    },
-    [citySelectName]
-  )
-
   //경력
   const handleRadioChangecareer = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value

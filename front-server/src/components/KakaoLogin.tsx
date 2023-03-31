@@ -23,11 +23,7 @@ function KakaoLogin() {
         Authorization: token,
       },
     })
-<<<<<<< HEAD
     console.log(userData, '여기')
-=======
-
->>>>>>> frontend
     return userData.data
   }
 
