@@ -186,7 +186,6 @@ def user_train(request):
 def recommend_items_for_user(request, user_id):
     user_item_matrix = np.load('./data/rec_user_to_job.npy')
     user_vector = user_item_matrix[user_id, :]
-    print(user_vector)
     item_idx = np.argsort(-user_vector)[:200]
     recommended_items = [idx for idx in item_idx]
     return Response(recommended_items)
@@ -229,7 +228,8 @@ def recommend_items(request, user_id):
 
 
 # 유저 특성 행렬화 시키기
-def user_info():
+@api_view(['GET'])
+def user_info(request):
     all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
     
     # job 코드 변수
@@ -279,20 +279,13 @@ def user_info():
     for car in career:
         user_num = car.user_id
         job_num = car.sub_code.job_sub_code
-        # 1년은 +1
-        if car.period == 1:
-            userMatrix[user_num][sub_to_index[job_num]] += 1
-        # 2,3년은 +2
-        elif car.period == 2 or car.period == 3:
-            userMatrix[user_num][sub_to_index[job_num]] += 2
-        # 4,5녀는 +3
-        elif car.period == 4 or car.period == 5:
-            userMatrix[user_num][sub_to_index[job_num]] += 3
+        userMatrix[user_num][sub_to_index[job_num]] = car.period
+
 
     # 유저 정보에 대해 matrix에 기록
     for us in all_user:
         # 이력서 작성한 사람에 한해 
-        if us['degree_code']:
+        if us['city_code']:
             us_num = us['user_id']
             fav = us['favorite']
             us_city = us['city_code']
@@ -343,10 +336,24 @@ def user_info():
 
     # 유사도로 저장해주기
     calc_sim_user = cosine_similarity(userMatrix, userMatrix)
+    
     sorted_index = np.argsort(calc_sim_user)[:, ::-1]
     sorted_index = sorted_index[:, 1:]
-    print(sorted_index)
     # 유저간 유사도
-    np.save('./user_to_user', sorted_index)
-    return
+    np.save('./data/user_to_user', sorted_index)
+    return Response(sorted_index)
 
+
+# 유저 특성 행렬화 시키기
+@api_view(['GET'])
+def rec_cf_user(request, user_id):
+    user_list = np.load('./data/user_to_user.npy')
+    rec_user = user_list[user_id][:5]
+    user_item_matrix = np.load('./data/rec_user_to_job.npy')
+    res_data = []
+    for i in rec_user:
+        user_vector = user_item_matrix[user_id, :]
+        item_idx = np.argsort(-user_vector)[:5]
+        for j in item_idx:
+            res_data.append(j)
+    return Response(res_data)

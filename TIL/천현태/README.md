@@ -1044,3 +1044,7 @@ def user_train(request):
 - make_train()과 user_to_job() 함수 이용하여, 행렬 업데이트 및 학습 데이터 생성해준 후,
 - 모델 학습 시켜서 예측값 계산 후 저장
 - response -> 'success'
+
+
+```python 
+```
