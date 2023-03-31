@@ -3,4 +3,5 @@ export interface KakaoUsertype {
   kakaoId: string
   nickname: string
   profileImage: string
+  userId: number
 }
