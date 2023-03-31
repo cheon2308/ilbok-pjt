@@ -185,7 +185,6 @@ export default function JobSearch() {
   type RadioValuesDegree = {
     [key: string]: number
   }
-
   const radioValuesDegree: RadioValuesDegree = {
     전체: 0,
     '대졸(2~3년)': 4,
@@ -193,12 +192,18 @@ export default function JobSearch() {
     석사: 6,
     박사: 7,
   }
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChangedegree = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
+    console.log(radioValuesDegree[value])
     setSelectedDegree(radioValuesDegree[value])
   }
-  //
+  //여기까지(학력)
 
+  //경력
+  const handleRadioChangecareer = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    console.log(value)
+  }
   return (
     <>
       <JobSearchMainContainer>
@@ -313,32 +318,20 @@ export default function JobSearch() {
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
                 <RadioBtnContainer>
-                  <RadioBtn value="전체" name="학력선택" onChange={handleRadioChange}></RadioBtn>
-                  <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChange}></RadioBtn>
-                  <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChange}></RadioBtn>
-                  <RadioBtn value="석사" name="학력선택" onChange={handleRadioChange}></RadioBtn>
-                  <RadioBtn value="박사" name="학력선택" onChange={handleRadioChange}></RadioBtn>
+                  <RadioBtn value="전체" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                  <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                  <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                  <RadioBtn value="석사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                  <RadioBtn value="박사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
                 </RadioBtnContainer>
               </JobSearchCategoryContainer>
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer>고용조건</JobSearchCategoryTitleContainer>
-                <RadioBtnContainer>
-                  <RadioBtn value="무관" name="고용조건"></RadioBtn>
-                  <RadioBtn value="상용직" name="고용조건"></RadioBtn>
-                  <RadioBtn value="계약직" name="고용조건"></RadioBtn>
-                  <RadioBtn value="계약직(시간제)" name="고용조건"></RadioBtn>
-                  <RadioBtn value="파견근로" name="고용조건"></RadioBtn>
-                  <RadioBtn value="상용직(시간제)" name="고용조건"></RadioBtn>
-                  <RadioBtn value="기타" name="고용조건"></RadioBtn>
-                </RadioBtnContainer>
-              </JobSearchCategoryContainer>
+
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>경력선택</JobSearchCategoryTitleContainer>
                 <RadioBtnContainer>
-                  <RadioBtn value="무관" name="경력선택"></RadioBtn>
-                  <RadioBtn value="신입" name="경력선택"></RadioBtn>
-                  <RadioBtn value="경력" name="경력선택"></RadioBtn>
-                  <RadioBtn value="기타" name="경력선택"></RadioBtn>
+                  <RadioBtn value="관계없음" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                  <RadioBtn value="경력" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                  <RadioBtn value="신입" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
                 </RadioBtnContainer>
               </JobSearchCategoryContainer>
 
