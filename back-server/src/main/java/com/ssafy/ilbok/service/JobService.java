@@ -46,7 +46,7 @@ public class JobService {
     }
 
     public List<Jobs> findJobsByJobSubCode(int jobSubCode) {
-        
+
         List<JobCategory> jobCategory = jobCategoryRepository.findByJobSubCode(jobSubCode);
         List<Jobs> jobs = new ArrayList<>();
         for(JobCategory value : jobCategory){
