@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export interface JobListItemProps {
@@ -12,9 +13,20 @@ export interface JobListItemProps {
   career: string // 경력
   regDt: string
   closeDt: string
+  degreeCode: any
+  workingDay: string
+  salary: string
+  salaryType: string
 }
 
 const JobListItemContainer = styled.div`
+  font-size: 16px;
+  color: #666666;
+`
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  width: 100%;
+  color: #666666;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -22,8 +34,9 @@ const JobListItemContainer = styled.div`
 
   margin: 30px 0 30px 0;
 
-  font-size: 16px;
-  color: #666666;
+  :hover {
+    color: #76dcb0;
+  }
 `
 
 const JobListItem = ({
@@ -37,28 +50,43 @@ const JobListItem = ({
   career,
   regDt,
   closeDt,
+  degreeCode,
+  workingDay,
+  salary,
+  salaryType,
 }: JobListItemProps) => {
+  const workRegionData = `${region}`
+  const workRegionArray = workRegionData.split(' ')
+
+  const numberWithCommas = (x: any) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
   return (
     <>
       <JobListItemContainer>
-        <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
+        <StyledLink to={`/detail/${wantedAuthNo}`} state={{ wantedCode: `${wantedAuthNo}` }}>
+          <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
 
-        <div style={{ flex: '4 1 0' }}>
-          <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
-          <div>
-            {career} | {minEdubg} | {region}
+          <div style={{ flex: '4 1 0' }}>
+            <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
+            <div>
+              {career} | {degreeCode.degree} | {workRegionArray[2] + ' ' + workRegionArray[3]}
+            </div>
           </div>
-        </div>
 
-        <div style={{ flex: '2 1 0' }}>
-          <div style={{ marginBottom: '10px' }}>{salTpNm}</div>
-          <div>{holidayTpNm}</div>
-        </div>
+          <div style={{ flex: '2 1 0' }}>
+            <div style={{ marginBottom: '10px', textAlign: 'center' }}>
+              {salaryType} | {numberWithCommas(salary)}
+              {'원'}
+            </div>
+            <div style={{ textAlign: 'center' }}>{workingDay}</div>
+          </div>
 
-        <div style={{ flex: '2 1 0', textAlign: 'center' }}>
-          <div style={{ marginBottom: '10px' }}>{regDt}</div>
-          <div style={{ fontSize: '16px', fontWeight: '700', marginBottom: '10px' }}>{closeDt}</div>
-        </div>
+          <div style={{ flex: '2 1 0', textAlign: 'center' }}>
+            <div style={{ marginBottom: '10px' }}>{regDt}</div>
+            <div style={{ fontSize: '16px', fontWeight: '700', marginBottom: '10px' }}>{closeDt}</div>
+          </div>
+        </StyledLink>
       </JobListItemContainer>
       <hr />
     </>

@@ -13,6 +13,8 @@ import JobSubSelect from '../Common/JobSelect/JobSubSelect'
 import JobSubSelect2 from '../Common/JobSelect/JobSubSelect2'
 import RegionSelect from '../Common/RegionSelect/RegionSelect'
 import CitySelect from '../Common/RegionSelect/CitySelect'
+import { useRecoilState } from 'recoil'
+import { CityName, JobFamilyCode, JobFamilyName, JobName, JobSubName, RegionName } from '../../atom'
 
 const JobSearchMainContainer = styled.div`
   margin: 100px 0 100px 0;
@@ -104,14 +106,13 @@ export default function JobSearch() {
   const [searchIsOpen, setSearchIsOpen] = useState(true)
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
   const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false)
-  const [jobSelectCode, setJobSelectCode] = useState('')
-  const [jobSelectName, setJobSelectName] = useState('')
-  const [jobSubSelectCode, setJobSubSelectCode] = useState('')
-  const [jobSubSelectName, setJobSubSelectName] = useState('')
-  const [jobSubSelect2Name, setJobSubSelect2Name] = useState('')
-  const [regionSelectCode, setRegionSelectCode] = useState('')
-  const [regionSelectName, setRegionSelectName] = useState('')
-  const [citySelectName, setCitySelectName] = useState('')
+
+  const [jobFamilyName] = useRecoilState(JobFamilyName)
+  const [jobSubName] = useRecoilState(JobSubName)
+  const [jobName] = useRecoilState(JobName)
+
+  const [regionName] = useRecoilState(RegionName)
+  const [cityName] = useRecoilState(CityName)
 
   // Toggle
   const searchToggle = () => {
@@ -125,61 +126,7 @@ export default function JobSearch() {
   }
 
   // JobSelect
-  const jobSelectCodeFunc = React.useCallback(
-    (e: any) => {
-      setJobSelectCode(e)
-    },
-    [jobSelectCode]
-  )
 
-  const jobSelectNameFunc = React.useCallback(
-    (e: any) => {
-      setJobSelectName(e)
-    },
-    [jobSelectName]
-  )
-
-  const jobSubSelectNameFunc = React.useCallback(
-    (e: any) => {
-      setJobSubSelectName(e)
-    },
-    [jobSubSelectName]
-  )
-
-  const jobSubSelectCodeFunc = React.useCallback(
-    (e: any) => {
-      setJobSubSelectCode(e)
-    },
-    [jobSubSelectCode]
-  )
-
-  const jobSubSelect2NameFunc = React.useCallback(
-    (e: any) => {
-      setJobSubSelect2Name(e)
-    },
-    [jobSubSelectName]
-  )
-
-  const regionSelectCodeFunc = React.useCallback(
-    (e: any) => {
-      setRegionSelectCode(e)
-    },
-    [regionSelectCode]
-  )
-
-  const regionSelectNameFunc = React.useCallback(
-    (e: any) => {
-      setRegionSelectName(e)
-    },
-    [regionSelectName]
-  )
-
-  const cityselectNameFunc = React.useCallback(
-    (e: any) => {
-      setCitySelectName(e)
-    },
-    [citySelectName]
-  )
   // 학력
   const [selectedDegree, setSelectedDegree] = useState<number>(0)
   type RadioValuesDegree = {
@@ -230,17 +177,17 @@ export default function JobSearch() {
                   <input
                     style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
-                    value={jobSelectName}
+                    value={jobFamilyName}
                   ></input>
                   <input
                     style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
-                    value={jobSubSelectName}
+                    value={jobSubName}
                   ></input>
                   <input
                     style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
-                    value={jobSubSelect2Name}
+                    value={jobName}
                   ></input>
                 </div>
                 <SearchButtonContainer>
@@ -263,13 +210,9 @@ export default function JobSearch() {
                       borderRadius: '5px',
                     }}
                   >
-                    <JobSelect jobSelectCodeFunc={jobSelectCodeFunc} jobSelectNameFunc={jobSelectNameFunc} />
-                    <JobSubSelect
-                      jobSelectCode={jobSelectCode}
-                      jobSubSelectNameFunc={jobSubSelectNameFunc}
-                      jobSubSelectCodeFunc={jobSubSelectCodeFunc}
-                    />
-                    <JobSubSelect2 jobSubSelectCode={jobSubSelectCode} jobSubSelect2NameFunc={jobSubSelect2NameFunc} />
+                    <JobSelect />
+                    <JobSubSelect />
+                    <JobSubSelect2 />
                   </div>
                 </>
               ) : null}
@@ -280,12 +223,12 @@ export default function JobSearch() {
                   <input
                     style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
-                    value={regionSelectName}
+                    value={regionName}
                   ></input>
                   <input
                     style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
                     disabled
-                    value={citySelectName}
+                    value={cityName}
                   ></input>
                 </div>
                 <SearchButtonContainer>
@@ -308,11 +251,8 @@ export default function JobSearch() {
                     borderRadius: '5px',
                   }}
                 >
-                  <RegionSelect
-                    regionSelectCodeFunc={regionSelectCodeFunc}
-                    regionSelectNameFunc={regionSelectNameFunc}
-                  />
-                  <CitySelect regionSelectCode={regionSelectCode} cityselectNameFunc={cityselectNameFunc} />
+                  <RegionSelect />
+                  <CitySelect />
                 </div>
               ) : null}
               <JobSearchCategoryContainer>

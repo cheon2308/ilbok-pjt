@@ -42,6 +42,9 @@ const CardContainer = styled.div`
   @media (min-width: 1868px) {
     min-width: 230px;
   }
+  @media (min-width: 2330px) {
+    max-width: 230px;
+  }
 `
 
 const CardTitle = styled.div`

@@ -13,7 +13,7 @@ export default function ApplyModal({ open, close, data }: Props) {
   const process = `${data.applyMethod}`
   const [worknet] = useState<boolean>(process.includes('워크넷'))
   const url = `${data.wantedInfoUrl}`
-  console.log('data', data)
+
   return (
     <div className={open ? 'openModal modal' : 'modal'}>
       {open ? (

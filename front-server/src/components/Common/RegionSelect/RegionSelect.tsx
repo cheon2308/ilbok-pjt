@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+import { useRecoilState } from 'recoil'
+import { CityCode, RegionCode, RegionName } from '../../../atom'
 
 const RegionFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
@@ -12,9 +14,12 @@ interface RegionFamilyItem {
   region: string
 }
 
-function RegionSelect({ regionSelectCodeFunc, regionSelectNameFunc }: any) {
+function RegionSelect() {
   const [activeTab, setActiveTab] = React.useState('')
   const [RegionFamily, setRegionFamily] = useState<RegionFamilyItem[]>()
+
+  const [regionName, setRegionName] = useRecoilState(RegionName)
+  const [regionCode, setRegionCode] = useRecoilState(RegionCode)
   const getRegionSelect = async () => {
     const res = await axios(process.env.REACT_APP_SERVER_URL + `/resume/regions`, {
       method: 'GET',
@@ -41,11 +46,6 @@ function RegionSelect({ regionSelectCodeFunc, regionSelectNameFunc }: any) {
   if (isError) {
     return <div>Error occurred </div>
   }
-  // const RegionFamily = [
-  //   { regionCode: '02', region: '서울특별시' },
-  //   { regionCode: '051', region: '부산광역시' },
-  //   { regionCode: '054', region: '경상북도' },
-  // ]
 
   return (
     <>
@@ -55,9 +55,9 @@ function RegionSelect({ regionSelectCodeFunc, regionSelectNameFunc }: any) {
             <RegionFamilyItem
               key={index}
               onClick={() => {
-                regionSelectCodeFunc(item.regionCode)
-                regionSelectNameFunc(item.region)
                 setActiveTab(item.regionCode)
+                setRegionCode(item.regionCode)
+                setRegionName(item.region)
               }}
               style={{
                 backgroundColor: activeTab === item.regionCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',

@@ -55,7 +55,6 @@ export default function JobDetailItem({ wantedCode }: any) {
 
   const workTimeData = `${data.workTime}`
   const workTimeDataArray = workTimeData.split(', 주')
-  console.log(workTimeDataArray)
 
   const scrollToMyTag = () => {
     if (myTagRef.current) {
@@ -118,7 +117,9 @@ export default function JobDetailItem({ wantedCode }: any) {
             </div>
             <div className="Line-container">
               <div>근무형태</div>
-              <span>{workTimeDataArray[1]}</span>
+              <span>
+                {'주'} {workTimeDataArray[1]}
+              </span>
             </div>
           </div>
 
