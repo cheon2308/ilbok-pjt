@@ -6,8 +6,11 @@ import axios from 'axios'
 import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
+import TenCardContainer from '../../components/Common/TenCardContainer'
+import { useNavigate } from 'react-router'
+import JobListContainer from '../../components/Common/JobListContainer'
 
-const items = [
+const items2 = [
   { title: 'Item 1', description: 'This is the first item' },
   { title: 'Item 2', description: 'This is the second item' },
   { title: 'Item 3', description: 'This is the third item' },
@@ -16,26 +19,36 @@ const items = [
   { title: 'Item 6', description: 'This is the fifth item' },
   { title: 'Item 7', description: 'This is the fifth item' },
   { title: 'Item 8', description: 'This is the fifth item' },
+  { title: 'Item 9', description: 'This is the fifth item' },
+  { title: 'Item 10', description: 'This is the fifth item' },
 ]
 function MyProfile() {
+  const navigate = useNavigate()
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
   const [kakaoProfileImg, setkakaoProfileImg] = useState<string>('')
+
+  const handleCareerClick = () => {
+    navigate('/careerinfo')
+  }
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
-      .get('http://localhost:8080/api/me', {
+      .get(process.env.REACT_APP_SERVER_URL + '/users/me', {
         headers: {
           Authorization: token,
         },
       })
       .then((res) => {
-        console.log(res)
-        setkakaoEmail(res.data.kakaoEmail)
+        console.log('됐어')
+        setkakaoEmail(res.data.email)
         setkakaoId(res.data.kakaoId)
-        setkakaoNickname(res.data.kakaoNickname)
-        setkakaoProfileImg(res.data.kakaoProfileImg)
+        setkakaoNickname(res.data.nickname)
+        setkakaoProfileImg(res.data.profileImage)
+      })
+      .catch((e) => {
+        console.error(e)
       })
   }
   useEffect(() => {
@@ -52,10 +65,14 @@ function MyProfile() {
             </div>
           </div>
           <div>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
-              개인정보수정
-            </BokBtn1>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
+            <BokBtn1
+              sigwidth="300px"
+              sigheight="50px"
+              sigfontsize="20px"
+              sigborderradius={25}
+              sigmargin="20px"
+              onClick={handleCareerClick}
+            >
               개인이력수정
             </BokBtn1>
           </div>
@@ -66,24 +83,27 @@ function MyProfile() {
         </div>
       </div>
       <div className="Profile-Main-container">
-        <AddInfoNoti2 />
-
-        <div>김현진님과 어울리는 일자리</div>
-        <div>일복에서 추천하는 어울리는 일자리</div>
-        <div>캐러셀</div>
+        <div className="Profile-Extra">
+          <AddInfoNoti2 />
+        </div>
+        <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
+          <div>
+            <TenCardContainer
+              items={items2}
+              name={kakaoNickname}
+              title="님과 어울리는 일자리"
+              description="일복(日福)에서 추천하는 어울리는 일자리"
+            />
+          </div>
+        </div>
       </div>
       <div className="Profile-Main-container Profile-Like-container">
-        <RecentlyJobContainer>
-          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
-          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
-          <CardContainer>
-            {items.map((item) => (
-              <Card key={item.title} title={item.title} description={item.description} />
-            ))}
-          </CardContainer>
-        </RecentlyJobContainer>
+        <RecentlyJobTitle>
+          <span style={{ color: '#76DCB0' }}>{kakaoNickname}</span>님이 관심있는 일자리
+        </RecentlyJobTitle>
+        <RecentlyJobSubtitle style={{ marginBottom: '40px' }}>일복이 추천하는 일자리 </RecentlyJobSubtitle>
       </div>
+      <JobListContainer />
     </>
   )
 }

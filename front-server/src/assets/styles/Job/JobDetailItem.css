@@ -37,20 +37,23 @@
 
 .Line-container > div {
   margin: 12px;
-  width: 82px;
+  width: 100px;
   text-align: right;
-  position: relative;
+  /* position: relative; */
+  font-weight: 600;
+  font-size: 18px;
 }
 .Line-container > span {
   margin: 12px;
-  width: 200px;
+  width: 100%;
   text-align: left;
+  font-size: 18px;
 }
 
 /* Detail */
 
 .Detail-container {
-  margin: 100px 0 0 0;
+  margin: 120px 0 0 0;
 }
 
 .Map-container {
@@ -59,6 +62,7 @@
 
 .Job-content {
   margin: 45px 0 45px;
+  font-size: 18px;
 }
 
 .Category-container {
@@ -66,11 +70,27 @@
   flex-direction: row;
   justify-content: space-between;
   text-align: center;
+  font-size: 18px;
 }
-
+.Category-container-1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 18px;
+}
 .Category-container > div > .Category-title {
-  margin: 40px 0 40px 0;
-
+  padding: 30px 0 30px 0;
+  background-color: #f5f5f5;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22.5px;
+  line-height: 29px;
+  color: #666666;
+}
+.Category-container-1 > div > .Category-title {
+  padding: 30px 0 30px 0;
+  background-color: #f5f5f5;
   font-style: normal;
   font-weight: 600;
   font-size: 22.5px;
@@ -81,10 +101,12 @@
 .Category-container > div > div {
   margin-bottom: 50px;
 }
+.Category-container-1 > div > div {
+  margin-bottom: 50px;
+}
 
-.Category-flexgrow {
-  flex-grow: 1.6;
-  width: 100%;
+.Category-flexgrow-1 {
+  flex-grow: 1;
   border-left: 1px solid #ababab;
 }
 
@@ -107,6 +129,9 @@
   margin: 50px 0 50px 0;
 }
 
+#Category-border-none {
+  border: none;
+}
 /*  */
 
 .Big-category {
@@ -126,6 +151,8 @@
   line-height: 29px;
   color: #666666;
   margin: 15px 0 15px;
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
 }
 
 hr {
@@ -139,12 +166,139 @@ hr {
 
 /*  */
 
-@media screen and (min-width: 1024px) {
-}
-/* tablet 규격 */
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1500px) {
+  .Category-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: start;
+    margin: 30px 0 0 0;
+    flex-wrap: wrap;
+    height: 500px;
+  }
+  .Category-container-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: start;
+    margin: 30px 0 0 0;
+  }
+  .Category-flexgrow-1 {
+    flex-grow: 1;
+    border: none;
+    height: 50%;
+  }
+  .Category-container > div > .Category-title {
+    margin: 20px 0 20px 0;
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22.5px;
+    line-height: 29px;
+    color: #666666;
+  }
+  .Detail-container {
+    margin: 50px 0 0 0;
+  }
+  #condition {
+    margin: 30px 0 30px 0;
+  }
 }
 
-/* mobile 규격 */
-@media screen and (max-width: 540px) {
+/* tablet 규격 */
+@media screen and (max-width: 1400px) {
+  .Info-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  .Line-container > div {
+    margin: 12px;
+    width: 50%;
+    text-align: right;
+    position: relative;
+    font-size: 18px;
+  }
+  .Line-container > span {
+    margin: 12px;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    width: 200%;
+  }
+  .Info-item {
+    width: 100%;
+  }
+  .Category-container-1 > div > .Category-title {
+    margin: 20px 0 20px 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .Category-container {
+    height: 1000px;
+  }
+  .Title-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 50px;
+    color: #666666;
+    margin-bottom: 20px;
+  }
+  .Detail-Button-container {
+  }
+  .Category-container {
+    flex-wrap: nowrap;
+  }
+  .Category-container > div > .Category-title {
+    padding: 15px 0 15px 0;
+  }
+  .Category-container-1 > div > .Category-title {
+    padding: 15px 0 15px 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .Category-container {
+    height: 1000px;
+  }
+  .Line-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0 5px 0;
+    align-items: flex-start;
+  }
+  .Line-container > div {
+    margin: 12px;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .Line-container > span {
+    margin: 12px 12px 12px 24px;
+
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+  }
+  .Info-item > div {
+    margin: 20px 0 20px 0;
+  }
+  .Mid-category {
+    margin-top: 50px;
+  }
+  #Detail-Job-Info {
+    border-top: 1px solid gray;
+    padding-top: 20px;
+  }
 }

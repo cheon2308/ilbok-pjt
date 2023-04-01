@@ -7,11 +7,12 @@ import BokBtn1 from '../Common/BokBtn1'
 type Props = {
   open?: boolean
   close?: any
+  data: any
 }
-export default function ApplyModal({ open, close }: Props) {
-  const process = '방문, 워크넷'
+export default function ApplyModal({ open, close, data }: Props) {
+  const process = `${data.applyMethod}`
   const [worknet] = useState<boolean>(process.includes('워크넷'))
-  const url = 'https://www.naver.com'
+  const url = `${data.wantedInfoUrl}`
 
   return (
     <div className={open ? 'openModal modal' : 'modal'}>
@@ -35,19 +36,21 @@ export default function ApplyModal({ open, close }: Props) {
 
               <div className="Modal-line-container">
                 <div className="Mid-category Modal-flexgrow1">접수마감</div>
-                <div className="Modal-flexgrow2">데이터</div>
+                <div className="Modal-flexgrow2">{data.closeDate}</div>
               </div>
               <div className="Modal-line-container">
                 <div className="Mid-category Modal-flexgrow1">전형방법</div>
-                <div className="Modal-flexgrow2">데이터</div>
+                <div className="Modal-flexgrow2">{data.empProcess}</div>
               </div>
               <div className="Modal-line-container">
                 <div className="Mid-category Modal-flexgrow1">접수방법</div>
-                <div className="Modal-flexgrow2">데이터</div>
+                <div className="Modal-flexgrow2">{data.applyMethod}</div>
               </div>
               <div className="Modal-line-container">
                 <div className="Mid-category Modal-flexgrow1">제출서류</div>
-                <div className="Modal-flexgrow2">데이터</div>
+                <div className="Modal-flexgrow2" style={{ lineHeight: '1.8' }}>
+                  {data.document}
+                </div>
               </div>
               <div className="Modal-line-container Button-container">
                 <div>
@@ -55,7 +58,7 @@ export default function ApplyModal({ open, close }: Props) {
                   {worknet ? (
                     <div>
                       <BokBtn1
-                        sigwidth="300px"
+                        sigwidth="250px"
                         sigheight="50px"
                         sigfontsize="20px"
                         sigborderradius={25}
