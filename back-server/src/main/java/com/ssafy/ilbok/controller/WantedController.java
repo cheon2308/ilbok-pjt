@@ -1,6 +1,7 @@
 package com.ssafy.ilbok.controller;
 
 import com.ssafy.ilbok.Repository.ApplyRepository;
+import com.ssafy.ilbok.model.dto.SearchJob;
 import com.ssafy.ilbok.model.dto.UserRelateDto;
 import com.ssafy.ilbok.model.entity.Wanted;
 import com.ssafy.ilbok.service.ApplyService;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @Controller
@@ -59,6 +62,11 @@ public class WantedController {
     @GetMapping(value = "getOne")
     public ResponseEntity<Wanted> getOne(@RequestParam int wanted_code){
         return new ResponseEntity<>(wantedService.findByCode(wanted_code), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(value = "search")
+    public ResponseEntity<List<Wanted>>search(@RequestBody SearchJob searchJob){
+        return new ResponseEntity<>(wantedService.SearchKeyword(searchJob),HttpStatus.OK);
     }
 
 }
