@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
+import { useRecoilState } from 'recoil'
+import { JobCode, JobFamilyCode, JobName, JobSubCode } from '../../../atom'
 import { useQuery } from '@tanstack/react-query'
 
+import axios from 'axios'
 const JobSubFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
 `
+
 interface JobCodeItemtype {
   jobFamilyCode: string
   name: string
@@ -18,9 +21,12 @@ function JobSubSelect2({ jobSubSelectCode, jobSubSelect2NameFunc }: any) {
     { jobSubCode2: '11113', jobSubCode: '3331', jobFamilyCode: '123', name: '일식' },
     { jobSubCode2: '11114', jobSubCode: '3331', jobFamilyCode: '123', name: '퓨전' },
   ]
+  const [jobSubCode, setjobSubCode] = useRecoilState(JobSubCode) // 직업 중분류 코드
+  const [jobCode, setjobCode] = useRecoilState(JobCode) // 직업 소분류 코드
+  const [jobName, setjobName] = useRecoilState(JobName) // 직업 소분류 이름
 
   const [activeTab, setActiveTab] = React.useState('')
-  const [JobCode, setJobCode] = useState<JobCodeItemtype[]>()
+  const [JobCodequery, setJobCode] = useState<JobCodeItemtype[]>()
 
   const getJobCode = async () => {
     const res = await axios(process.env.REACT_APP_SERVER_URL + `/resume/jobFamily`, {
@@ -62,7 +68,8 @@ function JobSubSelect2({ jobSubSelectCode, jobSubSelect2NameFunc }: any) {
             key={index}
             onClick={() => {
               setActiveTab(item.jobSubCode2)
-              jobSubSelect2NameFunc(item.name)
+              setjobCode(item.jobSubCode2)
+              setjobName(item.name)
             }}
             style={{
               backgroundColor: activeTab === item.jobSubCode2 ? '#76dcb0' : index % 2 === 0 ? '#f2f2f2' : '#ffffff',
