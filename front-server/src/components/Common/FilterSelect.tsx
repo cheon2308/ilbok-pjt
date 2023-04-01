@@ -56,11 +56,12 @@ const FilterSelect = ({ props, width, height, borderwidth, bordercolor, fontsize
         bordercolor={bordercolor}
         fontsize={fontsize}
       >
-        {props.map((ele: Props, i: number) => (
-          <option key={i} value={ele.name}>
-            {ele.name}
-          </option>
-        ))}
+        {props &&
+          props.map((ele: Props, i: number) => (
+            <option key={i} value={ele.name}>
+              {ele.name}
+            </option>
+          ))}
       </StyledSelect>
     </FilterSelectWrapper>
   )
