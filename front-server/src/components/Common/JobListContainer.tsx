@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getAllWanted } from '../../api/MainApi'
 import { BeatLoader } from 'react-spinners'
-const JobMainCategoryContainer = styled.div`
+export const JobMainCategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
