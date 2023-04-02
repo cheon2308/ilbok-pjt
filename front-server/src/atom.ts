@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, selector } from 'recoil'
 
 export const CareerSelectCode = atom({
   key: 'CareerSelectCode', // unique ID (with respect to other atoms/selectors)
@@ -79,4 +79,60 @@ export const LoginState = atom<logintype>({
     userId: 0,
   },
   effects_UNSTABLE: [persistAtom],
+})
+
+// -------------
+
+export const JobFamilyCodeCareerInfo = atom({
+  key: 'JobFamilyCodeCareerInfo', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+export const JobFamilyNameCareerInfo = atom({
+  key: 'JobFamilyNameCareerInfo', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+
+export const JobSubCodeCareerInfo = atom({
+  key: 'JobSubCodeCareerInfo', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+export const JobSubNameCareerInfo = atom({
+  key: 'JobSubNameCareerInfo', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+
+export const JobCodeCareerInfo = atom({
+  key: 'JobCodeCareerInfo', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+export const JobNameCareerInfo = atom({
+  key: 'JobNameCareerInfo', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+
+export const Period = atom({
+  key: 'Period', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+})
+
+export interface CareersTypes {
+  subCode: string
+  period: string
+}
+
+export const CareersState = atom<CareersTypes[]>({
+  key: 'CareersState',
+
+  default: [],
+})
+
+export interface CareersItemTypes {
+  jobFamily: string
+  job: string
+  periodName: string
+}
+export const CareersItem = atom<CareersItemTypes[]>({
+  key: 'CareersItem',
+
+  default: [],
 })
