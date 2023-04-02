@@ -142,7 +142,8 @@ const items2 = [
   { title: 'Item 9', description: 'This is the fifth item' },
   { title: 'Item 10', description: 'This is the fifth item' },
 ]
-function MyProfile() {
+
+const MyProfile = () => {
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
@@ -181,18 +182,13 @@ function MyProfile() {
           </div>
           <div>
             <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
-              개인정보수정
-            </BokBtn1>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
               개인이력수정
             </BokBtn1>
           </div>
         </div>
-        <div className="Profile-Chart-container">
-          <div>차트1</div>
-          <div>차트2</div>
-        </div>
+        <div className="Profile-Chart-container"></div>
       </div>
+
       <div className="Profile-Main-container">
         <div className="Profile-Extra">
           <AddInfoNoti2 />
