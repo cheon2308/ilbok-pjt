@@ -41,7 +41,7 @@ function JobSubSelect() {
     {
       onSuccess: (data) => {
         setJobSubFamily(data)
-        console.log('data:', data)
+        console.log('data:중분류', data)
         // 데이터 로드 후 실행할 작업
       },
       onError: (error) => {
