@@ -14,6 +14,7 @@ import { ClipLoader } from 'react-spinners'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { useRecoilState } from 'recoil'
 import { CareerSubSelectName } from '../atom'
+import { Link } from 'react-router-dom'
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
@@ -240,7 +241,15 @@ const SearchTitle = styled.div`
     text-align: center;
   }
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  width: 100%;
+  color: #666666;
 
+  :hover {
+    color: #76dcb0;
+  }
+`
 const MainPage = () => {
   const props = [{ name: '일자리' }, { name: '복지' }]
 
@@ -380,7 +389,9 @@ const MainPage = () => {
         <RecentlyJobContainer>
           <RecentlyJobTitleColor>최신 일자리</RecentlyJobTitleColor>
           <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <StyledLink to={`/job`}>
+            <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          </StyledLink>
           <CardContainer>
             {mainDatas.map((item: any, index: any) => (
               <Card

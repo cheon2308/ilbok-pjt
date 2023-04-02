@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import BokBtn1 from '../../components/Common/BokBtn1'
 import BokBtn2 from '../../components/Common/BokBtn2'
@@ -14,6 +14,7 @@ import CitySelect from '../../components/Common/RegionSelect/CitySelect'
 import CareerSelect from '../../components/Common/CareerSelect/CareerSelect'
 import CareerSubSelect from '../../components/Common/CareerSelect/CareerSubSelect'
 import { useRecoilState } from 'recoil'
+import { useNavigate } from 'react-router-dom'
 import {
   CareerSelectCode,
   CareerSelectName,
@@ -88,6 +89,10 @@ const SearchCategoryContainer = styled.div`
 const props = [{ name: '일자리' }, { name: '복지' }]
 
 function CareerInfo() {
+  const navigate = useNavigate()
+  const onClickImg = () => {
+    navigate(-1)
+  }
   const [inputAge, setInputAge] = useState<number>()
   const [inputCities, setInputCities] = useState<number>()
   const [inputCareer, setInputCareer] = useState<number>() // 경력
@@ -339,7 +344,15 @@ function CareerInfo() {
             >
               완료
             </BokBtn1>
-            <BokBtn2 sigwidth="150px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="10px">
+
+            <BokBtn2
+              sigwidth="150px"
+              sigheight="50px"
+              sigfontsize="20px"
+              sigborderradius={25}
+              sigmargin="10px"
+              onClick={onClickImg}
+            >
               취소
             </BokBtn2>
           </JobSearchBtnContainer>

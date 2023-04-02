@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil'
 import { LoginState } from '../../atom'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+import { BeatLoader } from 'react-spinners'
 export default function JobMainItem() {
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
@@ -35,6 +36,7 @@ export default function JobMainItem() {
       // 에러 발생 후 실행할 작업
     },
   })
+
   // 비슷한 유저들이 관심있는 items
   const items = [
     { title: 'Item 1', description: 'This is the first item' },
@@ -67,7 +69,14 @@ export default function JobMainItem() {
   const handleItemChange = (index: number) => {
     setActiveIndex(index)
   }
-
+  if (isLoading)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
   return (
     <>
       {isLoggedIn.isLoggedIn === false ? (
