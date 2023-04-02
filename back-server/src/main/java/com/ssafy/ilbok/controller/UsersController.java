@@ -2,6 +2,7 @@ package com.ssafy.ilbok.controller;
 
 import com.ssafy.ilbok.jwt.JwtProperties;
 import com.ssafy.ilbok.model.dto.OauthToken;
+import com.ssafy.ilbok.model.dto.ResumeDto;
 import com.ssafy.ilbok.model.entity.Users;
 import com.ssafy.ilbok.service.UsersService;
 import org.springframework.http.HttpHeaders;
@@ -60,8 +61,11 @@ public class UsersController {
         return "Redirect://";
     }
 
-
-
+    // 이력서 입력 받고 그걸 기준으로 users 정보 수정하는 api
+    @PutMapping("update")
+    public ResponseEntity<Users> updateUsersResume(@RequestBody ResumeDto resumeDto){
+        return new ResponseEntity<>(usersService.updateUsers(resumeDto), HttpStatus.ACCEPTED);
+    }
 
 
 }
