@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.ilbok.Repository.*;
 import com.ssafy.ilbok.jwt.JwtProperties;
+import com.ssafy.ilbok.model.dto.CurrCareerDto;
 import com.ssafy.ilbok.model.dto.KakaoProfile;
 import com.ssafy.ilbok.model.dto.OauthToken;
 import com.ssafy.ilbok.model.dto.ResumeDto;
@@ -197,6 +198,25 @@ public class UsersService {
         );
     }
 
+    // 내 경력들 가져오는 서비스
+    public List<CurrCareerDto> getMyCareers(Long user_id){
+        Users users = usersRepository.findByUserId(user_id);
+        List<Careers> list = careersRepository.findAllByUserId(users);
+        List<CurrCareerDto> result = new ArrayList<>();
+
+        for(int i=0; i< list.size(); i++){
+            int subCode = list.get(i).getSubCode();
+            int period = list.get(i).getPeriod();
+            CurrCareerDto currCareerDto = new CurrCareerDto();
+            currCareerDto.setSubCode(subCode);
+            currCareerDto.setPeriod(period);
+            result.add(currCareerDto);
+        }
+
+        return result;
+    }
+
+    // 이력서 페이지에서 입력된 값으로 사용자 정보 업데이트하는 서비스
     @Transactional
     public Users updateUsers(ResumeDto resumeDto){
 
@@ -236,6 +256,7 @@ public class UsersService {
         usersRepository.save(users);
 
         return usersRepository.findByUserId(resumeDto.getUserId());
-
     }
+
+
 }
