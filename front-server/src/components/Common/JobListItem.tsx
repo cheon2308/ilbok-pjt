@@ -1,4 +1,5 @@
 import React from 'react'
+import { BsStar } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -65,6 +66,9 @@ const JobListItem = ({
     <>
       <JobListItemContainer>
         <StyledLink to={`/detail/${wantedAuthNo}`} state={{ wantedCode: `${wantedAuthNo}` }}>
+          <div style={{}}>
+            <BsStar size={22.5} color="#C7C7C7" strokeWidth="0.01"></BsStar>
+          </div>
           <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
 
           <div style={{ flex: '4 1 0' }}>
