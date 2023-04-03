@@ -34,7 +34,7 @@ public class LikeService {
 
             applyDto.code = likeWanted.getCode();
             applyDto.userId = likeWanted.getUsers().getUserId();
-            applyDto.wantedCode = likeWanted.getWanted().getWantedCode();
+            applyDto.wantedCode = likeWanted.getWantedCode().getWantedCode();
 
             list.add(applyDto);
         }
@@ -43,12 +43,25 @@ public class LikeService {
     }
 
     public void clickLiked(UserRelateDto dto){
-        LikeWanted likeWanted = new LikeWanted();
+
+
+        LikeWanted likeWanted;
         Users users = usersRepository.findByUserId(dto.getUserId());
         Wanted wanted = wantedRepository.findByWantedCode(dto.getWantedCode());
-        likeWanted.setWanted(wanted);
-        likeWanted.setUsers(users);
-        likeRepository.save(likeWanted);
+
+        likeWanted = likeRepository.findByUsersAndWantedCode(users, wanted);
+
+        // 이미 있다면 삭제하고 없다면 넣어준다.
+        if(likeWanted != null){
+            likeRepository.delete(likeWanted);
+        }
+        else{
+            likeWanted = new LikeWanted();
+            likeWanted.setWantedCode(wanted);
+            likeWanted.setUsers(users);
+            likeRepository.save(likeWanted);
+        }
+
 
     }
 
