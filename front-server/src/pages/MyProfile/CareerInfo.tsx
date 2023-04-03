@@ -34,6 +34,10 @@ import {
   JobSubNameCareerInfo,
   Period,
   RegionName,
+  RegionCode,
+  CityCode,
+  JobSubCode,
+  CareerInfoDegree,
 } from '../../atom'
 import JobSelectCarrerInfo from '../../components/Common/JobSelectCareerInfo/JobSelectCareerInfo'
 import JobSubSelectCarrerInfo from '../../components/Common/JobSelectCareerInfo/JobSubSelectCareerInfo'
@@ -110,7 +114,7 @@ const SearchCategoryContainer = styled.div`
   display: flex;
   align-items: center;
 `
-const props = [{ name: '일자리' }, { name: '복지' }]
+// const props = [{ name: '일자리' }, { name: '복지' }]
 
 function CareerInfo() {
   const navigate = useNavigate()
@@ -143,15 +147,18 @@ function CareerInfo() {
   const setCareers = useSetRecoilState<CareersTypes[]>(CareersState)
   const careersItems = useRecoilValue<CareersItemTypes[]>(CareersItem)
   const setCareersItems = useSetRecoilState<CareersItemTypes[]>(CareersItem)
+  const [period, setPeriod] = useRecoilState(Period)
 
   // ** 선호하는 직종
-  const [period, setPeriod] = useRecoilState(Period)
   const [jobFamilyName] = useRecoilState(JobFamilyName)
   const [jobSubName] = useRecoilState(JobSubName)
+  const [jobSubCode] = useRecoilState(JobSubCode)
 
   // ** 지역
   const [regionName] = useRecoilState(RegionName)
+  const [regionCode] = useRecoilState(RegionCode)
   const [cityName] = useRecoilState(CityName)
+  const [cityCode] = useRecoilState(CityCode) // 지역 코드
 
   // ** 학력
 
@@ -162,7 +169,7 @@ function CareerInfo() {
     { degreeCode: 6, name: '석사' },
     { degreeCode: 7, name: '박사' },
   ]
-
+  const [careerInfoDegree, setCareerInfoDegree] = useRecoilState(CareerInfoDegree)
   // ****
 
   // ***
@@ -235,6 +242,14 @@ function CareerInfo() {
     searchCareerToggle()
   }
   // **
+
+  /*
+  나이 : 
+  경력 : careers
+  지역 : cityCode
+  선호 : jobSubCode
+  학력 : careerInfoDegree
+  */
 
   return (
     <div className="Main-container">
