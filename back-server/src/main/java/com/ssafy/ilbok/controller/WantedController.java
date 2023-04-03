@@ -64,7 +64,7 @@ public class WantedController {
         return new ResponseEntity<>(wantedService.findByCode(wanted_code), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(value = "search")
+    @PostMapping(value = "search")
     public ResponseEntity<List<Wanted>>search(@RequestBody SearchJob searchJob){
         return new ResponseEntity<>(wantedService.SearchKeyword(searchJob),HttpStatus.OK);
     }

@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getOneWanted } from '../../api/JobDetailApi'
 import ClipLoader from 'react-spinners/ClipLoader'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { BsStar } from 'react-icons/bs'
 
 export default function JobDetailItem({ wantedCode }: any) {
   const degreeData: any = { 0: '학력무관', 4: '대졸(2~3년)', 5: '대졸(4년)', 6: '석사', 7: '박사' }
@@ -66,20 +67,27 @@ export default function JobDetailItem({ wantedCode }: any) {
     <div>
       <div className="Title-container">
         <div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'right' }}></div>
           <div className="title">{data.title}</div>
           <span> 등록일 : {data.regDate} /</span> <span>마감일 : {data.closeDate}</span>
         </div>
+
         <div className="Detail-Button-container">
-          <BokBtn1
-            sigwidth="150px"
-            sigheight="50px"
-            sigfontsize="20px"
-            sigborderradius={25}
-            sigmargin="30px auto"
-            onClick={() => setModal(true)}
-          >
-            지원방법
-          </BokBtn1>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ marginRight: '30px' }}>
+              <BsStar size={40} color="#C7C7C7" strokeWidth="0.01"></BsStar>
+            </div>
+            <BokBtn1
+              sigwidth="150px"
+              sigheight="50px"
+              sigfontsize="20px"
+              sigborderradius={25}
+              sigmargin="30px auto"
+              onClick={() => setModal(true)}
+            >
+              지원방법
+            </BokBtn1>
+          </div>
         </div>
       </div>
       <hr />

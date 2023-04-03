@@ -14,11 +14,13 @@ public class Careers {
     @Id @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users userId;
 
     @Column(name = "sub_code")
     private int subCode;
 
+    @Column(name="period")
     private int period;
 }
