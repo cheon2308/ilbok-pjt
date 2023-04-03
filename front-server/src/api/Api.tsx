@@ -9,6 +9,7 @@ const axiosApi = (baseURL: any) => {
   })
   return instance
 }
+
 export const defaultInstance = axiosApi('https://ilbokb.duckdns.org') 
 
 const api = axios.create({
