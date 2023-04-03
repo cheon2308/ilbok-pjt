@@ -27,7 +27,7 @@ public class ClickWantedService {
         ClickWanted clickWanted = new ClickWanted();
         Users users = usersRepository.findByUserId(dto.getUserId());
         Wanted wanted = wantedRepository.findByWantedCode(dto.getWantedCode());
-        clickWanted.setWanted(wanted);
+        clickWanted.setWantedCode(wanted);
         clickWanted.setUsers(users);
         clickWantedRepository.save(clickWanted);
     }
