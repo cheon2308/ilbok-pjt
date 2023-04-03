@@ -304,7 +304,9 @@ export default function JobSearch({ keyword }: any) {
                       borderRadius: '5px',
                     }}
                   >
-                    <JobSelect />
+                    <div style={{ marginRight: '10px' }}>
+                      <JobSelect />
+                    </div>
                     <JobSubSelect />
                     <JobSubSelect2 />
                   </div>
@@ -405,7 +407,10 @@ export default function JobSearch({ keyword }: any) {
 
       {searchResult === 1 ? (
         <div>
-          <SearchResultName>검색결과</SearchResultName>
+          <JobSearchTitle>검색결과</JobSearchTitle>
+          <JobSearchSubTitle>
+            <SearchResultName>{selectedKeyword}</SearchResultName> 검색 결과입니다.
+          </JobSearchSubTitle>
           <br />
           <div>
             <br />
@@ -457,7 +462,7 @@ export default function JobSearch({ keyword }: any) {
   )
 }
 const SearchResultName = styled.span`
-  font-size: 70px;
+  font-size: 20px;
   font-weight: 700;
   color: #76dcb0;
 `

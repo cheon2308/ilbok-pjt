@@ -1,5 +1,7 @@
 import { atom, selector } from 'recoil'
+import { recoilPersist } from 'recoil-persist'
 
+const { persistAtom } = recoilPersist()
 export const CareerSelectCode = atom({
   key: 'CareerSelectCode', // unique ID (with respect to other atoms/selectors)
   default: '', // default value (aka initial value)
@@ -60,8 +62,6 @@ export const CityName = atom({
   key: 'CityName', // unique ID (with respect to other atoms/selectors)
   default: '', // default value (aka initial value)
 })
-import { recoilPersist } from 'recoil-persist'
-const { persistAtom } = recoilPersist()
 
 export interface logintype {
   isLoggedIn: boolean
@@ -140,4 +140,10 @@ export const CareersItem = atom<CareersItemTypes[]>({
 export const CareerInfoDegree = atom({
   key: 'CareerInfoDegree',
   default: 0,
+})
+
+export const DbUserId = atom({
+  key: 'DbUserId',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
 })

@@ -49,7 +49,7 @@ function JobSelect() {
 
   return (
     <>
-      <div style={{ width: '50%' }}>
+      <div style={{ width: '100%' }}>
         {JobFamily &&
           JobFamily.map((item, index) => (
             <JobFamilyItem
