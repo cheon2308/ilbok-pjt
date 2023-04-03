@@ -257,8 +257,37 @@ public class UsersService {
 
         usersRepository.save(users);
 
+        RestTemplate restTemplate = new RestTemplate();
+        System.out.println("http://127.0.0.1:8000/userdata/update/"+users.getUserId());
+        String url = "http://127.0.0.1:8000/userdata/update/"+users.getUserId();
+
+        ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
+        Boolean responseBody = response.getBody();
+        System.out.println(responseBody+"잘 해결됌 ");
+
         return usersRepository.findByUserId(resumeDto.getUserId());
     }
 
 
+    public List<Wanted> findBeLikelyTo(int userId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8000/userdata/als/"+userId;
+
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        String responseBody = response.getBody();
+        System.out.println(responseBody);
+
+        return null;
+    }
+
+    public List<Wanted> findOtherLike(int userId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8000/userdata/cf/"+userId;
+
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        String responseBody = response.getBody();
+        System.out.println(responseBody);
+
+        return null;
+    }
 }

@@ -349,14 +349,14 @@ def user_info(request):
 # 신규유저 행렬에 추가
 @api_view(['GET'])
 def update_user_matrix(request, user_id):
-    user_matrix = np.load('/data/userMatrix.npy')
+    user_matrix = np.load('./data/userMatrix.npy')
     new_arr = [0] * 384
     all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
     user_length = all_user.aggregate(Max('user_id'))
     now_arr = len(user_matrix)
-    for _ in range(user_length-now_arr + 1):
-        user_matrix.append(new_arr)
-    
+    for _ in range(user_length['user_id__max'] - now_arr + 1):
+        np.append(user_matrix, np.array(new_arr))
+
     # job 코드 변수
     js = JobSubFamily.objects.all()
     jc = JobCategory.objects.all()
@@ -384,7 +384,6 @@ def update_user_matrix(request, user_id):
     for j in range(len(city)):
         city_to_region[city[j].city_code] = city[j].region_code.region_code
         city_to_index[city[j].city_code] = j + 144
-
     # 유저경력 변수
     career = Careers.objects.all()
     # 경력에 대해 matrix에 기록해주기
@@ -398,7 +397,10 @@ def update_user_matrix(request, user_id):
 
 
     # 유저 정보에 대해 matrix에 기록
-    us = user_id
+    for u in all_user:
+        if u['user_id'] == user_id:
+            us = u
+            break
     # 이력서 작성한 사람에 한해 
     us_num = us['user_id']
     fav = us['favorite']
@@ -452,7 +454,7 @@ def update_user_matrix(request, user_id):
     sorted_index = sorted_index[:, 1:]
     # 유저간 유사도
     np.save('./data/user_to_user', sorted_index)
-    return Response(sorted_index)
+    return Response(True)
 
 # 유저간 유사도 기반 공고 추천하기
 @api_view(['GET'])
