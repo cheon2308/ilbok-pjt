@@ -13,9 +13,15 @@ import { HiPlus } from 'react-icons/hi'
 import RegionSelect from '../../components/Common/RegionSelect/RegionSelect'
 import CitySelect from '../../components/Common/RegionSelect/CitySelect'
 import { CgClose } from 'react-icons/cg'
+import { useMutation } from '@tanstack/react-query'
 import CareerSubSelect from '../../components/Common/CareerSelect/CareerSubSelect'
 import { RecoilValueReadOnly, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useNavigate } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import {
   CareerSelectCode,
   CareerSelectName,
@@ -41,6 +47,8 @@ import {
 } from '../../atom'
 import JobSelectCarrerInfo from '../../components/Common/JobSelectCareerInfo/JobSelectCareerInfo'
 import JobSubSelectCarrerInfo from '../../components/Common/JobSelectCareerInfo/JobSubSelectCareerInfo'
+import axios from 'axios'
+import { LoginState } from '../../atom'
 
 const CareerInfoContainer = styled.div`
   display: flex;
@@ -134,7 +142,7 @@ function CareerInfo() {
   // *
 
   // **** Recoil
-
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   // ** 경력
 
   const [jobFamilyCodeCareerInfo, setjobFamilyCodeCareerInfo] = useRecoilState(JobFamilyCodeCareerInfo)
@@ -169,34 +177,42 @@ function CareerInfo() {
     { degreeCode: 6, name: '석사' },
     { degreeCode: 7, name: '박사' },
   ]
+  const [gender, setGender] = React.useState('')
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setGender(event.target.value as string)
+  }
   const [careerInfoDegree, setCareerInfoDegree] = useRecoilState(CareerInfoDegree)
   // ****
-
+  const handlePUT = async (data: Record<string, any>) => {
+    const res = await axios.put(process.env.REACT_APP_SERVER_URL + `/users/update`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  const { mutate, error, isError, isLoading } = useMutation(['handlePUT'], handlePUT, {
+    onSuccess: (data) => {
+      console.log(data)
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
   // ***
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputAge(parseInt(e.target.value))
   }
   const handlesignalRegist = () => {
-    const UserData = {
+    mutate({
+      userId: isLoggedIn.userId,
+      degreeCode: careerInfoDegree,
+      cityCode: cityCode,
+      favorite: jobSubCode,
       age: inputAge,
-    }
-    // console.log(formData)
-    // console.log(JSON.stringify(formData))
-    // axios
-    //   .post(process.env.REACT_APP_API_URL + '/signalweek', , {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res, '성공')
-    //     setAlertOpen(true)
-    //   })
-    //   .catch((res) => {
-    //     console.log(res, '실패 ')
-    //     console.log(formData)
-    //   })
-    // console.log(FormData)
+      gender: gender,
+      careers: careers,
+    })
   }
   // ***
 
@@ -258,6 +274,23 @@ function CareerInfo() {
           <CareerInfoTitle>추가 정보 입력</CareerInfoTitle>
           <CareerInfoContent>일복(日福)을 통해 맞춤 복지를 추천 받으세요.</CareerInfoContent>
           <div style={{ margin: '20px 0 15px 0' }}>
+            <CareerInfoLineContainer>
+              <CareerInfoCategory>성별</CareerInfoCategory>
+
+              <FormControl style={{ width: 200 }}>
+                <InputLabel id="demo-simple-select-label">성별</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={gender}
+                  label="성별"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={0}>남자</MenuItem>
+                  <MenuItem value={1}>여자</MenuItem>
+                </Select>
+              </FormControl>
+            </CareerInfoLineContainer>
             <CareerInfoLineContainer>
               <CareerInfoCategory>나이</CareerInfoCategory>
 
