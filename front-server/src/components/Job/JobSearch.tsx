@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import BokBtn1 from '../Common/BokBtn1'
 import BokBtn2 from '../Common/BokBtn2'
@@ -107,7 +107,7 @@ const SlMagnifierContainer = styled.div`
   width: 100%;
 `
 
-export default function JobSearch() {
+export default function JobSearch({ keyword }: any) {
   const [searchIsOpen, setSearchIsOpen] = useState(true)
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
   const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false)
@@ -118,7 +118,7 @@ export default function JobSearch() {
 
   const [regionName] = useRecoilState(RegionName)
   const [cityName] = useRecoilState(CityName)
-  const [searchResult, setSearchResult] = useState<number | undefined>()
+  const [searchResult, setSearchResult] = useState<number | undefined>(0)
   const [ResultList, setResultList] = useState([])
   // Toggle
   const searchToggle = () => {
@@ -168,7 +168,7 @@ export default function JobSearch() {
   //여기까지 경력
 
   //키워드
-  const [selectedKeyword, setSelectedKeyword] = useState<string | null>()
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(keyword)
 
   const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -204,6 +204,7 @@ export default function JobSearch() {
       keyword: selectedKeyword,
     })
   }
+
   // 검색 결과
   const myTagRef = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(1)
@@ -238,6 +239,11 @@ export default function JobSearch() {
   //   page_data = data[start_index:end_index]
   const start_index = (page - 1) * size
   const end_index = page * size
+  useEffect(() => {
+    if (selectedKeyword !== null) {
+      handleSearch()
+    }
+  }, [])
 
   return (
     <>
@@ -365,6 +371,7 @@ export default function JobSearch() {
 
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer> 키워드</JobSearchCategoryTitleContainer>
+
                 <SearchBar
                   width="700px"
                   height="20px"
@@ -395,7 +402,8 @@ export default function JobSearch() {
           </div>
         ) : null}
       </JobSearchMainContainer>
-      {searchResult && (
+
+      {searchResult === 1 ? (
         <div>
           <SearchResultName>검색결과</SearchResultName>
           <br />
@@ -444,7 +452,7 @@ export default function JobSearch() {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </>
   )
 }
