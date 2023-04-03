@@ -6,11 +6,12 @@ const axiosApi = (baseURL: any) => {
   const instance = axios.create({
     baseURL,
     withCredentials: true,
-  })
+  })  
   return instance
 }
 
-export const defaultInstance = axiosApi('https://ilbokb.duckdns.org') 
+// export const defaultInstance = axiosApi('https://ilbokb.duckdns.org')
+export const defaultInstance = axiosApi(process.env.REACT_APP_SERVER_URL) 
 
 const api = axios.create({
   headers: { 'Content-type': 'application/json' }, // data type
