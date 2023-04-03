@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.REACT_APP_SERVER_URL
 
 // url 호출 시 기본 값 셋팅
 const axiosApi = (baseURL: any) => {
@@ -10,7 +9,7 @@ const axiosApi = (baseURL: any) => {
   })
   return instance
 }
-export const defaultInstance = axiosApi('https://jaehojjang2.duckdns.org') 
+export const defaultInstance = axiosApi('https://ilbokb.duckdns.org') 
 
 const api = axios.create({
   headers: { 'Content-type': 'application/json' }, // data type
