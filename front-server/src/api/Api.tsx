@@ -8,7 +8,7 @@ const axiosApi = (baseURL: any) => {
   })
   return instance
 }
-export const defaultInstance = axiosApi('http://j8e202.p.ssafy.io:5000')
+export const defaultInstance = axiosApi(process.env.REACT_APP_SERVER_URL)
 
 const api = axios.create({
   headers: { 'Content-type': 'application/json' }, // data type

@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getOneWanted } from '../../api/JobDetailApi'
 import ClipLoader from 'react-spinners/ClipLoader'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { BsStar } from 'react-icons/bs'
 
 export default function JobDetailItem({ wantedCode }: any) {
   const degreeData: any = { 0: '학력무관', 4: '대졸(2~3년)', 5: '대졸(4년)', 6: '석사', 7: '박사' }
@@ -55,7 +56,6 @@ export default function JobDetailItem({ wantedCode }: any) {
 
   const workTimeData = `${data.workTime}`
   const workTimeDataArray = workTimeData.split(', 주')
-  console.log(workTimeDataArray)
 
   const scrollToMyTag = () => {
     if (myTagRef.current) {
@@ -67,20 +67,27 @@ export default function JobDetailItem({ wantedCode }: any) {
     <div>
       <div className="Title-container">
         <div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'right' }}></div>
           <div className="title">{data.title}</div>
           <span> 등록일 : {data.regDate} /</span> <span>마감일 : {data.closeDate}</span>
         </div>
+
         <div className="Detail-Button-container">
-          <BokBtn1
-            sigwidth="150px"
-            sigheight="50px"
-            sigfontsize="20px"
-            sigborderradius={25}
-            sigmargin="30px auto"
-            onClick={() => setModal(true)}
-          >
-            지원방법
-          </BokBtn1>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ marginRight: '30px' }}>
+              <BsStar size={40} color="#C7C7C7" strokeWidth="0.01"></BsStar>
+            </div>
+            <BokBtn1
+              sigwidth="150px"
+              sigheight="50px"
+              sigfontsize="20px"
+              sigborderradius={25}
+              sigmargin="30px auto"
+              onClick={() => setModal(true)}
+            >
+              지원방법
+            </BokBtn1>
+          </div>
         </div>
       </div>
       <hr />
@@ -118,7 +125,9 @@ export default function JobDetailItem({ wantedCode }: any) {
             </div>
             <div className="Line-container">
               <div>근무형태</div>
-              <span>{workTimeDataArray[1]}</span>
+              <span>
+                {'주'} {workTimeDataArray[1]}
+              </span>
             </div>
           </div>
 

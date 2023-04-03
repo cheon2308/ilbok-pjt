@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
 import '../../assets/styles/Common/Card.css'
+import { BsStar } from 'react-icons/bs'
 
 export interface CardProps {
   title: string
@@ -41,6 +42,9 @@ const CardContainer = styled.div`
   }
   @media (min-width: 1868px) {
     min-width: 230px;
+  }
+  @media (min-width: 2330px) {
+    max-width: 230px;
   }
 `
 
@@ -104,8 +108,12 @@ const Card = ({
   return (
     <>
       <CardContainer>
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'right' }}>
+          <BsStar size={22.5} color="#C7C7C7" strokeWidth="0.01"></BsStar>
+        </div>
         <StyledLink to={`detail/${wantedCode}`} state={{ wantedCode: `${wantedCode}` }}>
           <CardDescription>{company}</CardDescription>
+
           <CardTitle>{title}</CardTitle>
           <CardDescription>
             {workRegionArray[2] + ' ' + workRegionArray[3]} | {closeDt}

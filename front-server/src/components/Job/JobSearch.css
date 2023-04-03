@@ -1,27 +1,23 @@
-.show-menu{
- 
-    position: absolute;
+.show-menu {
+  position: absolute;
 
-    transition: 1s;
-    }
-    
-.hide-menu{
+  transition: 1s;
+}
 
-    position: absolute;
-    
-    transition: 1s;
-    }
+.hide-menu {
+  position: absolute;
 
-.JobSearchToggle{
-  
+  transition: 1s;
+}
 
+.JobSearchToggle {
 }
 
 @keyframes slide {
-    from {
-        top: -100px;
-    }
-    to {
-        top: 0;
-    }
+  from {
+    top: -100px;
+  }
+  to {
+    top: 0;
+  }
 }

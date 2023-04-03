@@ -1,6 +1,9 @@
 package com.ssafy.ilbok.model.dto;
 
+import com.ssafy.ilbok.model.entity.Careers;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ResumeDto {
@@ -15,5 +18,7 @@ public class ResumeDto {
     int age;
 
     int gender;
+
+    List<Careers> careers;
 
 }
