@@ -4,16 +4,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.ilbok.Repository.CitiesRepository;
-import com.ssafy.ilbok.Repository.JobSubFamilyRepository;
-import com.ssafy.ilbok.Repository.UsersRepository;
+import com.ssafy.ilbok.Repository.*;
 import com.ssafy.ilbok.jwt.JwtProperties;
+import com.ssafy.ilbok.model.dto.CurrCareerDto;
 import com.ssafy.ilbok.model.dto.KakaoProfile;
 import com.ssafy.ilbok.model.dto.OauthToken;
 import com.ssafy.ilbok.model.dto.ResumeDto;
-import com.ssafy.ilbok.model.entity.Cities;
-import com.ssafy.ilbok.model.entity.JobSubFamily;
-import com.ssafy.ilbok.model.entity.Users;
+import com.ssafy.ilbok.model.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,20 +22,30 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UsersService {
 
-    @Autowired
+
     private UsersRepository usersRepository;
     private CitiesRepository citiesRepository;
     private JobSubFamilyRepository jobSubFamilyRepository;
 
-    public UsersService(UsersRepository usersRepository, CitiesRepository citiesRepository, JobSubFamilyRepository jobSubFamilyRepository){
+    private CareersRepository careersRepository;
+
+    private DegreeRepository degreeRepository;
+
+    public UsersService(UsersRepository usersRepository, CitiesRepository citiesRepository,
+                        JobSubFamilyRepository jobSubFamilyRepository, DegreeRepository degreeRepository, CareersRepository careersRepository){
         this.jobSubFamilyRepository = jobSubFamilyRepository;
         this.citiesRepository =citiesRepository;
         this.usersRepository = usersRepository;
+        this.degreeRepository = degreeRepository;
+        this.careersRepository = careersRepository;
     }
 
     public Users findByUserId(Long user_id){
@@ -108,6 +115,8 @@ public class UsersService {
 
         Users user = usersRepository.findByEmail(profile.getKakao_account().getEmail());
         if(user == null) {
+
+            System.out.println("시발 여기까지 된다");
             user = Users.builder()
                     .kakaoId(profile.getId())
                     .profileImage(profile.getKakao_account().getProfile().getProfile_image_url())
@@ -140,6 +149,7 @@ public class UsersService {
                 kakaoProfileRequest,
                 String.class
         );
+
         System.out.println(kakaoProfileResponse.getBody());
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -149,7 +159,6 @@ public class UsersService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return kakaoProfile;
     }
 
@@ -191,17 +200,65 @@ public class UsersService {
         );
     }
 
-    public void updateUsers(ResumeDto resumeDto){
+    // 내 경력들 가져오는 서비스
+    public List<CurrCareerDto> getMyCareers(Long user_id){
+        Users users = usersRepository.findByUserId(user_id);
+        List<Careers> list = careersRepository.findAllByUserId(users);
+        List<CurrCareerDto> result = new ArrayList<>();
+
+        for(int i=0; i< list.size(); i++){
+            int subCode = list.get(i).getSubCode();
+            int period = list.get(i).getPeriod();
+            CurrCareerDto currCareerDto = new CurrCareerDto();
+            currCareerDto.setSubCode(subCode);
+            currCareerDto.setPeriod(period);
+            result.add(currCareerDto);
+        }
+
+        return result;
+    }
+
+    // 이력서 페이지에서 입력된 값으로 사용자 정보 업데이트하는 서비스
+    @Transactional
+    public Users updateUsers(ResumeDto resumeDto){
 
         Users users = usersRepository.findByUserId(resumeDto.getUserId());
         JobSubFamily jobSubFamily = jobSubFamilyRepository.findById(resumeDto.getFavorite()).get();
         Cities cities = citiesRepository.findById(resumeDto.getCityCode()).get();
+        Degrees degrees = degreeRepository.findById(resumeDto.getDegreeCode()).get();
         users.setFavorite(jobSubFamily);
         users.setCity(cities);
         users.setAge(resumeDto.getAge());
-        resumeDto.getGender();
-        resumeDto.getDegreeCode();
+        users.setGender(resumeDto.getGender());
+        users.setDegreeCode(degrees);
 
+        // 리스트가 있다면
+        if(resumeDto.getCareers() != null && resumeDto.getCareers().size()>0){
 
+            careersRepository.deleteByUserId(users);
+
+            List<Careers> careersList = new ArrayList<>();
+
+            for(int i=0; i<resumeDto.getCareers().size(); i++){
+                Careers careers = new Careers();
+                careers.setUserId(users);
+
+                int sub_code = resumeDto.getCareers().get(i).getSubCode();
+                int period = resumeDto.getCareers().get(i).getPeriod();
+
+                careers.setSubCode(sub_code);
+                careers.setPeriod(period);
+
+                careersList.add(careers);
+            }
+
+            careersRepository.saveAll(careersList);
+        }
+
+        usersRepository.save(users);
+
+        return usersRepository.findByUserId(resumeDto.getUserId());
     }
+
+
 }

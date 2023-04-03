@@ -3,7 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { JobFamilyCode, JobSubCode, JobSubName } from '../../../atom'
+import {
+  JobFamilyCode,
+  JobFamilyCodeCareerInfo,
+  JobSubCode,
+  JobSubCodeCareerInfo,
+  JobSubName,
+  JobSubNameCareerInfo,
+} from '../../../atom'
 import { useRecoilState } from 'recoil'
 
 const JobSubFamilyItem = styled.div`
@@ -16,13 +23,13 @@ interface JobSubFamily {
   name: string
 }
 
-function JobSubSelect() {
+function JobSubSelectCarrerInfo() {
   const [jobSubFamily, setJobSubFamily] = useState<JobSubFamily[]>([])
 
-  const [jobFamilyCode, setjobFamilyCode] = useRecoilState(JobFamilyCode) // 직업 대분류 코드
+  const [jobFamilyCode, setjobFamilyCode] = useRecoilState(JobFamilyCodeCareerInfo) // 직업 대분류 코드
 
-  const [jobSubCode, setjobSubCode] = useRecoilState(JobSubCode) // 직업 중분류 코드
-  const [jobSubName, setjobSubName] = useRecoilState(JobSubName) // 직업 중분류 이름
+  const [jobSubCode, setjobSubCode] = useRecoilState(JobSubCodeCareerInfo) // 직업 중분류 코드
+  const [jobSubName, setjobSubName] = useRecoilState(JobSubNameCareerInfo) // 직업 중분류 이름
 
   // * API
   const getJobSubFamilySelect = async () => {
@@ -41,7 +48,7 @@ function JobSubSelect() {
     {
       onSuccess: (data) => {
         setJobSubFamily(data)
-        console.log('data:중분류', data)
+        console.log('data:', data)
         // 데이터 로드 후 실행할 작업
       },
       onError: (error) => {
@@ -89,4 +96,4 @@ function JobSubSelect() {
   )
 }
 
-export default JobSubSelect
+export default JobSubSelectCarrerInfo
