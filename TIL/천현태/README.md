@@ -436,63 +436,40 @@ def job_sort():
 
 ```python
 # 전체 유저
-    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+    # 유저 특성 행렬화 시키기
+@api_view(['GET'])
+def user_info(request):
+    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+    
+    # job 코드 변수
+    js = JobSubFamily.objects.all()
+    jc = JobCategory.objects.all()
+    # 지역변수
+    city = Cities.objects.all()
+    region = Regions.objects.all()
+    
+    # 유저경력 변수
+    career = Careers.objects.all()
+    # 직업 중분류 - 행렬 인덱스 매칭
+    sub_to_index = {}
+    for i in range(len(js)):
+        sub_to_index[js[i].job_sub_code] = i+14
+    # 지역 - 행렬 인덱스 매칭
+    city_to_region = {}
+    city_to_index = {}
+    region_to_index = {}
+    i = 126
+    for k in region:
+        region_to_index[k.region_code] = i
+        i += 1
+    
+    # city - region 매칭
+    # city - 행렬 인덱스 매칭
+    for j in range(len(city)):
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
+        city_to_index[city[j].city_code] = j + 144
 
-    # job 코드 변수
-
-    js = JobSubFamily.objects.all()
-
-    jc = JobCategory.objects.all()
-
-    # 지역변수
-
-    city = Cities.objects.all()
-
-    region = Regions.objects.all()
-
-    # 유저경력 변수
-
-    career = Careers.objects.all()
-
-  
-
-    # 직업 중분류 - 행렬 인덱스 매칭
-
-    sub_to_index = {}
-
-    for i in range(len(js)):
-
-        sub_to_index[js[i].job_sub_code] = i+14
-
-  
-
-    # 지역 - 행렬 인덱스 매칭
-
-    city_to_region = {}
-
-    city_to_index = {}
-
-    region_to_index = {}
-
-  
-
-    i = 126
-
-    for k in region:
-
-        region_to_index[k.region_code] = i
-
-        i += 1
-
-    # city - region 매칭
-
-    # city - 행렬 인덱스 매칭
-
-    for j in range(len(city)):
-
-        city_to_region[city[j].city_code] = city[j].region_code.region_code
-
-        city_to_index[city[j].city_code] = j + 144```
+```
 
 ```python
 # 우선 전체 유저의 수 구하기
@@ -1046,5 +1023,23 @@ def user_train(request):
 - response -> 'success'
 
 
-```python 
+> rec_cf_user
+
+- 비슷한 유저들이 좋아하는 공고 추천
+- als 알고리즘 추천시 cold start 발생할 수 있으니 그 때도 사용
+
+```python
+# 유저 특성 행렬화 시키기
+@api_view(['GET'])
+def rec_cf_user(request, user_id):
+    user_list = np.load('./data/user_to_user.npy')
+    rec_user = user_list[user_id][:5]
+    user_item_matrix = np.load('./data/rec_user_to_job.npy')
+    res_data = []
+    for i in rec_user:
+        user_vector = user_item_matrix[user_id, :]
+        item_idx = np.argsort(-user_vector)[:5]
+        for j in item_idx:
+            res_data.append(j)
+    return Response(res_data)
 ```
