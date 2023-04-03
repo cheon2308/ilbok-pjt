@@ -44,7 +44,6 @@ public class LikeService {
 
     public void clickLiked(UserRelateDto dto){
 
-
         LikeWanted likeWanted;
         Users users = usersRepository.findByUserId(dto.getUserId());
         Wanted wanted = wantedRepository.findByWantedCode(dto.getWantedCode());
@@ -61,8 +60,14 @@ public class LikeService {
             likeWanted.setUsers(users);
             likeRepository.save(likeWanted);
         }
+    }
 
+    public LikeWanted isLiked(UserRelateDto userRelateDto){
 
+        Users users = usersRepository.findByUserId(userRelateDto.getUserId());
+        Wanted wanted = wantedRepository.findByWantedCode(userRelateDto.getWantedCode());
+
+        return likeRepository.findByUsersAndWantedCode(users, wanted);
     }
 
 }
