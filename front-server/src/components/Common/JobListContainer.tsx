@@ -1,48 +1,98 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import JobListItem from './JobListItem'
 import Paging from './Paging'
-import {useState} from 'react'
-
-
-
-const items = [
-    { wantedAuthNo: '공고 번호', company: '(주)코리아환경산업', title: '관저더샵 1차 아파트 외곽구인', salTpNm : '월급 152만원 이상', region: '대전광역시 서구 ', holidayTpNm: '주 5일 근무', minEdubg: '학력무관',  career: '관계없음', regDt:'23/03/24', closeDt: '23/03/26' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-    { wantedAuthNo: '공고 번호', company: '회사 이름', title: '공고 이름', salTpNm : '시급,월급 연봉', region: '지역', holidayTpNm: '근무날짜', minEdubg: '학력',  career: '경력', regDt:'등록일', closeDt: '마감일' },
-  ]
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getAllWanted } from '../../api/MainApi'
+import { BeatLoader } from 'react-spinners'
+export const JobMainCategoryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  color: #666666;
+`
 const JobListContainer = () => {
+  const myTagRef = useRef<HTMLDivElement>(null)
+  const [page, setPage] = useState(0)
+  const [size] = useState(10)
+  const [count, setCount] = useState(3000)
 
-   
-  const [page, setPage] = useState(1)
-  const [size] = useState(16)
-  const [count, setCount] = useState(100)
-  const handleToPage = (page: number) => {
-    setPage(page)
+  const scrollToMyTag = () => {
+    if (myTagRef.current) {
+      myTagRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
-  
+  const handleToPage = (page: number) => {
+    setPage(page)
+    scrollToMyTag()
+  }
+
+  const { isLoading, data } = useQuery({
+    queryKey: ['listGetAllWanted', page],
+    queryFn: () => getAllWanted(page),
+  })
+
+  if (isLoading || data === undefined)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
+
+  const listDatas = data.content
+  // console.log(listDatas)
 
   return (
-   <>
-   <div className='Main-container' style={{marginTop: '5px'}}>
-    <div>
-     {items.map((item) => (
-            <JobListItem key={item.wantedAuthNo} company={item.company} title={item.title} salTpNm={item.salTpNm} region={item.region} holidayTpNm={item.holidayTpNm} minEdubg={item.minEdubg} career={item.career} regDt={item.regDt} closeDt={item.closeDt} wantedAuthNo={item.wantedAuthNo}/>
-          ))}</div>
-          
-    <div style={{margin: '30px 0 30px 0'}}>
-    <Paging  page={page} count={count} setPage={handleToPage} size={size} />      </div>
-    </div>
-   </>
+    <>
+      <div
+        style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}
+        ref={myTagRef}
+      >
+        <div className="Main-container">
+          <JobMainCategoryContainer>
+            <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
+            <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+            <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div>
+            <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
+          </JobMainCategoryContainer>
+        </div>
+      </div>
+      <div className="Main-container" style={{ marginTop: '5px' }}>
+        <div>
+          {listDatas.map((item: any) => (
+            <JobListItem
+              key={item.wantedCode}
+              company={item.company}
+              title={item.title}
+              salTpNm={item.salTpNm}
+              region={item.work_region}
+              holidayTpNm={item.holidayTpNm}
+              minEdubg={item.minEdubg}
+              career={item.career}
+              regDt={item.regDate}
+              closeDt={item.closeDate}
+              wantedAuthNo={item.wantedCode}
+              degreeCode={item.degreeCode}
+              workingDay={item.workingDay}
+              salary={item.salary}
+              salaryType={item.salaryType}
+            />
+          ))}
+        </div>
+
+        <div style={{ margin: '30px 0 30px 0' }}>
+          <Paging page={page} count={count} setPage={handleToPage} size={size} />
+        </div>
+      </div>
+    </>
   )
 }
 
-export default JobListContainer 
+export default JobListContainer

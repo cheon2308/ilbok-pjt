@@ -12,6 +12,7 @@ interface ComponentProps {
   height: string
   borderwidth: string
   bordercolor: string
+  fontsize: string
 }
 
 interface StyledSelectProps {
@@ -19,6 +20,7 @@ interface StyledSelectProps {
   height: string
   borderwidth: string
   bordercolor: string
+  fontsize: string
 }
 
 const FilterSelectWrapper = styled.div`
@@ -31,28 +33,35 @@ const StyledSelect = styled.select<StyledSelectProps>`
   border: ${(props) => props.borderwidth} solid ${(props) => props.bordercolor};
   padding: 8px;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: ${(props) => props.fontsize};
   color: #666666;
   background-color: #fbfbfd;
 
   &:hover {
-    border: 2px solid #c6f0de;
-    box-shadow: inset 0 0 0 1px #c6f0de;
+    border: ${(props) => props.borderwidth} solid ${(props) => props.bordercolor};
+    box-shadow: inset 0 0 0 1px ${(props) => props.bordercolor};
   }
   &:focus {
     outline: none !important;
   }
 `
 
-const FilterSelect = ({ props, width, height, borderwidth, bordercolor }: ComponentProps) => {
+const FilterSelect = ({ props, width, height, borderwidth, bordercolor, fontsize }: ComponentProps) => {
   return (
     <FilterSelectWrapper>
-      <StyledSelect width={width} height={height} borderwidth={borderwidth} bordercolor={bordercolor}>
-        {props.map((ele: Props, i: number) => (
-          <option key={i} value={ele.name}>
-            {ele.name}
-          </option>
-        ))}
+      <StyledSelect
+        width={width}
+        height={height}
+        borderwidth={borderwidth}
+        bordercolor={bordercolor}
+        fontsize={fontsize}
+      >
+        {props &&
+          props.map((ele: Props, i: number) => (
+            <option key={i} value={ele.name}>
+              {ele.name}
+            </option>
+          ))}
       </StyledSelect>
     </FilterSelectWrapper>
   )

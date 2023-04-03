@@ -10,9 +10,9 @@ type Props = {
   data: any
 }
 export default function ApplyModal({ open, close, data }: Props) {
-  const process = '방문, 워크넷'
+  const process = `${data.applyMethod}`
   const [worknet] = useState<boolean>(process.includes('워크넷'))
-  const url = 'https://www.naver.com'
+  const url = `${data.wantedInfoUrl}`
 
   return (
     <div className={open ? 'openModal modal' : 'modal'}>
@@ -48,7 +48,9 @@ export default function ApplyModal({ open, close, data }: Props) {
               </div>
               <div className="Modal-line-container">
                 <div className="Mid-category Modal-flexgrow1">제출서류</div>
-                <div className="Modal-flexgrow2">{data.document}</div>
+                <div className="Modal-flexgrow2" style={{ lineHeight: '1.8' }}>
+                  {data.document}
+                </div>
               </div>
               <div className="Modal-line-container Button-container">
                 <div>
@@ -56,7 +58,7 @@ export default function ApplyModal({ open, close, data }: Props) {
                   {worknet ? (
                     <div>
                       <BokBtn1
-                        sigwidth="300px"
+                        sigwidth="250px"
                         sigheight="50px"
                         sigfontsize="20px"
                         sigborderradius={25}

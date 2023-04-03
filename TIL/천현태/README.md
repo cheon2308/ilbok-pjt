@@ -1,4 +1,4 @@
-## 싸라벨
+## 일복
 
 - 나이가 많으신 어르신들의 구직 및 복지를 위한 플랫폼
 
@@ -248,6 +248,9 @@
 	- 직종 대분류 - 중분류 - 소분류 - 지역 대분류 - 소분류 - 학력 - 고용 조건 - 최소 학력
 	- npy 파일로 내보내기
 		- csv 파일로 내보낼시 문자열로 저장되어 이후 cos similarity 사용시 int 변환 필요
+		- pd.DataFrame은 pandas 라이브러리를 사용하여 표 형식으로 데이터를 저장하는 데 사용됩니다. DataFrame은 행과 열을 가진 표와 같은 형식으로 데이터를 저장하므로 데이터를 쉽게 조작하고 분석할 수 있습니다. 또한 DataFrame은 여러 유형의 데이터 (숫자, 문자열, 논리 등)을 저장할 수 있습니다.
+		- npy는 NumPy 라이브러리를 사용하여 배열 형식으로 데이터를 저장하는 데 사용됩니다. NumPy 배열은 동일한 유형의 데이터 (숫자, 문자열, 논리 등)만 저장할 수 있으며 배열의 모양을 변경하거나 조작하는 데 효과적입니다.
+	- 따라서, pd.DataFrame을 사용하면 테이블 형식으로 데이터를 저장하고, NumPy 배열을 사용하면 수치 데이터를 저장하는 것이 효과적입니다. 또한 pd.DataFrame은 csv, Excel 등 다양한 파일 형식으로 저장할 수 있지만, npy는 NumPy 배열 형식으로만 저장할 수 있습니다
 
 - 특성 나열한 행렬을 그대로 저장 후, 공고 클릭시 해당 공고와의 유사도 계산 로직
 	- 현재 4천개 정도여서 금방 계산
@@ -274,33 +277,21 @@ def similar_job(wanted_job):
 ```python
 
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
-
+# 이후 sim_job_num 에 상위 5개씩 저장
 def job_sort():
-
-    jobMatrix = np.load('jobMatrix.npy')
-
+    jobMatrix = np.load('./data/jobMatrix.npy')
     # 유사도 비교하여 저장
-
     calc_sim_job = cosine_similarity(jobMatrix, jobMatrix)
-
     # 유사도가 큰 순으로 정렬한 인덱스를 추출하되 자기 자신 제외하기
-
+    b = np.sort(calc_sim_job)
     sorted_index = np.argsort(calc_sim_job)[:, ::-1]
-
     sorted_index = sorted_index[:, 1:]
-
     sim_job = []
 
     # 현재 인덱스 번호이므로 실제 공고 번호로 변경해준 후 저장
-
     for i in sorted_index:
-
-        sim_job.append(i[:5])
-
-  
-
-    np.save('sim_job_num', sim_job)
-
+        sim_job.append(i[:30])
+    np.save('./data/sim_job_num', sim_job)
     return sim_job
 ```
 
@@ -325,7 +316,7 @@ def job_sort():
 
 ---
 
-## 03.27, 03.28
+## 03.27
 
 #### 주 내용
 
@@ -340,31 +331,41 @@ def job_sort():
 
 ```python
 # 학력
-        a = job.degree_code.degree_id
-        if a == 0:
-            jobMatrix[job.code][1527:1531] = [1, 1, 1, 1]       # 학력무관 - 1 1 1 1
-        elif a == 4:
-            jobMatrix[job.code][1527:1531] = [0, 1, 1, 1]       # 대졸 2~3 - 0 1 1 1
-        elif a == 5:
-            jobMatrix[job.code][1527:1531] = [0, 0, 1, 1]       # 대졸 4   - 0 0 1 1
-        elif a == 6:
-            jobMatrix[job.code][1527:1531] = [0, 0, 0, 1]       # 석사     - 0 0 0 1
-        else:
-            jobMatrix[job.code][1527:1531] = [0, 0, 0, 0]       # 박사     - 0 0 0 0
+        a = job.degree_code.degree_id
+        if a == 0:
+            jobMatrix[job.wanted_code][1527:1531] = [1, 1, 1, 1]     # 학력무관 - 1 1 1 1
+        elif a == 4:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 1, 1, 1]     # 대졸 2~3 - 0 1 1 1 
+        elif a == 5:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 1, 1]     # 대졸 4   - 0 0 1 1
+        elif a == 6:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 0, 1]     # 석사     - 0 0 0 1
+        else:
+            jobMatrix[job.wanted_code][1527:1531] = [0, 0, 0, 0]     # 박사     - 0 0 0 0
+
 ```
 
 
 > 근무일수
 
 ```python
- # 주 근무 일수
+  
+
+        # 주 근무 일수
+
         working = job.working_day
+
         if working == "주6일근무":
-            jobMatrix[job.code][1531] = 1
+
+            jobMatrix[job.wanted_code][1531] = 1
+
         elif working == "주5일근무":
-            jobMatrix[job.code][1532] = 1
+
+            jobMatrix[job.wanted_code][1532] = 1
+
         elif "주 5일 미만":
-            jobMatrix[job.code][1533] = 1
+
+            jobMatrix[job.wanted_code][1533] = 1
 ```
 
 
@@ -372,17 +373,21 @@ def job_sort():
 > 경력
 
 ```python
-# 경력
+ # 경력
+
         car = job.career
-        if car == "관계없음":                                   
-        # 관계없음    1   1
-            jobMatrix[job.code][1535:1537] = [1, 1]
-        elif car == "신입":                                     
-        #  신입       1   0
-            jobMatrix[job.code][1535:1537] = [1, 0]        
-        elif car == "경력":                                     
-        #  경력       0   1
-            jobMatrix[job.code][1535:1537] = [0, 1]
+
+        if car == "관계없음":                                   # 관계없음    1   1
+
+            jobMatrix[job.wanted_code][1534:1536] = [1, 1]
+
+        elif car == "신입":                                     #  신입       1   0
+
+            jobMatrix[job.wanted_code][1534:1536] = [1, 0]        
+
+        elif car == "경력":                                     #  경력       0   1
+
+            jobMatrix[job.wanted_code][1534:1536] = [0, 1]
 ```
 
 
@@ -399,8 +404,7 @@ def job_sort():
 
 - 또한 지역 대분류에 대한 가중치가 빠져있어서 추가해주었습니다.
 
-![[천현태/assets/Pasted image 20230328233503.png]]
-
+![[assets/Pasted image 20230328233503.png]]
 
 #### 배운 점
 
@@ -413,8 +417,9 @@ def job_sort():
 
 ---
 
-## 03.29
+## 03.28
 
+>django
 - 유저 매트릭스 생성
 	- 직업 대분류 - 중분류 - 지역 - 학력
 	- 경력과 선호하는 공고의 경우 가중치를 달리하여 직업에  + 해주었습니다.
@@ -423,60 +428,78 @@ def job_sort():
 		- 경력의 경우 -> 1년 미만 1점, 3년 이하 2점, 4~ 부터는 3점을 주었습니다.
 - 이후 user-user cos_similarity를 계산하는데
 	- 우선, 모든 이웃에 대해서 구해주었습니다.
-	- 유사도가 비슷하게 나오는 문제가 발생하였고, 나이를 기록하는데 있어 문제가 있다는 것을 알게 되었습니다.
-	- 
+	- 유사도가 비슷하게 나오는 문제가 발생하였고, 나이를 기록하는데 있어 문제가 있어 기록 방식 변경 -> 55 미만, 60미만, 65미만, 65이상
 
 
 - 특성과 데이터 들고와서
 	- 특성당 인덱스 매겨주기
 
 ```python
-all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+# 전체 유저
+    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
 
     # job 코드 변수
+
     js = JobSubFamily.objects.all()
+
     jc = JobCategory.objects.all()
 
     # 지역변수
+
     city = Cities.objects.all()
+
     region = Regions.objects.all()
 
     # 유저경력 변수
+
     career = Careers.objects.all()
+
   
 
     # 직업 중분류 - 행렬 인덱스 매칭
+
     sub_to_index = {}
+
     for i in range(len(js)):
-        sub_to_index[js[i].code] = i+14
+
+        sub_to_index[js[i].job_sub_code] = i+14
+
   
 
     # 지역 - 행렬 인덱스 매칭
+
     city_to_region = {}
+
     city_to_index = {}
+
     region_to_index = {}
 
+  
+
     i = 126
+
     for k in region:
 
-        region_to_index[k.code] = i
+        region_to_index[k.region_code] = i
 
         i += 1
+
     # city - region 매칭
+
     # city - 행렬 인덱스 매칭
+
     for j in range(len(city)):
 
-        city_to_region[city[j].code] = city[j].region_code.code
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
 
-        city_to_index[city[j].code] = j + 144
-```
+        city_to_index[city[j].city_code] = j + 144```
 
 ```python
 # 우선 전체 유저의 수 구하기
 
     user_length = all_user.aggregate(Max('user_id'))
 
-    userMatrix = [[0]*379 for _ in range(user_length['user_id__max']+1)]
+    userMatrix = [[0]*384 for _ in range(user_length['user_id__max']+1)]
 ```
 	
  
@@ -485,19 +508,24 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
 
  # 유저 정보에 대해 matrix에 기록
     for us in all_user:
-        us_num = us['user_id']
-        fav = us['favorite']
-        us_city = us['city_code']
-        deg = us['degree_code']
-        us_age = us['age']
-        us_gen = us['gender']
-  
+        # 이력서 작성한 사람에 한해
+        if us['degree_code']:
+            us_num = us['user_id']
+            fav = us['favorite']
+            us_city = us['city_code']
+            deg = us['degree_code']
+            us_age = us['age']
+            us_gen = us['gender']
+        else:
+            continue
+
         # 유저 관심 직종 +3 해주기
         userMatrix[us_num][sub_to_index[fav]] += 3
   
         # 지역 +1 해주기
         userMatrix[us_num][city_to_index[us_city]] += 1
         userMatrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+
 
         # 학력 기록해주기
         if deg == 0:
@@ -510,18 +538,42 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
             userMatrix[us_num][373:377] = [0,1,1,1]
         elif deg == 7:
             userMatrix[us_num][373:377] = [1,1,1,1]
-            
+
         # 나이 기록해주기
-        userMatrix[us_num][377] = us_age
+        if us_age < 55:        
+            userMatrix[us_num][378] = 1
+        elif 55 <= us_age < 60:
+            userMatrix[us_num][379] = 1
+        elif 60 <= us_age < 65:
+            userMatrix[us_num][380] = 1
+        elif 65 <= us_age:
+            userMatrix[us_num][381] = 1
 
         # 성별 - 남 1 여 2
         if us_gen == 0:
-            userMatrix[us_num][378] = 1
+            userMatrix[us_num][382] = 1
         else:
-            userMatrix[us_num][378] = 2
+            userMatrix[us_num][383] = 1
+
+    # 유저 매트릭스로 저장
+    # np.save('./data/userMatrix', userMatrix)
+    # 유사도로 저장해주기
+    calc_sim_user = cosine_similarity(userMatrix, userMatrix)
+    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+    sorted_index = sorted_index[:, 1:]
+    return
 ```
 
 
+>Front
+
+- useQuery를 사용하기로 결정했습니다. 이유는 아래 몇 가지!
+	- React 어플리케이션 내에서 데이터 패칭, 캐싱, 동기적, 서버의 상태의 업데이트를 좀 더 용이하게 만들어주기 떄문!
+	- 기존에 직접 만들어 사용했던 기능들을 별도 옵션없이 사용가능하며, 수많은 코드 대신 React-Query 로직을 통해 짧은 코드로 대체 가능
+	- 캐싱이 효율적
+	- 백그라운드에서 알아서 오래된 데이터 업데이트
+	- 페이징처리, 지연 로딩 데이터와 같은 성능 최적화
+	- 서버 쪽 데이터를 가비지 컬렉션을 이용하여 자동으로 메모리 관리
 
 #### 배운 점
 
@@ -530,13 +582,469 @@ all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite'
 	- 따라서, 각 age에 대해 열을 만들어 주거나, 범위를 정하여 0 과 1 로 표현해주는 것이 좋을 것 같습니다
 - 성별도 비슷하여, 남 여로 열 구분해주었습니다.
 
+---
 
-#### 질문
 
-- return 리스트 
-- 차원이 많아지는 것이 좋나, 아니면 가중치를 높이는 것이 좋을까?
-- 차원이 많아지는 것이 좋다면, 직종당 2개씩?
-											- 경력 + 선호
-- 유사도가 너무 높다; 
-			- 이유 찾음
-			- 나이가 많이 때문에 1, 2, 3, 4 정도로 구분해주는 것이 좋을 것 같다.
+## 03.29
+
+#### 주 내용
+
+> django
+
+
+- 몇몇 table의 column명이 변경되어 있던 db가 있었는데 이전의 데이터를 들고 작업을 해왔습니다.
+	- 따라서, 최신 db로 변경 후 오류 수정해주었습니다.
+	- 대부분, code -> table명_code로 이름을 변경해주었고, 따라서 해당 부분의 코드만 수정해주었습니다.
+
+- ALS 알고리즘 구현하기 위하여 희소행렬을 CSR_MATRIX 형식으로 변경해주었습니다.
+```PYTHON
+# csr 행렬로 변환해주기
+def csr_matrix():
+    mat = np.load('./data/user_to_job.npy')
+    csr = sparse.csr_matrix(mat)
+
+    # 희소성 측정
+    matrix_size = csr.shape[0]* csr.shape[1]
+    num_active = len(csr.nonzero()[0])
+    sparsity = 100 * (1-(num_active/matrix_size))
+    return
+
+csr_matrix()
+```
+
+- 다만, 이 때, 희소성은 약 99.5%는 되어야 협업 필터링을 구축할 수 있기 때문에 현재 99.7%를 낮추기 위해서 데이터를 더 만들어주어야 할 것 같습니다.
+- cf 에서는 적절한 행렬 분해를 하기 위해서는 모든 유저/아이템 상호작용 데이터를 사용해야하기 때문에
+	- 모형을 훈련시키는 경우 일정한 확률로 랜덤하게 뽑힌 유저/아이템 상호작용을 숨겨야 함
+	- 이후 테스트 단계에서 얼마나 유저가 실제로 추천된 아이템을 구매했는지 파악할 수 있음.
+
+> 훈련데이터
+
+- 랜덤 일정 확률로 유저/아이템 상호작용 몇 개를 가려 고객이 지원하거나, 본 적이 없는 것 처럼 만든다. -> 0으로 만들기
+- 그리고 테스트 데이터는 원본 데이터에서 접근한 이력이 있으면 1, 없으면 0으로 채운 행렬
+- 이런 방식으로 데이터를 세팅하면, 테스트 데이터에서 얼마나 유저가 실제 지원한 공고가 추천됐는지 파악할 수 있습니다.
+- 만약 유저가 추천된 아이템을 실제 지원한 경우가 많을 경우 추천 시스템이 제대로 작동한다 말할 수 있습니다.
+
+```python
+
+## 훈련 데이터 만들기
+def make_train(matrix, percentage = .2):
+    '''
+    ----------------------------------------------------
+    설명
+    유저-아이템 행렬 (matrix)에서
+    1. 0 이상의 값을 가지면 1의 값을 갖도록 binary하게 테스트 데이터를 만들고
+    2. 훈련 데이터는 원본 행렬에서 percentage 비율만큼 0으로 바뀜
+    -----------------------------------------------------
+
+    반환
+    training_set: 훈련 데이터에서 percentage 비율만큼 0으로 바뀐 행렬
+    test_set:     원본 유저-아이템 행렬의 복사본
+    user_inds:    훈련 데이터에서 0으로 바뀐 유저의 index
+    '''
+    test_set = matrix.copy()
+    test_set[test_set != 0] = 1 # binary하게 만들기
+  
+    training_set = matrix.copy()
+    nonzero_inds = training_set.nonzero()
+    nonzero_pairs = list(zip(nonzero_inds[0], nonzero_inds[1]))
+    
+    random.seed(0)
+    num_samples = int(np.ceil(percentage * len(nonzero_pairs)))
+    samples = random.sample(nonzero_pairs, num_samples)
+    
+    user_inds = [index[0] for index in samples]
+    item_inds = [index[1] for index in samples]
+    
+    training_set[user_inds, item_inds] = 0
+    training_set.eliminate_zeros()
+    
+    return training_set, test_set, list(set(user_inds))
+
+# 훈련, 테스트 데이터 생성
+mat = np.load('./data/user_to_job.npy')
+csr = sparse.csr_matrix(mat)
+product_train, product_test, product_users_altered = make_train(csr, 0.2)
+```
+
+
+> front
+
+- useQuery를 이용해서 api가 설계된 데이터를 불러오는 작업을 했습니다.
+- 기존에 로그인을 구현하였던 조원이 header -> application/json 으로 설정하였던 부분이 오류로 발생하였고
+	- 해결하기 위하여 우선, 컴포넌트 내에서 axios를 독립적으로 사용해주었습니다.
+
+
+#### 배운 점
+
+- 경력, 관심도로 유사도 기준을 줄 수 있지만, CF에서는 아이템에 대한 평가로 결정되는 것이 좋아보였습니다.
+	- 따라서, 기존의 COS 유사도를 나와 비슷한 유저의 척도로 사용하는 한편, 시간이 남는다면 KNN 알고리즘을 고려해볼 수 있을 것 같습니다.
+
+- 또한, ALS 라는 암시적 피드백 데이터를 가지고 할 수 있는 알고리즘을 알게되어 적용해보기 위하여 행렬 분해를 적용해주었습니다.
+	- 목적은 u번째 유저의 Xu 벡터와 i번재 아이템에 대한 Yi 벡터를 찾아서 유저 선호도 Pui를 구성하는 것
+	- 유저 선호도 Pui는 유저 벡터 Xu와 아이템 벡터 Yi의 내적으로 표현
+	- 즉, 선호도 행렬 P를 만드는데 이를 유저행렬 X와 아이템 행렬 Y로 만드는 것
+
+![[assets/Pasted image 20230330093147.png]]
+
+- 행렬 분해 - 차원 축소- 를 이용하여 구하며 아래와 같은 핵심을 가진다.
+	- 매우 큰 유저-아이템 행렬로부터
+	- 숨겨진 피처들을 뽑아내서
+	- 이들을 훨씬 작은 유저들의 특징을 담은 행렬과 아이템 특징을 담은 행렬로 분해하는 것
+
+
+---
+
+
+## 03.30
+
+#### 주 내용
+
+- ALS 알고리즘 구현하기
+	- 희소 행렬 -> 신뢰 행렬로 변경해주기
+
+![[assets/Pasted image 20230330092651.png]]
+
+- C는 u번째 유저의 i번째 아이템에 대한 신뢰 행렬
+	- 알파는 선호도 -> 클릭 + 북마크 + 지원에 대한 스케일링 term,  , 논문에서는 알파 40을 초기값으로 제안
+	- r은 원본 행렬
+
+참고 - https://assaeunji.github.io/machine%20learning/2020-11-29-implicitfeedback/
+
+```python
+
+```python
+def implicit_weighted_ALS(training_set, lambda_val = .1, alpha = 40, n_iter=10, rank_size = 20, seed = 0):
+    '''
+    협업 필터링에 기반한 ALS
+    -----------------------------------------------------
+    input
+    1. training_set : m x n 행렬로, m은 유저 수, n은 아이템 수를 의미. csr 행렬 (희소 행렬) 형태여야 함 
+    2. lambda_val: ALS의 정규화 term. 이 값을 늘리면 bias는 늘지만 분산은 감소. default값은 0.1
+    3. alpha: 신뢰 행렬과 관련한 모수 (C_{ui} = 1 + alpha * r_{ui}). 이를 감소시키면 평점 간의 신뢰도의 다양성이 감소
+    4. n_iter: 반복 횟수
+    5. rank_size: 유저/ 아이템 특성 벡터의 잠재 특성의 개수. 논문에서는 20 ~ 200 사이를 추천하고 있음. 이를 늘리면 과적합 위험성이 있으나 
+    bias가 감소
+    6. seed: 난수 생성에 필요한 seed
+    -----------------------------------------------------
+    반환
+    유저와 아이템에 대한 특성 벡터
+    '''
+    start = time()
+    # 1. Confidence matrix
+    # C = 1+ alpha * r_{ui}
+    conf = (alpha*training_set)  # sparse 행렬 형태를 유지하기 위해서 1을 나중에 더함
+
+    num_user = conf.shape[0]
+    num_item = conf.shape[1]
+
+    # X와 Y 초기화
+    rstate = np.random.RandomState(seed)
+    X = sparse.csr_matrix(rstate.normal(size = (num_user, rank_size)))
+    Y = sparse.csr_matrix(rstate.normal(size = (num_item, rank_size)))
+    X_eye = sparse.eye(num_user)
+    Y_eye = sparse.eye(num_item)
+    
+    # 정규화 term: 𝝀I
+    lambda_eye = lambda_val * sparse.eye (rank_size)
+    
+    # 반복 시작
+    for i in range(n_iter):
+        yTy = Y.T.dot(Y)
+        xTx = X.T.dot(X)
+        
+        # Y를 고정해놓고 X에 대해 반복
+        # Xu = (yTy + yT(Cu-I)Y + 𝝀I)^{-1} yTCuPu
+        for u in range(num_user):
+            conf_samp = conf[u,:].toarray() # Cu
+            pref = conf_samp.copy()
+            pref[pref!=0] = 1
+            # Cu-I: 위에서 conf에 1을 더하지 않았으니까 I를 빼지 않음 
+            CuI = sparse.diags(conf_samp, [0])
+            # yT(Cu-I)Y
+            yTCuIY = Y.T.dot(CuI).dot(Y)
+            # yTCuPu
+            yTCupu = Y.T.dot(CuI+Y_eye).dot(pref.T)
+            
+            X[u] = spsolve(yTy + yTCuIY + lambda_eye, yTCupu)
+        
+        # X를 고정해놓고 Y에 대해 반복
+        # Yi = (xTx + xT(Cu-I)X + 𝝀I)^{-1} xTCiPi
+        for i in range(num_item):
+            conf_samp = conf[:,i].T.toarray()
+            pref = conf_samp.copy()
+            pref[pref!=0] = 1
+            
+            #Ci-I
+            CiI = sparse.diags (conf_samp, [0])
+            # xT(Ci-I)X
+            xTCiIX = X.T.dot(CiI).dot(X)
+            # xTCiPi
+            xTCiPi = X.T.dot(CiI+ X_eye).dot(pref.T)
+            
+            Y[i] = spsolve(xTx + xTCiIX + lambda_eye, xTCiPi)
+        end = time()
+        return X, Y.T
+    
+
+user_vecs, item_vecs = implicit_weighted_ALS(product_train, lambda_val = 0.1, alpha = 15, n_iter= 1,rank_size = 20, seed=0)
+```
+
+- 현재는 한 번의 반복으로 20개의 잠재 특성, 알파 = 15, 람다 0.1로 하였을 때, 20초 정도가 걸리는 걸 볼 수 있습니다.
+- 특정한 유저의 예측된 평점을 구하려면 유저 벡터와 아이템 벡터의 내적곱을 하면 됩니다.
+```python
+first = user_vecs[1].dot(item_vecs).toarray()
+print(first[0, :30])
+```
+
+![[assets/Pasted image 20230330110948.png]]
+
+- 유사도가 너무 낮게 측정되지만 이유를 찾을 수 없지만 추측해보자면, 희소성이 너무 높다고 생각합니다.
+
+> AlternatingLeastSquares
+
+- implicit 라이브러리에 ALS를 바로 사용할 수 있어서 활용하였습니다.
+
+```PYTHON
+# # 훈련, 테스트 데이터 생성
+mat = np.load('./data/user_to_job.npy')
+csr = sparse.csr_matrix(mat)
+product_train, product_test, product_users_altered = make_train(csr, 0.2)
+
+alpha = 15
+als_model = AlternatingLeastSquares( factors=50, regularization=0.01, iterations=50)
+
+als_model.fit(csr)
+user_vector = als_model.user_factors
+item_vector = als_model.item_factors
+# score = user_vector.dot(item_vector)
+predictions = [sparse.csr_matrix(user_vector), sparse.csr_matrix(item_vector.T)]
+```
+
+
+- 훈련 데이터 중 20%는 가려져있음
+- 이를 이용해서 추천 시스템의 성능을 평가할 것인데, 결과적으로는 유저마다 예측 평점이 높은 아이템이 실제로 조회한 아이템인지를 봐야한다.
+- 흔히 쓰이는 지표 -> ROC 커브
+	- ROC 커브 밑에 차지하는 면적이 넓을수록 추천할 아이템과 실제 구매 아이템이 비슷
+
+```PYTHON
+def auc_score(test, predictions):
+    '''
+    fpr, tpr를 이용해서 AUC를 계산하는 함수
+    '''
+    fpr, tpr, thresholds = metrics.roc_curve(test, predictions)
+    return metrics.auc(fpr,tpr)
+```
+
+- 위 auc_score 함수를 helper 함수로 가려진 유저들의 AUC 계산해주기
+
+```python
+def calc_mean_auc(training_set, altered_users, predictions, test_set):
+
+    '''
+    가려진 정보가 있는 유저마다 AUC 평균을 구하는 함수
+    ----------------------------------------
+    input
+    1. training_set: make_train 함수에서 만들어진 훈련 데이터 (일정 비율로 아이템 구매량이 0으로 가려진 데이터)
+    2. prediction: implicit MF에서 나온 유저/아이템 별로 나온 예측 평점 행렬
+    3. altered_users: make_train 함수에서 아이템 구매량이 0으로 가려진 유저
+    4. test_set: make_train함수에서 만든 테스트 데이터
+    ----------------------------------------
+
+    반환
+    추천 시스템 유저의 평균 auc
+    인기아이템 기반 유저 평균 auc
+    '''
+    # 리스트 초기화
+    store_auc = []
+    popularity_auc = []
+    pop_items = np.array(test_set.sum(axis = 0)).reshape(-1) # 모든 유저의 아이템별 구매횟수 합
+    item_vecs = predictions[1] # 아이템 latent 벡터
+    
+    for user in altered_users:
+        training_row = training_set[user,:].toarray().reshape(-1) # 유저의 훈련데이터
+        zero_inds = np.where(training_row == 0) # 가려진 아이템 Index
+        # 가려진 아이템에 대한 예측
+        user_vec = predictions[0][user,:]
+        pred = user_vec.dot(item_vecs).toarray()[0,zero_inds].reshape(-1)
+        # 가려진 아이템에 대한 실제값
+        actual = test_set[user,:].toarray()[0,zero_inds].reshape(-1)
+        # 가려진 아이템에 대한 popularity (구매횟수 합)
+        pop = pop_items[zero_inds]
+        # AUC 계산
+        store_auc.append(auc_score(actual, pred))
+        popularity_auc.append(auc_score(actual,pop))
+    return float('%.3f'%np.mean(store_auc)), float('%.3f'%np.mean(popularity_auc))
+```
+
+```PYTHON
+## 훈련, 테스트 데이터 생성
+mat = np.load('./data/user_to_job.npy')
+csr = sparse.csr_matrix(mat)
+product_train, product_test, product_users_altered = make_train(csr, 0.2)
+
+alpha = 15
+als_model = AlternatingLeastSquares( factors=50, regularization=0.01, iterations=50)
+
+als_model.fit(csr)
+user_vector = als_model.user_factors
+item_vector = als_model.item_factors
+
+# score = user_vector.dot(item_vector)
+predictions = [sparse.csr_matrix(user_vector), sparse.csr_matrix(item_vector.T)]
+
+calc_mean_auc(product_train, product_users_altered, predictions, product_test)
+
+```
+
+![[assets/Pasted image 20230330170125.png]]
+
+- 위 결과를 통해 ALS 추천 시스템이 인기있는 아이템 기반 알고리즘보다 나은 성능인 것을 알 수 있습니다.
+- 위에서 정한 모수들을 바꾸며 더 높은 AUC를 가질 수 있는지 조정 가능
+- 0.7 정도의 AUC는 중간 정도의 성능이므로 개선 여지 있음
+
+
+> 추천 함수 작성
+
+- 유저가 접근을 하지 않은 아이템만 보내주는 것과
+- 모든 공고를 보내주는 함수 2가지로 작성
+
+- 전체 아이템 보내주기
+```python
+
+@api_view(['GET'])
+def recommend_items_for_user(request, user_id):
+    ## 훈련, 테스트 데이터 생성
+    mat = np.load('./data/user_to_job.npy')
+    csr = sparse.csr_matrix(mat)
+    product_train, product_test, product_users_altered = make_train(csr, 0.2)
+
+    # 라이브러리로 ALS 돌리기
+    # 모델 학습
+    als_model = AlternatingLeastSquares( factors=50, regularization=0.01, iterations=50)
+    als_model.fit(product_train)
+    # 학습된 ALS 모델을 사용하여 유저-아이템 행렬의 예측값 계산
+    user_factors = als_model.user_factors
+    item_factors = als_model.item_factors
+    user_item_matrix = user_factors.dot(item_factors.T)
+    user_vector = user_item_matrix[user_id, :]
+    item_idx = np.argsort(-user_vector)[:200]
+    recommended_items = [idx for idx in item_idx]
+    return Response(recommended_items)
+```
+
+
+- 접근하지 않은 아이템 중 보내주기
+```python
+# 추천 함수 -> 유저가 보지 않은 데이터로만 보냄
+def recommend_items(request, user_id):
+
+    ## 훈련, 테스트 데이터 생성
+    mat = np.load('./data/user_to_job.npy')
+    csr = sparse.csr_matrix(mat)
+    product_train, product_test, product_users_altered = make_train(csr, 0.2)
+
+    # 라이브러리로 ALS 돌리기
+    # 모델 학습
+    als_model = AlternatingLeastSquares( factors=50, regularization=0.01, iterations=50)
+    als_model.fit(product_train)
+
+    # 학습된 ALS 모델을 사용하여 유저-아이템 행렬의 예측값 계산
+    user_factors = als_model.user_factors
+    item_factors = als_model.item_factors
+    user_item_matrix = user_factors.dot(item_factors.T)
+
+    # 모델로부터 유저 및 아이템 특징 벡터 행렬 획득
+    user_vector = als_model.user_factors
+    item_vector = als_model.item_factors
+
+    # 유저가 본 공고 목록 획득
+    user_click = user_item_matrix[user_id].indices
+  
+    # 유저가 아직 보지않은 공고 목록 획득
+    all_jobs=np.arange(user_item_matrix.shape[1])
+    non_user_jobs = np.setdiff1d(all_jobs, user_click)
+
+    # 유저-상품 간 코사인 유사도 계산
+    user_vec = user_vector[user_id]
+    sim_scores = item_vector[non_user_jobs].dot(user_vec)
+
+    # 유사도를 기준으로 내림차순으로 정렬하여 상위 num_items개의 아이템 추출
+    best_items = non_user_jobs[np.argsort(-sim_scores)[:30]]
+    return best_items
+```
+
+
+---
+
+## 03.31
+
+#### 주 내용
+
+- 속도 개선을 위해 기존 list로 연산하던 것을 np.array로 배열로 변경
+	- np.array를 이용해준다.
+	- 모든 원소가 같은 자료형이며, 원소의 갯수를 바꿀 수 없다는 특징이 있음
+- 기존 AUC 수치가 0.7이여서 ALS 알고리즘 파라미터를 변경해보며
+	- factor -> 20, alpha -> 40 으로 변경시 아래와 같이 성능 개선한 결과를 얻을 수 있었습니다.
+
+```python
+als_model = AlternatingLeastSquares(factors=20, regularization=0.01, iterations=50, alpha=40)
+```
+	                  ![[assets/Pasted image 20230331160036.png]]
+
+- test 하던 함수 다 날리고 정리하였습니다.
+- 크게, 
+	- user log가 쌓여서 업데이트 해주는 logic 함수 -> user_train()
+	- 추천해주는 함수 -> recommend_items_for_user()
+	- auc 커브로 성능 측정 logic 함수 -> check_calc_mean()
+
+> 추천 함수
+	- argsort의 경우 오름차순이므로 -를 붙여서 내림차순으로 정렬해주었습니다.
+
+```python
+@api_view(['GET'])
+
+def recommend_items_for_user(request, user_id):
+
+    user_item_matrix = np.load('./data/rec_user_to_job.npy')
+
+    user_vector = user_item_matrix[user_id, :]
+
+    print(user_vector)
+
+    item_idx = np.argsort(-user_vector)[:200]
+
+    recommended_items = [idx for idx in item_idx]
+
+    return Response(recommended_items)
+```
+
+> user_train()
+
+```python
+@api_view(['GET'])
+def user_train(request):
+    # 모든 유저와 아이템 간의 예측 평점이 계산됨
+    mat = user_to_job()
+    csr = sparse.csr_matrix(mat)
+    product_train, product_test, product_users_altered = make_train(csr, 0.2)
+
+    # 라이브러리로 ALS 돌리기
+    # 모델 학습
+    als_model = AlternatingLeastSquares(factors=20, regularization=0.01, iterations=50, alpha=40)
+    als_model.fit(product_train)
+
+    # 학습된 ALS 모델을 사용하여 유저-아이템 행렬의 예측값 계산
+    user_factors = als_model.user_factors
+    item_factors = als_model.item_factors
+    user_item_matrix = user_factors.dot(item_factors.T)
+    np.save('./data/rec_user_to_job', user_item_matrix)
+    return Response('success')
+```
+
+- make_train()과 user_to_job() 함수 이용하여, 행렬 업데이트 및 학습 데이터 생성해준 후,
+- 모델 학습 시켜서 예측값 계산 후 저장
+- response -> 'success'
+
+
+```python 
+```

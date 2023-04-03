@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import kakaologin from '../assets/image/kakao_login_medium_narrow.png'
-import { REST_API_KEY, REDIRECT_URI } from '../api/KakaoLoginData'
 import BokBtn1 from './Common/BokBtn1'
 import Lottie from 'lottie-react'
 import animationData from '../assets/lottie/luckybag.json'
@@ -26,14 +25,14 @@ const style = {
   flexDirection: 'column',
 }
 interface StyledTypographyProps extends TypographyProps {
-  isHovered?: boolean
+  ishovered?: boolean
 }
 
 const StyledTypography = styled(({ ...typographyProps }: StyledTypographyProps) => (
   <Typography {...typographyProps} />
 ))<StyledTypographyProps>`
   cursor: pointer;
-  color: ${(props) => (props.isHovered ? 'blue' : 'textSecondary')};
+  color: ${(props) => (props.ishovered ? 'blue' : 'textSecondary')};
 
   &:hover {
     color: blue;
@@ -46,22 +45,22 @@ interface LoginModalProps {
 }
 
 function LoginModal({ open, onClose }: LoginModalProps) {
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
-  const KAKAO_AUTH_URL_OTHER = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`
+  const KAKAO_AUTH_URL_OTHER = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&prompt=login`
   const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL
   }
   const handleLoginOther = () => {
     window.location.href = KAKAO_AUTH_URL_OTHER
   }
-  const [isHovered, setIsHovered] = useState(false)
+  const [ishovered, setishovered] = useState(false)
 
   const handleMouseEnter = () => {
-    setIsHovered(true)
+    setishovered(true)
   }
 
   const handleMouseLeave = () => {
-    setIsHovered(false)
+    setishovered(false)
   }
   //lottie
 
@@ -103,7 +102,7 @@ function LoginModal({ open, onClose }: LoginModalProps) {
           <StyledTypography
             onClick={handleLoginOther}
             fontSize={14}
-            isHovered={isHovered}
+            ishovered={ishovered ? true : undefined}
             style={{ cursor: 'pointer' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}

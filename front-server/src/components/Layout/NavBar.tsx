@@ -8,7 +8,8 @@ import LoginModal from '../LoginModal'
 import BokBtn2 from '../Common/BokBtn2'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
-
+import { useRecoilState } from 'recoil'
+import { LoginState } from '../../atom'
 const NavbarContainer = styled.nav`
   align-items: center;
   padding: 5px;
@@ -90,12 +91,12 @@ const NavBar = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const navigate = useNavigate()
-
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   const profileImg = window.localStorage.getItem('token')
-    ? window.localStorage.getItem('kakaoProfileImg') || DefaultProfile
+    ? window.localStorage.getItem('profileImage') || DefaultProfile
     : undefined
   const userName = window.localStorage.getItem('token')
-    ? window.localStorage.getItem('kakaoNickname') || 'unknown'
+    ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
 
   const handleProfileClick = () => {
@@ -104,7 +105,7 @@ const NavBar = () => {
   const logOut = () => {
     console.log('gkgk')
     const kakaoId = window.localStorage.getItem('kakaoId')
-
+    localStorage.removeItem('token')
     if (kakaoId) {
       axios
         .post(`https://kapi.kakao.com/v1/user/logout?target_id_type=user_id&target_id=${kakaoId}`, null, {
@@ -114,12 +115,15 @@ const NavBar = () => {
           },
         })
         .then((res) => {
-          console.log(res)
-          localStorage.removeItem('kakaoEmail')
+          localStorage.removeItem('email')
           localStorage.removeItem('kakaoId')
-          localStorage.removeItem('kakaoNickname')
-          localStorage.removeItem('kakaoProfileImg')
+          localStorage.removeItem('nickname')
+          localStorage.removeItem('profileImage')
           localStorage.removeItem('token')
+          setIsLoggedIn((prevState) => ({
+            userId: 0,
+            isLoggedIn: false,
+          }))
           navigate('/')
         })
         .catch((err) => {

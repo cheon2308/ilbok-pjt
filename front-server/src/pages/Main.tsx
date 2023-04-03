@@ -8,6 +8,13 @@ import FilterSelect from '../components/Common/FilterSelect'
 import { SlMagnifier } from 'react-icons/sl'
 import AddInfoNoti from '../components/Common/AddInfoNoti'
 import AddInfoNoti2 from '../components/Common/AddInfoNoti2'
+import { useQuery } from '@tanstack/react-query'
+import { getAllWanted } from '../api/MainApi'
+import { ClipLoader } from 'react-spinners'
+import BeatLoader from 'react-spinners/BeatLoader'
+import { useRecoilState } from 'recoil'
+import { CareerSubSelectName } from '../atom'
+import { Link } from 'react-router-dom'
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
@@ -234,213 +241,32 @@ const SearchTitle = styled.div`
     text-align: center;
   }
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  width: 100%;
+  color: #666666;
 
-const MainPage = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-
-  // 최신일자리 데이터
-  const newJobItems = [
-    {
-      wantedAuthNo: '공고 번호',
-      company: '(주)코리아환경산업',
-      title: '관저더샵 1차 아파트 외곽구인',
-      salTpNm: '월급 152만원 이상',
-      region: '대전광역시 서구 ',
-      holidayTpNm: '주 5일 근무',
-      minEdubg: '학력무관',
-      career: '관계없음',
-      regDt: '23/03/24',
-      closeDt: '23/03/26',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-  ]
-  // 인기일자리 데이터
-  const popularJobItems = [
-    {
-      wantedAuthNo: '공고 번호',
-      company: '(주)코리아환경산업',
-      title: '관저더샵 1차 아파트 외곽구인 합니다요',
-      salTpNm: '월급 152만원 이상',
-      region: '대전광역시 서구 ',
-      holidayTpNm: '주 5일 근무',
-      minEdubg: '학력무관',
-      career: '관계없음',
-      regDt: '23/03/24',
-      closeDt: '23/03/26',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-    {
-      wantedAuthNo: '공고 번호',
-      company: '회사 이름',
-      title: '공고 이름',
-      salTpNm: '시급,월급 연봉',
-      region: '지역',
-      holidayTpNm: '근무날짜',
-      minEdubg: '학력',
-      career: '경력',
-      regDt: '등록일',
-      closeDt: '마감일',
-    },
-  ]
-
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
+  :hover {
+    color: #76dcb0;
   }
+`
+const MainPage = () => {
   const props = [{ name: '일자리' }, { name: '복지' }]
+
+  const { isLoading, data } = useQuery({
+    queryKey: ['mainGetAllWanted'],
+    queryFn: () => getAllWanted(0),
+  })
+
+  if (isLoading || data === undefined)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
+  const mainDatas = data.content.slice(0, 8)
 
   return (
     <>
@@ -477,7 +303,14 @@ const MainPage = () => {
         <SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
         <SearchForms>
           <FilterSelectContainer>
-            <FilterSelect props={props} width="100px" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
+            <FilterSelect
+              props={props}
+              width="100px"
+              height="64px"
+              borderwidth="2px"
+              bordercolor="#76DCB0"
+              fontsize="20px"
+            />
           </FilterSelectContainer>
 
           <SearchBarContainer>
@@ -528,13 +361,13 @@ const MainPage = () => {
       </div>
 
       {/* 일자리 */}
-      <Ilbok>
+      {/* <Ilbok>
         <RecentlyJobContainer>
           <RecentlyJobTitleColor>인기 일자리</RecentlyJobTitleColor>
           <RecentlyJobSubtitle>일복(日福)에서 인기있는 일자리 </RecentlyJobSubtitle>
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
-            {popularJobItems.map((item) => (
+            {data.content.map((item: any) => (
               <Card
                 key={item.wantedAuthNo}
                 company={item.company}
@@ -551,26 +384,28 @@ const MainPage = () => {
             ))}
           </CardContainer>
         </RecentlyJobContainer>
-      </Ilbok>
+      </Ilbok> */}
       <Ilbok>
         <RecentlyJobContainer>
           <RecentlyJobTitleColor>최신 일자리</RecentlyJobTitleColor>
           <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <StyledLink to={`/job`}>
+            <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          </StyledLink>
           <CardContainer>
-            {newJobItems.map((item) => (
+            {mainDatas.map((item: any, index: any) => (
               <Card
-                key={item.wantedAuthNo}
+                key={index}
                 company={item.company}
                 title={item.title}
                 salTpNm={item.salTpNm}
-                region={item.region}
+                region={item.work_region}
                 holidayTpNm={item.holidayTpNm}
                 minEdubg={item.minEdubg}
                 career={item.career}
-                regDt={item.regDt}
-                closeDt={item.closeDt}
-                wantedAuthNo={item.wantedAuthNo}
+                regDt={item.regDate}
+                closeDt={item.closeDate}
+                wantedCode={item.wantedCode}
               />
             ))}
           </CardContainer>

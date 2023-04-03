@@ -1,20 +1,66 @@
 import { useState } from 'react'
 import React from 'react'
 import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import { JobFamilyCode, JobSubCode, JobSubName } from '../../../atom'
+import { useRecoilState } from 'recoil'
+
 const JobSubFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
 `
-function JobSubSelect({ jobSelectCode, jobSubSelectNameFunc, jobSubSelectCodeFunc }: any) {
-  const JobSubFamily = [
-    { jobSubCode: '3331', jobFamilyCode: '123', name: '레스토랑' },
-    { jobSubCode: '3332', jobFamilyCode: '123', name: '카페' },
-    { jobSubCode: '3333', jobFamilyCode: '123', name: '동물원' },
-    { jobSubCode: '3334', jobFamilyCode: '123', name: '시장' },
-    { jobSubCode: '3335', jobFamilyCode: '123', name: '호텔' },
-  ]
+
+interface JobSubFamily {
+  jobSubCode: string
+  jobFamilyCode: string
+  name: string
+}
+
+function JobSubSelect() {
+  const [jobSubFamily, setJobSubFamily] = useState<JobSubFamily[]>([])
+
+  const [jobFamilyCode, setjobFamilyCode] = useRecoilState(JobFamilyCode) // 직업 대분류 코드
+
+  const [jobSubCode, setjobSubCode] = useRecoilState(JobSubCode) // 직업 중분류 코드
+  const [jobSubName, setjobSubName] = useRecoilState(JobSubName) // 직업 중분류 이름
+
+  // * API
+  const getJobSubFamilySelect = async () => {
+    const res = await axios(
+      process.env.REACT_APP_SERVER_URL + `/resume/jobSubFamily?job_family_code=${jobFamilyCode}`,
+      {
+        method: 'GET',
+      }
+    )
+    return res.data
+  }
+
+  const { data, error, isError, isLoading } = useQuery(
+    ['getJobSubFamilySelect', jobFamilyCode],
+    getJobSubFamilySelect,
+    {
+      onSuccess: (data) => {
+        setJobSubFamily(data)
+        console.log('data:중분류', data)
+        // 데이터 로드 후 실행할 작업
+      },
+      onError: (error) => {
+        console.log('error:', error)
+        // 에러 발생 후 실행할 작업
+      },
+    }
+  )
 
   const [activeTab, setActiveTab] = React.useState('')
-  console.log(jobSelectCode)
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error occurred </div>
+  }
+
   return (
     <>
       <div
@@ -22,13 +68,13 @@ function JobSubSelect({ jobSelectCode, jobSubSelectNameFunc, jobSubSelectCodeFun
           width: '50%',
         }}
       >
-        {JobSubFamily.map((item, index) => (
+        {jobSubFamily.map((item, index) => (
           <JobSubFamilyItem
             key={index}
             onClick={() => {
               setActiveTab(item.jobSubCode)
-              jobSubSelectNameFunc(item.name)
-              jobSubSelectCodeFunc(item.jobSubCode)
+              setjobSubCode(item.jobSubCode)
+              setjobSubName(item.name)
             }}
             style={{
               backgroundColor: activeTab === item.jobSubCode ? '#76dcb0' : index % 2 === 0 ? '#ffffff' : '#f2f2f2',
