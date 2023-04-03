@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+import { CityCode, CityName, RegionCode } from '../../../atom'
+import { useRecoilState } from 'recoil'
 
 const JobSubFamilyItem = styled.div`
   padding: 15px 10px 15px 10px;
@@ -15,14 +17,17 @@ interface CityFamilyItem {
 function CitySelect({ regionSelectCode, cityselectNameFunc }: any) {
   const [CityFamily, setCityFamily] = useState<CityFamilyItem[]>()
 
+  const [cityCode, setCityCode] = useRecoilState(CityCode)
+  const [cityName, setCityName] = useRecoilState(CityName)
+  const [regionCode, setRegionCode] = useRecoilState(RegionCode)
   const getCitySelect = async () => {
-    const res = await axios(process.env.REACT_APP_SERVER_URL + `/resume/cities?region_code=${regionSelectCode}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/resume/cities?region_code=${regionCode}`, {
       method: 'GET',
     })
     return res.data
   }
 
-  const { data, error, isError, isLoading } = useQuery(['getCitySelect', regionSelectCode], getCitySelect, {
+  const { data, error, isError, isLoading } = useQuery(['getCitySelect', regionCode], getCitySelect, {
     onSuccess: (data) => {
       setCityFamily(data)
       console.log('data:', data)
@@ -57,7 +62,8 @@ function CitySelect({ regionSelectCode, cityselectNameFunc }: any) {
               key={index}
               onClick={() => {
                 setActiveTab(item.cityCode)
-                cityselectNameFunc(item.city)
+                setCityCode(item.cityCode)
+                setCityName(item.city)
               }}
               style={{
                 backgroundColor: activeTab === item.cityCode ? '#76dcb0' : index % 2 === 0 ? '#ffffff' : '#f2f2f2',

@@ -88,7 +88,7 @@ const AddInfoNoti = () => {
       <AddInfoNotiTitleContainer>
         <AddInfoNotiTitleContentContainer>
           <AddInfoNotiTitle>
-            <AddInfoNotiTitleColor>로그인</AddInfoNotiTitleColor> 후,{' '}
+            <AddInfoNotiTitleColor>로그인</AddInfoNotiTitleColor> 후,
             <AddInfoNotiTitleColor>추가 정보</AddInfoNotiTitleColor>를 입력하면,
           </AddInfoNotiTitle>
           <AddInfoNotiTitle>

@@ -12,6 +12,9 @@ import { useQuery } from '@tanstack/react-query'
 import { getAllWanted } from '../api/MainApi'
 import { ClipLoader } from 'react-spinners'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { useRecoilState } from 'recoil'
+import { CareerSubSelectName } from '../atom'
+import { Link } from 'react-router-dom'
 
 const Ilbok = styled.div`
   margin: 0 20vw 0 20vw;
@@ -238,18 +241,26 @@ const SearchTitle = styled.div`
     text-align: center;
   }
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  width: 100%;
+  color: #666666;
 
-const MainPage = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
+  :hover {
+    color: #76dcb0;
   }
-  const props = [{ name: '일자리' }, { name: '복지' }]
+`
+const MainPage = () => {
+  // const props = [{ name: '일자리' }, { name: '복지' }]
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>()
   const { isLoading, data } = useQuery({
     queryKey: ['mainGetAllWanted'],
     queryFn: () => getAllWanted(0),
   })
+  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSelectedKeyword(value)
+  }
   if (isLoading || data === undefined)
     return (
       <>
@@ -258,8 +269,8 @@ const MainPage = () => {
         </div>
       </>
     )
-
   const mainDatas = data.content.slice(0, 8)
+
   return (
     <>
       {/* Main */}
@@ -294,9 +305,16 @@ const MainPage = () => {
       >
         <SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
         <SearchForms>
-          <FilterSelectContainer>
-            <FilterSelect props={props} width="100px" height="64px" borderwidth="2px" bordercolor="#76DCB0" />
-          </FilterSelectContainer>
+          {/* <FilterSelectContainer>
+            <FilterSelect
+              props={props}
+              width="100px"
+              height="64px"
+              borderwidth="2px"
+              bordercolor="#76DCB0"
+              fontsize="20px"
+            />
+          </FilterSelectContainer> */}
 
           <SearchBarContainer>
             <SearchBar
@@ -307,14 +325,17 @@ const MainPage = () => {
               bordercolor="#76DCB0"
               fontsize="20px"
               hovercolor="#c6f0de"
+              onChange={handleKeyword}
             />
           </SearchBarContainer>
           <SearchButtonContainer>
-            <SearchButton>
-              <SlMagnifierContainer>
-                <SlMagnifier size="20px" color="white" />
-              </SlMagnifierContainer>
-            </SearchButton>
+            <Link to={`job`} state={`${selectedKeyword}`}>
+              <SearchButton>
+                <SlMagnifierContainer>
+                  <SlMagnifier size="20px" color="white" />
+                </SlMagnifierContainer>
+              </SearchButton>
+            </Link>
           </SearchButtonContainer>
         </SearchForms>
 
@@ -374,7 +395,9 @@ const MainPage = () => {
         <RecentlyJobContainer>
           <RecentlyJobTitleColor>최신 일자리</RecentlyJobTitleColor>
           <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <StyledLink to={`/job`}>
+            <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          </StyledLink>
           <CardContainer>
             {mainDatas.map((item: any, index: any) => (
               <Card

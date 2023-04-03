@@ -13,7 +13,8 @@ import { useRecoilState } from 'recoil'
 import { LoginState } from '../../atom'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-export default function JobMainItem() {
+import { BeatLoader } from 'react-spinners'
+export default function JobMainItem({ keyword }: any) {
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   const [getfavorite, setgetfavorite] = useState()
@@ -35,6 +36,7 @@ export default function JobMainItem() {
       // 에러 발생 후 실행할 작업
     },
   })
+
   // 비슷한 유저들이 관심있는 items
   const items = [
     { title: 'Item 1', description: 'This is the first item' },
@@ -62,12 +64,22 @@ export default function JobMainItem() {
     { title: 'Item 9', description: 'This is the fifth item' },
     { title: 'Item 10', description: 'This is the fifth item' },
   ]
+  const userName = window.localStorage.getItem('token')
+    ? window.localStorage.getItem('nickname') || 'unknown'
+    : undefined
 
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const handleItemChange = (index: number) => {
     setActiveIndex(index)
   }
-
+  if (isLoading)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
   return (
     <>
       {isLoggedIn.isLoggedIn === false ? (
@@ -84,35 +96,29 @@ export default function JobMainItem() {
         </div>
       ) : getfavorite !== null ? (
         <div style={{ backgroundColor: '#e7f4ef', height: '1000px', paddingTop: '80px' }}>
-          <TenCardContainer
-            items={items}
-            name="김유민"
-            title="님과 비슷한 유저들이 관심있는 일자리"
-            description="일복(日福)에서 추천하는 비슷한 유저들이 관심있는 일자리"
-          />
-          <div style={{ paddingTop: '80px' }}>
+          {userName && (
             <TenCardContainer
-              items={items2}
-              name="김유민"
-              title="님과 어울리는 일자리"
-              description="일복(日福)에서 추천하는 어울리는 일자리"
+              items={items}
+              name={userName}
+              title="님과 비슷한 유저들이 관심있는 일자리"
+              description="일복(日福)에서 추천하는 비슷한 유저들이 관심있는 일자리"
             />
+          )}
+          <div style={{ paddingTop: '80px' }}>
+            {userName && (
+              <TenCardContainer
+                items={items2}
+                name={userName}
+                title="님과 어울리는 일자리"
+                description="일복(日福)에서 추천하는 어울리는 일자리"
+              />
+            )}
           </div>
         </div>
       ) : null}
 
       <div className="Main-container">
-        <JobSearch />
-      </div>
-      <div style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}>
-        <div className="Main-container">
-          <JobMainCategoryContainer>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
-            <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
-          </JobMainCategoryContainer>
-        </div>
+        <JobSearch keyword={keyword} />
       </div>
 
       <div style={{ marginTop: '25px', marginBottom: '25px' }}>

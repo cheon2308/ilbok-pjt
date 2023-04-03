@@ -25,14 +25,14 @@ const style = {
   flexDirection: 'column',
 }
 interface StyledTypographyProps extends TypographyProps {
-  isHovered?: boolean
+  ishovered?: boolean
 }
 
 const StyledTypography = styled(({ ...typographyProps }: StyledTypographyProps) => (
   <Typography {...typographyProps} />
 ))<StyledTypographyProps>`
   cursor: pointer;
-  color: ${(props) => (props.isHovered ? 'blue' : 'textSecondary')};
+  color: ${(props) => (props.ishovered ? 'blue' : 'textSecondary')};
 
   &:hover {
     color: blue;
@@ -53,14 +53,14 @@ function LoginModal({ open, onClose }: LoginModalProps) {
   const handleLoginOther = () => {
     window.location.href = KAKAO_AUTH_URL_OTHER
   }
-  const [isHovered, setIsHovered] = useState(false)
+  const [ishovered, setishovered] = useState(false)
 
   const handleMouseEnter = () => {
-    setIsHovered(true)
+    setishovered(true)
   }
 
   const handleMouseLeave = () => {
-    setIsHovered(false)
+    setishovered(false)
   }
   //lottie
 
@@ -102,7 +102,7 @@ function LoginModal({ open, onClose }: LoginModalProps) {
           <StyledTypography
             onClick={handleLoginOther}
             fontSize={14}
-            isHovered={isHovered}
+            ishovered={ishovered ? true : undefined}
             style={{ cursor: 'pointer' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
