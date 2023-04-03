@@ -10,7 +10,11 @@ const axiosApi = (baseURL: any) => {
   })
   return instance
 }
+<<<<<<< HEAD
 export const defaultInstance = axiosApi('http://j8e202.p.ssafy.io:5000')
+=======
+export const defaultInstance = axiosApi('https://jaehojjang2.duckdns.org') 
+>>>>>>> cd82c54cbb1d174a6e9e1d377cf845a38a1881ff
 
 const api = axios.create({
   headers: { 'Content-type': 'application/json' }, // data type
