@@ -25,6 +25,7 @@ def cos_sim(A, B):
 
 # 유저 -> 채용공고에 평점매기기
 def user_to_job():
+    print(4444444444444444)
     ap_job = ApplyStatus.objects.all()
     cl_job = ClickWanted.objects.all()
     li_job = LikeWanted.objects.all()
@@ -34,17 +35,17 @@ def user_to_job():
     user_length = Users.objects.aggregate(Max('user_id'))
     job_length = Wanted.objects.aggregate(Max('wanted_code'))
     userMatrix = np.array([[0]*(job_length['wanted_code__max']+1) for _ in range(user_length['user_id__max']+1)])
-
+    print('여기요')
     # 벡터에 가중치 주기 -> 지원 3점, 클릭 1점, 북마크 2점
     for a in ap_job:
         userMatrix[a.user_id][a.wanted_code.wanted_code] += 5
-    
+    print('여기요2')
     for c in cl_job:
         userMatrix[c.user_id][c.wanted_code.wanted_code] += 1
     
     for l in li_job:
         userMatrix[l.user_id][l.wanted_code.wanted_code] += 3
-
+    print('여기요3')
     # np.save('./data/user_to_job', userMatrix)
     return userMatrix
 
@@ -166,7 +167,6 @@ def user_train(request):
     mat = user_to_job()
     csr = sparse.csr_matrix(mat)
     product_train, product_test, product_users_altered = make_train(csr, 0.2)
-
     # 라이브러리로 ALS 돌리기
     # 모델 학습
     als_model = AlternatingLeastSquares(factors=20, regularization=0.01, iterations=50, alpha=40)
@@ -176,6 +176,7 @@ def user_train(request):
     item_factors = als_model.item_factors
     user_item_matrix = user_factors.dot(item_factors.T)
     np.save('./data/rec_user_to_job', user_item_matrix)
+
     
     return Response('success')
 
@@ -185,6 +186,8 @@ def user_train(request):
 @api_view(['GET'])
 def recommend_items_for_user(request, user_id):
     user_item_matrix = np.load('./data/rec_user_to_job.npy')
+    if len(user_item_matrix) < user_id +1 or sum(user_item_matrix[user_id]) == 0:
+        return rec_cf_user(request, user_id)
     user_vector = user_item_matrix[user_id, :]
     item_idx = np.argsort(-user_vector)[:200]
     recommended_items = [idx for idx in item_idx]
@@ -332,7 +335,7 @@ def user_info(request):
             userMatrix[us_num][383] = 1
 
     # 유저 매트릭스로 저장
-    # np.save('./data/userMatrix', userMatrix)
+    np.save('./data/userMatrix', userMatrix)
 
     # 유사도로 저장해주기
     calc_sim_user = cosine_similarity(userMatrix, userMatrix)
@@ -343,8 +346,115 @@ def user_info(request):
     np.save('./data/user_to_user', sorted_index)
     return Response(sorted_index)
 
+# 신규유저 행렬에 추가
+@api_view(['GET'])
+def update_user_matrix(request, user_id):
+    user_matrix = np.load('/data/userMatrix.npy')
+    new_arr = [0] * 384
+    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+    user_length = all_user.aggregate(Max('user_id'))
+    now_arr = len(user_matrix)
+    for _ in range(user_length-now_arr + 1):
+        user_matrix.append(new_arr)
+    
+    # job 코드 변수
+    js = JobSubFamily.objects.all()
+    jc = JobCategory.objects.all()
+    # 지역변수
+    city = Cities.objects.all()
+    region = Regions.objects.all()
+    
+    # 직업 중분류 - 행렬 인덱스 매칭
+    sub_to_index = {}
+    for i in range(len(js)):
+        sub_to_index[js[i].job_sub_code] = i+14
 
-# 유저 특성 행렬화 시키기
+    # 지역 - 행렬 인덱스 매칭
+    city_to_region = {}
+    city_to_index = {}
+    region_to_index = {}
+
+    i = 126
+    for k in region:
+        region_to_index[k.region_code] = i
+        i += 1
+    
+    # city - region 매칭
+    # city - 행렬 인덱스 매칭
+    for j in range(len(city)):
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
+        city_to_index[city[j].city_code] = j + 144
+
+    # 유저경력 변수
+    career = Careers.objects.all()
+    # 경력에 대해 matrix에 기록해주기
+    # 학력 - 373 4 5 6
+    # 나이 - 378 9 380 381
+    # 성별 - 382 383
+    for car in career:
+        user_num = car.user_id
+        job_num = car.sub_code.job_sub_code
+        user_matrix[user_num][sub_to_index[job_num]] = car.period
+
+
+    # 유저 정보에 대해 matrix에 기록
+    us = user_id
+    # 이력서 작성한 사람에 한해 
+    us_num = us['user_id']
+    fav = us['favorite']
+    us_city = us['city_code']
+    deg = us['degree_code']
+    us_age = us['age']
+    us_gen = us['gender']
+
+    # 유저 관심 직종 +3 해주기
+    user_matrix[us_num][sub_to_index[fav]] += 3
+
+    # 지역 +1 해주기
+    user_matrix[us_num][city_to_index[us_city]] += 1
+    user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+
+    # 학력 기록해주기
+    if deg == 0:
+        user_matrix[us_num][373:377] = [0,0,0,0]
+    elif deg == 4:
+        user_matrix[us_num][373:377] = [0,0,0,1]
+    elif deg == 5:
+        user_matrix[us_num][373:377] = [0,0,1,1]
+    elif deg == 6:
+        user_matrix[us_num][373:377] = [0,1,1,1]
+    elif deg == 7:
+        user_matrix[us_num][373:377] = [1,1,1,1]
+
+    # 나이 기록해주기
+    if us_age < 55:        
+        user_matrix[us_num][378] = 1
+    elif 55 <= us_age < 60:
+        user_matrix[us_num][379] = 1
+    elif 60 <= us_age < 65:
+        user_matrix[us_num][380] = 1
+    elif 65 <= us_age:
+        user_matrix[us_num][381] = 1
+
+    # 성별 - 남 1 여 2
+    if us_gen == 0:
+        user_matrix[us_num][382] = 1
+    else:
+        user_matrix[us_num][383] = 1
+
+    # 유저 매트릭스로 저장
+    np.save('./data/userMatrix', user_matrix)
+
+    # 유사도로 저장해주기
+    calc_sim_user = cosine_similarity(user_matrix, user_matrix)
+    
+    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+    sorted_index = sorted_index[:, 1:]
+    # 유저간 유사도
+    np.save('./data/user_to_user', sorted_index)
+    return Response(sorted_index)
+
+# 유저간 유사도 기반 공고 추천하기
 @api_view(['GET'])
 def rec_cf_user(request, user_id):
     user_list = np.load('./data/user_to_user.npy')
@@ -352,8 +462,16 @@ def rec_cf_user(request, user_id):
     user_item_matrix = np.load('./data/rec_user_to_job.npy')
     res_data = []
     for i in rec_user:
-        user_vector = user_item_matrix[user_id, :]
-        item_idx = np.argsort(-user_vector)[:5]
+        user_vector = user_item_matrix[i, :]
+        item_idx = np.argsort(-user_vector)[:10]
         for j in item_idx:
-            res_data.append(j)
-    return Response(res_data)
+            res_data.append((j, user_list[user_id][i] * user_item_matrix[i][j]))
+        
+        res_data.sort(key=lambda x:x[1], reverse=True)
+    
+    result = []
+    for k in res_data:
+        if k[0] not in result:
+            result.append(k[0])
+            
+    return Response(result)
