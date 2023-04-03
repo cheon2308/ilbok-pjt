@@ -3,6 +3,7 @@ package com.ssafy.ilbok.controller;
 import com.ssafy.ilbok.Repository.ApplyRepository;
 import com.ssafy.ilbok.model.dto.SearchJob;
 import com.ssafy.ilbok.model.dto.UserRelateDto;
+import com.ssafy.ilbok.model.entity.LikeWanted;
 import com.ssafy.ilbok.model.entity.Wanted;
 import com.ssafy.ilbok.service.ApplyService;
 import com.ssafy.ilbok.service.ClickWantedService;
@@ -40,18 +41,54 @@ public class WantedController {
     }
 
     @PostMapping(value = "clicked")
-    public void clicked(@RequestBody UserRelateDto userRelateDto){
-        clickWantedService.clickWantedPut(userRelateDto);
+    public ResponseEntity<Boolean> clicked(@RequestBody UserRelateDto userRelateDto){
+        try{
+            clickWantedService.clickWantedPut(userRelateDto);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
     }
 
     @PostMapping(value = "clickLike")
-    public void clickLiked(@RequestBody UserRelateDto userRelateDto){
-        likeService.clickLiked(userRelateDto);
+    public ResponseEntity<Boolean> clickLiked(@RequestBody UserRelateDto userRelateDto){
+        try{
+            likeService.clickLiked(userRelateDto);
+
+            LikeWanted likeWanted = likeService.isLiked(userRelateDto);
+            if(likeWanted==null){
+                return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+            }else{
+                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+            }
+            
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
     }
 
     @PostMapping(value="clickApply")
-    public void clickApply(@RequestBody UserRelateDto userRelateDto){
-        applyService.clickApply(userRelateDto);
+    public ResponseEntity<Boolean> clickApply(@RequestBody UserRelateDto userRelateDto){
+        try{
+            applyService.clickApply(userRelateDto);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
+    }
+
+    @PostMapping(value="isLiked")
+    public ResponseEntity<Boolean> isLiked(@RequestBody UserRelateDto userRelateDto){
+        try{
+            LikeWanted likeWanted = likeService.isLiked(userRelateDto);
+            if(likeWanted==null){
+                return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+            }else{
+                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
     }
 
     @GetMapping(value = "getAll")
