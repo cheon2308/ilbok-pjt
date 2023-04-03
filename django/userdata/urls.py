@@ -5,6 +5,7 @@ from userdata import views
 
 app_name = 'userdata'
 urlpatterns = [
+<<<<<<< HEAD
     
     # 이미 본 공고 포함 추천받기
     path('<int:user_id>', views.recommend_items_for_user ),
@@ -20,4 +21,9 @@ urlpatterns = [
     path('update/usertouser', views.user_info),
     path('cf/<int:user_id>', views.rec_cf_user),
 
+=======
+    path('makeusermatrix', views.user_info),
+    path('<int:user_num>', views.load_user_matrix ),
+    path('data/<int:wanted_job_num>', views.similar_job )
+>>>>>>> cd82c54cbb1d174a6e9e1d377cf845a38a1881ff
 ]
