@@ -21,6 +21,6 @@ public class LikeWanted {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="wanted_code")
-    private Wanted wanted;
+    private Wanted wantedCode;
 
 }
