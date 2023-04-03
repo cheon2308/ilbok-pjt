@@ -7,6 +7,8 @@ import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
+import { useRecoilState } from 'recoil'
+import { DbUserId } from '../../atom'
 
 const items = [
   {
@@ -144,6 +146,7 @@ const items2 = [
 ]
 
 const MyProfile = () => {
+  const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
@@ -158,6 +161,8 @@ const MyProfile = () => {
       })
       .then((res) => {
         console.log('됐어')
+        console.log(res.data.userId)
+        setDbUserId(res.data.userId)
         setkakaoEmail(res.data.email)
         setkakaoId(res.data.kakaoId)
         setkakaoNickname(res.data.nickname)
@@ -169,7 +174,8 @@ const MyProfile = () => {
   }
   useEffect(() => {
     getUserinfo()
-  }, [])
+  }, [dbUserId])
+
   return (
     <>
       <div className="Profile-Main-container">
