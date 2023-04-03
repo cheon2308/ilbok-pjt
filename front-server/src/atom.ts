@@ -136,3 +136,8 @@ export const CareersItem = atom<CareersItemTypes[]>({
 
   default: [],
 })
+
+export const CareerInfoDegree = atom({
+  key: 'CareerInfoDegree',
+  default: 0,
+})

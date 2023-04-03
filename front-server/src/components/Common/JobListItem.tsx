@@ -28,7 +28,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   width: 100%;
   color: #666666;
-  width: 100%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -65,32 +65,41 @@ const JobListItem = ({
   return (
     <>
       <JobListItemContainer>
-        <StyledLink to={`/detail/${wantedAuthNo}`} state={{ wantedCode: `${wantedAuthNo}` }}>
-          <div style={{}}>
-            <BsStar size={22.5} color="#C7C7C7" strokeWidth="0.01"></BsStar>
-          </div>
-          <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
+        <div
+          style={{
+            width: '100%',
+            color: '#666666',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <BsStar size={22.5} color="#C7C7C7" strokeWidth="0.01"></BsStar>
 
-          <div style={{ flex: '4 1 0' }}>
-            <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
-            <div>
-              {career} | {degreeCode.degree} | {workRegionArray[2] + ' ' + workRegionArray[3]}
+          <StyledLink to={`/detail/${wantedAuthNo}`} state={{ wantedCode: `${wantedAuthNo}` }}>
+            <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
+
+            <div style={{ flex: '4 1 0' }}>
+              <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
+              <div>
+                {career} | {degreeCode.degree} | {workRegionArray[2] + ' ' + workRegionArray[3]}
+              </div>
             </div>
-          </div>
 
-          <div style={{ flex: '2 1 0' }}>
-            <div style={{ marginBottom: '10px', textAlign: 'center' }}>
-              {salaryType} | {numberWithCommas(salary)}
-              {'원'}
+            <div style={{ flex: '2 1 0' }}>
+              <div style={{ marginBottom: '10px', textAlign: 'center' }}>
+                {salaryType} | {numberWithCommas(salary)}
+                {'원'}
+              </div>
+              <div style={{ textAlign: 'center' }}>{workingDay}</div>
             </div>
-            <div style={{ textAlign: 'center' }}>{workingDay}</div>
-          </div>
 
-          <div style={{ flex: '2 1 0', textAlign: 'center' }}>
-            <div style={{ marginBottom: '10px' }}>{regDt}</div>
-            <div style={{ fontSize: '16px', fontWeight: '700', marginBottom: '10px' }}>{closeDt}</div>
-          </div>
-        </StyledLink>
+            <div style={{ flex: '2 1 0', textAlign: 'center' }}>
+              <div style={{ marginBottom: '10px' }}>{regDt}</div>
+              <div style={{ fontSize: '16px', fontWeight: '700', marginBottom: '10px' }}>{closeDt}</div>
+            </div>
+          </StyledLink>
+        </div>
       </JobListItemContainer>
       <hr />
     </>
