@@ -1,11 +1,12 @@
 import axios from 'axios'
 
+
 // url 호출 시 기본 값 셋팅
 const axiosApi = (baseURL: any) => {
   const instance = axios.create({
     baseURL,
     withCredentials: true,
-  })
+  })  
   return instance
 }
 export const defaultInstance = axiosApi(process.env.REACT_APP_SERVER_URL)

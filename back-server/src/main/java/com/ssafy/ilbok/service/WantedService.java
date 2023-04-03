@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -53,5 +55,16 @@ public class WantedService {
         JPAQueryFactory query= new JPAQueryFactory(em);
 
         return query.selectFrom(wanted).where(builder).fetch();
+    }
+
+    public List<Wanted> findSimilarJobs(int wantedCode) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8000/jobdata/"+wantedCode;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        String responseBody = response.getBody();
+        System.out.println(responseBody);
+
+        return null;
     }
 }
