@@ -37,7 +37,7 @@ public class ApplyService {
 
             applyDto.code = applyStatus.getCode();
             applyDto.userId = applyStatus.getUsers().getUserId();
-            applyDto.wantedCode = applyStatus.getWanted().getWantedCode();
+            applyDto.wantedCode = applyStatus.getWantedCode().getWantedCode();
 
             list.add(applyDto);
         }
@@ -49,7 +49,7 @@ public class ApplyService {
         ApplyStatus applyStatus = new ApplyStatus();
         Users users = usersRepository.findByUserId(dto.getUserId());
         Wanted wanted = wantedRepository.findByWantedCode(dto.getWantedCode());
-        applyStatus.setWanted(wanted);
+        applyStatus.setWantedCode(wanted);
         applyStatus.setUsers(users);
         applyRepository.save(applyStatus);
     }

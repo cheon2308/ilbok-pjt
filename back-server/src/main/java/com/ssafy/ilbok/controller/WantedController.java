@@ -40,18 +40,33 @@ public class WantedController {
     }
 
     @PostMapping(value = "clicked")
-    public void clicked(@RequestBody UserRelateDto userRelateDto){
-        clickWantedService.clickWantedPut(userRelateDto);
+    public ResponseEntity<Boolean> clicked(@RequestBody UserRelateDto userRelateDto){
+        try{
+            clickWantedService.clickWantedPut(userRelateDto);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
     }
 
     @PostMapping(value = "clickLike")
-    public void clickLiked(@RequestBody UserRelateDto userRelateDto){
-        likeService.clickLiked(userRelateDto);
+    public ResponseEntity<Boolean> clickLiked(@RequestBody UserRelateDto userRelateDto){
+        try{
+            likeService.clickLiked(userRelateDto);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
     }
 
     @PostMapping(value="clickApply")
-    public void clickApply(@RequestBody UserRelateDto userRelateDto){
-        applyService.clickApply(userRelateDto);
+    public ResponseEntity<Boolean> clickApply(@RequestBody UserRelateDto userRelateDto){
+        try{
+            applyService.clickApply(userRelateDto);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.ACCEPTED);
+        }
     }
 
     @GetMapping(value = "getAll")
