@@ -61,6 +61,7 @@ public class WantedService {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://127.0.0.1:8000/jobdata/"+wantedCode;
+
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String responseBody = response.getBody();
         System.out.println(responseBody);

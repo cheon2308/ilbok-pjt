@@ -25,9 +25,24 @@ public class AlgorithmController {
         this.wantedService = wantedService;
     }
 
-    @GetMapping("SimilarJobs")
+    //공고 클릭 시 → 유사한 공고
+    @GetMapping("similarJobs")
     public ResponseEntity<List<Wanted>> SimilarJobs(@RequestParam int wantedCode){
-
         return new ResponseEntity<>(wantedService.findSimilarJobs(wantedCode), HttpStatus.ACCEPTED);
     }
+
+    //- 유저가 좋아할만한 공고 200개 (이미 본 공고 포함)
+    @GetMapping("likely")
+    public ResponseEntity<List<Wanted>> BeLikelyTo(@RequestParam int userId){
+        return new ResponseEntity<>(usersService.findBeLikelyTo(userId), HttpStatus.ACCEPTED);
+    }
+
+    //일자리 페이지 접속시 나와 비슷한 유저들이 젤 관심있어하는 공고
+    @GetMapping("otherLike")
+    public ResponseEntity<List<Wanted>> otherLike(@RequestParam int userId){
+        return new ResponseEntity<>(usersService.findOtherLike(userId), HttpStatus.ACCEPTED);
+    }
+
+
+
 }

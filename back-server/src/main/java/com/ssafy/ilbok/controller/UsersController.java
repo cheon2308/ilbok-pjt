@@ -35,17 +35,13 @@ public class UsersController {
     @GetMapping("oauth") // (3)
     public ResponseEntity getLogin(@RequestParam("code") String code) { //(4)
         // 넘어온 인가 코드를 통해 access_token 발급 //(5)
-        System.out.println("1111111111111111111111");
         OauthToken oauthToken = usersService.getAccessToken(code);
-        System.out.println("22222222222222222222222");
 
 
         String jwtToken = usersService.saveUserAndGetToken(oauthToken.getAccess_token());
-        System.out.println("333333333333333333333333");
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
-        System.out.println("444444444444444444444444444");
 
         return ResponseEntity.ok().headers(headers).body("success");
 
@@ -53,12 +49,9 @@ public class UsersController {
 
     @GetMapping("me")
     public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) { //(1)
-        System.out.println("드가자 ");
 
-        //(2)
         Users user = usersService.getUser(request);
 
-        //(3)
         return ResponseEntity.ok().body(user);
     }
 
