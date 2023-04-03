@@ -251,13 +251,16 @@ const StyledLink = styled(Link)`
   }
 `
 const MainPage = () => {
-  const props = [{ name: '일자리' }, { name: '복지' }]
-
+  // const props = [{ name: '일자리' }, { name: '복지' }]
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>()
   const { isLoading, data } = useQuery({
     queryKey: ['mainGetAllWanted'],
     queryFn: () => getAllWanted(0),
   })
-
+  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSelectedKeyword(value)
+  }
   if (isLoading || data === undefined)
     return (
       <>
@@ -302,7 +305,7 @@ const MainPage = () => {
       >
         <SearchTitle> 일자리와 복지를 손쉽게 찾아보세요.</SearchTitle>
         <SearchForms>
-          <FilterSelectContainer>
+          {/* <FilterSelectContainer>
             <FilterSelect
               props={props}
               width="100px"
@@ -311,7 +314,7 @@ const MainPage = () => {
               bordercolor="#76DCB0"
               fontsize="20px"
             />
-          </FilterSelectContainer>
+          </FilterSelectContainer> */}
 
           <SearchBarContainer>
             <SearchBar
@@ -322,14 +325,17 @@ const MainPage = () => {
               bordercolor="#76DCB0"
               fontsize="20px"
               hovercolor="#c6f0de"
+              onChange={handleKeyword}
             />
           </SearchBarContainer>
           <SearchButtonContainer>
-            <SearchButton>
-              <SlMagnifierContainer>
-                <SlMagnifier size="20px" color="white" />
-              </SlMagnifierContainer>
-            </SearchButton>
+            <Link to={`job`} state={`${selectedKeyword}`}>
+              <SearchButton>
+                <SlMagnifierContainer>
+                  <SlMagnifier size="20px" color="white" />
+                </SlMagnifierContainer>
+              </SearchButton>
+            </Link>
           </SearchButtonContainer>
         </SearchForms>
 
