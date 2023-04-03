@@ -14,7 +14,7 @@ import { LoginState } from '../../atom'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
-export default function JobMainItem() {
+export default function JobMainItem({ keyword }: any) {
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   const [getfavorite, setgetfavorite] = useState()
@@ -111,7 +111,7 @@ export default function JobMainItem() {
       ) : null}
 
       <div className="Main-container">
-        <JobSearch />
+        <JobSearch keyword={keyword} />
       </div>
 
       <div style={{ marginTop: '25px', marginBottom: '25px' }}>
