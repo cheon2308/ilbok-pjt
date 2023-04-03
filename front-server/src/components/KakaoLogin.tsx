@@ -22,7 +22,7 @@ function KakaoLogin() {
     //     navigate('/')
     //   }
     // }
-    axios(`http://j8e202.p.ssafy.io:5000/users/oauth?code=${KAKAO_CODE}`, {
+    axios(`http://jaehojjang2.duckdns.org/users/oauth?code=${KAKAO_CODE}`, {
       method: 'GET',
     })
       .then((res) => {
@@ -35,7 +35,7 @@ function KakaoLogin() {
 
         try {
           axios
-            .get('http://j8e202.p.ssafy.io:5000/users/me', {
+            .get('http://jaehojjang2.duckdns.org/users/me', {
               headers: {
                 Authorization: token,
               },
