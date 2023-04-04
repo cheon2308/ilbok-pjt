@@ -61,7 +61,7 @@ public class WantedService {
     public List<Wanted> findSimilarJobs(int wantedCode) {
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://127.0.0.1:8000/jobdata/"+wantedCode;
+        String url = "https://ilbokd.duckdns.org/jobdata/"+wantedCode;
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String responseBody = response.getBody();
