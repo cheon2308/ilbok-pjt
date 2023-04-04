@@ -25,7 +25,6 @@ def cos_sim(A, B):
 
 # 유저 -> 채용공고에 평점매기기
 def user_to_job():
-    print(4444444444444444)
     ap_job = ApplyStatus.objects.all()
     cl_job = ClickWanted.objects.all()
     li_job = LikeWanted.objects.all()
@@ -35,17 +34,14 @@ def user_to_job():
     user_length = Users.objects.aggregate(Max('user_id'))
     job_length = Wanted.objects.aggregate(Max('wanted_code'))
     userMatrix = np.array([[0]*(job_length['wanted_code__max']+1) for _ in range(user_length['user_id__max']+1)])
-    print('여기요')
     # 벡터에 가중치 주기 -> 지원 3점, 클릭 1점, 북마크 2점
     for a in ap_job:
         userMatrix[a.user_id][a.wanted_code.wanted_code] += 5
-    print('여기요2')
     for c in cl_job:
         userMatrix[c.user_id][c.wanted_code.wanted_code] += 1
     
     for l in li_job:
         userMatrix[l.user_id][l.wanted_code.wanted_code] += 3
-    print('여기요3')
     # np.save('./data/user_to_job', userMatrix)
     return userMatrix
 
@@ -274,7 +270,7 @@ def user_info(request):
     # 우선 전체 유저의 수 구하기
     user_length = all_user.aggregate(Max('user_id'))
     userMatrix = [[0]*384 for _ in range(user_length['user_id__max']+1)]
-
+    print(len(userMatrix[3]))
     # 경력에 대해 matrix에 기록해주기
     # 학력 - 373 4 5 6
     # 나이 - 378 9 380 381
@@ -343,7 +339,7 @@ def user_info(request):
     sorted_index = np.argsort(calc_sim_user)[:, ::-1]
     sorted_index = sorted_index[:, 1:]
     # 유저간 유사도
-    np.save('./data/user_to_user', sorted_index)
+    np.save('./data/userToUser', sorted_index)
     return Response(sorted_index)
 
 # 신규유저 행렬에 추가
@@ -356,7 +352,7 @@ def update_user_matrix(request, user_id):
     now_arr = len(user_matrix)
     for _ in range(user_length['user_id__max'] - now_arr + 1):
         np.append(user_matrix, np.array(new_arr))
-
+    print(len(user_matrix[3]))
     # job 코드 변수
     js = JobSubFamily.objects.all()
     jc = JobCategory.objects.all()
@@ -415,7 +411,7 @@ def update_user_matrix(request, user_id):
     # 지역 +1 해주기
     user_matrix[us_num][city_to_index[us_city]] += 1
     user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
-
+    print(len(user_matrix[user_id]))
     # 학력 기록해주기
     if deg == 0:
         user_matrix[us_num][373:377] = [0,0,0,0]
@@ -453,13 +449,13 @@ def update_user_matrix(request, user_id):
     sorted_index = np.argsort(calc_sim_user)[:, ::-1]
     sorted_index = sorted_index[:, 1:]
     # 유저간 유사도
-    np.save('./data/user_to_user', sorted_index)
+    np.save('./data/userToUser', sorted_index)
     return Response(True)
 
 # 유저간 유사도 기반 공고 추천하기
 @api_view(['GET'])
 def rec_cf_user(request, user_id):
-    user_list = np.load('./data/user_to_user.npy')
+    user_list = np.load('./data/userToUser.npy')
     rec_user = user_list[user_id][:5]
     user_item_matrix = np.load('./data/rec_user_to_job.npy')
     res_data = []
