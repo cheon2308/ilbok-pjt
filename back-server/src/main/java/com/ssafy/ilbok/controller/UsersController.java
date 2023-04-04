@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -64,7 +65,16 @@ public class UsersController {
     // 이력서 입력 받고 그걸 기준으로 users 정보 수정하는 api
     @PutMapping("update")
     public ResponseEntity<Users> updateUsersResume(@RequestBody ResumeDto resumeDto){
-        return new ResponseEntity<>(usersService.updateUsers(resumeDto), HttpStatus.ACCEPTED);
+        usersService.updateUsers(resumeDto);
+
+        Users users = usersService.findByUserId(resumeDto.getUserId());
+        System.out.println(users);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8000/userdata/update/"+users.getUserId();
+        restTemplate.getForEntity(url, Boolean.class);
+
+        return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("getCareers")

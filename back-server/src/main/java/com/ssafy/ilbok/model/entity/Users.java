@@ -44,10 +44,10 @@ public class    Users {
     private String nickname;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Column(name = "gender")
-    private int gender;
+    private Integer gender;
 
     @Column(name = "profile_image")
     private String profileImage;

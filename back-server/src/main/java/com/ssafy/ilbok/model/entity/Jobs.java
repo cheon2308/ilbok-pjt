@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class Jobs {
 
     @Id @Column(name = "job_code")
-    private int Code;
+    private Integer Code;
 
     private String name;
 
