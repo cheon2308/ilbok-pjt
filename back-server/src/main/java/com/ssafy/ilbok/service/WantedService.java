@@ -19,7 +19,9 @@ import org.springframework.web.client.RestTemplate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Service
 public class WantedService {
@@ -44,7 +46,6 @@ public class WantedService {
 
         QWanted wanted = new QWanted("w");
 
-
         BooleanBuilder builder = new BooleanBuilder();
         if(searchJob.getCity_code()!=null)builder.and(wanted.cityCode.eq(searchJob.getCity_code()));
         if(searchJob.getJob_code()!=null)builder.and(wanted.jobCode.eq(searchJob.getJob_code()));
@@ -64,8 +65,21 @@ public class WantedService {
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String responseBody = response.getBody();
-        System.out.println(responseBody);
 
-        return null;
+        String tmp = responseBody.substring(1, responseBody.length()-1);
+        StringTokenizer st = new StringTokenizer(tmp, ",");
+
+        List<Wanted> list = new ArrayList<>();
+
+        for(int i=0; i<10; i++){
+            String value = st.nextToken();
+            int tmpCode = Integer.parseInt(value);
+            Wanted wanted = wantedRepository.findByWantedCode(tmpCode);
+            list.add(wanted);
+        }
+
+        System.out.println(list.size());
+
+        return list;
     }
 }
