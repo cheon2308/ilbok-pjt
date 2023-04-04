@@ -133,7 +133,6 @@ export interface CareersItemTypes {
 }
 export const CareersItem = atom<CareersItemTypes[]>({
   key: 'CareersItem',
-
   default: [],
 })
 
