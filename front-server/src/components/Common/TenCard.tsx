@@ -61,6 +61,7 @@ const CardTitle = styled.div`
 
   width: 100%;
   @media (max-width: 1399px) {
+    width: 230px;
   }
 `
 
@@ -92,7 +93,7 @@ export interface JobListItemProps {
   closeDt: string
 }
 
-const Card = ({
+const TenCard = ({
   wantedCode,
   company,
   title,
@@ -126,4 +127,4 @@ const Card = ({
   )
 }
 
-export default Card
+export default TenCard
