@@ -4,7 +4,7 @@ DATABASES = {
         'NAME': 'ilbok',
         'USER': 'root',
         'PASSWORD': 'ssafy',
-        'HOST': 'localhost',
+        'HOST': 'http://j8e202.p.ssafy.io/',
         'PORT': '3306',
     }
 }

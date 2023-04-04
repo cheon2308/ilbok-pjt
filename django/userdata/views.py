@@ -91,7 +91,7 @@ def auc_score(test, predictions):
     fpr, tpr, thresholds = metrics.roc_curve(test, predictions)
     return metrics.auc(fpr,tpr)
 
-# AUC 계산
+# AUC 계산0
 def calc_mean_auc(training_set, altered_users, predictions, test_set):
 
     '''
@@ -359,7 +359,7 @@ def update_user_matrix(request, user_id):
     # 지역변수
     city = Cities.objects.all()
     region = Regions.objects.all()
-    
+    print('직업 중분류')
     # 직업 중분류 - 행렬 인덱스 매칭
     sub_to_index = {}
     for i in range(len(js)):
@@ -374,12 +374,13 @@ def update_user_matrix(request, user_id):
     for k in region:
         region_to_index[k.region_code] = i
         i += 1
-    
+    print('도시 중분류')
     # city - region 매칭
     # city - 행렬 인덱스 매칭
     for j in range(len(city)):
         city_to_region[city[j].city_code] = city[j].region_code.region_code
         city_to_index[city[j].city_code] = j + 144
+    print('유저경력')
     # 유저경력 변수
     career = Careers.objects.all()
     # 경력에 대해 matrix에 기록해주기
@@ -391,7 +392,7 @@ def update_user_matrix(request, user_id):
         job_num = car.sub_code.job_sub_code
         user_matrix[user_num][sub_to_index[job_num]] = car.period
 
-
+    print('시작')
     # 유저 정보에 대해 matrix에 기록
     for u in all_user:
         if u['user_id'] == user_id:
@@ -407,11 +408,10 @@ def update_user_matrix(request, user_id):
 
     # 유저 관심 직종 +3 해주기
     user_matrix[us_num][sub_to_index[fav]] += 3
-
+    print('지역')
     # 지역 +1 해주기
     user_matrix[us_num][city_to_index[us_city]] += 1
     user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
-    print(len(user_matrix[user_id]))
     # 학력 기록해주기
     if deg == 0:
         user_matrix[us_num][373:377] = [0,0,0,0]
@@ -423,7 +423,7 @@ def update_user_matrix(request, user_id):
         user_matrix[us_num][373:377] = [0,1,1,1]
     elif deg == 7:
         user_matrix[us_num][373:377] = [1,1,1,1]
-
+    print('나이')
     # 나이 기록해주기
     if us_age < 55:        
         user_matrix[us_num][378] = 1
@@ -439,7 +439,7 @@ def update_user_matrix(request, user_id):
         user_matrix[us_num][382] = 1
     else:
         user_matrix[us_num][383] = 1
-
+    print('저장')
     # 유저 매트릭스로 저장
     np.save('./data/userMatrix', user_matrix)
 
