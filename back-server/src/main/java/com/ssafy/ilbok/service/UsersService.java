@@ -26,6 +26,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Service
 public class UsersService {
@@ -37,13 +38,16 @@ public class UsersService {
 
     private CareersRepository careersRepository;
 
+    private WantedRepository wantedRepository;
+
     private DegreeRepository degreeRepository;
 
-    public UsersService(UsersRepository usersRepository, CitiesRepository citiesRepository,
+    public UsersService(UsersRepository usersRepository, CitiesRepository citiesRepository, WantedRepository wantedRepository,
                         JobSubFamilyRepository jobSubFamilyRepository, DegreeRepository degreeRepository, CareersRepository careersRepository){
         this.jobSubFamilyRepository = jobSubFamilyRepository;
         this.citiesRepository =citiesRepository;
         this.usersRepository = usersRepository;
+        this.wantedRepository = wantedRepository;
         this.degreeRepository = degreeRepository;
         this.careersRepository = careersRepository;
     }
@@ -257,14 +261,6 @@ public class UsersService {
 
         usersRepository.save(users);
 
-        RestTemplate restTemplate = new RestTemplate();
-        System.out.println("http://127.0.0.1:8000/userdata/update/"+users.getUserId());
-        String url = "http://127.0.0.1:8000/userdata/update/"+users.getUserId();
-
-        ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
-        Boolean responseBody = response.getBody();
-        System.out.println(responseBody+"잘 해결됌 ");
-
         return usersRepository.findByUserId(resumeDto.getUserId());
     }
 
@@ -275,9 +271,20 @@ public class UsersService {
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String responseBody = response.getBody();
-        System.out.println(responseBody);
 
-        return null;
+        String tmp = responseBody.substring(1, responseBody.length()-1);
+        StringTokenizer st = new StringTokenizer(tmp, ",");
+
+        List<Wanted> list = new ArrayList<>();
+
+        for(int i=0; i<10; i++){
+            String value = st.nextToken();
+            int tmpCode = Integer.parseInt(value);
+            Wanted wanted = wantedRepository.findByWantedCode(tmpCode);
+            list.add(wanted);
+        }
+
+        return list;
     }
 
     public List<Wanted> findOtherLike(int userId) {
@@ -288,6 +295,18 @@ public class UsersService {
         String responseBody = response.getBody();
         System.out.println(responseBody);
 
-        return null;
+        String tmp = responseBody.substring(1, responseBody.length()-1);
+        StringTokenizer st = new StringTokenizer(tmp, ",");
+
+        List<Wanted> list = new ArrayList<>();
+
+        for(int i=10; i<20; i++){
+            String value = st.nextToken();
+            int tmpCode = Integer.parseInt(value);
+            Wanted wanted = wantedRepository.findByWantedCode(tmpCode);
+            list.add(wanted);
+        }
+
+        return list;
     }
 }
