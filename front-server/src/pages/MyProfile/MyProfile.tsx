@@ -7,6 +7,7 @@ import BokBtn1 from '../../components/Common/BokBtn1'
 import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
+import { Link } from 'react-router-dom'
 
 const items = [
   {
@@ -148,6 +149,10 @@ const MyProfile = () => {
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
   const [kakaoProfileImg, setkakaoProfileImg] = useState<string>('')
+  const userName = window.localStorage.getItem('token')
+    ? window.localStorage.getItem('nickname') || 'unknown'
+    : undefined
+
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
@@ -181,9 +186,11 @@ const MyProfile = () => {
             </div>
           </div>
           <div>
-            <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
-              개인이력수정
-            </BokBtn1>
+            <StyledLink to={'/careerinfo'}>
+              <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
+                개인이력수정
+              </BokBtn1>
+            </StyledLink>
           </div>
         </div>
         <div className="Profile-Chart-container"></div>
@@ -195,12 +202,14 @@ const MyProfile = () => {
         </div>
         <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
           <div>
-            <TenCardContainer
-              items={items2}
-              name="김유민"
-              title="님과 어울리는 일자리"
-              description="일복(日福)에서 추천하는 어울리는 일자리"
-            />
+            {userName && (
+              <TenCardContainer
+                items={items}
+                name={userName}
+                title="님과 어울리는 일자리"
+                description="일복(日福)에서 추천하는 어울리는 일자리"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -239,4 +248,10 @@ const MyProfileImglogo = styled.img`
   height: 180px;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+`
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 `
