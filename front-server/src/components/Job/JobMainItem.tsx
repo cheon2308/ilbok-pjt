@@ -64,6 +64,9 @@ export default function JobMainItem({ keyword }: any) {
     { title: 'Item 9', description: 'This is the fifth item' },
     { title: 'Item 10', description: 'This is the fifth item' },
   ]
+  const userName = window.localStorage.getItem('token')
+    ? window.localStorage.getItem('nickname') || 'unknown'
+    : undefined
 
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const handleItemChange = (index: number) => {
@@ -93,19 +96,23 @@ export default function JobMainItem({ keyword }: any) {
         </div>
       ) : getfavorite !== null ? (
         <div style={{ backgroundColor: '#e7f4ef', height: '1000px', paddingTop: '80px' }}>
-          <TenCardContainer
-            items={items}
-            name="김유민"
-            title="님과 비슷한 유저들이 관심있는 일자리"
-            description="일복(日福)에서 추천하는 비슷한 유저들이 관심있는 일자리"
-          />
-          <div style={{ paddingTop: '80px' }}>
+          {userName && (
             <TenCardContainer
-              items={items2}
-              name="김유민"
-              title="님과 어울리는 일자리"
-              description="일복(日福)에서 추천하는 어울리는 일자리"
+              items={items}
+              name={userName}
+              title="님과 비슷한 유저들이 관심있는 일자리"
+              description="일복(日福)에서 추천하는 비슷한 유저들이 관심있는 일자리"
             />
+          )}
+          <div style={{ paddingTop: '80px' }}>
+            {userName && (
+              <TenCardContainer
+                items={items2}
+                name={userName}
+                title="님과 어울리는 일자리"
+                description="일복(日福)에서 추천하는 어울리는 일자리"
+              />
+            )}
           </div>
         </div>
       ) : null}
