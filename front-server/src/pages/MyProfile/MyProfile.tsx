@@ -8,7 +8,7 @@ import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobCo
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
 import { Link } from 'react-router-dom'
-import { LoginState } from '../../atom'
+import { DbUserId, LoginState } from '../../atom'
 import { useRecoilState } from 'recoil'
 import { useQuery } from '@tanstack/react-query'
 
@@ -134,18 +134,20 @@ const MyProfile = () => {
 
       <div className="Profile-Main-container">
         <div className="Profile-Extra">{!getfavorite && <AddInfoNoti2 />}</div>
-        <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
-          <div>
-            {userName && (
-              <TenCardContainer
-                items={items}
-                name={userName}
-                title="님과 어울리는 일자리"
-                description="일복(日福)에서 추천하는 어울리는 일자리"
-              />
-            )}
+        {getfavorite && (
+          <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
+            <div>
+              {userName && (
+                <TenCardContainer
+                  items={items}
+                  name={userName}
+                  title="님과 어울리는 일자리"
+                  description="일복(日福)에서 추천하는 어울리는 일자리"
+                />
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>

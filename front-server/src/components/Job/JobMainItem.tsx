@@ -217,7 +217,7 @@ export default function JobMainItem({ keyword }: any) {
               description="일복(日福)에서 추천하는 비슷한 유저들이 관심있는 일자리"
             />
           )}
-          <div style={{ paddingTop: '80px' }}>
+          {/* <div style={{ paddingTop: '80px' }}>
             {userName && (
               <TenCardContainer
                 items={items2}
@@ -226,7 +226,7 @@ export default function JobMainItem({ keyword }: any) {
                 description="일복(日福)에서 추천하는 어울리는 일자리"
               />
             )}
-          </div>
+          </div> */}
         </div>
       ) : null}
 
