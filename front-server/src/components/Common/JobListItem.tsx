@@ -4,7 +4,7 @@ import { BsStar, BsStarFill } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { DbUserId } from '../../atom'
+import { DbUserId, LoginState } from '../../atom'
 import { defaultInstance } from '../../api/Api'
 import { useQuery } from '@tanstack/react-query'
 
@@ -61,7 +61,8 @@ const JobListItem = ({
   salary,
   salaryType,
 }: JobListItemProps) => {
-  const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
+  // const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
+  const [dbUserId, setDbUserId] = useRecoilState(LoginState)
   const workRegionData = `${region}`
   const workRegionArray = workRegionData.split(' ')
 
@@ -71,7 +72,7 @@ const JobListItem = ({
   const [findLike, setFindLike] = useState(false)
   ///
   const getJobSubFamilySelect2 = async () => {
-    const res = await axios(process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLike?user_id=${dbUserId}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLike?user_id=${dbUserId.userId}`, {
       method: 'GET',
     })
     return res.data

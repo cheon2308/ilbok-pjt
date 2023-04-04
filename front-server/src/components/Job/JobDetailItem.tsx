@@ -14,6 +14,7 @@ import { BsStar, BsStarFill } from 'react-icons/bs'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
 import { DbUserId } from '../../atom'
+import { LoginState } from '../../atom'
 
 export default function JobDetailItem({ wantedCode }: any) {
   useEffect(() => {
@@ -21,8 +22,8 @@ export default function JobDetailItem({ wantedCode }: any) {
     handleClickLog()
   }, [])
 
-  const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
-
+  // const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
+  const [dbUserId, setDbUserId] = useRecoilState(LoginState)
   // *** Post 요청
 
   // 좋아요
@@ -120,25 +121,25 @@ export default function JobDetailItem({ wantedCode }: any) {
   // **
   const handleLike = () => {
     likePost({
-      userId: dbUserId,
+      userId: dbUserId.userId,
       wantedCode: wantedCode,
     })
   }
   const handleIsLike = () => {
     isLikePost({
-      userId: dbUserId,
+      userId: dbUserId.userId,
       wantedCode: wantedCode,
     })
   }
   const handleClickApply = () => {
     clickApplyPost({
-      userId: dbUserId,
+      userId: dbUserId.userId,
       wantedCode: wantedCode,
     })
   }
   const handleClickLog = () => {
     clickLogPost({
-      userId: dbUserId,
+      userId: dbUserId.userId,
       wantedCode: wantedCode,
     })
   }
