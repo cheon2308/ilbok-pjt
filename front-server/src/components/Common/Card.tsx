@@ -111,7 +111,7 @@ const Card = ({
         {/* <div style={{ display: 'flex', width: '100%', justifyContent: 'right' }}> */}
         {/* <BsStar size={22.5} color="#C7C7C7" strokeWidth="0.01"></BsStar> */}
         {/* </div> */}
-        <StyledLink to={`detail/${wantedCode}`} state={{ wantedCode: `${wantedCode}` }}>
+        <StyledLink to={`/detail/${wantedCode}`} state={{ wantedCode: `${wantedCode}` }}>
           <CardDescription>{company}</CardDescription>
 
           <CardTitle>{title}</CardTitle>
