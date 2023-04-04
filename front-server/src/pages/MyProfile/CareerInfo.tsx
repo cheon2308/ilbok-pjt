@@ -211,6 +211,7 @@ function CareerInfo() {
       gender: gender,
       careers: careers,
     })
+    navigate('/myprofile')
   }
   // ***
 
