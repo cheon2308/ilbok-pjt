@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import JobListItem from './JobListItem'
 import Paging from './Paging'
@@ -14,6 +14,25 @@ export const JobMainCategoryContainer = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: #666666;
+`
+
+const JobSearchTitle = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  color: #76dcb0;
+  margin-bottom: 20px;
+  @media (max-width: 700px) {
+    font-size: 25px;
+  }
+`
+const JobSearchSubTitle = styled.div`
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 400;
+  color: #666666;
+  @media (max-width: 700px) {
+    font-size: 18px;
+  }
 `
 const JobListContainer = () => {
   const myTagRef = useRef<HTMLDivElement>(null)
@@ -51,6 +70,10 @@ const JobListContainer = () => {
 
   return (
     <>
+      <div className="Main-container" style={{ marginBottom: '30px', marginTop: '30px' }}>
+        <JobSearchTitle>전체공고</JobSearchTitle>
+        <JobSearchSubTitle>일복(日福)에 등록된 전체 공고입니다.</JobSearchSubTitle>
+      </div>
       <div
         style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}
         ref={myTagRef}
