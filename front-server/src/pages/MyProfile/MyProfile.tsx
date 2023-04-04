@@ -8,6 +8,9 @@ import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobCo
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
 import { Link } from 'react-router-dom'
+import { LoginState } from '../../atom'
+import { useRecoilState } from 'recoil'
+import { useQuery } from '@tanstack/react-query'
 
 const items = [
   {
@@ -131,18 +134,6 @@ const items = [
     closeDt: '마감일',
   },
 ]
-const items2 = [
-  { title: 'Item 1', description: 'This is the first item' },
-  { title: 'Item 2', description: 'This is the second item' },
-  { title: 'Item 3', description: 'This is the third item' },
-  { title: 'Item 4', description: 'This is the fourth item' },
-  { title: 'Item 5', description: 'This is the fifth item' },
-  { title: 'Item 6', description: 'This is the fifth item' },
-  { title: 'Item 7', description: 'This is the fifth item' },
-  { title: 'Item 8', description: 'This is the fifth item' },
-  { title: 'Item 9', description: 'This is the fifth item' },
-  { title: 'Item 10', description: 'This is the fifth item' },
-]
 
 const MyProfile = () => {
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
@@ -152,7 +143,26 @@ const MyProfile = () => {
   const userName = window.localStorage.getItem('token')
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
-
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
+  const [getfavorite, setgetfavorite] = useState()
+  // const GetFavorite = null
+  const GetFavorite = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/users/getOne?user_id=${isLoggedIn.userId}`, {
+      method: 'POST',
+    })
+    return res.data
+  }
+  const { data, error, isError, isLoading } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
+    onSuccess: (data) => {
+      setgetfavorite(data.favorite)
+      // console.log('data:', data)
+      // 데이터 로드 후 실행할 작업
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
@@ -197,9 +207,7 @@ const MyProfile = () => {
       </div>
 
       <div className="Profile-Main-container">
-        <div className="Profile-Extra">
-          <AddInfoNoti2 />
-        </div>
+        <div className="Profile-Extra">{!getfavorite && <AddInfoNoti2 />}</div>
         <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
           <div>
             {userName && (
