@@ -267,7 +267,7 @@ public class UsersService {
 
     public List<Wanted> findBeLikelyTo(int userId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://127.0.0.1:8000/userdata/als/"+userId;
+        String url = "https://ilbokd.duckdns.org/userdata/als/"+userId;
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String responseBody = response.getBody();
@@ -289,7 +289,7 @@ public class UsersService {
 
     public List<Wanted> findOtherLike(int userId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://127.0.0.1:8000/userdata/cf/"+userId;
+        String url = "https://ilbokd.duckdns.org/userdata/cf/"+userId;
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String responseBody = response.getBody();
