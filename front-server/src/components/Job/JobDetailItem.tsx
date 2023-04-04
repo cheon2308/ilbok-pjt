@@ -18,22 +18,42 @@ import { DbUserId } from '../../atom'
 export default function JobDetailItem({ wantedCode }: any) {
   useEffect(() => {
     handleIsLike()
+    handleClickLog()
   }, [])
 
   const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
-  console.log(dbUserId)
+
+  // *** Post 요청
+
+  // 좋아요
   const handleLikePost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clickLike`, data)
     // console.log('api요청')
     // console.log(res.data)
     return res.data
   }
+  // 좋아요 여부
   const handleIsLikePost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/isLiked`, data)
     // console.log('api요청')
     // console.log(res.data)
     return res.data
   }
+  // 클릭로그
+  const handleClickLogPost = async (data: Record<string, any>) => {
+    const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clicked`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  // 지원하기
+  const handleClickApplyPost = async (data: Record<string, any>) => {
+    const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clickApply`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  // ***
 
   const degreeData: any = { 0: '학력무관', 4: '대졸(2~3년)', 5: '대졸(4년)', 6: '석사', 7: '박사' }
   const myTagRef = useRef<HTMLDivElement>(null)
@@ -50,6 +70,8 @@ export default function JobDetailItem({ wantedCode }: any) {
   const closeModal = () => {
     setModal(false)
   }
+
+  // ****
   const {
     mutate: likePost,
     error,
@@ -73,6 +95,29 @@ export default function JobDetailItem({ wantedCode }: any) {
       // 에러 발생 후 실행할 작업
     },
   })
+
+  const { mutate: clickApplyPost } = useMutation(['handleClickApply'], handleClickApplyPost, {
+    onSuccess: (data) => {
+      console.log(data, 'ClickApply')
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+
+  const { mutate: clickLogPost } = useMutation(['handleClickLogPost'], handleClickLogPost, {
+    onSuccess: (data) => {
+      console.log(data, 'ClickApply')
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+  // ****
+
+  // **
   const handleLike = () => {
     likePost({
       userId: dbUserId,
@@ -85,6 +130,20 @@ export default function JobDetailItem({ wantedCode }: any) {
       wantedCode: wantedCode,
     })
   }
+  const handleClickApply = () => {
+    clickApplyPost({
+      userId: dbUserId,
+      wantedCode: wantedCode,
+    })
+  }
+  const handleClickLog = () => {
+    clickLogPost({
+      userId: dbUserId,
+      wantedCode: wantedCode,
+    })
+  }
+
+  // **
   if (isLoading || data === undefined)
     return (
       <>
@@ -146,7 +205,10 @@ export default function JobDetailItem({ wantedCode }: any) {
               sigfontsize="20px"
               sigborderradius={25}
               sigmargin="30px auto"
-              onClick={() => setModal(true)}
+              onClick={() => {
+                handleClickApply()
+                setModal(true)
+              }}
             >
               지원방법
             </BokBtn1>
