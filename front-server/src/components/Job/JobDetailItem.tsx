@@ -6,18 +6,61 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import ApplyModal from './ApplyModal'
 import BokBtn1 from '../Common/BokBtn1'
 import Marker from '../../assets/image/Marker.png'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { getOneWanted } from '../../api/JobDetailApi'
 import ClipLoader from 'react-spinners/ClipLoader'
 import BeatLoader from 'react-spinners/BeatLoader'
-import { BsStar } from 'react-icons/bs'
+import { BsStar, BsStarFill } from 'react-icons/bs'
+import axios from 'axios'
+import { useRecoilState } from 'recoil'
+import { DbUserId } from '../../atom'
 
 export default function JobDetailItem({ wantedCode }: any) {
+  useEffect(() => {
+    handleIsLike()
+    handleClickLog()
+  }, [])
+
+  const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
+
+  // *** Post 요청
+
+  // 좋아요
+  const handleLikePost = async (data: Record<string, any>) => {
+    const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clickLike`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  // 좋아요 여부
+  const handleIsLikePost = async (data: Record<string, any>) => {
+    const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/isLiked`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  // 클릭로그
+  const handleClickLogPost = async (data: Record<string, any>) => {
+    const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clicked`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  // 지원하기
+  const handleClickApplyPost = async (data: Record<string, any>) => {
+    const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clickApply`, data)
+    // console.log('api요청')
+    // console.log(res.data)
+    return res.data
+  }
+  // ***
+
   const degreeData: any = { 0: '학력무관', 4: '대졸(2~3년)', 5: '대졸(4년)', 6: '석사', 7: '박사' }
   const myTagRef = useRef<HTMLDivElement>(null)
   const [modal, setModal] = useState<boolean>(false)
   const [x, setX] = useState<number>(0)
   const [y, setY] = useState<number>(0)
+  const [liked, setLiked] = useState<boolean>()
 
   const { isLoading, data } = useQuery({
     queryKey: [wantedCode],
@@ -28,6 +71,79 @@ export default function JobDetailItem({ wantedCode }: any) {
     setModal(false)
   }
 
+  // ****
+  const {
+    mutate: likePost,
+    error,
+    isError,
+  } = useMutation(['handleLikePost'], handleLikePost, {
+    onSuccess: (data) => {
+      setLiked(data)
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+  const { mutate: isLikePost } = useMutation(['handleIsLikePost'], handleIsLikePost, {
+    onSuccess: (data) => {
+      console.log(data, 'isLiked')
+      setLiked(data)
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+
+  const { mutate: clickApplyPost } = useMutation(['handleClickApply'], handleClickApplyPost, {
+    onSuccess: (data) => {
+      console.log(data, 'ClickApply')
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+
+  const { mutate: clickLogPost } = useMutation(['handleClickLogPost'], handleClickLogPost, {
+    onSuccess: (data) => {
+      console.log(data, 'ClickApply')
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+  // ****
+
+  // **
+  const handleLike = () => {
+    likePost({
+      userId: dbUserId,
+      wantedCode: wantedCode,
+    })
+  }
+  const handleIsLike = () => {
+    isLikePost({
+      userId: dbUserId,
+      wantedCode: wantedCode,
+    })
+  }
+  const handleClickApply = () => {
+    clickApplyPost({
+      userId: dbUserId,
+      wantedCode: wantedCode,
+    })
+  }
+  const handleClickLog = () => {
+    clickLogPost({
+      userId: dbUserId,
+      wantedCode: wantedCode,
+    })
+  }
+
+  // **
   if (isLoading || data === undefined)
     return (
       <>
@@ -36,7 +152,9 @@ export default function JobDetailItem({ wantedCode }: any) {
         </div>
       </>
     )
+  //
 
+  //
   const address = `${data.work_region}`
 
   const geocoder = new kakao.maps.services.Geocoder()
@@ -74,8 +192,12 @@ export default function JobDetailItem({ wantedCode }: any) {
 
         <div className="Detail-Button-container">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ marginRight: '30px' }}>
-              <BsStar size={40} color="#C7C7C7" strokeWidth="0.01"></BsStar>
+            <div style={{ marginRight: '30px' }} onClick={handleLike}>
+              {liked === true ? (
+                <BsStarFill size={40} color="#76DCB0" strokeWidth="0.01"></BsStarFill>
+              ) : (
+                <BsStar size={40} color="#76DCB0" strokeWidth="0.01"></BsStar>
+              )}
             </div>
             <BokBtn1
               sigwidth="150px"
@@ -83,7 +205,10 @@ export default function JobDetailItem({ wantedCode }: any) {
               sigfontsize="20px"
               sigborderradius={25}
               sigmargin="30px auto"
-              onClick={() => setModal(true)}
+              onClick={() => {
+                handleClickApply()
+                setModal(true)
+              }}
             >
               지원방법
             </BokBtn1>
