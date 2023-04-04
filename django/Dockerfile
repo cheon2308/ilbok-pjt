@@ -10,9 +10,6 @@ WORKDIR /var/jenkins_home/workspace/django
 
 COPY . .
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 # 이동한 디렉토리에서 django를 가동시켜주는 코드를 작성합니다. 여기서 port는 8000로 실행시키겠습니다.
 
