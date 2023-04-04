@@ -186,8 +186,7 @@ function CareerInfo() {
   // ****
   const handlePUT = async (data: Record<string, any>) => {
     const res = await axios.put(process.env.REACT_APP_SERVER_URL + `/users/update`, data)
-    // console.log('api요청')
-    // console.log(res.data)
+
     return res.data
   }
   const { mutate, error, isError, isLoading } = useMutation(['handlePUT'], handlePUT, {
@@ -196,7 +195,6 @@ function CareerInfo() {
     },
     onError: (error) => {
       console.log('error:', error)
-      // 에러 발생 후 실행할 작업
     },
   })
   // ***

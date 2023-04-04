@@ -155,8 +155,6 @@ const MyProfile = () => {
   const { data, error, isError, isLoading } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
     onSuccess: (data) => {
       setgetfavorite(data.favorite)
-      // console.log('data:', data)
-      // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
       console.log('error:', error)
