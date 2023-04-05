@@ -8,143 +8,13 @@ import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobCo
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
 import { Link } from 'react-router-dom'
-
-const items = [
-  {
-    wantedAuthNo: '공고 번호',
-    company: '(주)코리아환경산업',
-    title: '관저더샵 1차 아파트 외곽구인',
-    salTpNm: '월급 152만원 이상',
-    region: '대전광역시 서구 ',
-    holidayTpNm: '주 5일 근무',
-    minEdubg: '학력무관',
-    career: '관계없음',
-    regDt: '23/03/24',
-    closeDt: '23/03/26',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-]
-const items2 = [
-  { title: 'Item 1', description: 'This is the first item' },
-  { title: 'Item 2', description: 'This is the second item' },
-  { title: 'Item 3', description: 'This is the third item' },
-  { title: 'Item 4', description: 'This is the fourth item' },
-  { title: 'Item 5', description: 'This is the fifth item' },
-  { title: 'Item 6', description: 'This is the fifth item' },
-  { title: 'Item 7', description: 'This is the fifth item' },
-  { title: 'Item 8', description: 'This is the fifth item' },
-  { title: 'Item 9', description: 'This is the fifth item' },
-  { title: 'Item 10', description: 'This is the fifth item' },
-]
+import { DbUserId, LoginState } from '../../atom'
+import { useRecoilState } from 'recoil'
+import { useQuery } from '@tanstack/react-query'
+import { BeatLoader } from 'react-spinners'
 
 const MyProfile = () => {
+  const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
@@ -152,6 +22,46 @@ const MyProfile = () => {
   const userName = window.localStorage.getItem('token')
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
+  const [isLoggedIn] = useRecoilState(LoginState)
+  const [getfavorite, setgetfavorite] = useState()
+  const [getUserLikeyAlgo, setGetUserLikeyAlgo] = useState()
+
+  ////
+  const testCode = 1
+  const GetUserLikeyAlgo = async () => {
+        const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
+
+      method: 'POST',
+    })
+    return res.data
+  }
+  const { data, isLoading } = useQuery(['GetUserLikey'], GetUserLikeyAlgo, {
+    onSuccess: (data) => {
+      setGetUserLikeyAlgo(data)
+    },
+    onError: (error) => {
+      // console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+
+  ////
+  // const GetFavorite = null
+  const GetFavorite = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/users/getOne?user_id=${isLoggedIn.userId}`, {
+      method: 'POST',
+    })
+    return res.data
+  }
+  const { data: getfavoritepost } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
+    onSuccess: (data) => {
+      setgetfavorite(data.favorite)
+    },
+    onError: (error) => {
+      // console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
 
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
@@ -162,7 +72,7 @@ const MyProfile = () => {
         },
       })
       .then((res) => {
-        console.log('됐어')
+        setDbUserId(res.data.userId)
         setkakaoEmail(res.data.email)
         setkakaoId(res.data.kakaoId)
         setkakaoNickname(res.data.nickname)
@@ -172,9 +82,19 @@ const MyProfile = () => {
         console.error(e)
       })
   }
+
   useEffect(() => {
     getUserinfo()
-  }, [])
+  }, [dbUserId])
+  if (isLoading)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
+  const items = data
   return (
     <>
       <div className="Profile-Main-container">
@@ -197,21 +117,23 @@ const MyProfile = () => {
       </div>
 
       <div className="Profile-Main-container">
-        <div className="Profile-Extra">
-          <AddInfoNoti2 />
-        </div>
-        <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
-          <div>
-            {userName && (
-              <TenCardContainer
-                items={items}
-                name={userName}
-                title="님과 어울리는 일자리"
-                description="일복(日福)에서 추천하는 어울리는 일자리"
-              />
-            )}
+        <div className="Profile-Extra">{!getfavorite && <AddInfoNoti2 />}</div>
+        {getfavorite && (
+          <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
+            <div>
+              {userName && (
+                <div style={{ margin: '0 20vw 0 20vw' }}>
+                  <TenCardContainer
+                    items={items}
+                    name={userName}
+                    title="님과 어울리는 일자리"
+                    description="일복(日福)에서 추천하는 어울리는 일자리"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>
@@ -219,19 +141,19 @@ const MyProfile = () => {
           <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
           <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
           <CardContainer>
-            {items.map((item) => (
+            {items.map((item: any, index: any) => (
               <Card
-                key={item.wantedAuthNo}
+                key={index}
                 company={item.company}
                 title={item.title}
                 salTpNm={item.salTpNm}
-                region={item.region}
+                region={item.work_region}
                 holidayTpNm={item.holidayTpNm}
                 minEdubg={item.minEdubg}
                 career={item.career}
-                regDt={item.regDt}
-                closeDt={item.closeDt}
-                wantedCode={item.wantedAuthNo}
+                regDt={item.regDate}
+                closeDt={item.closeDate}
+                wantedCode={item.wantedCode}
               />
             ))}
           </CardContainer>
