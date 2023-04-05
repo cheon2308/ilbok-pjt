@@ -32,11 +32,9 @@ function JobSubSelect2() {
   const { data, error, isError, isLoading } = useQuery(['getJobCode', jobSubCode], getJobCode, {
     onSuccess: (data) => {
       setJobFamilyCode(data)
-      console.log('data:소분류', data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -48,8 +46,6 @@ function JobSubSelect2() {
   if (isError) {
     return <div>Error occurred </div>
   }
-  console.log(jobSubCode)
-  console.log(jobCode, 'jobcode')
 
   return (
     <>
@@ -66,7 +62,6 @@ function JobSubSelect2() {
                 setActiveTab(item.code)
                 setjobCode(item.code)
                 setjobName(item.name)
-                console.log(item.code, 'ffff')
               }}
               style={{
                 backgroundColor: activeTab === item.code ? '#76dcb0' : index % 2 === 0 ? '#f2f2f2' : '#ffffff',

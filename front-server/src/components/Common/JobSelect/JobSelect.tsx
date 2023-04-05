@@ -30,11 +30,9 @@ function JobSelect() {
   const { data, error, isError, isLoading } = useQuery(['getJobFamilySelect'], getJobFamilySelect, {
     onSuccess: (data) => {
       setJobFamily(data)
-      console.log('data:', data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -49,7 +47,7 @@ function JobSelect() {
 
   return (
     <>
-      <div style={{ width: '50%' }}>
+      <div style={{ width: '100%' }}>
         {JobFamily &&
           JobFamily.map((item, index) => (
             <JobFamilyItem

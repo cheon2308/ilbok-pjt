@@ -154,7 +154,6 @@ export default function JobSearch({ keyword }: any) {
   }
   const handleRadioChangedegree = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    console.log(radioValuesDegree[value])
     setSelectedDegree(radioValuesDegree[value])
   }
   //여기까지(학력)
@@ -185,13 +184,12 @@ export default function JobSearch({ keyword }: any) {
 
   const { mutate, error, isError, isLoading } = useMutation(['handlePost'], handlePost, {
     onSuccess: (data) => {
-      console.log(data)
       setResultList(data)
       setCount(data.length)
       setSearchResult(1)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -304,7 +302,9 @@ export default function JobSearch({ keyword }: any) {
                       borderRadius: '5px',
                     }}
                   >
-                    <JobSelect />
+                    <div style={{ marginRight: '10px' }}>
+                      <JobSelect />
+                    </div>
                     <JobSubSelect />
                     <JobSubSelect2 />
                   </div>
@@ -405,7 +405,10 @@ export default function JobSearch({ keyword }: any) {
 
       {searchResult === 1 ? (
         <div>
-          <SearchResultName>검색결과</SearchResultName>
+          <JobSearchTitle>검색결과</JobSearchTitle>
+          <JobSearchSubTitle>
+            <SearchResultName>{selectedKeyword}</SearchResultName> 검색 결과입니다.
+          </JobSearchSubTitle>
           <br />
           <div>
             <br />
@@ -457,7 +460,7 @@ export default function JobSearch({ keyword }: any) {
   )
 }
 const SearchResultName = styled.span`
-  font-size: 70px;
+  font-size: 20px;
   font-weight: 700;
   color: #76dcb0;
 `

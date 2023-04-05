@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import Card from './Card'
 import '../../assets/styles/Common/TenCardContainer.css'
+import TenCard from './TenCard'
 interface TenCardProps {
   items: any[]
   title: string
@@ -35,7 +36,7 @@ const TenCardCardContainer = styled.div`
 `
 
 const TenCardMainContainer = styled.div`
-  margin: 0 20vw 0 20vw;
+  // margin: 0 20vw 0 20vw;
 `
 
 const TenCardName = styled.span`
@@ -57,19 +58,19 @@ const TenCardContainer = ({ items, name, title, description }: TenCardProps) => 
         </TenCardTitleContainer>
 
         <TenCardCardContainer className="Scroll-color">
-          {items.map((item) => (
-            <Card
-              key={item.wantedAuthNo}
+          {items.map((item, index) => (
+            <TenCard
+              key={index}
               company={item.company}
               title={item.title}
               salTpNm={item.salTpNm}
-              region={item.region}
+              region={item.work_region}
               holidayTpNm={item.holidayTpNm}
               minEdubg={item.minEdubg}
               career={item.career}
-              regDt={item.regDt}
-              closeDt={item.closeDt}
-              wantedCode={item.wantedAuthNo}
+              regDt={item.regDate}
+              closeDt={item.closeDate}
+              wantedCode={item.wantedCode}
             />
           ))}
         </TenCardCardContainer>
