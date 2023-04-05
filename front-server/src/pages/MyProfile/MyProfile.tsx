@@ -23,7 +23,7 @@ const MyProfile = () => {
   const userName = window.localStorage.getItem('token')
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
+  const [isLoggedIn] = useRecoilState(LoginState)
   const [getfavorite, setgetfavorite] = useState()
   const [getUserLikeyAlgo, setGetUserLikeyAlgo] = useState()
   const profileUserLikeArray: string[] = []
@@ -34,18 +34,18 @@ const MyProfile = () => {
   ////
   const testCode = 1
   const GetUserLikeyAlgo = async () => {
-    const res = await axios(`http://ilbokb.duckdns.org/algorithm/likely?userId=${testCode}`, {
+        const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
+
       method: 'POST',
     })
     return res.data
   }
   const { data, isLoading } = useQuery(['GetUserLikey'], GetUserLikeyAlgo, {
     onSuccess: (data) => {
-      console.log(data)
       setGetUserLikeyAlgo(data)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -59,16 +59,12 @@ const MyProfile = () => {
     })
     return res.data
   }
-  const {
-    data: getfavoritepost,
-    error,
-    isError,
-  } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
+  const { data: getfavoritepost } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
     onSuccess: (data) => {
       setgetfavorite(data.favorite)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -82,8 +78,6 @@ const MyProfile = () => {
         },
       })
       .then((res) => {
-        console.log('됐어')
-        console.log(res.data.userId)
         setDbUserId(res.data.userId)
         setkakaoEmail(res.data.email)
         setkakaoId(res.data.kakaoId)

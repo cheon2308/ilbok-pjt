@@ -14,12 +14,12 @@ import javax.persistence.Id;
 public class JobCategory {
 
     @Id
-    private int code;
+    private Integer code;
 
     @Column(name = "job_code")
-    private int jobCode;
+    private Integer jobCode;
 
     @Column(name = "job_sub_code")
-    private int jobSubCode;
+    private Integer jobSubCode;
 
 }

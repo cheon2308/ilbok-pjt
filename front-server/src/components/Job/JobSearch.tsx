@@ -154,7 +154,6 @@ export default function JobSearch({ keyword }: any) {
   }
   const handleRadioChangedegree = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    console.log(radioValuesDegree[value])
     setSelectedDegree(radioValuesDegree[value])
   }
   //여기까지(학력)
@@ -185,13 +184,12 @@ export default function JobSearch({ keyword }: any) {
 
   const { mutate, error, isError, isLoading } = useMutation(['handlePost'], handlePost, {
     onSuccess: (data) => {
-      console.log(data)
       setResultList(data)
       setCount(data.length)
       setSearchResult(1)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })

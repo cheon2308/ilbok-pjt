@@ -30,11 +30,9 @@ function RegionSelect() {
   const { data, error, isError, isLoading } = useQuery(['getRegionSelect'], getRegionSelect, {
     onSuccess: (data) => {
       setRegionFamily(data.data)
-      console.log('data:', data.data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
