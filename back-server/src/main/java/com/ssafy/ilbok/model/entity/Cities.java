@@ -14,10 +14,10 @@ public class Cities {
 
     @Id
     @Column(name = "city_code")
-    private int cityCode;
+    private Integer cityCode;
 
     @Column(name = "region_code")
-    private int regionCode;
+    private Integer regionCode;
 
     private String city;
 

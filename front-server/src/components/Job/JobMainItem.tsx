@@ -1,5 +1,5 @@
 import { CarCrash } from '@mui/icons-material'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import AddInfoNoti from '../Common/AddInfoNoti'
 import JobSearch from './JobSearch'
 import { useState } from 'react'
@@ -15,6 +15,8 @@ import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
 export default function JobMainItem({ keyword }: any) {
+  //
+
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
 
@@ -38,7 +40,7 @@ export default function JobMainItem({ keyword }: any) {
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -46,7 +48,7 @@ export default function JobMainItem({ keyword }: any) {
   // 나랑 비슷한 사람들이 본 공고
   const testCode = 1
   const GetOtherUserLikeyAlgo = async () => {
-    const res = await axios(`http://ilbokb.duckdns.org/algorithm/otherLike?userId=${testCode}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/otherLike?userId=${testCode}`, {
       method: 'POST',
     })
     return res.data
@@ -56,7 +58,7 @@ export default function JobMainItem({ keyword }: any) {
       setGetOtherUserLike(data)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
