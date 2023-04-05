@@ -83,10 +83,7 @@ const NavLinkItem = styled(NavLink)`
 
 const NavBar = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
-  const links = [
-    { title: '일자리', url: '/job' },
-    { title: '복지', url: '/welfare' },
-  ]
+  const links = [{ title: '일자리', url: '/job' }]
   const [open, setOpen] = useState(false) // 로그인
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -103,7 +100,6 @@ const NavBar = () => {
     navigate('/myprofile')
   }
   const logOut = () => {
-    console.log('gkgk')
     const kakaoId = window.localStorage.getItem('kakaoId')
     localStorage.removeItem('token')
     if (kakaoId) {
