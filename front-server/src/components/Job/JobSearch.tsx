@@ -14,12 +14,26 @@ import JobSubSelect2 from '../Common/JobSelect/JobSubSelect2'
 import RegionSelect from '../Common/RegionSelect/RegionSelect'
 import CitySelect from '../Common/RegionSelect/CitySelect'
 import { useRecoilState } from 'recoil'
-import { JobCode, CityName, JobFamilyCode, JobFamilyName, JobName, JobSubName, RegionName, CityCode } from '../../atom'
+import {
+  JobCode,
+  CityName,
+  JobFamilyCode,
+  JobFamilyName,
+  JobName,
+  JobSubName,
+  RegionName,
+  CityCode,
+  CareerInfoDegree,
+  MobileCarrer,
+} from '../../atom'
 import axios from 'axios'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { JobMainCategoryContainer } from '../Common/JobListContainer'
 import JobListItem from '../Common/JobListItem'
 import Paging from '../Common/Paging'
+import '../../assets/styles/Job/JobSearch.css'
+import FilterSelect from '../Common/FilterSelect'
+import FilterSelect2 from '../Common/FilterSelect2'
 
 const JobSearchMainContainer = styled.div`
   margin: 100px 0 100px 0;
@@ -152,6 +166,16 @@ export default function JobSearch({ keyword }: any) {
     석사: 6,
     박사: 7,
   }
+  const degreeList = [
+    { degreeCode: 0, name: '학력무관' },
+    { degreeCode: 4, name: '대졸(2~3년)' },
+    { degreeCode: 5, name: '대졸(4년)' },
+    { degreeCode: 6, name: '석사' },
+    { degreeCode: 7, name: '박사' },
+  ]
+
+  const degreeList2 = [{ name: '관계없음' }, { name: '경력' }, { name: '신입' }]
+
   const handleRadioChangedegree = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setSelectedDegree(radioValuesDegree[value])
@@ -159,7 +183,7 @@ export default function JobSearch({ keyword }: any) {
   //여기까지(학력)
 
   //경력
-  const [selectedCareer, setSelectedCareer] = useState<string | null>()
+  const [selectedCareer, setSelectedCareer] = useState<string | number | null>()
   const handleRadioChangecareer = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setSelectedCareer(value)
@@ -241,11 +265,15 @@ export default function JobSearch({ keyword }: any) {
   //   page_data = data[start_index:end_index]
   const start_index = (page - 1) * size
   const end_index = page * size
+  const [careerInfoDegree, setCareerInfoDegree] = useRecoilState(CareerInfoDegree)
+  const [mobileCareer, setMobileCareer] = useRecoilState(MobileCarrer)
   useEffect(() => {
     if (selectedKeyword !== null) {
       handleSearch()
     }
-  }, [])
+    setSelectedDegree(careerInfoDegree)
+    setSelectedCareer(mobileCareer)
+  }, [careerInfoDegree, mobileCareer])
 
   return (
     <>
@@ -271,17 +299,35 @@ export default function JobSearch({ keyword }: any) {
                 <JobSearchCategoryTitleContainer>직종선택</JobSearchCategoryTitleContainer>
                 <div onClick={() => searchJobToggle()}>
                   <input
-                    style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
                     disabled
                     value={jobFamilyName}
                   ></input>
                   <input
-                    style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
                     disabled
                     value={jobSubName}
                   ></input>
                   <input
-                    style={{ width: '150px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
                     disabled
                     value={jobName}
                   ></input>
@@ -306,10 +352,10 @@ export default function JobSearch({ keyword }: any) {
                       borderRadius: '5px',
                     }}
                   >
-                    <div style={{ marginRight: '10px' }}>
-                      <JobSelect />
-                    </div>
+                    <JobSelect />
+
                     <JobSubSelect />
+
                     <JobSubSelect2 />
                   </div>
                 </>
@@ -317,14 +363,98 @@ export default function JobSearch({ keyword }: any) {
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>지역선택</JobSearchCategoryTitleContainer>
 
-                <div onClick={() => searchRegionToggle()}>
+                <div onClick={() => searchRegionToggle()} className="bigRegionToggle">
                   <input
-                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{
+                      width: '245px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
                     disabled
                     value={regionName}
                   ></input>
                   <input
-                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{
+                      width: '245px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <div onClick={() => searchRegionToggle()} className="middleRegionToggle">
+                  <input
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <div onClick={() => searchRegionToggle()} className="smallRegionToggle">
+                  <input
+                    style={{
+                      width: '100px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{
+                      width: '100px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <div onClick={() => searchRegionToggle()} className="verysmallRegionToggle">
+                  <input
+                    style={{
+                      width: '30px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{
+                      width: '30px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
                     disabled
                     value={cityName}
                   ></input>
@@ -342,11 +472,13 @@ export default function JobSearch({ keyword }: any) {
                 <div
                   style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    // justifyContent: 'space-between',
                     textAlign: 'center',
                     margin: '50px 0 50px 0',
                     border: '1px solid #D9D9D9',
                     borderRadius: '5px',
+                    height: '500px',
+                    overflowY: 'scroll',
                   }}
                 >
                   <RegionSelect />
@@ -355,37 +487,62 @@ export default function JobSearch({ keyword }: any) {
               ) : null}
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
-                <RadioBtnContainer>
-                  <RadioBtn value="전체" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                  <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                  <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                  <RadioBtn value="석사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                  <RadioBtn value="박사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                </RadioBtnContainer>
+                <div className="FilterSelectWeb">
+                  <RadioBtnContainer>
+                    <RadioBtn value="전체" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                    <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                    <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                    <RadioBtn value="석사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                    <RadioBtn value="박사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                  </RadioBtnContainer>
+                </div>
+                <div className="FilterSelectMobile">
+                  <FilterSelect
+                    props={degreeList}
+                    width="150px"
+                    height="45px"
+                    borderwidth="1px"
+                    bordercolor="#666666"
+                    fontsize="16px"
+                  />
+                </div>
               </JobSearchCategoryContainer>
 
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer>경력선택</JobSearchCategoryTitleContainer>
-                <RadioBtnContainer>
-                  <RadioBtn value="관계없음" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
-                  <RadioBtn value="경력" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
-                  <RadioBtn value="신입" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
-                </RadioBtnContainer>
-              </JobSearchCategoryContainer>
+                <div className="FilterSelectWeb">
+                  <RadioBtnContainer>
+                    <RadioBtn value="관계없음" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                    <RadioBtn value="경력" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                    <RadioBtn value="신입" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                  </RadioBtnContainer>
+                </div>
 
+                <div className="FilterSelectMobile">
+                  <FilterSelect2
+                    props={degreeList2}
+                    width="150px"
+                    height="45px"
+                    borderwidth="1px"
+                    bordercolor="#666666"
+                    fontsize="16px"
+                  />
+                </div>
+              </JobSearchCategoryContainer>
               <JobSearchCategoryContainer>
                 <JobSearchCategoryTitleContainer> 키워드</JobSearchCategoryTitleContainer>
-
-                <SearchBar
-                  width="700px"
-                  height="20px"
-                  placeholder=""
-                  borderwidth="1px"
-                  bordercolor="#666666"
-                  fontsize="15px"
-                  hovercolor="#666666"
-                  onChange={handleKeyword}
-                />
+                <div>
+                  <SearchBar
+                    width=" 30vw"
+                    height="20px"
+                    placeholder=""
+                    borderwidth="1px"
+                    bordercolor="#666666"
+                    fontsize="15px"
+                    hovercolor="#666666"
+                    onChange={handleKeyword}
+                  />
+                </div>
               </JobSearchCategoryContainer>
             </JobSearchContentContainer>
             <JobSearchBtnContainer>

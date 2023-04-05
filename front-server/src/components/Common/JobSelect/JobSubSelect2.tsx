@@ -66,6 +66,9 @@ function JobSubSelect2() {
               style={{
                 backgroundColor: activeTab === item.code ? '#76dcb0' : index % 2 === 0 ? '#f2f2f2' : '#ffffff',
                 color: activeTab === item.code ? '#ffffff' : '',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
               }}
             >
               {item.name}
