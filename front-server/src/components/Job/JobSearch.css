@@ -21,3 +21,35 @@
     top: 0;
   }
 }
+
+@media screen and (max-width: 1250px) {
+  .Search-Big {
+    display: none;
+  }
+  .Search-Small {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1251px) {
+  .Search-Mid {
+    display: none;
+  }
+  .Search-Small {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 745px) {
+  .Search-Mid {
+    display: none;
+  }
+  .Search-Big {
+    display: none;
+  }
+  .Search-Small {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+  }
+}

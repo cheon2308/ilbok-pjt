@@ -59,18 +59,34 @@ function JobSubSelectCarrerInfo() {
   const [activeTab, setActiveTab] = React.useState('')
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          width: '100%',
+        }}
+      >
+        직종을 선택해주세요.
+      </div>
+    )
   }
 
   if (isError) {
-    return <div>Error occurred </div>
+    return (
+      <div
+        style={{
+          width: '100%',
+        }}
+      >
+        직종을 선택해주세요.
+      </div>
+    )
   }
 
   return (
     <>
       <div
         style={{
-          width: '50%',
+          width: '100%',
         }}
       >
         {jobSubFamily.map((item, index) => (
@@ -84,6 +100,11 @@ function JobSubSelectCarrerInfo() {
             style={{
               backgroundColor: activeTab === item.jobSubCode ? '#76dcb0' : index % 2 === 0 ? '#ffffff' : '#f2f2f2',
               color: activeTab === item.jobSubCode ? '#ffffff' : '',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              fontSize: '16px',
+              width: '300px',
             }}
           >
             {item.name}

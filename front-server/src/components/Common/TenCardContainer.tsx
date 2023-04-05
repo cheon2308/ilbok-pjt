@@ -19,6 +19,10 @@ const TenCardTitle = styled.div`
   font-size: 20px;
   font-weight: 700;
   color: #666666;
+  line-height: 30px;
+  @media (max-width: 700px) {
+    font-size: 18px;
+  }
 `
 
 const TenCardContent = styled.div`
@@ -27,12 +31,13 @@ const TenCardContent = styled.div`
 
   font-weight: 400;
   color: #666666;
+  line-height: 30px;
 `
 
 const TenCardCardContainer = styled.div`
   display: flex;
   width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
 `
 
 const TenCardMainContainer = styled.div`
@@ -43,6 +48,10 @@ const TenCardName = styled.span`
   font-size: 30px;
   font-weight: 700;
   color: #76dcb0;
+
+  @media (max-width: 700px) {
+    font-size: 30px;
+  }
 `
 
 const TenCardContainer = ({ items, name, title, description }: TenCardProps) => {
