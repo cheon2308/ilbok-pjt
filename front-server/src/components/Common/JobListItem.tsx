@@ -79,11 +79,11 @@ const JobListItem = ({
   }
   const { data, error, isError, isLoading } = useQuery(['getListItemUsersLike', findLike], getListItemUsersLike, {
     onSuccess: (data) => {
-      console.log('data:f', data)
+      // console.log('data:f', data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })

@@ -60,7 +60,6 @@ const MyProfile = () => {
       setGetUserLikeyAlgo(data)
     },
     onError: (error) => {
-      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
