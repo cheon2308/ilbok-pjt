@@ -14,6 +14,7 @@ import time
 from implicit.als import AlternatingLeastSquares
 from sklearn import metrics
 from multiprocessing import Process
+from django.http import HttpRequest
 
 # 도시 중분류
 city_to_index = {11110: 144, 11140: 145, 11170: 146, 11200: 147, 11215: 148, 11230: 149, 11260: 150, 11290: 151, 11305: 152, 11320: 153, 11350: 154, 11380: 155, 11410: 156, 11440: 157, 11470: 158, 11500: 159, 11530: 160, 11545: 161, 11560: 162, 11590: 163, 11620: 164, 11650: 165, 11680: 166, 11710: 167, 11740: 168, 26110: 169, 26140: 170, 26170: 171, 26200: 172, 26230: 173, 26260: 174, 26290: 175, 26320: 176, 26350: 177, 26380: 178, 26410: 179, 26440: 180, 26470: 181, 26500: 182, 26530: 183, 26710: 184, 27110: 185, 27140: 186, 27170: 187, 27200: 188, 27230: 189, 27260: 190, 27290: 191, 27710: 192, 28110: 193, 28140: 194, 28177: 195, 28185: 196, 28200: 197, 28237: 198, 28245: 199, 28260: 200, 28710: 201, 28720: 202, 29110: 203, 29140: 204, 29155: 205, 29170: 206, 29200: 207, 30110: 208, 30140: 209, 30170: 210, 30200: 211, 30230: 212, 31110: 213, 31140: 214, 31170: 215, 31200: 216, 31710: 217, 36110: 218, 41110: 219, 41130: 220, 41150: 221, 41170: 222, 41190: 223, 41210: 224, 41220: 225, 41250: 226, 41270: 227, 41280: 228, 41290: 229, 41310: 230, 41360: 231, 41370: 232, 41390: 233, 41410: 234, 41430: 235, 41450: 236, 41460: 237, 41480: 238, 41500: 239, 41550: 240, 41570: 241, 41590: 242, 41610: 243, 41630: 244, 41650: 245, 41670: 246, 41800: 247, 41820: 248, 41830: 249, 42110: 250, 42130: 251, 42150: 252, 42170: 253, 42190: 254, 42210: 255, 42230: 256, 42720: 257, 42730: 258, 42750: 259, 42760: 260, 42770: 261, 42780: 262, 42790: 263, 42800: 264, 42810: 265, 42820: 266, 42830: 267, 43110: 268, 43130: 269, 43150: 270, 43720: 271, 43730: 272, 43740: 273, 43745: 274, 43750: 275, 43760: 276, 43770: 277, 43800: 278, 44130: 279, 44150: 280, 44180: 281, 44200: 282, 44210: 283, 44230: 284, 44250: 285, 44270: 286, 44710: 287, 44760: 288, 44770: 289, 44790: 290, 44800: 291, 44810: 292, 44825: 293, 45110: 294, 45130: 295, 45140: 296, 45180: 297, 45190: 298, 45210: 299, 45710: 300, 45720: 301, 45730: 302, 45740: 303, 45750: 304, 45770: 305, 45790: 306, 45800: 307, 46110: 308, 46130: 309, 46150: 310, 46170: 311, 46230: 312, 46710: 313, 46720: 314, 46730: 315, 46770: 316, 46780: 317, 46790: 318, 46800: 319, 46810: 320, 46820: 321, 46830: 322, 46840: 323, 46860: 324, 46870: 325, 46880: 326, 46890: 327, 46900: 328, 46910: 329, 47110: 330, 47130: 331, 47150: 332, 47170: 333, 47190: 334, 47210: 335, 47230: 336, 47250: 337, 47280: 338, 47290: 339, 47720: 340, 47730: 341, 47750: 342, 47760: 343, 47770: 344, 47820: 345, 47830: 346, 47840: 347, 47850: 348, 47900: 349, 47920: 350, 47930: 351, 47940: 352, 48120: 353, 48170: 354, 48220: 355, 48240: 356, 48250: 357, 48270: 358, 48310: 359, 48330: 360, 48720: 361, 48730: 362, 48740: 363, 48820: 364, 48840: 365, 48850: 366, 48860: 367, 48870: 368, 48880: 369, 48890: 370, 50110: 371, 50130: 372}
@@ -65,11 +66,8 @@ def user_to_job():
     print(len(userMatrix))
     
     # 리스트 컴프리헨션으로 for loop 대체
-    print(1)
     ap_list = [(a.user_id, a.wanted_code.wanted_code) for a in ap_job]
-    print(2)
     cl_list = [(c.user_id, c.wanted_code.wanted_code) for c in cl_job]
-    print(3)
     li_list = [(l.user_id, l.wanted_code.wanted_code) for l in li_job]
     
     userMatrix[np.array(ap_list).T] += 10
@@ -214,13 +212,17 @@ def user_train(request):
 # 이미 계산된 결과 사용
 @api_view(['GET'])
 def recommend_items_for_user(request, user_id):
-    user_item_matrix = np.load('./data/rec_user_to_job.npy')
-    if len(user_item_matrix) < user_id +1 or sum(user_item_matrix[user_id]) == 0:
-        return rec_cf_user(request, user_id)
-    user_vector = user_item_matrix[user_id, :]
-    item_idx = np.argsort(-user_vector)[:200]
-    recommended_items = [idx for idx in item_idx]
-    return Response(recommended_items)
+    try:
+        user_item_matrix = np.load('./data/rec_user_to_job.npy')
+        if len(user_item_matrix) < user_id +1 or sum(user_item_matrix[user_id]) == 0:
+            request = request._request
+            return rec_cf_user(request, user_id)
+        user_vector = user_item_matrix[user_id, :]
+        item_idx = np.argsort(-user_vector)[:200]
+        recommended_items = [idx for idx in item_idx]
+        return Response(recommended_items)
+    except:
+        return Response(False)
 
 # 추천 함수 -> 유저가 보지 않은 데이터로만 보냄
 def recommend_items(request, user_id):
@@ -349,114 +351,107 @@ def user_info(request):
 # 신규유저 행렬에 추가
 @api_view(['GET'])
 def update_user_matrix(request, user_id):
-    user_matrix = np.load('./data/userMatrix.npy')
-    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
-    # count 
-    # 추가가 안됨 - 반복문 추가안됨
-    # career 만들어주기
-    # 행렬 인덱스화 시키는거 파일화
-    # 저장 을 여기서?
-    user_length = all_user.aggregate(Max('user_id'))
-    now_arr = len(user_matrix)
-    new_row = np.zeros((1, 384))
-    for _ in range(user_length['user_id__max'] - now_arr + 1):
-        user_matrix = np.append(user_matrix, new_row, axis=0)
+    try:
+        user_matrix = np.load('./data/userMatrix.npy')
+        all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+        # count 
+        # 추가가 안됨 - 반복문 추가안됨
+        # career 만들어주기
+        # 행렬 인덱스화 시키는거 파일화
+        # 저장 을 여기서?
+        user_length = all_user.aggregate(Max('user_id'))
+        now_arr = len(user_matrix)
+        new_row = np.zeros((1, 384))
+        for _ in range(user_length['user_id__max'] - now_arr + 1):
+            user_matrix = np.append(user_matrix, new_row, axis=0)
 
-    # 경력 기록
-    career = Careers.objects.all()
-    user_career = career.filter(user_id=user_id)
-    for uc in user_career:
-        user_matrix[user_id][sub_to_index[uc.sub_code.job_sub_code]] += 2
-    # 이력서 저장한 사람 id 불러오기
-    us = Users.objects.get(user_id=user_id)
-    # 이력서 작성한 사람에 한해 
-    us_num = us.user_id
-    fav = us.favorite.job_sub_code
-    us_city = us.city_code.city_code
-    deg = us.degree_code.degree_id
-    us_age = us.age
-    us_gen = us.gender
+        # 경력 기록
+        career = Careers.objects.all()
+        user_career = career.filter(user_id=user_id)
+        for uc in user_career:
+            user_matrix[user_id][sub_to_index[uc.sub_code.job_sub_code]] += 2
+        # 이력서 저장한 사람 id 불러오기
+        us = Users.objects.get(user_id=user_id)
+        # 이력서 작성한 사람에 한해 
+        us_num = us.user_id
+        fav = us.favorite.job_sub_code
+        us_city = us.city_code.city_code
+        deg = us.degree_code.degree_id
+        us_age = us.age
+        us_gen = us.gender
 
-    # 유저 관심 직종 +3 해주기
-    user_matrix[us_num][sub_to_index[fav]] += 3
-    # 지역 +1 해주기
-    user_matrix[us_num][city_to_index[us_city]] += 1
-    user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
-    # 학력 기록해주기
-    if deg == 0:
-        user_matrix[us_num][373:377] = [0,0,0,0]
-    elif deg == 4:
-        user_matrix[us_num][373:377] = [0,0,0,1]
-    elif deg == 5:
-        user_matrix[us_num][373:377] = [0,0,1,1]
-    elif deg == 6:
-        user_matrix[us_num][373:377] = [0,1,1,1]
-    elif deg == 7:
-        user_matrix[us_num][373:377] = [1,1,1,1]
-    # 나이 기록해주기
-    if us_age < 55:        
-        user_matrix[us_num][378] = 1
-    elif 55 <= us_age < 60:
-        user_matrix[us_num][379] = 1
-    elif 60 <= us_age < 65:
-        user_matrix[us_num][380] = 1
-    elif 65 <= us_age:
-        user_matrix[us_num][381] = 1
+        # 유저 관심 직종 +3 해주기
+        user_matrix[us_num][sub_to_index[fav]] += 3
+        # 지역 +1 해주기
+        user_matrix[us_num][city_to_index[us_city]] += 1
+        user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+        # 학력 기록해주기
+        if deg == 0:
+            user_matrix[us_num][373:377] = [0,0,0,0]
+        elif deg == 4:
+            user_matrix[us_num][373:377] = [0,0,0,1]
+        elif deg == 5:
+            user_matrix[us_num][373:377] = [0,0,1,1]
+        elif deg == 6:
+            user_matrix[us_num][373:377] = [0,1,1,1]
+        elif deg == 7:
+            user_matrix[us_num][373:377] = [1,1,1,1]
+        # 나이 기록해주기
+        if us_age < 55:        
+            user_matrix[us_num][378] = 1
+        elif 55 <= us_age < 60:
+            user_matrix[us_num][379] = 1
+        elif 60 <= us_age < 65:
+            user_matrix[us_num][380] = 1
+        elif 65 <= us_age:
+            user_matrix[us_num][381] = 1
 
-    # 성별 - 남 1 여 2
-    if us_gen == 0:
-        user_matrix[us_num][382] = 1
-    else:
-        user_matrix[us_num][383] = 1
-    start = time.time()
-    # 유저 매트릭스로 저장
-    np.save('./data/userMatrix.npy', user_matrix)
+        # 성별 - 남 1 여 2
+        if us_gen == 0:
+            user_matrix[us_num][382] = 1
+        else:
+            user_matrix[us_num][383] = 1
+        start = time.time()
+        # 유저 매트릭스로 저장
+        np.save('./data/userMatrix.npy', user_matrix)
 
-    # 유사도로 저장해주기
-    calc_sim_user = cosine_similarity(user_matrix, user_matrix)
-    
-    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
-    sorted_index = sorted_index[:, 1:]
-    # 유저간 유사도
-    np.save('./data/userToUser.npy', sorted_index)
-    end = time.time()
-    print(end - start)
-    return Response(True)
+        # 유사도로 저장해주기
+        calc_sim_user = cosine_similarity(user_matrix, user_matrix)
+        
+        sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+        sorted_index = sorted_index[:, 1:]
+        # 유저간 유사도
+        np.save('./data/userToUser.npy', sorted_index)
+        end = time.time()
+        print(end - start)
+        return Response(True)
+    except:
+        return Response(False)
 
 
-# 별도 프로세스에서 유저 매트릭스 저장
-def save_data(user_matrix):
-    # 유저 매트릭스로 저장
-    np.save('./data/userMatrix.npy', user_matrix)
-
-    # 유사도로 저장해주기
-    calc_sim_user = cosine_similarity(user_matrix, user_matrix)
-    
-    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
-    sorted_index = sorted_index[:, 1:]
-    # 유저간 유사도
-    np.save('./data/userToUser.npy', sorted_index)
-    return True
 
 # 유저간 유사도 기반 공고 추천하기
 @api_view(['GET'])
 def rec_cf_user(request, user_id):
-    user_list = np.load('./data/userToUser.npy')
-    rec_user = user_list[user_id][:5]
-    user_item_matrix = np.load('./data/rec_user_to_job.npy')
-    res_data = []
-    for i in rec_user:
-        user_vector = user_item_matrix[i, :]
-        item_idx = np.argsort(-user_vector)[:10]
-        for j in item_idx:
-            res_data.append((j, user_list[user_id][i] * user_item_matrix[i][j]))
-        
-        res_data.sort(key=lambda x:x[1], reverse=True)
-    
-    result = []
-    for k in res_data:
-        if k[0] not in result:
-            result.append(k[0])
+    try:
+        user_list = np.load('./data/userToUser.npy')
+        rec_user = user_list[user_id][:5]
+        user_item_matrix = np.load('./data/rec_user_to_job.npy')
+        res_data = []
+        for i in rec_user:
+            user_vector = user_item_matrix[i, :]
+            item_idx = np.argsort(-user_vector)[:10]
+            for j in item_idx:
+                res_data.append((j, user_list[user_id][i] * user_item_matrix[i][j]))
             
-    return Response(result)
+            res_data.sort(key=lambda x:x[1], reverse=True)
+        
+        result = []
+        for k in res_data:
+            if k[0] not in result:
+                result.append(k[0])
+                
+        return Response(result)
+    except:
+        return Response(False)
 

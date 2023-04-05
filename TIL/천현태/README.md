@@ -1043,3 +1043,147 @@ def rec_cf_user(request, user_id):
             res_data.append(j)
     return Response(res_data)
 ```
+
+---
+
+
+---
+
+## 04.03, 04.04
+
+- 유저 flow에 따른 테스트
+- django logic에서 이력서 추가 및 업데이트 시 요청 함수가 너무 느렸던 문제
+- 기존 함수
+
+```python
+
+# 신규유저 행렬에 추가
+@api_view(['GET'])
+def update_user_matrix(request, user_id):
+    user_matrix = np.load('./data/userMatrix.npy')
+    new_arr = [0] * 384
+    all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+    user_length = all_user.aggregate(Max('user_id'))
+    now_arr = len(user_matrix)
+    for _ in range(user_length['user_id__max'] - now_arr + 1):
+        np.append(user_matrix, np.array(new_arr))
+    print(len(user_matrix[3]))
+    # job 코드 변수
+    js = JobSubFamily.objects.all()
+    jc = JobCategory.objects.all()
+    # 지역변수
+    city = Cities.objects.all()
+    region = Regions.objects.all()
+    
+    # 직업 중분류 - 행렬 인덱스 매칭
+    sub_to_index = {}
+    for i in range(len(js)):
+        sub_to_index[js[i].job_sub_code] = i+14
+    # 지역 - 행렬 인덱스 매칭
+    city_to_region = {}
+    city_to_index = {}
+    region_to_index = {}
+    i = 126
+    for k in region:
+        region_to_index[k.region_code] = i
+        i += 1
+    
+    # city - region 매칭
+    # city - 행렬 인덱스 매칭
+    for j in range(len(city)):
+        city_to_region[city[j].city_code] = city[j].region_code.region_code
+        city_to_index[city[j].city_code] = j + 144
+    # 유저경력 변수
+    career = Careers.objects.all()
+    # 경력에 대해 matrix에 기록해주기
+    # 학력 - 373 4 5 6
+    # 나이 - 378 9 380 381
+    # 성별 - 382 383
+    for car in career:
+        user_num = car.user_id
+        job_num = car.sub_code.job_sub_code
+        user_matrix[user_num][sub_to_index[job_num]] = car.period
+    # 유저 정보에 대해 matrix에 기록
+    for u in all_user:
+        if u['user_id'] == user_id:
+            us = u
+            break
+    # 이력서 작성한 사람에 한해 
+    us_num = us['user_id']
+    fav = us['favorite']
+    us_city = us['city_code']
+    deg = us['degree_code']
+    us_age = us['age']
+    us_gen = us['gender']
+    # 유저 관심 직종 +3 해주기
+    user_matrix[us_num][sub_to_index[fav]] += 3
+    # 지역 +1 해주기
+    user_matrix[us_num][city_to_index[us_city]] += 1
+    user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
+    print(len(user_matrix[user_id]))
+    # 학력 기록해주기
+    if deg == 0:
+        user_matrix[us_num][373:377] = [0,0,0,0]
+    elif deg == 4:
+        user_matrix[us_num][373:377] = [0,0,0,1]
+    elif deg == 5:
+        user_matrix[us_num][373:377] = [0,0,1,1]
+    elif deg == 6:
+        user_matrix[us_num][373:377] = [0,1,1,1]
+    elif deg == 7:
+        user_matrix[us_num][373:377] = [1,1,1,1]
+    # 나이 기록해주기
+    if us_age < 55:        
+        user_matrix[us_num][378] = 1
+    elif 55 <= us_age < 60:
+        user_matrix[us_num][379] = 1
+    elif 60 <= us_age < 65:
+        user_matrix[us_num][380] = 1
+    elif 65 <= us_age:
+        user_matrix[us_num][381] = 1
+    # 성별 - 남 1 여 2
+    if us_gen == 0:
+        user_matrix[us_num][382] = 1
+    else:
+        user_matrix[us_num][383] = 1
+    # 유저 매트릭스로 저장
+    np.save('./data/userMatrix', user_matrix)
+    # 유사도로 저장해주기
+    calc_sim_user = cosine_similarity(user_matrix, user_matrix)
+    
+    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+    sorted_index = sorted_index[:, 1:]
+    # 유저간 유사도
+    np.save('./data/userToUser', sorted_index)
+    return Response(True)
+```
+
+
+아래 4가지 문제를 발견
+- 경력이 전체 유저에 대해 돌아가고 있었던 문제
+- column - 지역 대분류, 중분류 및 직종 대분류 중분류를 컬럼별로 매칭 시켜주는 것- 이 느렸던 문제
+- np array에 append가 되지 않았던 문제
+- np로 저장하는 것이 조금 느렸던 문제
+
+따라서, 아래와 같이 해결 해주었습니다.
+- column 필드 값을 딕셔너리로 매핑해 미리 선언해주었음
+- 경력의 경우 특정 id 값에 해당하는 data만 들고옴
+
+```python
+career = Careers.objects.all()
+    user_career = career.filter(user_id=user_id)
+    for uc in user_career:
+        user_matrix[user_id][sub_to_index[uc.sub_code.job_sub_code]] += 2
+```
+
+- append의 경우 반환하는 값이 user_matrix에 재할당 해주지 않아서 발생했엇음
+
+```python
+user_length = all_user.aggregate(Max('user_id'))
+    now_arr = len(user_matrix)
+    new_row = np.zeros((1, 384))
+    for _ in range(user_length['user_id__max'] - now_arr + 1):
+        user_matrix = np.append(user_matrix, new_row, axis=0)
+```
+
+- np로 저장하는 것은 2~3초의 문제라서 우선 보류
