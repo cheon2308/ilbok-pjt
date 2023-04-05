@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { DbUserId, LoginState } from '../../atom'
 import { defaultInstance } from '../../api/Api'
 import { useQuery } from '@tanstack/react-query'
+import '../../assets/styles/Job/JobListItem.css'
 
 export interface JobListItemProps {
   wantedAuthNo: string
@@ -79,11 +80,11 @@ const JobListItem = ({
   }
   const { data, error, isError, isLoading } = useQuery(['getListItemUsersLike', findLike], getListItemUsersLike, {
     onSuccess: (data) => {
-      console.log('data:f', data)
+      // console.log('data:f', data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -119,16 +120,18 @@ const JobListItem = ({
             <BsStar size={20} color="#76DCB0" strokeWidth="0.01"></BsStar>
           )}
           <StyledLink to={`/detail/${wantedAuthNo}`} state={{ wantedCode: `${wantedAuthNo}` }}>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
+            <div style={{ flex: '2 1 0', textAlign: 'center' }} className="smallListItem">
+              {company}
+            </div>
 
-            <div style={{ flex: '4 1 0' }}>
+            <div style={{ flex: '4 1 0' }} className="TitleMargin">
               <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>{title}</div>
               <div>
                 {career} | {degreeCode.degree} | {workRegionArray[2] + ' ' + workRegionArray[3]}
               </div>
             </div>
 
-            <div style={{ flex: '2 1 0' }}>
+            <div style={{ flex: '2 1 0' }} className="smallListItem">
               <div style={{ marginBottom: '10px', textAlign: 'center' }}>
                 {salaryType} | {numberWithCommas(salary)}
                 {'원'}

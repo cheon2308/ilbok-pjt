@@ -29,7 +29,7 @@ function CareerSubSelect() {
 
   return (
     <>
-      <div style={{ width: '50%' }}>
+      <div style={{ width: '100%' }}>
         {CareerSubFamily.map((item, index) => (
           <RegionFamilyItem
             key={index}
@@ -41,6 +41,11 @@ function CareerSubSelect() {
             style={{
               backgroundColor: activeTab === item.period ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
               color: activeTab === item.period ? '#ffffff' : '',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              fontSize: '16px',
+              width: '300px',
             }}
           >
             {item.name}

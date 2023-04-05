@@ -22,6 +22,7 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+import './CareerInfo.css'
 import {
   CareerSelectCode,
   CareerSelectName,
@@ -67,7 +68,7 @@ const CareerInfoTitle = styled.div`
 const CareerInfoContent = styled.div`
   font-size: 20px;
   margin-bottom: 20px;
-
+  line-height: 30px;
   font-weight: 400;
   color: #666666;
 `
@@ -117,6 +118,26 @@ const SlMagnifierContainer = styled.div`
   width: 100%;
 `
 const SearchCategoryContainer = styled.div`
+  margin: 20px 0 20px 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  @media (max-width: 800px) {
+    // margin: 20px 0 0 0;
+    height: 100px;
+  }
+`
+const SearchCategoryContainer2 = styled.div`
+  margin: 20px 0 20px 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  @media (max-width: 1300px) {
+    height: 150px;
+  }
+`
+
+const SearchCategoryContainer3 = styled.div`
   margin: 20px 0 20px 0;
   height: 50px;
   display: flex;
@@ -303,21 +324,99 @@ function CareerInfo() {
 
             <CareerInfoLineContainer>
               <CareerInfoCategory>지역</CareerInfoCategory>
-              <SearchCategoryContainer>
-                <div onClick={() => searchRegionToggle()}>
+              <SearchCategoryContainer3>
+                <div onClick={() => searchRegionToggle()} className="bigRegionToggle">
                   <input
                     style={{
-                      width: '250px',
+                      width: '245px',
                       height: '20px',
                       fontSize: '15px',
                       padding: '10px 10px 10px 15px',
-                      margin: '0 15px 0 0',
+                      margin: '0 10px 0 0',
                     }}
                     disabled
                     value={regionName}
                   ></input>
                   <input
-                    style={{ width: '250px', height: '20px', fontSize: '15px', padding: '10px 10px 10px 15px' }}
+                    style={{
+                      width: '245px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <div onClick={() => searchRegionToggle()} className="middleRegionToggle">
+                  <input
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{
+                      width: '150px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <div onClick={() => searchRegionToggle()} className="smallRegionToggle">
+                  <input
+                    style={{
+                      width: '100px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{
+                      width: '100px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={cityName}
+                  ></input>
+                </div>
+                <div onClick={() => searchRegionToggle()} className="verysmallRegionToggle">
+                  <input
+                    style={{
+                      width: '35px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
+                    disabled
+                    value={regionName}
+                  ></input>
+                  <input
+                    style={{
+                      width: '35px',
+                      height: '20px',
+                      fontSize: '15px',
+                      padding: '10px 10px 10px 15px',
+                      margin: '0 10px 0 0',
+                    }}
                     disabled
                     value={cityName}
                   ></input>
@@ -329,7 +428,7 @@ function CareerInfo() {
                     </SlMagnifierContainer>
                   </SearchButton>
                 </SearchButtonContainer>
-              </SearchCategoryContainer>
+              </SearchCategoryContainer3>
               {searchRegionIsOpen === true ? (
                 <div
                   style={{
@@ -419,7 +518,7 @@ function CareerInfo() {
               </div>
             ))}
 
-            <SearchCategoryContainer>
+            <SearchCategoryContainer2>
               {careers.length === 3 ? null : (
                 <>
                   <div onClick={() => searchCareerToggle()}>
@@ -473,23 +572,34 @@ function CareerInfo() {
                   </SearchButtonContainer>
                 </>
               )}
-            </SearchCategoryContainer>
+            </SearchCategoryContainer2>
             {searchCareerIsOpen === true ? (
               <div
                 style={{
-                  // height: '230px',
                   display: 'flex',
-                  justifyContent: 'space-between',
-                  textAlign: 'center',
-                  margin: '50px 0 50px 0',
-                  border: '1px solid #D9D9D9',
-                  borderRadius: '5px',
                 }}
               >
-                <JobSelectCarrerInfo />
-                <JobSubSelectCarrerInfo />
+                <div
+                  style={{
+                    // height: '230px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    textAlign: 'center',
+                    margin: '50px 0 50px 0',
+                    border: '1px solid #D9D9D9',
+                    borderRadius: '5px',
+                    height: '500px',
 
-                <CareerSubSelect />
+                    overflowY: 'scroll',
+                    overflowX: 'auto',
+                  }}
+                  className="Career-Job"
+                >
+                  <JobSelectCarrerInfo />
+                  <JobSubSelectCarrerInfo />
+
+                  <CareerSubSelect />
+                </div>
               </div>
             ) : null}
 
@@ -523,8 +633,13 @@ function CareerInfo() {
                 </SearchButtonContainer>
               </SearchCategoryContainer>
             </CareerInfoLineContainer>
+
             {searchJobIsOpen === true ? (
-              <CareerInfoLineContainer>
+              <div
+                style={{
+                  display: 'flex',
+                }}
+              >
                 <div
                   style={{
                     display: 'flex',
@@ -533,13 +648,19 @@ function CareerInfo() {
                     margin: '50px 0 50px 0',
                     border: '1px solid #D9D9D9',
                     borderRadius: '5px',
+                    height: '500px',
+
+                    overflowY: 'scroll',
+                    overflowX: 'scroll',
                   }}
+                  className="CareerInfo-Favorite"
                 >
                   <JobSelect />
                   <JobSubSelect />
                 </div>
-              </CareerInfoLineContainer>
+              </div>
             ) : null}
+
             <CareerInfoLineContainer>
               <CareerInfoCategory>학력</CareerInfoCategory>
 

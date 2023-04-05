@@ -1,0 +1,66 @@
+.CareerInfo-Favorite {
+  display: flex;
+}
+.Career-Job {
+  width: 960px;
+}
+
+@media screen and (max-width: 1000px) {
+  .Career-Job {
+    width: 900px;
+  }
+}
+@media screen and (max-width: 950px) {
+  .Career-Job {
+    width: 800px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .Career-Job {
+    width: 700px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .Career-Job {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .CareerInfo-Favorite {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .CareerInfo-Favorite {
+    width: 550px;
+  }
+  .Career-Job {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .CareerInfo-Favorite {
+    width: 400px;
+  }
+  .Career-Job {
+    width: 400px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .CareerInfo-Favorite {
+    width: 350px;
+  }
+  .Career-Job {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .CareerInfo-Favorite {
+    width: 300px;
+  }
+}

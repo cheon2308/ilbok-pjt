@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getAllWanted } from '../../api/MainApi'
 import { BeatLoader } from 'react-spinners'
+import '../../assets/styles/Job/JobListItem.css'
 export const JobMainCategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -14,6 +15,9 @@ export const JobMainCategoryContainer = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: #666666;
+  @media (max-width: 800px) {
+    font-size: 16px;
+  }
 `
 
 const JobSearchTitle = styled.div`
@@ -79,12 +83,22 @@ const JobListContainer = () => {
         ref={myTagRef}
       >
         <div className="Main-container">
-          <JobMainCategoryContainer>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
-            <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div>
-            <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
-          </JobMainCategoryContainer>
+          <div className="BigCategoryName">
+            <JobMainCategoryContainer>
+              <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
+              <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+              <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div>
+              <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
+            </JobMainCategoryContainer>
+          </div>
+          <div className="SmallCategoryName">
+            <JobMainCategoryContainer>
+              {/* <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div> */}
+              <div style={{ flex: '7 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+              {/* <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div> */}
+              <div style={{ flex: '3 1 0', textAlign: 'center' }}>등록일/마감일</div>
+            </JobMainCategoryContainer>
+          </div>
         </div>
       </div>
       <div className="Main-container" style={{ marginTop: '5px' }}>

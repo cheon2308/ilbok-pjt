@@ -14,6 +14,7 @@ import { LoginState } from '../../atom'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
+import '../../assets/styles/Job/JobMainItem.css'
 export default function JobMainItem({ keyword }: any) {
   //
 
@@ -71,10 +72,6 @@ export default function JobMainItem({ keyword }: any) {
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
 
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
-  }
   if (isLoading)
     return (
       <>
@@ -100,7 +97,7 @@ export default function JobMainItem({ keyword }: any) {
       ) : getfavorite !== null ? (
         <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
           {userName && (
-            <div style={{ margin: '0 20vw 0 20vw' }}>
+            <div className="TenCardMargin">
               <TenCardContainer
                 items={items}
                 name={userName}
@@ -122,7 +119,7 @@ export default function JobMainItem({ keyword }: any) {
         </div>
       ) : null}
 
-      <div className="Main-container">
+      <div>
         <JobSearch keyword={keyword} />
       </div>
 
@@ -132,13 +129,3 @@ export default function JobMainItem({ keyword }: any) {
     </>
   )
 }
-
-const JobMainCategoryContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 18px;
-  font-weight: 700;
-  color: #666666;
-`

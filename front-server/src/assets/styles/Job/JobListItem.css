@@ -1,0 +1,20 @@
+@media screen and (max-width: 800px) {
+  .smallListItem {
+    display: none;
+  }
+  .TitleMargin {
+    margin-left: 20px;
+    line-height: 30px;
+  }
+  .BigCategoryName {
+    display: none;
+  }
+  .SmallCategoryName {
+  }
+}
+
+@media screen and (min-width: 801px) {
+  .SmallCategoryName {
+    display: none;
+  }
+}
