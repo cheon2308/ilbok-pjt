@@ -10,6 +10,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router'
 import { useRecoilState } from 'recoil'
 import { LoginState } from '../../atom'
+import { GiHamburgerMenu } from 'react-icons/gi'
 const NavbarContainer = styled.nav`
   align-items: center;
   padding: 5px;
@@ -50,6 +51,7 @@ const MenuList = styled.ul`
   @media (max-width: 700px) {
   
     flex-direction: column;
+ 
     margin: 0 0 0 0 ;
   }
 }
@@ -139,14 +141,21 @@ const NavBar = () => {
           </div>
           <div className="MobileContainer">
             <Logo to="/">
-              <LogoImg className="nav-logo" src={MainLogo} alt="MainLogo" />
+              <LogoImg
+                className="nav-logo"
+                src={MainLogo}
+                alt="MainLogo"
+                onClick={() => {
+                  setTest(false)
+                }}
+              />
             </Logo>
             <div
               onClick={() => {
                 setTest(!test)
               }}
             >
-              button
+              <GiHamburgerMenu color="#76DCB0"></GiHamburgerMenu>
             </div>
           </div>
           {test === true ? (
@@ -157,47 +166,65 @@ const NavBar = () => {
                     <ProfileImglogo
                       src={profileImg}
                       alt=""
-                      onClick={handleProfileClick}
+                      onClick={() => {
+                        handleProfileClick()
+                        setTest(false)
+                      }}
                       style={{ cursor: 'pointer' }}
                     />
                     <div style={{ marginLeft: '10px' }}>
                       <span style={{ color: '#76DCB0' }}>{userName}</span>
                       <span>님 반갑습니다.</span>
                     </div>
+                  </div>
+                ) : (
+                  <>
                     <BokBtn2
                       sigwidth="125px"
                       sigheight="50px"
                       sigfontsize="19px"
                       sigborderradius={25}
                       sigmargin="10px"
-                      onClick={logOut}
+                      onClick={handleOpen}
                     >
-                      로그아웃
+                      로그인
                     </BokBtn2>
-                  </div>
-                ) : (
-                  <BokBtn2
-                    sigwidth="125px"
-                    sigheight="50px"
-                    sigfontsize="19px"
-                    sigborderradius={25}
-                    sigmargin="10px"
-                    onClick={handleOpen}
-                  >
-                    로그인
-                  </BokBtn2>
+                  </>
                 )}
               </div>
 
               <MenuList>
                 {links.map((link) => (
                   <MenuItem key={link.title}>
-                    <NavLinkItem to={link.url} className={({ isActive }) => (isActive ? 'active' : 'not')}>
+                    <NavLinkItem
+                      to={link.url}
+                      className={({ isActive }) => (isActive ? 'active' : 'not')}
+                      onClick={() => {
+                        setTest(false)
+                      }}
+                    >
                       {link.title}
                     </NavLinkItem>
                   </MenuItem>
                 ))}
               </MenuList>
+
+              {window.localStorage.getItem('token') ? (
+                <BokBtn2
+                  sigwidth="125px"
+                  sigheight="50px"
+                  sigfontsize="19px"
+                  sigborderradius={25}
+                  sigmargin="10px"
+                  onClick={() => {
+                    logOut()
+
+                    setTest(false)
+                  }}
+                >
+                  로그아웃
+                </BokBtn2>
+              ) : null}
             </div>
           ) : null}
 
