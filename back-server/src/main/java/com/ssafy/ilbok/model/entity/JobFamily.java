@@ -14,7 +14,7 @@ public class JobFamily {
 
     @Id
     @Column(name = "job_family_code")
-    private int jobFamilyCode;
+    private Integer jobFamilyCode;
 
     private String name;
 

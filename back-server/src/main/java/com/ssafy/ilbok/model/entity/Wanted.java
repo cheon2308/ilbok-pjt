@@ -21,10 +21,10 @@ public class Wanted {
     private Degrees degreeCode;
 
     @Column(name = "city_code")
-    private int cityCode;
+    private Integer cityCode;
 
     @Column(name = "job_code")
-    private int jobCode;
+    private Integer jobCode;
 
     @Column(name = "wanted_no")
     private String wantedNo;

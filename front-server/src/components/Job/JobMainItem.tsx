@@ -1,5 +1,5 @@
 import { CarCrash } from '@mui/icons-material'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import AddInfoNoti from '../Common/AddInfoNoti'
 import JobSearch from './JobSearch'
 import { useState } from 'react'
@@ -15,6 +15,8 @@ import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
 export default function JobMainItem({ keyword }: any) {
+  //
+
   // 메인 : 0 / 로그인 : 1 / 로그인+추가정보 : 2
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
 

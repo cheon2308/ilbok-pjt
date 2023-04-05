@@ -13,10 +13,10 @@ public class JobSubFamily {
 
     @Id
     @Column(name = "job_sub_code")
-    private int jobSubCode;
+    private Integer jobSubCode;
 
     @Column(name = "job_family_code")
-    private int jobFamilyCode;
+    private Integer jobFamilyCode;
 
     private String name;
 
