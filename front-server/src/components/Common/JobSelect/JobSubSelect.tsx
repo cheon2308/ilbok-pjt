@@ -52,18 +52,18 @@ function JobSubSelect() {
   const [activeTab, setActiveTab] = React.useState('')
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <></>
   }
 
   if (isError) {
-    return <div>Error occurred </div>
+    return <></>
   }
 
   return (
     <>
       <div
         style={{
-          width: '50%',
+          width: '100%',
         }}
       >
         {jobSubFamily.map((item, index) => (
@@ -77,6 +77,11 @@ function JobSubSelect() {
             style={{
               backgroundColor: activeTab === item.jobSubCode ? '#76dcb0' : index % 2 === 0 ? '#ffffff' : '#f2f2f2',
               color: activeTab === item.jobSubCode ? '#ffffff' : '',
+              width: '300px',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              fontSize: '16px',
             }}
           >
             {item.name}

@@ -146,3 +146,9 @@ export const DbUserId = atom({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 })
+
+export const MobileCarrer = atom({
+  key: 'MobileCarrer',
+
+  default: 0,
+})
