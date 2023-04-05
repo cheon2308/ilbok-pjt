@@ -9,15 +9,21 @@ from scipy import sparse
 from sklearn.metrics.pairwise import cosine_similarity
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from scipy.sparse.linalg import spsolve
 import random
-from time import time
+import time
 from implicit.als import AlternatingLeastSquares
 from sklearn import metrics
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import NearestNeighbors
-from sklearn.preprocessing import MinMaxScaler
+from multiprocessing import Process
 
+# 도시 중분류
+city_to_index = {11110: 144, 11140: 145, 11170: 146, 11200: 147, 11215: 148, 11230: 149, 11260: 150, 11290: 151, 11305: 152, 11320: 153, 11350: 154, 11380: 155, 11410: 156, 11440: 157, 11470: 158, 11500: 159, 11530: 160, 11545: 161, 11560: 162, 11590: 163, 11620: 164, 11650: 165, 11680: 166, 11710: 167, 11740: 168, 26110: 169, 26140: 170, 26170: 171, 26200: 172, 26230: 173, 26260: 174, 26290: 175, 26320: 176, 26350: 177, 26380: 178, 26410: 179, 26440: 180, 26470: 181, 26500: 182, 26530: 183, 26710: 184, 27110: 185, 27140: 186, 27170: 187, 27200: 188, 27230: 189, 27260: 190, 27290: 191, 27710: 192, 28110: 193, 28140: 194, 28177: 195, 28185: 196, 28200: 197, 28237: 198, 28245: 199, 28260: 200, 28710: 201, 28720: 202, 29110: 203, 29140: 204, 29155: 205, 29170: 206, 29200: 207, 30110: 208, 30140: 209, 30170: 210, 30200: 211, 30230: 212, 31110: 213, 31140: 214, 31170: 215, 31200: 216, 31710: 217, 36110: 218, 41110: 219, 41130: 220, 41150: 221, 41170: 222, 41190: 223, 41210: 224, 41220: 225, 41250: 226, 41270: 227, 41280: 228, 41290: 229, 41310: 230, 41360: 231, 41370: 232, 41390: 233, 41410: 234, 41430: 235, 41450: 236, 41460: 237, 41480: 238, 41500: 239, 41550: 240, 41570: 241, 41590: 242, 41610: 243, 41630: 244, 41650: 245, 41670: 246, 41800: 247, 41820: 248, 41830: 249, 42110: 250, 42130: 251, 42150: 252, 42170: 253, 42190: 254, 42210: 255, 42230: 256, 42720: 257, 42730: 258, 42750: 259, 42760: 260, 42770: 261, 42780: 262, 42790: 263, 42800: 264, 42810: 265, 42820: 266, 42830: 267, 43110: 268, 43130: 269, 43150: 270, 43720: 271, 43730: 272, 43740: 273, 43745: 274, 43750: 275, 43760: 276, 43770: 277, 43800: 278, 44130: 279, 44150: 280, 44180: 281, 44200: 282, 44210: 283, 44230: 284, 44250: 285, 44270: 286, 44710: 287, 44760: 288, 44770: 289, 44790: 290, 44800: 291, 44810: 292, 44825: 293, 45110: 294, 45130: 295, 45140: 296, 45180: 297, 45190: 298, 45210: 299, 45710: 300, 45720: 301, 45730: 302, 45740: 303, 45750: 304, 45770: 305, 45790: 306, 45800: 307, 46110: 308, 46130: 309, 46150: 310, 46170: 311, 46230: 312, 46710: 313, 46720: 314, 46730: 315, 46770: 316, 46780: 317, 46790: 318, 46800: 319, 46810: 320, 46820: 321, 46830: 322, 46840: 323, 46860: 324, 46870: 325, 46880: 326, 46890: 327, 46900: 328, 46910: 329, 47110: 330, 47130: 331, 47150: 332, 47170: 333, 47190: 334, 47210: 335, 47230: 336, 47250: 337, 47280: 338, 47290: 339, 47720: 340, 47730: 341, 47750: 342, 47760: 343, 47770: 344, 47820: 345, 47830: 346, 47840: 347, 47850: 348, 47900: 349, 47920: 350, 47930: 351, 47940: 352, 48120: 353, 48170: 354, 48220: 355, 48240: 356, 48250: 357, 48270: 358, 48310: 359, 48330: 360, 48720: 361, 48730: 362, 48740: 363, 48820: 364, 48840: 365, 48850: 366, 48860: 367, 48870: 368, 48880: 369, 48890: 370, 50110: 371, 50130: 372}
+city_to_region = {11110: 11000, 11140: 11000, 11170: 11000, 11200: 11000, 11215: 11000, 11230: 11000, 11260: 11000, 11290: 11000, 11305: 11000, 11320: 11000, 11350: 11000, 11380: 11000, 11410: 11000, 11440: 11000, 11470: 
+11000, 11500: 11000, 11530: 11000, 11545: 11000, 11560: 11000, 11590: 11000, 11620: 11000, 11650: 11000, 11680: 11000, 11710: 11000, 11740: 11000, 26110: 26000, 26140: 26000, 26170: 26000, 26200: 26000, 26230: 26000, 26260: 26000, 26290: 26000, 26320: 26000, 26350: 26000, 26380: 26000, 26410: 26000, 26440: 26000, 26470: 26000, 26500: 26000, 26530: 26000, 26710: 26000, 27110: 27000, 27140: 27000, 27170: 27000, 27200: 27000, 27230: 27000, 27260: 27000, 27290: 27000, 27710: 27000, 28110: 28000, 28140: 28000, 28177: 28000, 28185: 28000, 28200: 28000, 28237: 28000, 28245: 28000, 28260: 28000, 28710: 28000, 28720: 28000, 29110: 29000, 29140: 29000, 29155: 29000, 29170: 29000, 29200: 29000, 30110: 30000, 30140: 30000, 30170: 30000, 30200: 30000, 30230: 30000, 31110: 31000, 31140: 31000, 31170: 31000, 31200: 31000, 31710: 31000, 36110: 36110, 41110: 41000, 41130: 41000, 41150: 41000, 41170: 41000, 41190: 41000, 41210: 41000, 41220: 41000, 41250: 41000, 41270: 41000, 41280: 41000, 41290: 41000, 41310: 41000, 41360: 41000, 41370: 41000, 41390: 41000, 41410: 41000, 41430: 41000, 41450: 41000, 41460: 41000, 41480: 41000, 41500: 41000, 41550: 41000, 41570: 41000, 41590: 41000, 41610: 41000, 41630: 41000, 41650: 41000, 41670: 41000, 41800: 41000, 41820: 41000, 41830: 41000, 42110: 42000, 42130: 42000, 42150: 42000, 42170: 42000, 42190: 42000, 42210: 42000, 42230: 42000, 42720: 42000, 42730: 42000, 42750: 42000, 42760: 
+42000, 42770: 42000, 42780: 42000, 42790: 42000, 42800: 42000, 42810: 42000, 42820: 42000, 42830: 42000, 43110: 43000, 43130: 43000, 43150: 43000, 43720: 43000, 43730: 43000, 43740: 43000, 43745: 43000, 43750: 43000, 43760: 43000, 43770: 43000, 43800: 43000, 44130: 44000, 44150: 44000, 44180: 44000, 44200: 44000, 44210: 44000, 44230: 44000, 44250: 44000, 44270: 44000, 44710: 44000, 44760: 44000, 44770: 44000, 44790: 44000, 44800: 44000, 44810: 44000, 44825: 44000, 45110: 45000, 45130: 45000, 45140: 45000, 45180: 45000, 45190: 45000, 45210: 45000, 45710: 45000, 45720: 45000, 45730: 45000, 45740: 45000, 45750: 45000, 45770: 45000, 45790: 45000, 45800: 45000, 46110: 46000, 46130: 46000, 46150: 46000, 46170: 46000, 46230: 46000, 46710: 46000, 46720: 46000, 46730: 46000, 46770: 46000, 46780: 46000, 46790: 46000, 46800: 46000, 46810: 46000, 46820: 46000, 46830: 46000, 46840: 46000, 46860: 46000, 46870: 46000, 46880: 46000, 46890: 46000, 46900: 46000, 46910: 46000, 47110: 47000, 47130: 47000, 47150: 47000, 47170: 47000, 47190: 47000, 47210: 47000, 47230: 47000, 47250: 47000, 47280: 47000, 47290: 47000, 47720: 47000, 47730: 47000, 47750: 47000, 47760: 47000, 47770: 47000, 47820: 47000, 47830: 47000, 47840: 47000, 47850: 47000, 47900: 47000, 47920: 47000, 47930: 47000, 47940: 47000, 48120: 48000, 48170: 48000, 48220: 48000, 48240: 48000, 48250: 48000, 48270: 48000, 48310: 48000, 48330: 48000, 48720: 48000, 48730: 
+48000, 48740: 48000, 48820: 48000, 48840: 48000, 48850: 48000, 48860: 48000, 48870: 48000, 48880: 48000, 48890: 48000, 50110: 50000, 50130: 50000}
+sub_to_index = {11: 14, 12: 15, 13: 16, 14: 17, 15: 18, 16: 19, 17: 20, 18: 21, 19: 22, 21: 23, 22: 24, 23: 25, 24: 26, 25: 27, 26: 28, 27: 29, 28: 30, 29: 31, 31: 32, 32: 33, 33: 34, 34: 35, 35: 36, 36: 37, 37: 38, 38: 39, 39: 40, 41: 41, 42: 42, 43: 43, 44: 44, 51: 45, 52: 46, 53: 47, 54: 48, 55: 49, 56: 50, 57: 51, 58: 52, 59: 53, 61: 54, 62: 55, 63: 56, 64: 57, 65: 58, 66: 59, 67: 60, 68: 61, 69: 62, 71: 63, 72: 64, 73: 65, 74: 66, 75: 67, 76: 68, 77: 69, 78: 70, 79: 71, 81: 72, 82: 73, 83: 74, 84: 75, 85: 76, 86: 77, 91: 78, 92: 79, 93: 80, 94: 81, 95: 82, 96: 83, 97: 84, 98: 85, 99: 86, 101: 87, 102: 88, 103: 89, 
+104: 90, 105: 91, 106: 92, 107: 93, 111: 94, 112: 95, 113: 96, 114: 97, 115: 98, 116: 99, 117: 100, 118: 101, 119: 102, 121: 103, 122: 104, 123: 105, 124: 106, 125: 107, 126: 108, 131: 109, 132: 110, 133: 111, 134: 112, 135: 113, 140: 114, 141: 115, 142: 116, 143: 117, 240: 118, 241: 119, 242: 120, 640: 121, 740: 122, 741: 123, 940: 124, 1140: 125}
+region_to_index = {0: 126, 11000: 127, 26000: 128, 27000: 129, 28000: 130, 29000: 131, 30000: 132, 31000: 133, 36110: 134, 41000: 135, 42000: 136, 43000: 137, 44000: 138, 45000: 139, 46000: 140, 47000: 141, 48000: 142, 50000: 143}
 
 # 코사인 유사도
 def cos_sim(A, B):
@@ -28,21 +34,48 @@ def user_to_job():
     ap_job = ApplyStatus.objects.all()
     cl_job = ClickWanted.objects.all()
     li_job = LikeWanted.objects.all()
+    userMatrix = np.load('./data/user_to_job.npy')
 
     # 우선 전체 유저의 수, 전체 공고의 수 구하기
     # 행번호 -> 유저 번호, 열 번호 -> 공고 번호
     user_length = Users.objects.aggregate(Max('user_id'))
     job_length = Wanted.objects.aggregate(Max('wanted_code'))
-    userMatrix = np.array([[0]*(job_length['wanted_code__max']+1) for _ in range(user_length['user_id__max']+1)])
+    len_col = len(userMatrix[0])
+    print(len_col)
+    len_row = len(userMatrix)
+    print(len_row)
+    # column 추가
+    # 새로 추가될 column과 row 크기 구하기
+    new_col = job_length['wanted_code__max'] - len_col + 1
+    new_row = user_length['user_id__max'] - len_row + 1
+    # 새로운 column 만들기
+    print(job_length['wanted_code__max'] - len_col)
+    # row 추가
+    if new_row > 0:
+        ap_row = np.zeros((1, job_length['wanted_code__max']+1))
+        for _ in range(user_length['user_id__max'] - len_row + 1):
+            userMatrix = np.append(userMatrix, ap_row, axis=0)
+
+    if new_col > 0:
+        zeros = np.zeros((len_row, new_col))
+        userMatrix = np.hstack((userMatrix, zeros))
+
     # 벡터에 가중치 주기 -> 지원 3점, 클릭 1점, 북마크 2점
-    for a in ap_job:
-        userMatrix[a.user_id][a.wanted_code.wanted_code] += 5
-    for c in cl_job:
-        userMatrix[c.user_id][c.wanted_code.wanted_code] += 1
+    print('점수매기는중')
+    print(len(userMatrix))
     
-    for l in li_job:
-        userMatrix[l.user_id][l.wanted_code.wanted_code] += 3
-    # np.save('./data/user_to_job', userMatrix)
+    # 리스트 컴프리헨션으로 for loop 대체
+    print(1)
+    ap_list = [(a.user_id, a.wanted_code.wanted_code) for a in ap_job]
+    print(2)
+    cl_list = [(c.user_id, c.wanted_code.wanted_code) for c in cl_job]
+    print(3)
+    li_list = [(l.user_id, l.wanted_code.wanted_code) for l in li_job]
+    
+    userMatrix[np.array(ap_list).T] += 10
+    userMatrix[np.array(cl_list).T] += 1
+    userMatrix[np.array(li_list).T] += 5
+
     return userMatrix
 
 ## 훈련 데이터 만들기
@@ -91,7 +124,7 @@ def auc_score(test, predictions):
     fpr, tpr, thresholds = metrics.roc_curve(test, predictions)
     return metrics.auc(fpr,tpr)
 
-# AUC 계산
+# AUC 계산0
 def calc_mean_auc(training_set, altered_users, predictions, test_set):
 
     '''
@@ -230,38 +263,8 @@ def recommend_items(request, user_id):
 @api_view(['GET'])
 def user_info(request):
     all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
-    
-    # job 코드 변수
-    js = JobSubFamily.objects.all()
-    jc = JobCategory.objects.all()
-    # 지역변수
-    city = Cities.objects.all()
-    region = Regions.objects.all()
-    
     # 유저경력 변수
     career = Careers.objects.all()
-
-    # 직업 중분류 - 행렬 인덱스 매칭
-    sub_to_index = {}
-    for i in range(len(js)):
-        sub_to_index[js[i].job_sub_code] = i+14
-
-    # 지역 - 행렬 인덱스 매칭
-    city_to_region = {}
-    city_to_index = {}
-    region_to_index = {}
-
-    i = 126
-    for k in region:
-        region_to_index[k.region_code] = i
-        i += 1
-    
-    # city - region 매칭
-    # city - 행렬 인덱스 매칭
-    for j in range(len(city)):
-        city_to_region[city[j].city_code] = city[j].region_code.region_code
-        city_to_index[city[j].city_code] = j + 144
-
 
     #######################################################
     # 행렬만들기
@@ -270,7 +273,7 @@ def user_info(request):
     # 우선 전체 유저의 수 구하기
     user_length = all_user.aggregate(Max('user_id'))
     userMatrix = [[0]*384 for _ in range(user_length['user_id__max']+1)]
-    print(len(userMatrix[3]))
+   
     # 경력에 대해 matrix에 기록해주기
     # 학력 - 373 4 5 6
     # 나이 - 378 9 380 381
@@ -342,76 +345,43 @@ def user_info(request):
     np.save('./data/userToUser', sorted_index)
     return Response(sorted_index)
 
+
 # 신규유저 행렬에 추가
 @api_view(['GET'])
 def update_user_matrix(request, user_id):
     user_matrix = np.load('./data/userMatrix.npy')
-    new_arr = [0] * 384
     all_user = Users.objects.values('user_id','degree_code', 'city_code', 'favorite', 'age','gender')
+    # count 
+    # 추가가 안됨 - 반복문 추가안됨
+    # career 만들어주기
+    # 행렬 인덱스화 시키는거 파일화
+    # 저장 을 여기서?
     user_length = all_user.aggregate(Max('user_id'))
     now_arr = len(user_matrix)
+    new_row = np.zeros((1, 384))
     for _ in range(user_length['user_id__max'] - now_arr + 1):
-        np.append(user_matrix, np.array(new_arr))
-    print(len(user_matrix[3]))
-    # job 코드 변수
-    js = JobSubFamily.objects.all()
-    jc = JobCategory.objects.all()
-    # 지역변수
-    city = Cities.objects.all()
-    region = Regions.objects.all()
-    
-    # 직업 중분류 - 행렬 인덱스 매칭
-    sub_to_index = {}
-    for i in range(len(js)):
-        sub_to_index[js[i].job_sub_code] = i+14
+        user_matrix = np.append(user_matrix, new_row, axis=0)
 
-    # 지역 - 행렬 인덱스 매칭
-    city_to_region = {}
-    city_to_index = {}
-    region_to_index = {}
-
-    i = 126
-    for k in region:
-        region_to_index[k.region_code] = i
-        i += 1
-    
-    # city - region 매칭
-    # city - 행렬 인덱스 매칭
-    for j in range(len(city)):
-        city_to_region[city[j].city_code] = city[j].region_code.region_code
-        city_to_index[city[j].city_code] = j + 144
-    # 유저경력 변수
+    # 경력 기록
     career = Careers.objects.all()
-    # 경력에 대해 matrix에 기록해주기
-    # 학력 - 373 4 5 6
-    # 나이 - 378 9 380 381
-    # 성별 - 382 383
-    for car in career:
-        user_num = car.user_id
-        job_num = car.sub_code.job_sub_code
-        user_matrix[user_num][sub_to_index[job_num]] = car.period
-
-
-    # 유저 정보에 대해 matrix에 기록
-    for u in all_user:
-        if u['user_id'] == user_id:
-            us = u
-            break
+    user_career = career.filter(user_id=user_id)
+    for uc in user_career:
+        user_matrix[user_id][sub_to_index[uc.sub_code.job_sub_code]] += 2
+    # 이력서 저장한 사람 id 불러오기
+    us = Users.objects.get(user_id=user_id)
     # 이력서 작성한 사람에 한해 
-    us_num = us['user_id']
-    fav = us['favorite']
-    us_city = us['city_code']
-    deg = us['degree_code']
-    us_age = us['age']
-    us_gen = us['gender']
+    us_num = us.user_id
+    fav = us.favorite.job_sub_code
+    us_city = us.city_code.city_code
+    deg = us.degree_code.degree_id
+    us_age = us.age
+    us_gen = us.gender
 
     # 유저 관심 직종 +3 해주기
     user_matrix[us_num][sub_to_index[fav]] += 3
-
     # 지역 +1 해주기
     user_matrix[us_num][city_to_index[us_city]] += 1
     user_matrix[us_num][region_to_index[city_to_region[us_city]]] += 1
-    print(len(user_matrix[user_id]))
     # 학력 기록해주기
     if deg == 0:
         user_matrix[us_num][373:377] = [0,0,0,0]
@@ -423,7 +393,6 @@ def update_user_matrix(request, user_id):
         user_matrix[us_num][373:377] = [0,1,1,1]
     elif deg == 7:
         user_matrix[us_num][373:377] = [1,1,1,1]
-
     # 나이 기록해주기
     if us_age < 55:        
         user_matrix[us_num][378] = 1
@@ -439,9 +408,9 @@ def update_user_matrix(request, user_id):
         user_matrix[us_num][382] = 1
     else:
         user_matrix[us_num][383] = 1
-
+    start = time.time()
     # 유저 매트릭스로 저장
-    np.save('./data/userMatrix', user_matrix)
+    np.save('./data/userMatrix.npy', user_matrix)
 
     # 유사도로 저장해주기
     calc_sim_user = cosine_similarity(user_matrix, user_matrix)
@@ -449,8 +418,25 @@ def update_user_matrix(request, user_id):
     sorted_index = np.argsort(calc_sim_user)[:, ::-1]
     sorted_index = sorted_index[:, 1:]
     # 유저간 유사도
-    np.save('./data/userToUser', sorted_index)
+    np.save('./data/userToUser.npy', sorted_index)
+    end = time.time()
+    print(end - start)
     return Response(True)
+
+
+# 별도 프로세스에서 유저 매트릭스 저장
+def save_data(user_matrix):
+    # 유저 매트릭스로 저장
+    np.save('./data/userMatrix.npy', user_matrix)
+
+    # 유사도로 저장해주기
+    calc_sim_user = cosine_similarity(user_matrix, user_matrix)
+    
+    sorted_index = np.argsort(calc_sim_user)[:, ::-1]
+    sorted_index = sorted_index[:, 1:]
+    # 유저간 유사도
+    np.save('./data/userToUser.npy', sorted_index)
+    return True
 
 # 유저간 유사도 기반 공고 추천하기
 @api_view(['GET'])
@@ -473,3 +459,4 @@ def rec_cf_user(request, user_id):
             result.append(k[0])
             
     return Response(result)
+
