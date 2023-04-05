@@ -14,7 +14,7 @@ interface CityFamilyItem {
   cityCode: string
   city: string
 }
-function CitySelect({ regionSelectCode, cityselectNameFunc }: any) {
+function CitySelect() {
   const [CityFamily, setCityFamily] = useState<CityFamilyItem[]>()
 
   const [cityCode, setCityCode] = useRecoilState(CityCode)
@@ -39,11 +39,11 @@ function CitySelect({ regionSelectCode, cityselectNameFunc }: any) {
 
   const [activeTab, setActiveTab] = React.useState('')
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div style={{ margin: '15px' }}>지역을 선택해주세요.</div>
   }
 
   if (isError) {
-    return <div>Error occurred </div>
+    return <div style={{ margin: '15px' }}>지역을 선택해주세요.</div>
   }
 
   return (

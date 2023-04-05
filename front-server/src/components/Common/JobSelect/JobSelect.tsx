@@ -47,7 +47,8 @@ function JobSelect() {
 
   return (
     <>
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '50%' }}>
+        <div style={{ margin: '15px 0 15px 0' }}>대분류</div>
         {JobFamily &&
           JobFamily.map((item, index) => (
             <JobFamilyItem
@@ -60,6 +61,9 @@ function JobSelect() {
               style={{
                 backgroundColor: activeTab === item.jobFamilyCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
                 color: activeTab === item.jobFamilyCode ? '#ffffff' : '',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
               }}
             >
               {item.name}

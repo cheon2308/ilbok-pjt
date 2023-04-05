@@ -1,0 +1,63 @@
+@media screen and (max-width: 1255px) {
+  .middleRegionToggle {
+  }
+  .bigRegionToggle {
+    display: none;
+  }
+  .smallRegionToggle {
+    display: none;
+  }
+  .verysmallRegionToggle {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1256px) {
+  .middleRegionToggle {
+    display: none;
+  }
+  .bigRegionToggle {
+  }
+  .smallRegionToggle {
+    display: none;
+  }
+  .verysmallRegionToggle {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .middleRegionToggle {
+    display: none;
+  }
+  .bigRegionToggle {
+    display: none;
+  }
+  .smallRegionToggle {
+    display: block;
+  }
+  .verysmallRegionToggle {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 737px) {
+  .FilterSelectWeb {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 738px) {
+  .FilterSelectMobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 538px) {
+  .verysmallRegionToggle {
+    display: block;
+  }
+  .smallRegionToggle {
+    display: none;
+  }
+}
