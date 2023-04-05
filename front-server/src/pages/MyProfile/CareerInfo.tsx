@@ -130,10 +130,6 @@ function CareerInfo() {
     navigate(-1)
   }
   const [inputAge, setInputAge] = useState<number>()
-  const [inputCities, setInputCities] = useState<number>()
-  const [inputCareer, setInputCareer] = useState<number>() // 경력
-  const [inputFavorite, setInputFavorite] = useState<number>() // 선호하는 직종
-  const [inputDegrees, setInputDegrees] = useState<number>()
 
   // * Toggle
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
@@ -182,21 +178,19 @@ function CareerInfo() {
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value as string)
   }
-  const [careerInfoDegree, setCareerInfoDegree] = useRecoilState(CareerInfoDegree)
+  const [careerInfoDegree] = useRecoilState(CareerInfoDegree)
   // ****
   const handlePUT = async (data: Record<string, any>) => {
     const res = await axios.put(process.env.REACT_APP_SERVER_URL + `/users/update`, data)
-    // console.log('api요청')
-    // console.log(res.data)
+
     return res.data
   }
   const { mutate, error, isError, isLoading } = useMutation(['handlePUT'], handlePUT, {
     onSuccess: (data) => {
-      console.log(data)
+      // console.log(data)
     },
     onError: (error) => {
-      console.log('error:', error)
-      // 에러 발생 후 실행할 작업
+      // console.log('error:', error)
     },
   })
   // ***
@@ -213,6 +207,7 @@ function CareerInfo() {
       gender: gender,
       careers: careers,
     })
+    navigate('/myprofile')
   }
   // ***
 

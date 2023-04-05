@@ -30,17 +30,14 @@ function CitySelect({ regionSelectCode, cityselectNameFunc }: any) {
   const { data, error, isError, isLoading } = useQuery(['getCitySelect', regionCode], getCitySelect, {
     onSuccess: (data) => {
       setCityFamily(data)
-      console.log('data:', data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
 
   const [activeTab, setActiveTab] = React.useState('')
-  // console.log(activeTab)
   if (isLoading) {
     return <div>Loading...</div>
   }
