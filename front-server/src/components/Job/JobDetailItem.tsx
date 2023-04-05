@@ -8,12 +8,10 @@ import BokBtn1 from '../Common/BokBtn1'
 import Marker from '../../assets/image/Marker.png'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { getOneWanted } from '../../api/JobDetailApi'
-import ClipLoader from 'react-spinners/ClipLoader'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { BsStar, BsStarFill } from 'react-icons/bs'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
-import { DbUserId } from '../../atom'
 import { LoginState } from '../../atom'
 import TenCardContainer from '../Common/TenCardContainer'
 
@@ -25,35 +23,27 @@ export default function JobDetailItem({ wantedCode }: any) {
   }, [wantedCode])
 
   // const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
-  const [dbUserId, setDbUserId] = useRecoilState(LoginState)
+  const [dbUserId] = useRecoilState(LoginState)
   // *** Post 요청
 
   // 좋아요
   const handleLikePost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clickLike`, data)
-    // console.log('api요청')
-    // console.log(res.data)
     return res.data
   }
   // 좋아요 여부
   const handleIsLikePost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/isLiked`, data)
-    // console.log('api요청')
-    // console.log(res.data)
     return res.data
   }
   // 클릭로그
   const handleClickLogPost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clicked`, data)
-    // console.log('api요청')
-    // console.log(res.data)
     return res.data
   }
   // 지원하기
   const handleClickApplyPost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/clickApply`, data)
-    // console.log('api요청')
-    // console.log(res.data)
     return res.data
   }
   // 비슷한 공고
@@ -92,47 +82,44 @@ export default function JobDetailItem({ wantedCode }: any) {
       setLiked(data)
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
   const { mutate: isLikePost } = useMutation(['handleIsLikePost'], handleIsLikePost, {
     onSuccess: (data) => {
-      console.log(data, 'isLiked')
       setLiked(data)
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
 
   const { mutate: clickApplyPost } = useMutation(['handleClickApply'], handleClickApplyPost, {
     onSuccess: (data) => {
-      console.log(data, 'ClickApply')
+      // console.log(data, 'ClickApply')
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
 
   const { mutate: clickLogPost } = useMutation(['handleClickLogPost'], handleClickLogPost, {
     onSuccess: (data) => {
-      console.log(data, 'ClickApply')
+      // console.log(data, 'ClickApply')
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
 
   const { data, isLoading } = useQuery(['GetSimilarJobsAlgo'], GetSimilarJobsAlgo, {
     onSuccess: (data) => {
-      console.log(data, 'GetSimilarJobsAlgo')
+      // console.log(data, 'GetSimilarJobsAlgo')
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })

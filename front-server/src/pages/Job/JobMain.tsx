@@ -6,7 +6,6 @@ import { useLocation } from 'react-router'
 function JobMain() {
   const location = useLocation()
   const state = location.state
-  console.log(state)
   return (
     <>
       <JobMainItem keyword={state} />
