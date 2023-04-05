@@ -71,7 +71,7 @@ public class UsersController {
         System.out.println(users);
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://127.0.0.1:8000/userdata/update/"+users.getUserId();
+        String url = "https://ilbokd.duckdns.org/userdata/update/"+users.getUserId();
         restTemplate.getForEntity(url, Boolean.class);
 
         return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
