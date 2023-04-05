@@ -1,7 +1,12 @@
-import React from 'react'
-import { BsStar } from 'react-icons/bs'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { BsStar, BsStarFill } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
+import { DbUserId, LoginState } from '../../atom'
+import { defaultInstance } from '../../api/Api'
+import { useQuery } from '@tanstack/react-query'
 
 export interface JobListItemProps {
   wantedAuthNo: string
@@ -56,12 +61,46 @@ const JobListItem = ({
   salary,
   salaryType,
 }: JobListItemProps) => {
+  // const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
+  const [dbUserId, setDbUserId] = useRecoilState(LoginState)
   const workRegionData = `${region}`
   const workRegionArray = workRegionData.split(' ')
 
   const numberWithCommas = (x: any) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
+  const [findLike, setFindLike] = useState(false)
+  ///
+  const getListItemUsersLike = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLike?user_id=${dbUserId.userId}`, {
+      method: 'GET',
+    })
+    return res.data
+  }
+  const { data, error, isError, isLoading } = useQuery(['getListItemUsersLike', findLike], getListItemUsersLike, {
+    onSuccess: (data) => {
+      console.log('data:f', data)
+      // 데이터 로드 후 실행할 작업
+    },
+    onError: (error) => {
+      console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+  // console.log(data, '하이')
+  ///
+
+  const findWantedCode = (wantedAuthNo: any) => {
+    const item = data.find((item: any) => item.wantedCode === wantedAuthNo)
+
+    return item ? setFindLike(true) : setFindLike(false)
+  }
+
+  useEffect(() => {
+    if (data) {
+      findWantedCode(wantedAuthNo)
+    }
+  })
   return (
     <>
       <JobListItemContainer>
@@ -74,8 +113,11 @@ const JobListItem = ({
             alignItems: 'center',
           }}
         >
-          <BsStar size={22.5} color="#C7C7C7" strokeWidth="0.01"></BsStar>
-
+          {findLike === true ? (
+            <BsStarFill size={20} color="#76DCB0" strokeWidth="0.01"></BsStarFill>
+          ) : (
+            <BsStar size={20} color="#76DCB0" strokeWidth="0.01"></BsStar>
+          )}
           <StyledLink to={`/detail/${wantedAuthNo}`} state={{ wantedCode: `${wantedAuthNo}` }}>
             <div style={{ flex: '2 1 0', textAlign: 'center' }}>{company}</div>
 

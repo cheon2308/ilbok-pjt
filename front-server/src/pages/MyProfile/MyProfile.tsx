@@ -8,143 +8,30 @@ import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobCo
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
 import { Link } from 'react-router-dom'
-
-const items = [
-  {
-    wantedAuthNo: '공고 번호',
-    company: '(주)코리아환경산업',
-    title: '관저더샵 1차 아파트 외곽구인',
-    salTpNm: '월급 152만원 이상',
-    region: '대전광역시 서구 ',
-    holidayTpNm: '주 5일 근무',
-    minEdubg: '학력무관',
-    career: '관계없음',
-    regDt: '23/03/24',
-    closeDt: '23/03/26',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-  {
-    wantedAuthNo: '공고 번호',
-    company: '회사 이름',
-    title: '공고 이름',
-    salTpNm: '시급,월급 연봉',
-    region: '지역',
-    holidayTpNm: '근무날짜',
-    minEdubg: '학력',
-    career: '경력',
-    regDt: '등록일',
-    closeDt: '마감일',
-  },
-]
-const items2 = [
-  { title: 'Item 1', description: 'This is the first item' },
-  { title: 'Item 2', description: 'This is the second item' },
-  { title: 'Item 3', description: 'This is the third item' },
-  { title: 'Item 4', description: 'This is the fourth item' },
-  { title: 'Item 5', description: 'This is the fifth item' },
-  { title: 'Item 6', description: 'This is the fifth item' },
-  { title: 'Item 7', description: 'This is the fifth item' },
-  { title: 'Item 8', description: 'This is the fifth item' },
-  { title: 'Item 9', description: 'This is the fifth item' },
-  { title: 'Item 10', description: 'This is the fifth item' },
-]
-
+import { DbUserId, LoginState } from '../../atom'
+import { useRecoilState } from 'recoil'
+import { useQuery } from '@tanstack/react-query'
+import { BeatLoader } from 'react-spinners'
+import { getOneWanted } from '../../api/JobDetailApi'
+import JobListItem from '../../components/Common/JobListItem'
+export const JobMainCategoryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  color: #666666;
+`
+const JobSearchContentContainer = styled.div`
+  font-size: 20px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  font-weight: 400;
+  color: #666666;
+`
 const MyProfile = () => {
+  const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
   const [kakaoId, setkakaoId] = useState<number>(0)
   const [kakaoNickname, setkakaoNickname] = useState<string>('')
@@ -152,7 +39,51 @@ const MyProfile = () => {
   const userName = window.localStorage.getItem('token')
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
+  const [isLoggedIn] = useRecoilState(LoginState)
+  const [getfavorite, setgetfavorite] = useState()
+  const [getUserLikeyAlgo, setGetUserLikeyAlgo] = useState()
+  const profileUserLikeArray: string[] = []
+  //////
 
+  //////
+
+  ////
+  const testCode = 1
+  const GetUserLikeyAlgo = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
+      method: 'POST',
+    })
+    return res.data
+  }
+  const { data, isLoading } = useQuery(['GetUserLikey'], GetUserLikeyAlgo, {
+    onSuccess: (data) => {
+      setGetUserLikeyAlgo(data)
+    },
+    onError: (error) => {
+      // console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+
+  ////
+
+  // const GetFavorite = null
+  const GetFavorite = async () => {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/users/getOne?user_id=${isLoggedIn.userId}`, {
+      method: 'POST',
+    })
+    return res.data
+  }
+  const { data: getfavoritepost } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
+    onSuccess: (data) => {
+      setgetfavorite(data.favorite)
+    },
+    onError: (error) => {
+      // console.log('error:', error)
+      // 에러 발생 후 실행할 작업
+    },
+  })
+  ///
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
@@ -162,7 +93,7 @@ const MyProfile = () => {
         },
       })
       .then((res) => {
-        console.log('됐어')
+        setDbUserId(res.data.userId)
         setkakaoEmail(res.data.email)
         setkakaoId(res.data.kakaoId)
         setkakaoNickname(res.data.nickname)
@@ -172,9 +103,46 @@ const MyProfile = () => {
         console.error(e)
       })
   }
+  //
+
+  const GetProfileUserLike = async () => {
+    const res = await axios(
+      process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLikeWanted?user_id=${isLoggedIn.userId}`,
+      {
+        method: 'GET',
+      }
+    )
+    return res.data
+  }
+  const { data: getProfileUserLike, isLoading: getProfileUserLikeLoading } = useQuery(
+    ['GetProfileUserLike'],
+    GetProfileUserLike,
+    {
+      onSuccess: (data) => {
+        console.log(getProfileUserLike)
+      },
+      onError: (error) => {
+        // console.log('error:', error)
+        // 에러 발생 후 실행할 작업
+      },
+    }
+  )
+  //
   useEffect(() => {
     getUserinfo()
-  }, [])
+    GetProfileUserLike()
+  }, [dbUserId, isLoggedIn.userId])
+
+  if (isLoading || getProfileUserLikeLoading)
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+          <BeatLoader color="#C6F0DE" size={50} />
+        </div>
+      </>
+    )
+  const items = data
+
   return (
     <>
       <div className="Profile-Main-container">
@@ -186,55 +154,87 @@ const MyProfile = () => {
             </div>
           </div>
           <div>
-            <StyledLink to={'/careerinfo'}>
+            {/* <StyledLink to={'/careerinfo'}>
               <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
                 개인이력수정
               </BokBtn1>
-            </StyledLink>
+            </StyledLink> */}
           </div>
         </div>
         <div className="Profile-Chart-container"></div>
       </div>
 
       <div className="Profile-Main-container">
-        <div className="Profile-Extra">
-          <AddInfoNoti2 />
-        </div>
-        <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
-          <div>
-            {userName && (
-              <TenCardContainer
-                items={items}
-                name={userName}
-                title="님과 어울리는 일자리"
-                description="일복(日福)에서 추천하는 어울리는 일자리"
-              />
-            )}
+        <div className="Profile-Extra">{!getfavorite && <AddInfoNoti2 />}</div>
+        {getfavorite && (
+          <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
+            <div>
+              {userName && (
+                <div style={{ margin: '0 20vw 0 20vw' }}>
+                  <TenCardContainer
+                    items={items}
+                    name={userName}
+                    title="님과 어울리는 일자리"
+                    description="일복(日福)에서 추천하는 어울리는 일자리"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>
-          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
-          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
-          <CardContainer>
-            {items.map((item) => (
-              <Card
-                key={item.wantedAuthNo}
-                company={item.company}
-                title={item.title}
-                salTpNm={item.salTpNm}
-                region={item.region}
-                holidayTpNm={item.holidayTpNm}
-                minEdubg={item.minEdubg}
-                career={item.career}
-                regDt={item.regDt}
-                closeDt={item.closeDt}
-                wantedCode={item.wantedAuthNo}
-              />
-            ))}
-          </CardContainer>
+          <div style={{ marginBottom: '50px' }}>
+            <span style={{ fontSize: '30px', fontWeight: '700', color: '#76dcb0' }}>{userName}</span>
+            <span style={{ marginBottom: '20px', fontSize: '20px', fontWeight: '700', color: '#666666' }}>
+              님이 북마크한 일자리
+            </span>
+          </div>
+          {/* <RecentlyJobButton></RecentlyJobButton> */}
+          <div>
+            <div style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}>
+              <div>
+                <JobMainCategoryContainer>
+                  <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
+                  <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+                  <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div>
+                  <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
+                </JobMainCategoryContainer>
+              </div>
+            </div>
+            <div>
+              <div>
+                {getProfileUserLike.length >= 1 ? (
+                  <>
+                    {getProfileUserLike.map((item: any) => (
+                      <JobListItem
+                        key={item.wantedCode}
+                        company={item.company}
+                        title={item.title}
+                        salTpNm={item.salTpNm}
+                        region={item.work_region}
+                        holidayTpNm={item.holidayTpNm}
+                        minEdubg={item.minEdubg}
+                        career={item.career}
+                        regDt={item.regDate}
+                        closeDt={item.closeDate}
+                        wantedAuthNo={item.wantedCode}
+                        degreeCode={item.degreeCode}
+                        workingDay={item.workingDay}
+                        salary={item.salary}
+                        salaryType={item.salaryType}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
+                    <JobSearchContentContainer>북마크가 없습니다.</JobSearchContentContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </RecentlyJobContainer>
       </div>
     </>

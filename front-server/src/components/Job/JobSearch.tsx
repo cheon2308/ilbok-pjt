@@ -154,7 +154,6 @@ export default function JobSearch({ keyword }: any) {
   }
   const handleRadioChangedegree = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    console.log(radioValuesDegree[value])
     setSelectedDegree(radioValuesDegree[value])
   }
   //여기까지(학력)
@@ -185,13 +184,12 @@ export default function JobSearch({ keyword }: any) {
 
   const { mutate, error, isError, isLoading } = useMutation(['handlePost'], handlePost, {
     onSuccess: (data) => {
-      console.log(data)
       setResultList(data)
       setCount(data.length)
       setSearchResult(1)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -207,6 +205,7 @@ export default function JobSearch({ keyword }: any) {
 
   // 검색 결과
   const myTagRef = useRef<HTMLDivElement>(null)
+
   const [page, setPage] = useState(1)
   const [size] = useState(10)
   const [count, setCount] = useState(3000)
@@ -220,6 +219,9 @@ export default function JobSearch({ keyword }: any) {
     setPage(page)
     scrollToMyTag()
   }
+
+  //
+
   //   # 전체 데이터 리스트
   // data = [1, 2, 3, ..., 39, 40]
 
@@ -304,7 +306,9 @@ export default function JobSearch({ keyword }: any) {
                       borderRadius: '5px',
                     }}
                   >
-                    <JobSelect />
+                    <div style={{ marginRight: '10px' }}>
+                      <JobSelect />
+                    </div>
                     <JobSubSelect />
                     <JobSubSelect2 />
                   </div>
@@ -405,7 +409,10 @@ export default function JobSearch({ keyword }: any) {
 
       {searchResult === 1 ? (
         <div>
-          <SearchResultName>검색결과</SearchResultName>
+          <JobSearchTitle>검색결과</JobSearchTitle>
+          <JobSearchSubTitle>
+            <SearchResultName>{selectedKeyword}</SearchResultName> 검색 결과입니다.
+          </JobSearchSubTitle>
           <br />
           <div>
             <br />
@@ -424,7 +431,7 @@ export default function JobSearch({ keyword }: any) {
             </div>
             <div style={{ marginTop: '5px' }}>
               <div>
-                {ResultList &&
+                {ResultList.length >= 1 ? (
                   ResultList.slice(start_index, end_index).map((item: any) => (
                     <JobListItem
                       key={item.wantedCode}
@@ -443,7 +450,12 @@ export default function JobSearch({ keyword }: any) {
                       salary={item.salary}
                       salaryType={item.salaryType}
                     />
-                  ))}
+                  ))
+                ) : (
+                  <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
+                    <JobSearchContentContainer>검색결과가 없습니다.</JobSearchContentContainer>
+                  </div>
+                )}
               </div>
 
               <div style={{ margin: '30px 0 30px 0' }}>
@@ -457,7 +469,7 @@ export default function JobSearch({ keyword }: any) {
   )
 }
 const SearchResultName = styled.span`
-  font-size: 70px;
+  font-size: 20px;
   font-weight: 700;
   color: #76dcb0;
 `

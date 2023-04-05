@@ -46,11 +46,9 @@ function JobSubSelectCarrerInfo2({ jobSubSelectCode, jobSubSelect2NameFunc }: an
   const { data, error, isError, isLoading } = useQuery(['getJobCode'], getJobCode, {
     onSuccess: (data) => {
       setJobCode(data)
-      console.log('data:', data)
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -62,7 +60,6 @@ function JobSubSelectCarrerInfo2({ jobSubSelectCode, jobSubSelect2NameFunc }: an
   if (isError) {
     return <div>Error occurred </div>
   }
-  console.log(jobSubSelectCode)
 
   return (
     <>
