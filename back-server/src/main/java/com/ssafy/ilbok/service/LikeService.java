@@ -70,4 +70,17 @@ public class LikeService {
         return likeRepository.findByUsersAndWantedCode(users, wanted);
     }
 
+    public List<Wanted> findLikeWanted(Long user_id){
+
+        Users users = usersRepository.findByUserId(user_id);
+
+        List<Integer> list = new ArrayList<>();
+
+        for(LikeWanted likeWanted : likeRepository.findLikeWantedByUsers(users)) {
+            list.add(likeWanted.getWantedCode().getWantedCode());
+        }
+
+        return wantedRepository.findAllById(list);
+    }
+
 }

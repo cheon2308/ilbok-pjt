@@ -15,11 +15,11 @@ public class LikeWanted {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long code;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="wanted_code")
     private Wanted wantedCode;
 
