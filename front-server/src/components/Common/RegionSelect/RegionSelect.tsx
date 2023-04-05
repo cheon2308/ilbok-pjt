@@ -47,7 +47,7 @@ function RegionSelect() {
 
   return (
     <>
-      <div style={{ width: '50%' }}>
+      <div style={{ width: '100%' }}>
         {RegionFamily &&
           RegionFamily.map((item, index) => (
             <RegionFamilyItem
@@ -60,6 +60,7 @@ function RegionSelect() {
               style={{
                 backgroundColor: activeTab === item.regionCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
                 color: activeTab === item.regionCode ? '#ffffff' : '',
+                fontSize: '16px',
               }}
             >
               {item.region}

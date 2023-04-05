@@ -54,18 +54,34 @@ function JobSubSelectCarrerInfo2({ jobSubSelectCode, jobSubSelect2NameFunc }: an
   })
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          width: '300px',
+        }}
+      >
+        직종을 선택해주세요.
+      </div>
+    )
   }
 
   if (isError) {
-    return <div>Error occurred </div>
+    return (
+      <div
+        style={{
+          width: '300px',
+        }}
+      >
+        직종을 선택해주세요.
+      </div>
+    )
   }
 
   return (
     <>
       <div
         style={{
-          width: '50%',
+          width: '100%',
         }}
       >
         {JobSubFamily.map((item, index) => (
@@ -79,6 +95,11 @@ function JobSubSelectCarrerInfo2({ jobSubSelectCode, jobSubSelect2NameFunc }: an
             style={{
               backgroundColor: activeTab === item.jobSubCode2 ? '#76dcb0' : index % 2 === 0 ? '#f2f2f2' : '#ffffff',
               color: activeTab === item.jobSubCode2 ? '#ffffff' : '',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              fontSize: '16px',
+              width: '300px',
             }}
           >
             {item.name}

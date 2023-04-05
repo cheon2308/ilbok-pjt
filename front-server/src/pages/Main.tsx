@@ -4,16 +4,14 @@ import Card from '../components/Common/Card'
 import styled from 'styled-components'
 import mainImage from '../assets/image/mainImage.png'
 import { useState } from 'react'
-import FilterSelect from '../components/Common/FilterSelect'
+
 import { SlMagnifier } from 'react-icons/sl'
-import AddInfoNoti from '../components/Common/AddInfoNoti'
-import AddInfoNoti2 from '../components/Common/AddInfoNoti2'
+
 import { useQuery } from '@tanstack/react-query'
 import { getAllWanted } from '../api/MainApi'
-import { ClipLoader } from 'react-spinners'
+
 import BeatLoader from 'react-spinners/BeatLoader'
-import { useRecoilState } from 'recoil'
-import { CareerSubSelectName } from '../atom'
+
 import { Link } from 'react-router-dom'
 
 const Ilbok = styled.div`
@@ -140,10 +138,6 @@ const SearchBarContainer = styled.div`
   width: 500px;
 `
 
-const FilterSelectContainer = styled.div`
-  margin-right: 15px;
-`
-
 const SearchButtonContainer = styled.div`
   margin: 15px 0 15px 15px;
 `
@@ -175,11 +169,6 @@ const CardContainer = styled.div`
   flex-wrap: wrap;
 
   justify-content: flex-start;
-`
-
-const RecentlyJobTitleContainer = styled.div`
-  display: flex;
-  align-items: flex-end;
 `
 
 const RecentlyJobTitleColor = styled.div`
@@ -354,14 +343,17 @@ const MainPage = () => {
               bordercolor="#76DCB0"
               fontsize="15px"
               hovercolor="#c6f0de"
+              onChange={handleKeyword}
             />
           </SearchBarContainer>
           <SearchButtonContainer>
-            <SearchButton>
-              <SlMagnifierContainer>
-                <SlMagnifier size="20px" color="white" />
-              </SlMagnifierContainer>
-            </SearchButton>
+            <Link to={`job`} state={`${selectedKeyword}`}>
+              <SearchButton>
+                <SlMagnifierContainer>
+                  <SlMagnifier size="20px" color="white" />
+                </SlMagnifierContainer>
+              </SearchButton>
+            </Link>
           </SearchButtonContainer>
         </MobileSearchForms>
       </div>

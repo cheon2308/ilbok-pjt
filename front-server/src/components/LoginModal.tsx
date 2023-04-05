@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import kakaologin from '../assets/image/kakao_login_medium_narrow.png'
+import ilbok from '../assets/image/ilbok.png'
 import BokBtn1 from './Common/BokBtn1'
 import Lottie from 'lottie-react'
 import animationData from '../assets/lottie/luckybag.json'
@@ -10,7 +11,10 @@ import { Typography, TypographyProps } from '@mui/material'
 import styled from 'styled-components'
 const style = {
   width: '30%',
+  minWidth: '250px',
+
   height: '50%',
+  maxHeight: '300px',
   bgcolor: 'background.paper',
   borderRadius: 15,
   border: 'none',
@@ -79,24 +83,16 @@ function LoginModal({ open, onClose }: LoginModalProps) {
           >
             <CgClose size="24" color="gray" />
           </div>
-          <Lottie style={{ width: 140 }} animationData={animationData} loop autoplay />
+          {/* <Lottie style={{ width: 120 }} animationData={animationData} loop autoplay /> */}
+          <img src={ilbok} style={{ width: 100 }} />
+          <br />
           <Typography fontSize={30} color="textPrimary">
             반갑습니다!
           </Typography>
           <Typography fontSize={20} color="textSecondary">
             일자리의 모든것, 일복
           </Typography>
-          <BokBtn1
-            sigwidth="30px"
-            sigheight="30px"
-            sigfontsize="14px"
-            sigborderradius={25}
-            sigmargin="30px auto"
-            onClick={onClose}
-          >
-            닫기
-          </BokBtn1>
-
+          <br />
           <img src={kakaologin} onClick={handleLogin} style={{ cursor: 'pointer' }} />
           <br />
           <StyledTypography
@@ -109,6 +105,17 @@ function LoginModal({ open, onClose }: LoginModalProps) {
           >
             다른 계정으로 로그인 하기
           </StyledTypography>
+          {/* <BokBtn1
+            sigwidth="30px"
+            sigheight="30px"
+            sigfontsize="14px"
+            sigborderradius={25}
+            sigmargin="30px auto"
+            onClick={onClose}
+          >
+            닫기
+          </BokBtn1> */}
+          <br />
         </Box>
       </Modal>
     </>
