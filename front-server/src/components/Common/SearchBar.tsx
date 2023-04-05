@@ -20,6 +20,8 @@ const Input = styled.input<SearchBarProps>`
   border-radius: 5px; // use default value if border_radius is not provided
   padding: 10px 10px 10px 15px;
   font-size: ${(props) => props.fontsize};
+  max-width: 600px;
+  min-width: 180px;
 
   &:hover {
     border: ${(props) => props.borderwidth} solid ${(props) => props.hovercolor};
