@@ -71,13 +71,13 @@ const JobListItem = ({
   }
   const [findLike, setFindLike] = useState(false)
   ///
-  const getJobSubFamilySelect2 = async () => {
+  const getListItemUsersLike = async () => {
     const res = await axios(process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLike?user_id=${dbUserId.userId}`, {
       method: 'GET',
     })
     return res.data
   }
-  const { data, error, isError, isLoading } = useQuery(['getJobSubFamilySelect2', findLike], getJobSubFamilySelect2, {
+  const { data, error, isError, isLoading } = useQuery(['getListItemUsersLike', findLike], getListItemUsersLike, {
     onSuccess: (data) => {
       console.log('data:f', data)
       // 데이터 로드 후 실행할 작업
