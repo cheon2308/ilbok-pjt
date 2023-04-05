@@ -46,7 +46,8 @@ export default function JobMainItem({ keyword }: any) {
   // 나랑 비슷한 사람들이 본 공고
   const testCode = 1
   const GetOtherUserLikeyAlgo = async () => {
-    const res = await axios(`http://ilbokb.duckdns.org/algorithm/otherLike?userId=${testCode}`, {
+        const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/otherLike?userId=${testCode}`, {
+
       method: 'POST',
     })
     return res.data
