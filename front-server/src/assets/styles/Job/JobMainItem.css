@@ -1,0 +1,8 @@
+.TenCardMargin {
+  margin: 0 20vw 0 20vw;
+}
+@media screen and (max-width: 700px) {
+  .TenCardMargin {
+    margin: 0 5vw 0 5vw;
+  }
+}
