@@ -16,7 +16,8 @@ def cos_sim(A, B):
 
 
 # 직업 특성 행렬화 시켜주기
-def job_info():
+@api_view(['GET'])
+def job_info(request):
     dataset = All_in_one.objects.values('wanted_code', 'job_family_code', 'job_sub_code', 'job_code')
     all_job = Wanted.objects.all()
     d = JobSubFamily.objects.all()
@@ -117,12 +118,13 @@ def job_info():
         
     # npy로 저장해주기
     np.save('./data/jobMatrix', jobMatrix) # jobMatrix.npy
-    return jobMatrix
+    return Response(True)
 
 
 # 직업 별 유사도 행렬 불러와서 상위 5개 뽑아주기
 # 이후 sim_job_num 에 상위 5개씩 저장
-def job_sort():
+@api_view(['GET'])
+def job_sort(request):
     jobMatrix = np.load('./data/jobMatrix.npy')
     # 유사도 비교하여 저장
     calc_sim_job = cosine_similarity(jobMatrix, jobMatrix)
@@ -135,16 +137,18 @@ def job_sort():
     for i in sorted_index:
         sim_job.append(i[:30])
     np.save('./data/sim_job_num', sim_job)
-    return sim_job
+    return Response(True)
 
 
 # api 호출
 # 유사한 공고 파일 호출
 @api_view(['GET'])
 def load_sim_job(request, wanted_job_num):
-    reader = np.load('./data/sim_job_num.npy')
-    return Response(reader[wanted_job_num])
-
+    try:
+        reader = np.load('./data/sim_job_num.npy')
+        return Response(reader[wanted_job_num])
+    except:
+        return Response(False)
 
 # ===========실시간으로 공고 - 공고 계산 위한 함수 =================
 
