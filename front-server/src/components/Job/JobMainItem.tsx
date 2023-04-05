@@ -71,10 +71,6 @@ export default function JobMainItem({ keyword }: any) {
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
 
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-  const handleItemChange = (index: number) => {
-    setActiveIndex(index)
-  }
   if (isLoading)
     return (
       <>
@@ -132,13 +128,3 @@ export default function JobMainItem({ keyword }: any) {
     </>
   )
 }
-
-const JobMainCategoryContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 18px;
-  font-weight: 700;
-  color: #666666;
-`
