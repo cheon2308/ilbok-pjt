@@ -49,7 +49,7 @@ export default function JobDetailItem({ wantedCode }: any) {
   // 비슷한 공고
   const testCode = 1
   const GetSimilarJobsAlgo = async () => {
-    const res = await axios(`http://ilbokb.duckdns.org/algorithm/similarJobs?wantedCode=${testCode}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/similarJobs?wantedCode=${testCode}`, {
       method: 'POST',
     })
     return res.data

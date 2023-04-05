@@ -29,7 +29,7 @@ const MyProfile = () => {
   ////
   const testCode = 1
   const GetUserLikeyAlgo = async () => {
-    const res = await axios(`http://ilbokb.duckdns.org/algorithm/likely?userId=${testCode}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
       method: 'POST',
     })
     return res.data
