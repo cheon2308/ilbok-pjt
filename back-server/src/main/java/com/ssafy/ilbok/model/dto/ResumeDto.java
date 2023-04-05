@@ -9,6 +9,7 @@ import java.util.List;
 public class ResumeDto {
 
     Long userId;
+
     int degreeCode;
 
     int cityCode;

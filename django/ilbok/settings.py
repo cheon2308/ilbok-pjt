@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ilbokd.duckdns.org','ilbokb.duckdns.org','ilbokf.duckdns.org']
 
 
 # Application definition
