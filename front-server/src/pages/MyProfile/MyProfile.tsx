@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
 import { getOneWanted } from '../../api/JobDetailApi'
 import JobListItem from '../../components/Common/JobListItem'
+import '../../assets/styles/Job/JobListItem.css'
 export const JobMainCategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,6 +23,9 @@ export const JobMainCategoryContainer = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: #666666;
+  @media (max-width: 800px) {
+    font-size: 16px;
+  }
 `
 const JobSearchContentContainer = styled.div`
   font-size: 20px;
@@ -149,7 +153,7 @@ const MyProfile = () => {
         <div className="Profile-Info-container">
           <div className="Profile-Profile-container">
             <MyProfileImglogo src={kakaoProfileImg} alt="" />
-            <div style={{ fontSize: '40px', marginLeft: '40px ' }}>
+            <div className="Profile-Title">
               안녕하세요, <span style={{ color: '#76DCB0' }}>{kakaoNickname}</span>님
             </div>
           </div>
@@ -170,7 +174,7 @@ const MyProfile = () => {
           <div style={{ backgroundColor: '#e7f4ef', height: '500px', paddingTop: '80px' }}>
             <div>
               {userName && (
-                <div style={{ margin: '0 20vw 0 20vw' }}>
+                <div className="Profile-Like-container">
                   <TenCardContainer
                     items={items}
                     name={userName}
@@ -183,18 +187,21 @@ const MyProfile = () => {
           </div>
         )}
       </div>
-      <div className="Profile-Main-container Profile-Like-container">
-        <RecentlyJobContainer>
+
+      <RecentlyJobContainer>
+        <div className="Profile-Main-container Profile-Like-container">
           <div style={{ marginBottom: '50px' }}>
             <span style={{ fontSize: '30px', fontWeight: '700', color: '#76dcb0' }}>{userName}</span>
             <span style={{ marginBottom: '20px', fontSize: '20px', fontWeight: '700', color: '#666666' }}>
               님이 북마크한 일자리
             </span>
           </div>
-          {/* <RecentlyJobButton></RecentlyJobButton> */}
-          <div>
-            <div style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}>
-              <div>
+        </div>
+        {/* <RecentlyJobButton></RecentlyJobButton> */}
+        <div>
+          <div style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}>
+            <div className=" Profile-Like-container">
+              <div className="BigCategoryName">
                 <JobMainCategoryContainer>
                   <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
                   <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
@@ -203,40 +210,50 @@ const MyProfile = () => {
                 </JobMainCategoryContainer>
               </div>
             </div>
-            <div>
-              <div>
-                {getProfileUserLike.length >= 1 ? (
-                  <>
-                    {getProfileUserLike.map((item: any) => (
-                      <JobListItem
-                        key={item.wantedCode}
-                        company={item.company}
-                        title={item.title}
-                        salTpNm={item.salTpNm}
-                        region={item.work_region}
-                        holidayTpNm={item.holidayTpNm}
-                        minEdubg={item.minEdubg}
-                        career={item.career}
-                        regDt={item.regDate}
-                        closeDt={item.closeDate}
-                        wantedAuthNo={item.wantedCode}
-                        degreeCode={item.degreeCode}
-                        workingDay={item.workingDay}
-                        salary={item.salary}
-                        salaryType={item.salaryType}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
-                    <JobSearchContentContainer>북마크가 없습니다.</JobSearchContentContainer>
-                  </div>
-                )}
+            <div className=" Profile-Like-container">
+              <div className="SmallCategoryName">
+                <JobMainCategoryContainer>
+                  {/* <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div> */}
+                  <div style={{ flex: '7 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+                  {/* <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div> */}
+                  <div style={{ flex: '3 1 0', textAlign: 'center' }}>등록일/마감일</div>
+                </JobMainCategoryContainer>
               </div>
             </div>
           </div>
-        </RecentlyJobContainer>
-      </div>
+        </div>
+        <div>
+          <div className=" Profile-Like-container">
+            {getProfileUserLike.length >= 1 ? (
+              <>
+                {getProfileUserLike.map((item: any) => (
+                  <JobListItem
+                    key={item.wantedCode}
+                    company={item.company}
+                    title={item.title}
+                    salTpNm={item.salTpNm}
+                    region={item.work_region}
+                    holidayTpNm={item.holidayTpNm}
+                    minEdubg={item.minEdubg}
+                    career={item.career}
+                    regDt={item.regDate}
+                    closeDt={item.closeDate}
+                    wantedAuthNo={item.wantedCode}
+                    degreeCode={item.degreeCode}
+                    workingDay={item.workingDay}
+                    salary={item.salary}
+                    salaryType={item.salaryType}
+                  />
+                ))}
+              </>
+            ) : (
+              <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
+                <JobSearchContentContainer>북마크가 없습니다.</JobSearchContentContainer>
+              </div>
+            )}
+          </div>
+        </div>
+      </RecentlyJobContainer>
     </>
   )
 }
@@ -248,6 +265,15 @@ const MyProfileImglogo = styled.img`
   height: 180px;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 970px) {
+    width: 150px;
+    height: 150px;
+  }
+  @media (max-width: 820px) {
+    width: 120px;
+    height: 120px;
+  }
 `
 const StyledLink = styled(Link)`
   text-decoration: none;

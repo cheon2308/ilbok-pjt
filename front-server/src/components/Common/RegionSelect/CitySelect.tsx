@@ -39,18 +39,18 @@ function CitySelect() {
 
   const [activeTab, setActiveTab] = React.useState('')
   if (isLoading) {
-    return <div style={{ margin: '15px' }}>지역을 선택해주세요.</div>
+    return <div style={{ margin: '15px', width: '100%' }}>지역을 선택해주세요.</div>
   }
 
   if (isError) {
-    return <div style={{ margin: '15px' }}>지역을 선택해주세요.</div>
+    return <div style={{ margin: '15px', width: '100%' }}>지역을 선택해주세요.</div>
   }
 
   return (
     <>
       <div
         style={{
-          width: '50%',
+          width: '100%',
         }}
       >
         {CityFamily &&
@@ -65,6 +65,7 @@ function CitySelect() {
               style={{
                 backgroundColor: activeTab === item.cityCode ? '#76dcb0' : index % 2 === 0 ? '#ffffff' : '#f2f2f2',
                 color: activeTab === item.cityCode ? '#ffffff' : '',
+                fontSize: '16px',
               }}
             >
               {item.city}

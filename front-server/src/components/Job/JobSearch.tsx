@@ -79,6 +79,16 @@ const JobSearchCategoryContainer = styled.div`
   display: flex;
   align-items: center;
 `
+const JobSearchCategoryContainer2 = styled.div`
+  margin: 20px 0 20px 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 745px) {
+    height: 200px;
+  }
+`
 
 const JobSearchBtnContainer = styled.div`
   display: flex;
@@ -93,6 +103,10 @@ const JobSearchCategoryTitleContainer = styled.div`
   align-items: center;
   margin-right: 20px;
   font-weight: 700;
+
+  @media (max-width: 700px) {
+    font-size: 18px;
+  }
 `
 
 const RadioBtnContainer = styled.div`
@@ -126,12 +140,12 @@ export default function JobSearch({ keyword }: any) {
   const [searchJobIsOpen, setSearchJobIsOpen] = useState(false)
   const [searchRegionIsOpen, setSearchRegionIsOpen] = useState(false)
 
-  const [jobFamilyName] = useRecoilState(JobFamilyName)
-  const [jobSubName] = useRecoilState(JobSubName)
-  const [jobName] = useRecoilState(JobName)
+  const [jobFamilyName, setJobFamilyName] = useRecoilState(JobFamilyName)
+  const [jobSubName, setJobSubName] = useRecoilState(JobSubName)
+  const [jobName, setJobName] = useRecoilState(JobName)
 
-  const [regionName] = useRecoilState(RegionName)
-  const [cityName] = useRecoilState(CityName)
+  const [regionName, setRegionName] = useRecoilState(RegionName)
+  const [cityName, setCityName] = useRecoilState(CityName)
   const [searchResult, setSearchResult] = useState<number | undefined>(0)
   const [ResultList, setResultList] = useState([])
   // Toggle
@@ -277,307 +291,405 @@ export default function JobSearch({ keyword }: any) {
 
   return (
     <>
-      <JobSearchMainContainer>
-        <JobSearchTitleContainer>
-          <div style={{ flexGrow: '9' }}>
-            <JobSearchTitle>일자리 검색</JobSearchTitle>
-            <JobSearchSubTitle>일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
-          </div>
-          <div style={{ flexGrow: '1' }}>
-            {searchIsOpen === true ? (
-              <BiChevronUp size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronUp>
-            ) : (
-              <BiChevronDown size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronDown>
-            )}
-          </div>
-        </JobSearchTitleContainer>
+      <div className="Main-container">
+        <JobSearchMainContainer>
+          <JobSearchTitleContainer>
+            <div style={{ flexGrow: '9' }}>
+              <JobSearchTitle>일자리 검색</JobSearchTitle>
+              <div className="bigRegionToggle">
+                <JobSearchSubTitle>일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
+              </div>
+              <div className="middleRegionToggle">
+                <JobSearchSubTitle>일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
+              </div>
+              <div className="smallRegionToggle">
+                <JobSearchSubTitle>일복은 워크넷과 연계해서 채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
+              </div>
+              <div className="verysmallRegionToggle">
+                <JobSearchSubTitle>일복은 워크넷과 연계해서 </JobSearchSubTitle>
+                <JobSearchSubTitle>채용 정보를 제공하고 있습니다.</JobSearchSubTitle>
+              </div>
+            </div>
+            <div style={{ flexGrow: '1' }}>
+              {searchIsOpen === true ? (
+                <BiChevronUp size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronUp>
+              ) : (
+                <BiChevronDown size="40px" color="#76dcb0" onClick={() => searchToggle()}></BiChevronDown>
+              )}
+            </div>
+          </JobSearchTitleContainer>
 
-        {searchIsOpen === true ? (
-          <div className="JobSearchToggle">
-            <JobSearchContentContainer>
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer>직종선택</JobSearchCategoryTitleContainer>
-                <div onClick={() => searchJobToggle()}>
-                  <input
-                    style={{
-                      width: '150px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={jobFamilyName}
-                  ></input>
-                  <input
-                    style={{
-                      width: '150px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={jobSubName}
-                  ></input>
-                  <input
-                    style={{
-                      width: '150px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={jobName}
-                  ></input>
-                </div>
-                <SearchButtonContainer>
-                  <SearchButton onClick={() => searchJobToggle()}>
-                    <SlMagnifierContainer>
-                      <SlMagnifier size="20px" color="white" />
-                    </SlMagnifierContainer>
-                  </SearchButton>
-                </SearchButtonContainer>
-              </JobSearchCategoryContainer>
-              {searchJobIsOpen === true ? (
-                <>
+          {searchIsOpen === true ? (
+            <div className="JobSearchToggle">
+              <JobSearchContentContainer>
+                <JobSearchCategoryContainer2>
+                  <JobSearchCategoryTitleContainer>직종선택</JobSearchCategoryTitleContainer>
+                  <div onClick={() => searchJobToggle()} className="Search-Big">
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobFamilyName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobSubName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobName}
+                    ></input>
+                  </div>
+                  <div onClick={() => searchJobToggle()} className="Search-Mid">
+                    <input
+                      style={{
+                        width: '100px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobFamilyName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '100px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobSubName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '100px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobName}
+                    ></input>
+                  </div>
+                  <div onClick={() => searchJobToggle()} className="Search-Small">
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobFamilyName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobSubName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={jobName}
+                    ></input>
+                  </div>
+                  <SearchButtonContainer>
+                    <SearchButton onClick={() => searchJobToggle()}>
+                      <SlMagnifierContainer>
+                        <SlMagnifier size="20px" color="white" />
+                      </SlMagnifierContainer>
+                    </SearchButton>
+                  </SearchButtonContainer>
+                </JobSearchCategoryContainer2>
+                {searchJobIsOpen === true ? (
+                  <>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        textAlign: 'center',
+                        margin: '50px 0 50px 0',
+                        border: '1px solid #D9D9D9',
+                        borderRadius: '5px',
+                        height: '500px',
+
+                        overflowY: 'scroll',
+                        overflowX: 'scroll',
+                      }}
+                    >
+                      <JobSelect />
+
+                      <JobSubSelect />
+
+                      <JobSubSelect2 />
+                    </div>
+                  </>
+                ) : null}
+                <JobSearchCategoryContainer>
+                  <JobSearchCategoryTitleContainer>지역선택</JobSearchCategoryTitleContainer>
+
+                  <div onClick={() => searchRegionToggle()} className="bigRegionToggle">
+                    <input
+                      style={{
+                        width: '245px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={regionName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '245px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={cityName}
+                    ></input>
+                  </div>
+                  <div onClick={() => searchRegionToggle()} className="middleRegionToggle">
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={regionName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '150px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={cityName}
+                    ></input>
+                  </div>
+                  <div onClick={() => searchRegionToggle()} className="smallRegionToggle">
+                    <input
+                      style={{
+                        width: '100px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={regionName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '100px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={cityName}
+                    ></input>
+                  </div>
+                  <div onClick={() => searchRegionToggle()} className="verysmallRegionToggle">
+                    <input
+                      style={{
+                        width: '35px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={regionName}
+                    ></input>
+                    <input
+                      style={{
+                        width: '35px',
+                        height: '20px',
+                        fontSize: '15px',
+                        padding: '10px 10px 10px 15px',
+                        margin: '0 10px 0 0',
+                      }}
+                      disabled
+                      value={cityName}
+                    ></input>
+                  </div>
+                  <SearchButtonContainer>
+                    <SearchButton onClick={() => searchRegionToggle()}>
+                      <SlMagnifierContainer>
+                        <SlMagnifier size="20px" color="white" />
+                      </SlMagnifierContainer>
+                    </SearchButton>
+                  </SearchButtonContainer>
+                </JobSearchCategoryContainer>
+
+                {searchRegionIsOpen === true ? (
                   <div
                     style={{
                       display: 'flex',
-                      justifyContent: 'space-between',
+                      // justifyContent: 'space-between',
                       textAlign: 'center',
                       margin: '50px 0 50px 0',
                       border: '1px solid #D9D9D9',
                       borderRadius: '5px',
+                      height: '500px',
+                      overflowY: 'scroll',
                     }}
                   >
-                    <JobSelect />
-
-                    <JobSubSelect />
-
-                    <JobSubSelect2 />
+                    <RegionSelect />
+                    <CitySelect />
                   </div>
-                </>
-              ) : null}
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer>지역선택</JobSearchCategoryTitleContainer>
+                ) : null}
+                <JobSearchCategoryContainer>
+                  <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
+                  <div className="FilterSelectWeb">
+                    <RadioBtnContainer>
+                      <RadioBtn value="전체" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                      <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                      <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                      <RadioBtn value="석사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                      <RadioBtn value="박사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
+                    </RadioBtnContainer>
+                  </div>
+                  <div className="FilterSelectMobile">
+                    <FilterSelect
+                      props={degreeList}
+                      width="207px"
+                      height="45px"
+                      borderwidth="1px"
+                      bordercolor="#666666"
+                      fontsize="16px"
+                    />
+                  </div>
+                </JobSearchCategoryContainer>
 
-                <div onClick={() => searchRegionToggle()} className="bigRegionToggle">
-                  <input
-                    style={{
-                      width: '245px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={regionName}
-                  ></input>
-                  <input
-                    style={{
-                      width: '245px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={cityName}
-                  ></input>
-                </div>
-                <div onClick={() => searchRegionToggle()} className="middleRegionToggle">
-                  <input
-                    style={{
-                      width: '150px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={regionName}
-                  ></input>
-                  <input
-                    style={{
-                      width: '150px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={cityName}
-                  ></input>
-                </div>
-                <div onClick={() => searchRegionToggle()} className="smallRegionToggle">
-                  <input
-                    style={{
-                      width: '100px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={regionName}
-                  ></input>
-                  <input
-                    style={{
-                      width: '100px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={cityName}
-                  ></input>
-                </div>
-                <div onClick={() => searchRegionToggle()} className="verysmallRegionToggle">
-                  <input
-                    style={{
-                      width: '30px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={regionName}
-                  ></input>
-                  <input
-                    style={{
-                      width: '30px',
-                      height: '20px',
-                      fontSize: '15px',
-                      padding: '10px 10px 10px 15px',
-                      margin: '0 10px 0 0',
-                    }}
-                    disabled
-                    value={cityName}
-                  ></input>
-                </div>
-                <SearchButtonContainer>
-                  <SearchButton onClick={() => searchRegionToggle()}>
-                    <SlMagnifierContainer>
-                      <SlMagnifier size="20px" color="white" />
-                    </SlMagnifierContainer>
-                  </SearchButton>
-                </SearchButtonContainer>
-              </JobSearchCategoryContainer>
+                <JobSearchCategoryContainer>
+                  <JobSearchCategoryTitleContainer>경력선택</JobSearchCategoryTitleContainer>
+                  <div className="FilterSelectWeb">
+                    <RadioBtnContainer>
+                      <RadioBtn value="관계없음" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                      <RadioBtn value="경력" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                      <RadioBtn value="신입" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
+                    </RadioBtnContainer>
+                  </div>
 
-              {searchRegionIsOpen === true ? (
-                <div
-                  style={{
-                    display: 'flex',
-                    // justifyContent: 'space-between',
-                    textAlign: 'center',
-                    margin: '50px 0 50px 0',
-                    border: '1px solid #D9D9D9',
-                    borderRadius: '5px',
-                    height: '500px',
-                    overflowY: 'scroll',
-                  }}
+                  <div className="FilterSelectMobile">
+                    <FilterSelect2
+                      props={degreeList2}
+                      width="207px"
+                      height="45px"
+                      borderwidth="1px"
+                      bordercolor="#666666"
+                      fontsize="16px"
+                    />
+                  </div>
+                </JobSearchCategoryContainer>
+                <JobSearchCategoryContainer>
+                  <JobSearchCategoryTitleContainer> 키워드</JobSearchCategoryTitleContainer>
+                  <div>
+                    <SearchBar
+                      width=" 30vw"
+                      height="20px"
+                      placeholder=""
+                      borderwidth="1px"
+                      bordercolor="#666666"
+                      fontsize="15px"
+                      hovercolor="#666666"
+                      onChange={handleKeyword}
+                    />
+                  </div>
+                </JobSearchCategoryContainer>
+              </JobSearchContentContainer>
+              <JobSearchBtnContainer>
+                <BokBtn1
+                  onClick={handleSearch}
+                  sigwidth="150px"
+                  sigheight="50px"
+                  sigfontsize="20px"
+                  sigborderradius={25}
+                  sigmargin="10px"
                 >
-                  <RegionSelect />
-                  <CitySelect />
-                </div>
-              ) : null}
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer>학력선택</JobSearchCategoryTitleContainer>
-                <div className="FilterSelectWeb">
-                  <RadioBtnContainer>
-                    <RadioBtn value="전체" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                    <RadioBtn value="대졸(2~3년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                    <RadioBtn value="대졸(4년)" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                    <RadioBtn value="석사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                    <RadioBtn value="박사" name="학력선택" onChange={handleRadioChangedegree}></RadioBtn>
-                  </RadioBtnContainer>
-                </div>
-                <div className="FilterSelectMobile">
-                  <FilterSelect
-                    props={degreeList}
-                    width="150px"
-                    height="45px"
-                    borderwidth="1px"
-                    bordercolor="#666666"
-                    fontsize="16px"
-                  />
-                </div>
-              </JobSearchCategoryContainer>
-
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer>경력선택</JobSearchCategoryTitleContainer>
-                <div className="FilterSelectWeb">
-                  <RadioBtnContainer>
-                    <RadioBtn value="관계없음" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
-                    <RadioBtn value="경력" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
-                    <RadioBtn value="신입" name="경력선택" onChange={handleRadioChangecareer}></RadioBtn>
-                  </RadioBtnContainer>
-                </div>
-
-                <div className="FilterSelectMobile">
-                  <FilterSelect2
-                    props={degreeList2}
-                    width="150px"
-                    height="45px"
-                    borderwidth="1px"
-                    bordercolor="#666666"
-                    fontsize="16px"
-                  />
-                </div>
-              </JobSearchCategoryContainer>
-              <JobSearchCategoryContainer>
-                <JobSearchCategoryTitleContainer> 키워드</JobSearchCategoryTitleContainer>
-                <div>
-                  <SearchBar
-                    width=" 30vw"
-                    height="20px"
-                    placeholder=""
-                    borderwidth="1px"
-                    bordercolor="#666666"
-                    fontsize="15px"
-                    hovercolor="#666666"
-                    onChange={handleKeyword}
-                  />
-                </div>
-              </JobSearchCategoryContainer>
-            </JobSearchContentContainer>
-            <JobSearchBtnContainer>
-              <BokBtn1
-                onClick={handleSearch}
+                  검색
+                </BokBtn1>
+                {/* <BokBtn2
                 sigwidth="150px"
                 sigheight="50px"
                 sigfontsize="20px"
                 sigborderradius={25}
                 sigmargin="10px"
+               
               >
-                검색
-              </BokBtn1>
-              <BokBtn2 sigwidth="150px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="10px">
                 초기화
-              </BokBtn2>
-            </JobSearchBtnContainer>
-          </div>
-        ) : null}
-      </JobSearchMainContainer>
-
+              </BokBtn2> */}
+              </JobSearchBtnContainer>
+            </div>
+          ) : null}
+        </JobSearchMainContainer>
+      </div>
       {searchResult === 1 ? (
         <div>
-          <JobSearchTitle>검색결과</JobSearchTitle>
-          <JobSearchSubTitle>
-            <SearchResultName>{selectedKeyword}</SearchResultName> 검색 결과입니다.
-          </JobSearchSubTitle>
-          <br />
-          <div>
+          <div className="Main-container">
+            <JobSearchTitle>검색결과</JobSearchTitle>
+            <JobSearchSubTitle>
+              <SearchResultName>{selectedKeyword}</SearchResultName> 검색 결과입니다.
+            </JobSearchSubTitle>
             <br />
-            <div
-              style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '10px' }}
-              ref={myTagRef}
-            >
-              <div>
+            <div></div>
+            <br />
+          </div>
+          <div
+            style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '10px' }}
+            ref={myTagRef}
+          >
+            {' '}
+            <div className="Main-container">
+              <div className="BigCategoryName">
                 <JobMainCategoryContainer>
                   <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
                   <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
@@ -585,39 +697,47 @@ export default function JobSearch({ keyword }: any) {
                   <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
                 </JobMainCategoryContainer>
               </div>
+              <div className="SmallCategoryName">
+                <JobMainCategoryContainer>
+                  {/* <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div> */}
+                  <div style={{ flex: '6 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+                  {/* <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div> */}
+                  <div style={{ flex: '4 1 0', textAlign: 'center' }}>등록일/마감일</div>
+                </JobMainCategoryContainer>
+              </div>
             </div>
-            <div style={{ marginTop: '5px' }}>
-              <div>
-                {ResultList.length >= 1 ? (
-                  ResultList.slice(start_index, end_index).map((item: any) => (
-                    <JobListItem
-                      key={item.wantedCode}
-                      company={item.company}
-                      title={item.title}
-                      salTpNm={item.salTpNm}
-                      region={item.work_region}
-                      holidayTpNm={item.holidayTpNm}
-                      minEdubg={item.minEdubg}
-                      career={item.career}
-                      regDt={item.regDate}
-                      closeDt={item.closeDate}
-                      wantedAuthNo={item.wantedCode}
-                      degreeCode={item.degreeCode}
-                      workingDay={item.workingDay}
-                      salary={item.salary}
-                      salaryType={item.salaryType}
-                    />
-                  ))
-                ) : (
-                  <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
-                    <JobSearchContentContainer>검색결과가 없습니다.</JobSearchContentContainer>
-                  </div>
-                )}
-              </div>
+          </div>
+          <div style={{ marginTop: '5px' }}>
+            <div>
+              {ResultList.length >= 1 ? (
+                ResultList.slice(start_index, end_index).map((item: any) => (
+                  <JobListItem
+                    key={item.wantedCode}
+                    company={item.company}
+                    title={item.title}
+                    salTpNm={item.salTpNm}
+                    region={item.work_region}
+                    holidayTpNm={item.holidayTpNm}
+                    minEdubg={item.minEdubg}
+                    career={item.career}
+                    regDt={item.regDate}
+                    closeDt={item.closeDate}
+                    wantedAuthNo={item.wantedCode}
+                    degreeCode={item.degreeCode}
+                    workingDay={item.workingDay}
+                    salary={item.salary}
+                    salaryType={item.salaryType}
+                  />
+                ))
+              ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
+                  <JobSearchContentContainer>검색결과가 없습니다.</JobSearchContentContainer>
+                </div>
+              )}
+            </div>
 
-              <div style={{ margin: '30px 0 30px 0' }}>
-                <Paging page={page} count={count} setPage={handleToPage} size={size} />
-              </div>
+            <div style={{ margin: '30px 0 30px 0' }}>
+              <Paging page={page} count={count} setPage={handleToPage} size={size} />
             </div>
           </div>
         </div>

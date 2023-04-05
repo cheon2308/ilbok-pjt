@@ -40,18 +40,18 @@ function JobSubSelect2() {
   })
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <></>
   }
 
   if (isError) {
-    return <div>Error occurred </div>
+    return <></>
   }
 
   return (
     <>
       <div
         style={{
-          width: '50%',
+          width: '100%',
         }}
       >
         {JobCodequery &&
@@ -68,7 +68,9 @@ function JobSubSelect2() {
                 color: activeTab === item.code ? '#ffffff' : '',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
+                width: '300px',
                 whiteSpace: 'nowrap',
+                fontSize: '16px',
               }}
             >
               {item.name}

@@ -47,7 +47,7 @@ function JobSelectCarrerInfo() {
 
   return (
     <>
-      <div style={{ width: '50%' }}>
+      <div style={{ width: '100%' }}>
         {JobFamily &&
           JobFamily.map((item, index) => (
             <JobFamilyItem
@@ -60,6 +60,11 @@ function JobSelectCarrerInfo() {
               style={{
                 backgroundColor: activeTab === item.jobFamilyCode ? '#76dcb0' : index % 2 !== 0 ? '#ffffff' : '#f2f2f2',
                 color: activeTab === item.jobFamilyCode ? '#ffffff' : '',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                fontSize: '16px',
+                width: '300px',
               }}
             >
               {item.name}
