@@ -13,7 +13,23 @@ import { useRecoilState } from 'recoil'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
 import { getOneWanted } from '../../api/JobDetailApi'
-
+import JobListItem from '../../components/Common/JobListItem'
+export const JobMainCategoryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  color: #666666;
+`
+const JobSearchContentContainer = styled.div`
+  font-size: 20px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  font-weight: 400;
+  color: #666666;
+`
 const MyProfile = () => {
   const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
   const [kakaoEmail, setkakaoEmail] = useState<string>('')
@@ -34,8 +50,7 @@ const MyProfile = () => {
   ////
   const testCode = 1
   const GetUserLikeyAlgo = async () => {
-        const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
-
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
       method: 'POST',
     })
     return res.data
@@ -68,7 +83,7 @@ const MyProfile = () => {
       // 에러 발생 후 실행할 작업
     },
   })
-
+  ///
   const getUserinfo = () => {
     const token = window.localStorage.getItem('token')
     axios
@@ -88,12 +103,37 @@ const MyProfile = () => {
         console.error(e)
       })
   }
+  //
 
+  const GetProfileUserLike = async () => {
+    const res = await axios(
+      process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLikeWanted?user_id=${isLoggedIn.userId}`,
+      {
+        method: 'GET',
+      }
+    )
+    return res.data
+  }
+  const { data: getProfileUserLike, isLoading: getProfileUserLikeLoading } = useQuery(
+    ['GetProfileUserLike'],
+    GetProfileUserLike,
+    {
+      onSuccess: (data) => {
+        console.log(getProfileUserLike)
+      },
+      onError: (error) => {
+        // console.log('error:', error)
+        // 에러 발생 후 실행할 작업
+      },
+    }
+  )
+  //
   useEffect(() => {
     getUserinfo()
-  }, [dbUserId])
+    GetProfileUserLike()
+  }, [dbUserId, isLoggedIn.userId])
 
-  if (isLoading)
+  if (isLoading || getProfileUserLikeLoading)
     return (
       <>
         <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
@@ -114,11 +154,11 @@ const MyProfile = () => {
             </div>
           </div>
           <div>
-            <StyledLink to={'/careerinfo'}>
+            {/* <StyledLink to={'/careerinfo'}>
               <BokBtn1 sigwidth="300px" sigheight="50px" sigfontsize="20px" sigborderradius={25} sigmargin="20px">
                 개인이력수정
               </BokBtn1>
-            </StyledLink>
+            </StyledLink> */}
           </div>
         </div>
         <div className="Profile-Chart-container"></div>
@@ -145,30 +185,56 @@ const MyProfile = () => {
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>
-          <div>
+          <div style={{ marginBottom: '50px' }}>
             <span style={{ fontSize: '30px', fontWeight: '700', color: '#76dcb0' }}>{userName}</span>
             <span style={{ marginBottom: '20px', fontSize: '20px', fontWeight: '700', color: '#666666' }}>
               님이 북마크한 일자리
             </span>
           </div>
           {/* <RecentlyJobButton></RecentlyJobButton> */}
-          <CardContainer>
-            {/* {items.map((item: any, index: any) => (
-              <Card
-                key={index}
-                company={item.company}
-                title={item.title}
-                salTpNm={item.salTpNm}
-                region={item.work_region}
-                holidayTpNm={item.holidayTpNm}
-                minEdubg={item.minEdubg}
-                career={item.career}
-                regDt={item.regDate}
-                closeDt={item.closeDate}
-                wantedCode={item.wantedCode}
-              />
-            ))} */}
-          </CardContainer>
+          <div>
+            <div style={{ backgroundColor: '#e7f4ef', height: '50px', paddingTop: '25px', marginBottom: '50px' }}>
+              <div>
+                <JobMainCategoryContainer>
+                  <div style={{ flex: '2 1 0', textAlign: 'center' }}>기업명</div>
+                  <div style={{ flex: '4 1 0', textAlign: 'center' }}>채용공고명/지원자격</div>
+                  <div style={{ flex: '2 1 0', textAlign: 'center' }}>급여/근무일수</div>
+                  <div style={{ flex: '2 1 0', textAlign: 'center' }}>등록일/마감일</div>
+                </JobMainCategoryContainer>
+              </div>
+            </div>
+            <div>
+              <div>
+                {getProfileUserLike.length >= 1 ? (
+                  <>
+                    {getProfileUserLike.map((item: any) => (
+                      <JobListItem
+                        key={item.wantedCode}
+                        company={item.company}
+                        title={item.title}
+                        salTpNm={item.salTpNm}
+                        region={item.work_region}
+                        holidayTpNm={item.holidayTpNm}
+                        minEdubg={item.minEdubg}
+                        career={item.career}
+                        regDt={item.regDate}
+                        closeDt={item.closeDate}
+                        wantedAuthNo={item.wantedCode}
+                        degreeCode={item.degreeCode}
+                        workingDay={item.workingDay}
+                        salary={item.salary}
+                        salaryType={item.salaryType}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
+                    <JobSearchContentContainer>북마크가 없습니다.</JobSearchContentContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </RecentlyJobContainer>
       </div>
     </>
