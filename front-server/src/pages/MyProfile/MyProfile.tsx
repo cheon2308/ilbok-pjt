@@ -12,6 +12,7 @@ import { DbUserId, LoginState } from '../../atom'
 import { useRecoilState } from 'recoil'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
+import { getOneWanted } from '../../api/JobDetailApi'
 
 const MyProfile = () => {
   const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
@@ -25,6 +26,10 @@ const MyProfile = () => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
   const [getfavorite, setgetfavorite] = useState()
   const [getUserLikeyAlgo, setGetUserLikeyAlgo] = useState()
+  const profileUserLikeArray: string[] = []
+  //////
+
+  //////
 
   ////
   const testCode = 1
@@ -46,6 +51,7 @@ const MyProfile = () => {
   })
 
   ////
+
   // const GetFavorite = null
   const GetFavorite = async () => {
     const res = await axios(process.env.REACT_APP_SERVER_URL + `/users/getOne?user_id=${isLoggedIn.userId}`, {
@@ -92,6 +98,7 @@ const MyProfile = () => {
   useEffect(() => {
     getUserinfo()
   }, [dbUserId])
+
   if (isLoading)
     return (
       <>
@@ -101,6 +108,7 @@ const MyProfile = () => {
       </>
     )
   const items = data
+
   return (
     <>
       <div className="Profile-Main-container">
@@ -143,11 +151,15 @@ const MyProfile = () => {
       </div>
       <div className="Profile-Main-container Profile-Like-container">
         <RecentlyJobContainer>
-          <RecentlyJobTitle>최신 일자리</RecentlyJobTitle>
-          <RecentlyJobSubtitle>일복(日福)에서 최근에 게시된 일자리 </RecentlyJobSubtitle>
-          <RecentlyJobButton>더보기 ▶</RecentlyJobButton>
+          <div>
+            <span style={{ fontSize: '30px', fontWeight: '700', color: '#76dcb0' }}>{userName}</span>
+            <span style={{ marginBottom: '20px', fontSize: '20px', fontWeight: '700', color: '#666666' }}>
+              님이 북마크한 일자리
+            </span>
+          </div>
+          {/* <RecentlyJobButton></RecentlyJobButton> */}
           <CardContainer>
-            {items.map((item: any, index: any) => (
+            {/* {items.map((item: any, index: any) => (
               <Card
                 key={index}
                 company={item.company}
@@ -161,7 +173,7 @@ const MyProfile = () => {
                 closeDt={item.closeDate}
                 wantedCode={item.wantedCode}
               />
-            ))}
+            ))} */}
           </CardContainer>
         </RecentlyJobContainer>
       </div>
