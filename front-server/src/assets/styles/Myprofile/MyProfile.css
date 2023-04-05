@@ -9,8 +9,8 @@
   background-color: red;
 }
 .Profile-Info-container {
-  margin-left: 12vw;
-  margin-right: 12vw;
+  margin-left: 20vw;
+  margin-right: 20vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,11 +23,11 @@
   align-items: center;
 }
 .Profile-Extra {
-  margin-left: 12vw;
-  margin-right: 12vw;
+  margin-left: 20vw;
+  margin-right: 20vw;
 }
 
 .Profile-Like-container {
-  margin-left: 12vw;
-  margin-right: 12vw;
+  margin-left: 20vw;
+  margin-right: 20vw;
 }
