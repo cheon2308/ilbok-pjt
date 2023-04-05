@@ -1,6 +1,7 @@
 package com.ssafy.ilbok.controller;
 
 import com.ssafy.ilbok.model.dto.UserRelateDto;
+import com.ssafy.ilbok.model.entity.Wanted;
 import com.ssafy.ilbok.service.ApplyService;
 import com.ssafy.ilbok.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class MypageController {
         return new ResponseEntity<>(likeService.findLikeWantedByUsers(user_id), HttpStatus.ACCEPTED);
     }
 
-
+    @GetMapping("getUsersLikeWanted")
+    public ResponseEntity<List<Wanted>> getUserLikeWanted(@RequestParam Long user_id){
+        return new ResponseEntity<>(likeService.findLikeWanted(user_id), HttpStatus.ACCEPTED);
+    }
 
 }

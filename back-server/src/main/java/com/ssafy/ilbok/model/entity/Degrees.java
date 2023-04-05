@@ -14,7 +14,7 @@ public class Degrees {
 
     @Id
     @Column(name = "degree_id")
-    private int degreeId;
+    private Integer degreeId;
 
     private String degree;
 

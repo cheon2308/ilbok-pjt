@@ -19,8 +19,8 @@ public class Careers {
     private Users userId;
 
     @Column(name = "sub_code")
-    private int subCode;
+    private Integer subCode;
 
     @Column(name="period")
-    private int period;
+    private Integer period;
 }

@@ -38,7 +38,7 @@ export default function JobMainItem({ keyword }: any) {
       // 데이터 로드 후 실행할 작업
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
@@ -46,7 +46,8 @@ export default function JobMainItem({ keyword }: any) {
   // 나랑 비슷한 사람들이 본 공고
   const testCode = 1
   const GetOtherUserLikeyAlgo = async () => {
-    const res = await axios(`http://ilbokb.duckdns.org/algorithm/otherLike?userId=${testCode}`, {
+        const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/otherLike?userId=${testCode}`, {
+
       method: 'POST',
     })
     return res.data
@@ -56,7 +57,7 @@ export default function JobMainItem({ keyword }: any) {
       setGetOtherUserLike(data)
     },
     onError: (error) => {
-      console.log('error:', error)
+      // console.log('error:', error)
       // 에러 발생 후 실행할 작업
     },
   })
