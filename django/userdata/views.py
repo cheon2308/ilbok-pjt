@@ -32,9 +32,12 @@ def cos_sim(A, B):
 
 # 유저 -> 채용공고에 평점매기기
 def user_to_job():
-    ap_job = ApplyStatus.objects.all()
-    cl_job = ClickWanted.objects.all()
-    li_job = LikeWanted.objects.all()
+    print('실행')
+    # 데이터를 배열로 변환하지 않고 딕셔너리 형태로 불러옴
+    ap_job = ApplyStatus.objects.values_list('user_id', 'wanted_code__wanted_code')
+    cl_job = ClickWanted.objects.values_list('user_id', 'wanted_code__wanted_code')
+    li_job = LikeWanted.objects.values_list('user_id', 'wanted_code__wanted_code')
+    print(ap_job)
     userMatrix = np.load('./data/user_to_job.npy')
 
     # 우선 전체 유저의 수, 전체 공고의 수 구하기
@@ -42,15 +45,14 @@ def user_to_job():
     user_length = Users.objects.aggregate(Max('user_id'))
     job_length = Wanted.objects.aggregate(Max('wanted_code'))
     len_col = len(userMatrix[0])
-    print(len_col)
     len_row = len(userMatrix)
-    print(len_row)
+
     # column 추가
     # 새로 추가될 column과 row 크기 구하기
     new_col = job_length['wanted_code__max'] - len_col + 1
     new_row = user_length['user_id__max'] - len_row + 1
+
     # 새로운 column 만들기
-    print(job_length['wanted_code__max'] - len_col)
     # row 추가
     if new_row > 0:
         ap_row = np.zeros((1, job_length['wanted_code__max']+1))
@@ -62,20 +64,11 @@ def user_to_job():
         userMatrix = np.hstack((userMatrix, zeros))
 
     # 벡터에 가중치 주기 -> 지원 3점, 클릭 1점, 북마크 2점
-    print('점수매기는중')
-    print(len(userMatrix))
-    
-    # 리스트 컴프리헨션으로 for loop 대체
-    ap_list = [(a.user_id, a.wanted_code.wanted_code) for a in ap_job]
-    cl_list = [(c.user_id, c.wanted_code.wanted_code) for c in cl_job]
-    li_list = [(l.user_id, l.wanted_code.wanted_code) for l in li_job]
-    
-    userMatrix[np.array(ap_list).T] += 10
-    userMatrix[np.array(cl_list).T] += 1
-    userMatrix[np.array(li_list).T] += 5
+    userMatrix[np.array(ap_job).T] += 10
+    userMatrix[np.array(cl_job).T] += 1
+    userMatrix[np.array(li_job).T] += 5
 
     return userMatrix
-
 ## 훈련 데이터 만들기
 
 def make_train( matrix, percentage = .2):
@@ -170,7 +163,7 @@ def calc_mean_auc(training_set, altered_users, predictions, test_set):
 @api_view(['GET'])
 def check_calc_mean(request):
      # 모든 유저와 아이템 간의 예측 평점이 계산됨
-    mat = user_to_job()
+    mat = np.load('./data/user_to_job.npy')
     csr = sparse.csr_matrix(mat)
     product_train, product_test, product_users_altered = make_train(csr, 0.2)
     # 라이브러리로 ALS 돌리기
@@ -450,8 +443,15 @@ def rec_cf_user(request, user_id):
         for k in res_data:
             if k[0] not in result:
                 result.append(k[0])
-                
         return Response(result)
     except:
-        return Response(False)
+        rec_user = user_list[user_id][:5]
+        result = []
+        for i in rec_user:
+            user_vector = user_item_matrix[i, :]
+            item_idx = np.argsort(-user_vector)[:10]
+            for j in item_idx:
+                if j not in result:
+                    result.append(j)
+        return Response(result)
 
