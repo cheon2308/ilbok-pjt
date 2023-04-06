@@ -229,6 +229,7 @@ function CareerInfo() {
       careers: careers,
     })
     navigate('/myprofile')
+    window.location.reload()
   }
   // ***
 

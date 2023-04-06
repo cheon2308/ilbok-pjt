@@ -40,11 +40,23 @@ function JobSubSelect2() {
   })
 
   if (isLoading) {
-    return <></>
+    return (
+      <div
+        style={{
+          width: '100%',
+        }}
+      ></div>
+    )
   }
 
   if (isError) {
-    return <></>
+    return (
+      <div
+        style={{
+          width: '100%',
+        }}
+      ></div>
+    )
   }
 
   return (
