@@ -13,8 +13,14 @@
     margin: 0 10vw 0 10vw;
   }
 }
-@media screen and (min-width: 950px) {
+@media screen and (min-width: 1001px) {
   .Main-container {
     margin: 0 20vw 0 20vw;
   }
 }
+
+/* @media screen and (max-width: 1000px) {
+  .Main-container {
+    margin: 0 10vw 0 10vw;
+  }
+} */
