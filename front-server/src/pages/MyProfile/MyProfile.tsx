@@ -47,8 +47,6 @@ const MyProfile = () => {
   const profileUserLikeArray: string[] = []
   //////
 
-  //////
-
   ////
   const GetUserLikeyAlgo = async () => {
     const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${isLoggedIn.userId}`, {
@@ -102,29 +100,29 @@ const MyProfile = () => {
         console.error(e)
       })
   }
-  //
+  let getProfileUserLikeLoading = false
+  let getProfileUserLike: any[] = []
 
-  const GetProfileUserLike = async () => {
-    const res = await axios(
-      process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLikeWanted?user_id=${isLoggedIn.userId}`,
-      {
-        method: 'GET',
-      }
-    )
-    return res.data
+  if (isLoggedIn.userId) {
+    const GetProfileUserLike = async () => {
+      const res = await axios(
+        process.env.REACT_APP_SERVER_URL + `/myPage/getUsersLikeWanted?user_id=${isLoggedIn.userId}`,
+        {
+          method: 'GET',
+        }
+      )
+      return res.data
+    }
+    const { data, isLoading } = useQuery(['GetProfileUserLike'], GetProfileUserLike, {})
+    getProfileUserLikeLoading = isLoading
+    getProfileUserLike = data || []
   }
-  const { data: getProfileUserLike, isLoading: getProfileUserLikeLoading } = useQuery(
-    ['GetProfileUserLike'],
-    GetProfileUserLike,
-    {}
-  )
-  //
+
   useEffect(() => {
     getUserinfo()
-    GetProfileUserLike()
-  }, [dbUserId, isLoggedIn.userId])
+  }, [dbUserId])
 
-  if (isLoading || getProfileUserLikeLoading)
+  if (getProfileUserLikeLoading)
     return (
       <>
         <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
@@ -132,7 +130,7 @@ const MyProfile = () => {
         </div>
       </>
     )
-  const items = data
+  const items = getUserLikeyAlgo
 
   return (
     <>
@@ -163,7 +161,7 @@ const MyProfile = () => {
               {userName && (
                 <div className="Profile-Like-container">
                   <TenCardContainer
-                    items={items}
+                    items={items || []}
                     name={userName}
                     title="님과 어울리는 일자리"
                     description="일복(日福)에서 추천하는 어울리는 일자리"
