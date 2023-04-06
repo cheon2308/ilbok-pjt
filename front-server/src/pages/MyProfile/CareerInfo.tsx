@@ -45,11 +45,13 @@ import {
   CityCode,
   JobSubCode,
   CareerInfoDegree,
+  genderInfoCode,
 } from '../../atom'
 import JobSelectCarrerInfo from '../../components/Common/JobSelectCareerInfo/JobSelectCareerInfo'
 import JobSubSelectCarrerInfo from '../../components/Common/JobSelectCareerInfo/JobSubSelectCareerInfo'
 import axios from 'axios'
 import { LoginState } from '../../atom'
+import FilterSelect3 from '../../components/Common/FilterSelect3'
 
 const CareerInfoContainer = styled.div`
   display: flex;
@@ -160,6 +162,9 @@ function CareerInfo() {
 
   // **** Recoil
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
+
+  // ** 성별
+
   // ** 경력
 
   const [jobFamilyCodeCareerInfo, setjobFamilyCodeCareerInfo] = useRecoilState(JobFamilyCodeCareerInfo)
@@ -194,11 +199,17 @@ function CareerInfo() {
     { degreeCode: 6, name: '석사' },
     { degreeCode: 7, name: '박사' },
   ]
-  const [gender, setGender] = React.useState('')
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setGender(event.target.value as string)
-  }
+  const genderList = [
+    { degreeCode: 2, name: '성별' },
+    { degreeCode: 0, name: '남자' },
+    { degreeCode: 1, name: '여자' },
+  ]
+  const [gender, setGender] = useRecoilState(genderInfoCode)
+  // console.log(gender, 'gender')
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setGender(event.target.value as number)
+  // }
   const [careerInfoDegree] = useRecoilState(CareerInfoDegree)
   // ****
   const handlePUT = async (data: Record<string, any>) => {
@@ -294,7 +305,7 @@ function CareerInfo() {
             <CareerInfoLineContainer>
               <CareerInfoCategory>성별</CareerInfoCategory>
 
-              <FormControl style={{ width: 200 }}>
+              {/* <FormControl style={{ width: 200 }}>
                 <InputLabel id="demo-simple-select-label">성별</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -306,7 +317,17 @@ function CareerInfo() {
                   <MenuItem value={0}>남자</MenuItem>
                   <MenuItem value={1}>여자</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl> */}
+              {/*  */}
+              <FilterSelect3
+                props={genderList}
+                width="280px"
+                height="45px"
+                borderwidth="1px"
+                bordercolor="#666666"
+                fontsize="16px"
+              />
+              {/*  */}
             </CareerInfoLineContainer>
             <CareerInfoLineContainer>
               <CareerInfoCategory>나이</CareerInfoCategory>
