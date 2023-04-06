@@ -57,14 +57,14 @@ export default function JobMainItem({ keyword }: any) {
     ? window.localStorage.getItem('nickname') || 'unknown'
     : undefined
 
-  if (isLoading)
-    return (
-      <>
-        <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
-          <BeatLoader color="#C6F0DE" size={50} />
-        </div>
-      </>
-    )
+  // if (isLoading)
+  //   return (
+  //     <>
+  //       <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
+  //         <BeatLoader color="#C6F0DE" size={50} />
+  //       </div>
+  //     </>
+  //   )
 
   return (
     <>
