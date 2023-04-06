@@ -150,5 +150,5 @@ export const DbUserId = atom({
 export const MobileCarrer = atom({
   key: 'MobileCarrer',
 
-  default: 0,
+  default: '',
 })
