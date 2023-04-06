@@ -152,3 +152,9 @@ export const MobileCarrer = atom({
 
   default: '',
 })
+
+export const genderInfoCode = atom({
+  key: 'genderInfoCode',
+
+  default: 2,
+})

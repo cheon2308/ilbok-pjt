@@ -169,7 +169,7 @@ export default function JobSearch({ keyword }: any) {
   //여기까지 지역
 
   // 학력
-  const [selectedDegree, setSelectedDegree] = useState<number | null>(8)
+  const [selectedDegree, setSelectedDegree] = useState<number | null>()
   type RadioValuesDegree = {
     [key: string]: number
   }
@@ -239,16 +239,22 @@ export default function JobSearch({ keyword }: any) {
   })
   const handleSearch = () => {
     if (selectedCareer === '') {
-      return alert('경력을 선택해주세요.')
+      mutate({
+        city_code: city,
+        job_code: code,
+        degree_code: selectedDegree,
+        career: '관계없음',
+        keyword: selectedKeyword,
+      })
+    } else {
+      mutate({
+        city_code: city,
+        job_code: code,
+        degree_code: selectedDegree,
+        career: selectedCareer,
+        keyword: selectedKeyword,
+      })
     }
-
-    mutate({
-      city_code: city,
-      job_code: code,
-      degree_code: selectedDegree,
-      career: selectedCareer,
-      keyword: selectedKeyword,
-    })
   }
 
   // 검색 결과
@@ -458,7 +464,8 @@ export default function JobSearch({ keyword }: any) {
                         border: '1px solid #D9D9D9',
                         borderRadius: '5px',
                         height: '500px',
-
+                        width: '100%',
+                        maxWidth: '960px',
                         overflowY: 'scroll',
                         overflowX: 'scroll',
                       }}
@@ -667,16 +674,19 @@ export default function JobSearch({ keyword }: any) {
                 >
                   검색
                 </BokBtn1>
-                {/* <BokBtn2
-                sigwidth="150px"
-                sigheight="50px"
-                sigfontsize="20px"
-                sigborderradius={25}
-                sigmargin="10px"
-               
-              >
-                초기화
-              </BokBtn2> */}
+                <BokBtn2
+                  onClick={() => {
+                    window.location.reload()
+                    window.scroll(0, 0)
+                  }}
+                  sigwidth="150px"
+                  sigheight="50px"
+                  sigfontsize="20px"
+                  sigborderradius={25}
+                  sigmargin="10px"
+                >
+                  초기화
+                </BokBtn2>
               </JobSearchBtnContainer>
             </div>
           ) : null}
