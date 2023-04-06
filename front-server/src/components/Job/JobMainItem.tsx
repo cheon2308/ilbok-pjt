@@ -35,21 +35,12 @@ export default function JobMainItem({ keyword }: any) {
     error,
     isError,
   } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
-    onSuccess: (data) => {
-      setgetfavorite(data.favorite)
-      // console.log('data:', data)
-      // 데이터 로드 후 실행할 작업
-    },
-    onError: (error) => {
-      // console.log('error:', error)
-      // 에러 발생 후 실행할 작업
-    },
+    
   })
 
   // 나랑 비슷한 사람들이 본 공고
-  const testCode = 1
   const GetOtherUserLikeyAlgo = async () => {
-    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/otherLike?userId=${testCode}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/otherLike?userId=${isLoggedIn.userId}`, {
       method: 'POST',
     })
     return res.data

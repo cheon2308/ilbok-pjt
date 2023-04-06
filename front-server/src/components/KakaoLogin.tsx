@@ -24,7 +24,6 @@ function KakaoLogin() {
         Authorization: token,
       },
     })
-    console.log(userData, '여기')
     return userData.data
   }
 

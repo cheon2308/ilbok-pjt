@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { defaultInstance } from './Api'
 
 export const getAllWanted = async (offset: number) => {
