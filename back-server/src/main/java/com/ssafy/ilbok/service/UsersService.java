@@ -82,7 +82,7 @@ public class UsersService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "fb9737b606aa1abe22c3b71a9e42b209");
-        params.add("redirect_uri", "https://ilbokf.duckdns.org/oauth");
+        params.add("redirect_uri", "https://localhost:3000/oauth");
         params.add("code", code);
 
         //(5)
