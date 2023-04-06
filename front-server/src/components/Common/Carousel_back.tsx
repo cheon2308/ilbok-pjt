@@ -84,7 +84,7 @@ const CarouselComponent = ({ items, activeIndex, onChange }: CarouselProps) => {
         {'<'}
       </LeftButton>
       <Carousel style={{ transform: `translateX(${position}%)` }}>
-        {items.map((item, index) => (
+        {items && items.map((item, index) => (
           <Item key={index} active={index === activeIndex} onClick={() => handleItemClick(index)}>
             {item}
           </Item>

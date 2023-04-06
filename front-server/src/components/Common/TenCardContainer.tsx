@@ -67,21 +67,22 @@ const TenCardContainer = ({ items, name, title, description }: TenCardProps) => 
         </TenCardTitleContainer>
 
         <TenCardCardContainer className="Scroll-color">
-          {items.map((item, index) => (
-            <TenCard
-              key={index}
-              company={item.company}
-              title={item.title}
-              salTpNm={item.salTpNm}
-              region={item.work_region}
-              holidayTpNm={item.holidayTpNm}
-              minEdubg={item.minEdubg}
-              career={item.career}
-              regDt={item.regDate}
-              closeDt={item.closeDate}
-              wantedCode={item.wantedCode}
-            />
-          ))}
+          {items &&
+            items.map((item, index) => (
+              <TenCard
+                key={index}
+                company={item.company}
+                title={item.title}
+                salTpNm={item.salTpNm}
+                region={item.work_region}
+                holidayTpNm={item.holidayTpNm}
+                minEdubg={item.minEdubg}
+                career={item.career}
+                regDt={item.regDate}
+                closeDt={item.closeDate}
+                wantedCode={item.wantedCode}
+              />
+            ))}
         </TenCardCardContainer>
       </TenCardMainContainer>
     </>

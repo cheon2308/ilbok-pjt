@@ -41,7 +41,7 @@ function KakaoLogin() {
       window.localStorage.setItem('kakaoId', kakaoId)
       window.localStorage.setItem('nickname', nickname)
       window.localStorage.setItem('profileImage', profileImage)
-      navigate('/')
+      navigate('/myprofile')
     },
   })
 
