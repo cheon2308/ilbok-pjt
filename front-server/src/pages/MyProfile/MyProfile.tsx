@@ -3,8 +3,7 @@ import '../../assets/styles/Myprofile/MyProfile.css'
 import AddInfoNoti2 from '../../components/Common/AddInfoNoti2'
 import styled from 'styled-components'
 import axios from 'axios'
-import BokBtn1 from '../../components/Common/BokBtn1'
-import { RecentlyJobButton, RecentlyJobTitle, RecentlyJobSubtitle, RecentlyJobContainer, CardContainer } from '../Main'
+import { RecentlyJobContainer } from '../Main'
 import Card from '../../components/Common/Card'
 import TenCardContainer from '../../components/Common/TenCardContainer'
 import { Link } from 'react-router-dom'
@@ -12,7 +11,6 @@ import { DbUserId, LoginState } from '../../atom'
 import { useRecoilState } from 'recoil'
 import { useQuery } from '@tanstack/react-query'
 import { BeatLoader } from 'react-spinners'
-import { getOneWanted } from '../../api/JobDetailApi'
 import JobListItem from '../../components/Common/JobListItem'
 import '../../assets/styles/Job/JobListItem.css'
 export const JobMainCategoryContainer = styled.div`
@@ -52,9 +50,8 @@ const MyProfile = () => {
   //////
 
   ////
-  const testCode = 1
   const GetUserLikeyAlgo = async () => {
-    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${testCode}`, {
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/likely?userId=${isLoggedIn.userId}`, {
       method: 'POST',
     })
     return res.data
@@ -83,7 +80,6 @@ const MyProfile = () => {
     },
     onError: (error) => {
       // console.log('error:', error)
-      // 에러 발생 후 실행할 작업
     },
   })
   ///
@@ -120,15 +116,7 @@ const MyProfile = () => {
   const { data: getProfileUserLike, isLoading: getProfileUserLikeLoading } = useQuery(
     ['GetProfileUserLike'],
     GetProfileUserLike,
-    {
-      onSuccess: (data) => {
-        console.log(getProfileUserLike)
-      },
-      onError: (error) => {
-        // console.log('error:', error)
-        // 에러 발생 후 실행할 작업
-      },
-    }
+    {}
   )
   //
   useEffect(() => {

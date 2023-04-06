@@ -215,8 +215,7 @@ export default function JobSearch({ keyword }: any) {
   //post 요청
   const handlePost = async (data: Record<string, any>) => {
     const res = await axios.post(process.env.REACT_APP_SERVER_URL + `/wanted/search`, data)
-    // console.log('api요청')
-    // console.log(res.data)
+    
     return res.data
   }
 
@@ -228,7 +227,7 @@ export default function JobSearch({ keyword }: any) {
     },
     onError: (error) => {
       // console.log('error:', error)
-      // 에러 발생 후 실행할 작업
+   
     },
   })
   const handleSearch = () => {

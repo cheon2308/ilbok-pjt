@@ -21,6 +21,7 @@ export default function JobDetailItem({ wantedCode }: any) {
     handleClickLog()
     window.scrollTo(0, 0)
   }, [wantedCode])
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState)
 
   // const [dbUserId, setDbUserId] = useRecoilState(DbUserId)
   const [dbUserId] = useRecoilState(LoginState)
@@ -47,11 +48,13 @@ export default function JobDetailItem({ wantedCode }: any) {
     return res.data
   }
   // 비슷한 공고
-  const testCode = 1
   const GetSimilarJobsAlgo = async () => {
-    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/similarJobs?wantedCode=${testCode}`, {
-      method: 'POST',
-    })
+    const res = await axios(
+      process.env.REACT_APP_SERVER_URL + `/algorithm/similarJobs?wantedCode=${isLoggedIn.userId}`,
+      {
+        method: 'POST',
+      }
+    )
     return res.data
   }
   // ***
@@ -94,35 +97,11 @@ export default function JobDetailItem({ wantedCode }: any) {
     },
   })
 
-  const { mutate: clickApplyPost } = useMutation(['handleClickApply'], handleClickApplyPost, {
-    onSuccess: (data) => {
-      // console.log(data, 'ClickApply')
-    },
-    onError: (error) => {
-      // console.log('error:', error)
-      // 에러 발생 후 실행할 작업
-    },
-  })
+  const { mutate: clickApplyPost } = useMutation(['handleClickApply'], handleClickApplyPost, {})
 
-  const { mutate: clickLogPost } = useMutation(['handleClickLogPost'], handleClickLogPost, {
-    onSuccess: (data) => {
-      // console.log(data, 'ClickApply')
-    },
-    onError: (error) => {
-      // console.log('error:', error)
-      // 에러 발생 후 실행할 작업
-    },
-  })
+  const { mutate: clickLogPost } = useMutation(['handleClickLogPost'], handleClickLogPost, {})
 
-  const { data, isLoading } = useQuery(['GetSimilarJobsAlgo'], GetSimilarJobsAlgo, {
-    onSuccess: (data) => {
-      // console.log(data, 'GetSimilarJobsAlgo')
-    },
-    onError: (error) => {
-      // console.log('error:', error)
-      // 에러 발생 후 실행할 작업
-    },
-  })
+  const { data, isLoading } = useQuery(['GetSimilarJobsAlgo'], GetSimilarJobsAlgo, {})
   // ****
 
   // **
