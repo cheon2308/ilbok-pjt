@@ -220,6 +220,7 @@ hr {
     text-align: right;
     position: relative;
     font-size: 18px;
+    color: #666666;
   }
   .Line-container > span {
     margin: 12px;
