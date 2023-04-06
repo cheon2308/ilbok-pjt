@@ -31,13 +31,13 @@ def cos_sim(A, B):
     return dot(A, B) / (norm(A)*norm(B))
 
 # 유저 -> 채용공고에 평점매기기
-def user_to_job():
-    print('실행')
+@api_view(['GET'])
+def user_to_job(request):
+    start = time.time()
     # 데이터를 배열로 변환하지 않고 딕셔너리 형태로 불러옴
     ap_job = ApplyStatus.objects.values_list('user_id', 'wanted_code__wanted_code')
     cl_job = ClickWanted.objects.values_list('user_id', 'wanted_code__wanted_code')
     li_job = LikeWanted.objects.values_list('user_id', 'wanted_code__wanted_code')
-    print(ap_job)
     userMatrix = np.load('./data/user_to_job.npy')
 
     # 우선 전체 유저의 수, 전체 공고의 수 구하기
@@ -46,7 +46,6 @@ def user_to_job():
     job_length = Wanted.objects.aggregate(Max('wanted_code'))
     len_col = len(userMatrix[0])
     len_row = len(userMatrix)
-
     # column 추가
     # 새로 추가될 column과 row 크기 구하기
     new_col = job_length['wanted_code__max'] - len_col + 1
@@ -58,7 +57,6 @@ def user_to_job():
         ap_row = np.zeros((1, job_length['wanted_code__max']+1))
         for _ in range(user_length['user_id__max'] - len_row + 1):
             userMatrix = np.append(userMatrix, ap_row, axis=0)
-
     if new_col > 0:
         zeros = np.zeros((len_row, new_col))
         userMatrix = np.hstack((userMatrix, zeros))
@@ -67,9 +65,12 @@ def user_to_job():
     userMatrix[np.array(ap_job).T] += 10
     userMatrix[np.array(cl_job).T] += 1
     userMatrix[np.array(li_job).T] += 5
-
+    np.save('./data/user_to_job', userMatrix)
+    end = time.time()
+    print(end - start)
     return userMatrix
 ## 훈련 데이터 만들기
+
 
 def make_train( matrix, percentage = .2):
     '''
@@ -207,15 +208,14 @@ def user_train(request):
 def recommend_items_for_user(request, user_id):
     try:
         user_item_matrix = np.load('./data/rec_user_to_job.npy')
-        if len(user_item_matrix) < user_id +1 or sum(user_item_matrix[user_id]) == 0:
-            request = request._request
-            return rec_cf_user(request, user_id)
+
         user_vector = user_item_matrix[user_id, :]
         item_idx = np.argsort(-user_vector)[:200]
         recommended_items = [idx for idx in item_idx]
         return Response(recommended_items)
     except:
-        return Response(False)
+        result = random.sample(range(1, 3500), 200)
+        return Response(result)
 
 # 추천 함수 -> 유저가 보지 않은 데이터로만 보냄
 def recommend_items(request, user_id):
@@ -357,7 +357,6 @@ def update_user_matrix(request, user_id):
         new_row = np.zeros((1, 384))
         for _ in range(user_length['user_id__max'] - now_arr + 1):
             user_matrix = np.append(user_matrix, new_row, axis=0)
-
         # 경력 기록
         career = Careers.objects.all()
         user_career = career.filter(user_id=user_id)
@@ -372,6 +371,7 @@ def update_user_matrix(request, user_id):
         deg = us.degree_code.degree_id
         us_age = us.age
         us_gen = us.gender
+
 
         # 유저 관심 직종 +3 해주기
         user_matrix[us_num][sub_to_index[fav]] += 3
@@ -407,7 +407,6 @@ def update_user_matrix(request, user_id):
         start = time.time()
         # 유저 매트릭스로 저장
         np.save('./data/userMatrix.npy', user_matrix)
-
         # 유사도로 저장해주기
         calc_sim_user = cosine_similarity(user_matrix, user_matrix)
         
@@ -419,8 +418,8 @@ def update_user_matrix(request, user_id):
         print(end - start)
         return Response(True)
     except:
-        return Response(False)
-
+        
+        return Response('실패')
 
 
 # 유저간 유사도 기반 공고 추천하기
@@ -428,8 +427,10 @@ def update_user_matrix(request, user_id):
 def rec_cf_user(request, user_id):
     try:
         user_list = np.load('./data/userToUser.npy')
+        print(len(user_list))
         rec_user = user_list[user_id][:5]
-        user_item_matrix = np.load('./data/rec_user_to_job.npy')
+        user_item_matrix = np.load('./data/user_to_job.npy')
+        print(len(user_item_matrix))
         res_data = []
         for i in rec_user:
             user_vector = user_item_matrix[i, :]
@@ -445,13 +446,6 @@ def rec_cf_user(request, user_id):
                 result.append(k[0])
         return Response(result)
     except:
-        rec_user = user_list[user_id][:5]
-        result = []
-        for i in rec_user:
-            user_vector = user_item_matrix[i, :]
-            item_idx = np.argsort(-user_vector)[:10]
-            for j in item_idx:
-                if j not in result:
-                    result.append(j)
+        result = random.sample(range(1, 3500), 200)
         return Response(result)
 
