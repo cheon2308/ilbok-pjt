@@ -78,9 +78,7 @@ const JobListItem = ({
     })
     return res.data
   }
-  const { data, error, isError, isLoading } = useQuery(['getListItemUsersLike', findLike], getListItemUsersLike, {
-    
-  })
+  const { data, error, isError, isLoading } = useQuery(['getListItemUsersLike', findLike], getListItemUsersLike, {})
 
   const findWantedCode = (wantedAuthNo: any) => {
     const item = data.find((item: any) => item.wantedCode === wantedAuthNo)
