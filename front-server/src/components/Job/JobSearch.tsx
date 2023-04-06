@@ -169,7 +169,7 @@ export default function JobSearch({ keyword }: any) {
   //여기까지 지역
 
   // 학력
-  const [selectedDegree, setSelectedDegree] = useState<number | null>()
+  const [selectedDegree, setSelectedDegree] = useState<number | null>(8)
   type RadioValuesDegree = {
     [key: string]: number
   }
@@ -220,7 +220,13 @@ export default function JobSearch({ keyword }: any) {
     return res.data
   }
 
-  const { mutate, error, isError, isLoading } = useMutation(['handlePost'], handlePost, {
+  const {
+    data: postData,
+    mutate,
+    error,
+    isError,
+    isLoading,
+  } = useMutation(['handlePost', selectedCareer], handlePost, {
     onSuccess: (data) => {
       setResultList(data)
       setCount(data.length)
@@ -232,6 +238,10 @@ export default function JobSearch({ keyword }: any) {
     },
   })
   const handleSearch = () => {
+    if (selectedCareer === '') {
+      return alert('경력을 선택해주세요.')
+    }
+
     mutate({
       city_code: city,
       job_code: code,
@@ -707,28 +717,30 @@ export default function JobSearch({ keyword }: any) {
               </div>
             </div>
           </div>
-          <div style={{ marginTop: '5px' }}>
+          <div style={{ marginTop: '5px' }} className="Main-container">
             <div>
-              {ResultList.length >= 1 ? (
-                ResultList.slice(start_index, end_index).map((item: any) => (
-                  <JobListItem
-                    key={item.wantedCode}
-                    company={item.company}
-                    title={item.title}
-                    salTpNm={item.salTpNm}
-                    region={item.work_region}
-                    holidayTpNm={item.holidayTpNm}
-                    minEdubg={item.minEdubg}
-                    career={item.career}
-                    regDt={item.regDate}
-                    closeDt={item.closeDate}
-                    wantedAuthNo={item.wantedCode}
-                    degreeCode={item.degreeCode}
-                    workingDay={item.workingDay}
-                    salary={item.salary}
-                    salaryType={item.salaryType}
-                  />
-                ))
+              {postData ? (
+                postData
+                  .slice(start_index, end_index)
+                  .map((item: any) => (
+                    <JobListItem
+                      key={item.wantedCode}
+                      company={item.company}
+                      title={item.title}
+                      salTpNm={item.salTpNm}
+                      region={item.work_region}
+                      holidayTpNm={item.holidayTpNm}
+                      minEdubg={item.minEdubg}
+                      career={item.career}
+                      regDt={item.regDate}
+                      closeDt={item.closeDate}
+                      wantedAuthNo={item.wantedCode}
+                      degreeCode={item.degreeCode}
+                      workingDay={item.workingDay}
+                      salary={item.salary}
+                      salaryType={item.salaryType}
+                    />
+                  ))
               ) : (
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '50px 0 50px 0' }}>
                   <JobSearchContentContainer>검색결과가 없습니다.</JobSearchContentContainer>
