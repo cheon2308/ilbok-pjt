@@ -84,27 +84,28 @@ function JobSubSelectCarrerInfo2({ jobSubSelectCode, jobSubSelect2NameFunc }: an
           width: '100%',
         }}
       >
-        {JobSubFamily.map((item, index) => (
-          <JobSubFamilyItem
-            key={index}
-            onClick={() => {
-              setActiveTab(item.jobSubCode2)
-              setjobCode(item.jobSubCode2)
-              setjobName(item.name)
-            }}
-            style={{
-              backgroundColor: activeTab === item.jobSubCode2 ? '#76dcb0' : index % 2 === 0 ? '#f2f2f2' : '#ffffff',
-              color: activeTab === item.jobSubCode2 ? '#ffffff' : '',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              fontSize: '16px',
-              width: '300px',
-            }}
-          >
-            {item.name}
-          </JobSubFamilyItem>
-        ))}
+        {JobSubFamily &&
+          JobSubFamily.map((item, index) => (
+            <JobSubFamilyItem
+              key={index}
+              onClick={() => {
+                setActiveTab(item.jobSubCode2)
+                setjobCode(item.jobSubCode2)
+                setjobName(item.name)
+              }}
+              style={{
+                backgroundColor: activeTab === item.jobSubCode2 ? '#76dcb0' : index % 2 === 0 ? '#f2f2f2' : '#ffffff',
+                color: activeTab === item.jobSubCode2 ? '#ffffff' : '',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                fontSize: '16px',
+                width: '300px',
+              }}
+            >
+              {item.name}
+            </JobSubFamilyItem>
+          ))}
       </div>
     </>
   )

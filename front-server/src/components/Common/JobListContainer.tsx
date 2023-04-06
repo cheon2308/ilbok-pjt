@@ -102,25 +102,26 @@ const JobListContainer = () => {
       </div>
       <div className="Main-container" style={{ marginTop: '5px' }}>
         <div>
-          {listDatas.map((item: any) => (
-            <JobListItem
-              key={item.wantedCode}
-              company={item.company}
-              title={item.title}
-              salTpNm={item.salTpNm}
-              region={item.work_region}
-              holidayTpNm={item.holidayTpNm}
-              minEdubg={item.minEdubg}
-              career={item.career}
-              regDt={item.regDate}
-              closeDt={item.closeDate}
-              wantedAuthNo={item.wantedCode}
-              degreeCode={item.degreeCode}
-              workingDay={item.workingDay}
-              salary={item.salary}
-              salaryType={item.salaryType}
-            />
-          ))}
+          {listDatas &&
+            listDatas.map((item: any) => (
+              <JobListItem
+                key={item.wantedCode}
+                company={item.company}
+                title={item.title}
+                salTpNm={item.salTpNm}
+                region={item.work_region}
+                holidayTpNm={item.holidayTpNm}
+                minEdubg={item.minEdubg}
+                career={item.career}
+                regDt={item.regDate}
+                closeDt={item.closeDate}
+                wantedAuthNo={item.wantedCode}
+                degreeCode={item.degreeCode}
+                workingDay={item.workingDay}
+                salary={item.salary}
+                salaryType={item.salaryType}
+              />
+            ))}
         </div>
 
         <div style={{ margin: '30px 0 30px 0' }}>
