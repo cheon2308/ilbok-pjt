@@ -4,7 +4,6 @@ import BokBtn1 from '../../components/Common/BokBtn1'
 import BokBtn2 from '../../components/Common/BokBtn2'
 import SearchBar from '../../components/Common/SearchBar'
 import FilterSelect from '../../components/Common/FilterSelect'
-import JobSearch from '../../components/Job/JobSearch'
 import JobSelect from '../../components/Common/JobSelect/JobSelect'
 import JobSubSelect from '../../components/Common/JobSelect/JobSubSelect'
 import JobSubSelect2 from '../../components/Common/JobSelect/JobSubSelect2'
@@ -206,14 +205,7 @@ function CareerInfo() {
 
     return res.data
   }
-  const { mutate, error, isError, isLoading } = useMutation(['handlePUT'], handlePUT, {
-    onSuccess: (data) => {
-      // console.log(data)
-    },
-    onError: (error) => {
-      // console.log('error:', error)
-    },
-  })
+  const { mutate, error, isError, isLoading } = useMutation(['handlePUT'], handlePUT, {})
   // ***
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputAge(parseInt(e.target.value))

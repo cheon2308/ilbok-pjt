@@ -70,7 +70,6 @@ const JobListContainer = () => {
     )
 
   const listDatas = data.content
-  // console.log(listDatas)
 
   return (
     <>
