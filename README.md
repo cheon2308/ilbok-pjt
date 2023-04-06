@@ -2,11 +2,7 @@
 
 ---
 
-![Group 401.png](%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8%E1%84%89%E1%85%A5%20517be9b0b681417780553d47ae94eb33/Group_401.png)
-
 ## **일복(日福)**
-
-<src = "README_asset/CareerInfo.gif">
 
 - SSAFY 8기 특화프로젝트 E202 싸라밸
 - 2023.02.27 ~ 2023.04.07!!
@@ -34,28 +30,99 @@
 
 ****
 
-![2019 미래에셋 은퇴라이프트렌드 조사보고서](%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8%E1%84%89%E1%85%A5%20517be9b0b681417780553d47ae94eb33/Untitled.png)
-
-2019 미래에셋 은퇴라이프트렌드 조사보고서
-
 ## 2️⃣ 기획 목표
 
 ---
 
 ⭐ 빅데이터 기반 추천 알고리즘을 활용하여 중장년층, 노인들의 취업(재취업)을 편리하게 만들어줌
 
-## 3️⃣ 프로젝트 개요
+## 3️⃣ 프로젝트 개요 및 기술 스택
 
 ---
 
 - 빅데이터 기반 추천 알고리즘을 활용하여 중장년층, 노인들의 노후 일자리를 추천
     - 사용자 정보를 기반으로 알고리즘 구성
 
+
+<h3> Front-end</h3>
+<p align="center">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
+<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+<img src="https://img.shields.io/badge/REACT-61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white">
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white">
+<img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white">
+<img src="https://img.shields.io/badge/MUI-1976D2?style=for-the-badge&logo=MUI&logoColor=white">
+<img src="https://img.shields.io/badge/Kakao-FFCD00?style=for-the-badge&logo=Kakao&logoColor=white">
+<img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=for-the-badge&logo=Visual Studio Code&logoColor=white">
+<img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
+</p>
+
+### Back-end
+
+
+<p align="center">
+<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
+<img  src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img  src="https://img.shields.io/badge/Spring Security-FF9900?style=for-the-badge&logo=Spring Security&logoColor=white"> 
+<img  src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white">
+<img  src="https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white"> 
+<img  src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> 
+<img  src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white"> 
+<img  src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">  
+<img  src="https://img.shields.io/badge/Kakao-FFCD00?style=for-the-badge&logo=Kakao&logoColor=white">
+<img  src="https://img.shields.io/badge/INTELLIJ IDEA-2C2255?style=for-the-badge&logo=IntelliJ IDEA&logoColor=white"> 
+</p>
+
+### 데이터 전처리
+
+추천 알고리즘 멘토님의 의견을 반영하여 데이터를 수집하였습니다.
+
+각자의 부모님께 현재 나와있는 공고와 직업 중분류에서 선호하는 공고, 직업, 경력을 조사하였습니다. 
+
+각자가 조사한 부모님의 성별, 나이, 경력과 직업을 선호하는 방향을 취합하여 페르소나를 만들 수 있었습니다. 또한 알바몬과 같은 취업 사이트에서 데이터를 수집하여 이를 통해서 정규 분포와 랜덤을 이용하여 확률상 비슷한 조건을 가진 사람들이 비슷한 공고를 클릭, 좋아요, 지원하는 더미데이터를 만들어서 ColdStart Problem을 해결할 수 있었습니다.
+
+
 ### 일복(日福)
 
 - 일자리 추천, 복지 추천 ( 하루하루 행복한 삶 ) 두 가지 의미를 담고 있음
 
 ### 🔵 기능
+
+#### 메인 페이지
+
+![main](./README_asset/MainPage.gif)
+
+#### 일자리 페이지
+
+![JobMain](./README_asset/JobMain.gif)
+
+#### 디테일 페이지
+
+![Detail](./README_asset/Detail.gif)
+
+#### 디테일 페이지 모달
+
+![DetailModal](./README_asset/DetailModal.gif)
+
+
+#### 내 프로필
+
+![myProfile](./README_asset/myProfile.gif)
+
+#### 맞춤 일자리 추천
+
+![fit](./README_asset/fit.gif)
+
+#### 디테일한 추천
+
+![detailreco](./README_asset/detailreco.gif)
+
+#### 디테일한 추천
+
+![CareerInfo](./README_asset/CareerInfo.gif)
 
 
 
@@ -135,18 +202,4 @@ https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BK
 ## api 연동 규격서 
 https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BKJro/edit#gid=2112477939
 
-# 1. 메인페이지 
 
-![Main](./README_asset/Main.PNG)
-
-- 검색 페이지에서 다양한 일자리, 복지 검색가능
-
-
-
-![](./README_asset/Main2.PNG)
-
-- 메인페이지 밑 최신 일자리 페이지에서 최근에 게시된 일자리 확인가능
-
-![Login](./README_asset/Login.PNG)
-
-- 소셜 로그인 구현
