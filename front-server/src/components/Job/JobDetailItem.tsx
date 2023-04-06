@@ -49,12 +49,9 @@ export default function JobDetailItem({ wantedCode }: any) {
   }
   // 비슷한 공고
   const GetSimilarJobsAlgo = async () => {
-    const res = await axios(
-      process.env.REACT_APP_SERVER_URL + `/algorithm/similarJobs?wantedCode=${isLoggedIn.userId}`,
-      {
-        method: 'POST',
-      }
-    )
+    const res = await axios(process.env.REACT_APP_SERVER_URL + `/algorithm/similarJobs?wantedCode=${wantedCode}`, {
+      method: 'POST',
+    })
     return res.data
   }
   // ***
