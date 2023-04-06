@@ -15,7 +15,7 @@ import { CgClose } from 'react-icons/cg'
 import { useMutation } from '@tanstack/react-query'
 import CareerSubSelect from '../../components/Common/CareerSelect/CareerSubSelect'
 import { RecoilValueReadOnly, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
@@ -220,7 +220,7 @@ function CareerInfo() {
       gender: gender,
       careers: careers,
     })
-    navigate('/myprofile')
+    alert('추가 정보 입력이 완료되었습니다.')
   }
   // ***
 
@@ -667,16 +667,18 @@ function CareerInfo() {
             </CareerInfoLineContainer>
           </div>
           <JobSearchBtnContainer>
-            <BokBtn1
-              sigwidth="150px"
-              sigheight="50px"
-              sigfontsize="20px"
-              sigborderradius={25}
-              sigmargin="10px"
-              onClick={handlesignalRegist}
-            >
-              완료
-            </BokBtn1>
+            <StyledLink to={`/myprofile`}>
+              <BokBtn1
+                sigwidth="150px"
+                sigheight="50px"
+                sigfontsize="20px"
+                sigborderradius={25}
+                sigmargin="10px"
+                onClick={handlesignalRegist}
+              >
+                완료
+              </BokBtn1>
+            </StyledLink>
 
             <BokBtn2
               sigwidth="150px"
@@ -696,3 +698,9 @@ function CareerInfo() {
 }
 
 export default CareerInfo
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+`

@@ -30,13 +30,7 @@ export default function JobMainItem({ keyword }: any) {
     })
     return res.data
   }
-  const {
-    data: getfavoritePost,
-    error,
-    isError,
-  } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {
-    
-  })
+  const { data: getfavoritePost, error, isError } = useQuery(['GetFavorite', isLoggedIn.userId], GetFavorite, {})
 
   // 나랑 비슷한 사람들이 본 공고
   const GetOtherUserLikeyAlgo = async () => {
@@ -71,6 +65,7 @@ export default function JobMainItem({ keyword }: any) {
         </div>
       </>
     )
+
   return (
     <>
       {isLoggedIn.isLoggedIn === false ? (
