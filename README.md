@@ -95,6 +95,10 @@
 
 ![main](./README_asset/MainPage.gif)
 
+#### 검색
+
+![MainPage_검색](./README_asset/MainPage_검색.gif)
+
 #### 일자리 페이지
 
 ![JobMain](./README_asset/JobMain.gif)
@@ -102,6 +106,12 @@
 #### 디테일 페이지
 
 ![Detail](./README_asset/Detail.gif)
+
+#### 북마크 
+
+![BookMark](README_asset/BookMark.gif)
+
+
 
 #### 디테일 페이지 모달
 
@@ -111,6 +121,10 @@
 #### 내 프로필
 
 ![myProfile](./README_asset/myProfile.gif)
+
+#### 추가정보 입력
+
+![CareerInfo](/README_asset/CareerInfo.gif)
 
 #### 맞춤 일자리 추천
 
@@ -128,8 +142,37 @@
 
 - 워크넷 API를 통해 구인 공고 제공
 - 사용자 정보를 기반으로 어울리는 일자리, 비슷한 나이대의 일자리 추천
-
 - (추가) 복지 서비스
+
+
+
+### 반응형 웹 ( 모바일 )
+
+#### 메인 페이지 
+
+![MainPage_M](./README_asset/MainPage_M.gif)
+
+#### 로그인 페이지
+
+![JobMain_M](./README_asset/JobMain_M.gif)
+
+#### 일자리 페이지
+
+![JobMain_M](./README_asset/JobMain_M.gif)
+
+#### 디테일 페이지
+
+![DetailM](./README_asset/DetailM.gif)
+
+
+
+#### 프로필 페이지
+
+![MyProfile_M](./README_asset/MyProfile_M.gif)
+
+
+
+
 
 ### 🔵 추천 알고리즘
 
@@ -165,8 +208,6 @@
         - 관심직종
         - 우대조건
 
-### 🔵 와이어프레임
-
 ---
 
 ![메인페이지_2.png](%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8%E1%84%89%E1%85%A5%20517be9b0b681417780553d47ae94eb33/%25EB%25A9%2594%25EC%259D%25B8%25ED%258E%2598%25EC%259D%25B4%25EC%25A7%2580_2.png)
@@ -179,7 +220,7 @@
 - 중장년층, 노인들의 취업(재취업)의 도움이 됨
 
 
-## pigma
+## 와이어 프레임 pigma
 
 https://www.figma.com/file/jN2sF7cOTMnnHnNCiEuNTy/%EC%8B%B8%EB%9D%BC%EB%B2%A8?node-id=0-1&t=9uwJBGi2XebDOx0r-0
 
@@ -201,5 +242,4 @@ https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BK
 
 ## api 연동 규격서 
 https://docs.google.com/spreadsheets/d/1Q8IVA_7fi6wrI20XxxW65WG18fAlhv-8L2MA-6BKJro/edit#gid=2112477939
-
 
