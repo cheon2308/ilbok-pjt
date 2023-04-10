@@ -1,2 +1,2 @@
+*.npy filter=lfs diff=lfs merge=lfs -text
 *.{zip,[[:space:]]jar,[[:space:]]sql,[[:space:]]npy} filter=lfs diff=lfs merge=lfs -text
-DBdump2.sql filter=lfs diff=lfs merge=lfs -text
