@@ -75,6 +75,15 @@
 <img  src="https://img.shields.io/badge/INTELLIJ IDEA-2C2255?style=for-the-badge&logo=IntelliJ IDEA&logoColor=white"> 
 </p>
 
+### 담당한 부분
+
+- front-end
+  - main-page
+ - big-data-recommend
+  - 데이터 전처리 후 item 및 user 특성 matrix화
+  - cosine similarity를 사용한 CBF 알고리즘 구현
+  - ALS algorithm 사용한 CF 
+
 ### 데이터 전처리
 
 추천 알고리즘 멘토님의 의견을 반영하여 데이터를 수집하였습니다.
